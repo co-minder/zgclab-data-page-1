@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ZGCLab · 境外机构数据平台</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">Z</div>
+      <div>
+        <div class="brand-name">ZGCLab 数据平台</div>
+        <div class="brand-sub">境外机构开源情报</div>
+      </div>
+    </div>
+    <nav class="nav" id="nav">
+      <a href="#/overview" data-route="overview">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        数据总览
+      </a>
+      <a href="#/institutions" data-route="institutions">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg>
+        机构库
+      </a>
+      <a href="#/explore" data-route="explore">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h12"/></svg>
+        数据浏览
+      </a>
+      <a href="#/about" data-route="about">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>
+        任务与交付
+      </a>
+    </nav>
+    <div class="sidebar-foot">
+      <b>需求 1 · 数据展示系统</b>
+      20 个验证单位 × 3 个采集角度<br>
+      数据快照：<span id="snapAt">—</span>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="crumb" id="crumb"><b>数据总览</b></div>
+      <div class="topbar-spacer"></div>
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="globalSearch" type="text" placeholder="搜索标题 / 账号 / 关键词，回车查询">
+      </div>
+      <span class="scope-badge">20 单位 × 3 角度</span>
+    </header>
+
+    <main class="view" id="view"></main>
+    <footer class="footer">ZGCLab 境外机构开源数据项目 · 需求 1 数据展示系统（本地模拟） · 数据为真实交付快照</footer>
+  </div>
+</div>
+<div id="modalRoot"></div>
+
+<script src="data/meta.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
