@@ -62,6 +62,7 @@ button{font-family:inherit;cursor:pointer}
 .crumb{font-size:12.5px;color:var(--muted);white-space:nowrap}
 .crumb b{color:var(--ink);font-weight:600}
 .topbar-spacer{flex:1}
+.mobile-nav{display:none}
 .search{
   position:relative;width:300px;max-width:36vw;
 }
@@ -80,6 +81,8 @@ button{font-family:inherit;cursor:pointer}
 
 /* ---------- common ---------- */
 .page-head{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.page-head>div:first-child{flex:1;min-width:240px}
+.page-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .page-head h1{font-size:24px;margin:0;letter-spacing:-.3px}
 .page-head p{margin:0;color:var(--muted);font-size:13px}
 .kicker{display:block;font-size:11px;letter-spacing:.16em;color:var(--accent);font-weight:700;margin-bottom:6px}
@@ -133,6 +136,11 @@ button{font-family:inherit;cursor:pointer}
   padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;font-size:13px;color:var(--ink);outline:none;
 }
 .filters input[type=text]{min-width:240px}
+.filters .hint{font-size:12px;color:var(--muted)}
+.explorer-filters{align-items:center}
+.explorer-filters input[type=text]{flex:1;min-width:260px}
+.date-filter{display:flex;align-items:center;gap:5px;color:var(--muted);font-size:12px;white-space:nowrap}
+.date-filter input{padding:8px 9px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);font:inherit}
 .filters input:focus,.filters select:focus{border-color:#93c5fd;box-shadow:0 0 0 3px rgba(37,99,235,.1)}
 .filter-chip{padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12.5px;color:#475569}
 .filter-chip.active{background:var(--ink);color:#fff;border-color:var(--ink)}
@@ -196,6 +204,8 @@ table.data tbody tr{cursor:pointer}
 table.data tbody tr:hover{background:#f8fbff}
 .cell-title{font-weight:600;color:#1e293b;max-width:420px;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
 .cell-muted{color:var(--muted)}
+.result-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:-2px 0 12px;flex-wrap:wrap}
+.result-count{font-size:12.5px;color:#334155;font-weight:600}
 
 /* ---------- pagination ---------- */
 .pager{display:flex;align-items:center;gap:8px;justify-content:center;margin-top:16px;flex-wrap:wrap}
@@ -222,6 +232,9 @@ table.data tbody tr:hover{background:#f8fbff}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:9px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-weight:600;color:#334155;text-decoration:none}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
 .btn:hover{filter:brightness(.97);text-decoration:none}
+.toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:200;background:#0f172a;color:#fff;padding:9px 15px;border-radius:9px;font-size:12.5px;box-shadow:0 10px 30px rgba(15,23,42,.28);animation:toast-in .18s ease-out}
+@keyframes toast-in{from{opacity:0;transform:translate(-50%,6px)}to{opacity:1;transform:translate(-50%,0)}}
+.record-route{min-height:180px}
 
 /* ---------- about ---------- */
 .flow{display:flex;align-items:stretch;gap:8px;flex-wrap:wrap}
@@ -239,3 +252,29 @@ table.data tbody tr:hover{background:#f8fbff}
 
 .empty{padding:40px;text-align:center;color:var(--muted);font-size:13px}
 .skeleton{padding:40px;text-align:center;color:var(--muted);font-size:13px}
+
+@media(max-width:820px){
+  .topbar{flex-wrap:wrap;gap:8px}
+  .crumb{order:1}
+  .topbar-spacer{display:none}
+  .search{order:3;width:100%;max-width:none}
+  .scope-badge{order:2;margin-left:auto}
+  .mobile-nav{display:flex;order:4;width:100%;gap:6px;overflow:auto;padding-top:2px}
+  .mobile-nav a{padding:5px 10px;border-radius:7px;background:#fff;border:1px solid var(--line);color:#475569;font-size:12px;white-space:nowrap}
+  .page-actions{width:100%}
+  .page-actions .btn{flex:1;justify-content:center}
+  .explorer-filters input[type=text]{min-width:100%;flex-basis:100%}
+  .date-filter{flex:1}
+  .date-filter input{width:100%;min-width:0}
+}
+@media(max-width:560px){
+  .kpis{grid-template-columns:1fr}
+  .filters input[type=text],.filters select{width:100%;min-width:0}
+  .explorer-filters .filter-chip{width:100%}
+  .tabs{overflow-x:auto;flex-wrap:nowrap}
+  .tab{white-space:nowrap}
+  .modal-mask{padding:12px 8px}
+  .modal-body,.modal-head{padding-left:16px;padding-right:16px}
+  .kv{grid-template-columns:1fr;gap:2px 0}
+  .kv dd{margin-bottom:8px}
+}

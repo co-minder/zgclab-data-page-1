@@ -244,7 +244,8 @@ def main() -> None:
 
     meta = {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "source_package": str(pkg),
+        # 发布到静态站点时只保留交付包名称，避免把服务器绝对路径写入公开快照。
+        "source_package": pkg.name,
         "scope": {"units": len(institutions), "angles": len(TABLES)},
         "angles": ANGLE_META,
         "totals": {a: stats[a]["total"] for a in stats},

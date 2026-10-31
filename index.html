@@ -4,7 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>ZGCLab · 境外机构数据平台</title>
-  <link rel="icon" href="data:,">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta name="theme-color" content="#0b1220">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -51,10 +52,13 @@
         <input id="globalSearch" type="text" placeholder="搜索标题 / 账号 / 关键词，回车查询">
       </div>
       <span class="scope-badge">20 单位 × 3 角度</span>
+      <nav class="mobile-nav" aria-label="移动端主导航">
+        <a href="#/overview">总览</a><a href="#/institutions">机构</a><a href="#/explore">浏览</a><a href="#/about">交付</a>
+      </nav>
     </header>
 
     <main class="view" id="view"></main>
-    <footer class="footer">ZGCLab 境外机构开源数据项目 · 需求 1 数据展示系统（本地模拟） · 数据为真实交付快照</footer>
+    <footer class="footer">ZGCLab 境外机构开源数据项目 · 需求 1 数据展示系统 · 数据为真实交付快照</footer>
   </div>
 </div>
 <div id="modalRoot"></div>

@@ -8,6 +8,7 @@
   const COLORS = { news: "#f59e0b", clue: "#0ea5e9", social: "#8b5cf6" };
   const RISK_CLASS = { "高": "risk-High", "中": "risk-Mid", "低": "risk-Low" };
   const PAGE = 14;
+  const ALL = "all";
 
   const $ = (s) => document.querySelector(s);
   const view = $("#view");
@@ -18,9 +19,103 @@
   const fmt = (n) => Number(n || 0).toLocaleString("zh-CN");
   const instMap = new Map(META.institutions.map((i) => [i.ktid, i]));
   const instName = (ktid) => (instMap.get(ktid) || {}).cn || String(ktid || "");
+  const angleName = (angle) => angle === ALL ? "全部数据" : (ANG[angle] || {}).name || angle;
   const monthOf = (s) => (s || "").slice(0, 7);
   const day = (s) => (s || "").slice(0, 10);
   const val = (r, k) => (r[k] == null ? "" : String(r[k]));
+
+  function safeUrl(value) {
+    const raw = String(value || "").trim();
+    if (!raw) return "";
+    try {
+      const u = new URL(raw, location.href);
+      return /^https?:$/.test(u.protocol) ? u.href : "";
+    } catch (_) {
+      return "";
+    }
+  }
+
+  function recordText(angle, r) {
+    return Object.values(r).filter((v) => v != null && v !== "").join(" ") + " " + titleOf(angle, r) + " " + snippetOf(angle, r);
+  }
+
+  function timestampOf(angle, r) {
+    const raw = dateOf(angle, r);
+    const parsed = raw ? Date.parse(raw) : NaN;
+    return Number.isFinite(parsed) ? parsed : 0;
+  }
+
+  function csvCell(value) {
+    return '"' + String(value == null ? "" : value).replace(/"/g, '""').replace(/\r?\n/g, " ") + '"';
+  }
+
+  function downloadCsv(filename, headers, rows) {
+    const csv = "\ufeff" + [headers, ...rows].map((row) => row.map(csvCell).join(",")).join("\r\n") + "\r\n";
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  function showToast(message) {
+    const old = document.querySelector(".toast");
+    if (old) old.remove();
+    const toast = document.createElement("div");
+    toast.className = "toast";
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    window.setTimeout(() => toast.remove(), 2200);
+  }
+
+  async function copyText(text, message) {
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        const input = document.createElement("textarea");
+        input.value = text;
+        input.style.position = "fixed";
+        input.style.opacity = "0";
+        document.body.appendChild(input);
+        input.focus();
+        input.select();
+        document.execCommand("copy");
+        input.remove();
+      }
+      showToast(message || "已复制");
+    } catch (_) {
+      showToast("复制失败，请手动复制地址");
+    }
+  }
+
+  function baseUrl() {
+    return location.href.split("#")[0];
+  }
+
+  function recordLink(angle, id) {
+    return baseUrl() + "#/record/" + encodeURIComponent(angle) + "/" + encodeURIComponent(id);
+  }
+
+  function queryLink(params) {
+    const qs = new URLSearchParams();
+    if (params.angle && params.angle !== "news") qs.set("angle", params.angle);
+    if (params.ktid) qs.set("ktid", params.ktid);
+    if (params.q) qs.set("q", params.q);
+    if (params.sub) qs.set("sub", params.sub);
+    if (params.from) qs.set("from", params.from);
+    if (params.to) qs.set("to", params.to);
+    if (params.sort && params.sort !== "newest") qs.set("sort", params.sort);
+    return baseUrl() + "#/explore" + (qs.toString() ? "?" + qs.toString() : "");
+  }
+
+  function replaceExploreUrl(state) {
+    history.replaceState(null, "", queryLink(state));
+  }
 
   /* ---------- 数据懒加载 ---------- */
   const cache = {};
@@ -43,7 +138,7 @@
   function titleOf(angle, r) {
     if (angle === "news") return r.title_cn || r.title_en || "(无标题)";
     if (angle === "clue") return r.title || "(无标题)";
-    return (r.account_name ? r.account_name + " · " : "") + (r.platform || "社交媒体");
+    return (r.account_name ? r.account_name + " · " : "") + (r.title || r.original_content || r.platform || "社交媒体");
   }
   function snippetOf(angle, r) {
     if (angle === "news") return r.summary_cn || r.content_cn || "";
@@ -58,6 +153,28 @@
     if (angle === "clue" && r.risk_level) return `<span class="tag clue ${RISK_CLASS[r.risk_level] || ""}">风险 ${esc(r.risk_level)}</span>`;
     if (angle === "social" && r.platform) return `<span class="tag social">${esc(r.platform)}</span>`;
     return "";
+  }
+
+  async function entriesFor(angle) {
+    if (angle === ALL) {
+      const chunks = await Promise.all(ANGLES.map(async (a) => (await ensure(a)).map((r) => ({ angle: a, r }))));
+      return chunks.flat();
+    }
+    return (await ensure(angle)).map((r) => ({ angle, r }));
+  }
+
+  function exportEntries(entries, filename) {
+    const keys = [];
+    const seen = new Set();
+    entries.forEach(({ r }) => Object.keys(r).forEach((key) => {
+      if (key !== "_month" && !seen.has(key)) { seen.add(key); keys.push(key); }
+    }));
+    const headers = ["采集角度", "记录ID", "机构", "ktid", ...keys.map((key) => FIELD_LABELS[key] ? `${FIELD_LABELS[key]} (${key})` : key)];
+    const rows = entries.map(({ angle, r }) => [
+      angleName(angle), r.id || "", instName(r.ktid), r.ktid || "",
+      ...keys.map((key) => r[key] == null ? "" : r[key]),
+    ]);
+    downloadCsv(filename, headers, rows);
   }
 
   function recCard(angle, r) {
@@ -167,7 +284,7 @@
     const raw = location.hash.replace(/^#\/?/, "") || "overview";
     const [path, qs] = raw.split("?");
     const parts = path.split("/").filter(Boolean);
-    return { name: parts[0] || "overview", id: parts[1], params: new URLSearchParams(qs || "") };
+    return { name: parts[0] || "overview", id: parts[1], extra: parts[2], params: new URLSearchParams(qs || "") };
   }
 
   function setActive(route) {
@@ -267,22 +384,34 @@
   }
 
   /* ---------- 视图：机构库 ---------- */
-  let instFilter = { q: "", type: "全部" };
+  let instFilter = { q: "", type: "全部", sort: "total" };
   function viewInstitutions() {
     setActive("institutions");
     setCrumb("<b>机构库</b>");
     const types = ["全部", ...new Set(META.institutions.map((i) => i.type).filter(Boolean))];
     view.innerHTML = `
       <div class="page-head"><div><span class="kicker">INSTITUTIONS</span><h1>机构库</h1>
-        <p>${META.institutions.length} 个验证单位 · 点击查看该机构三个角度的数据</p></div></div>
+        <p>${META.institutions.length} 个验证单位 · 点击查看该机构三个角度的数据</p></div>
+        <div class="page-actions"><button class="btn" id="exportInstitutions">导出机构清单 CSV</button></div></div>
       <div class="filters">
         <input type="text" id="instQ" placeholder="搜索机构中文名 / 英文名 / ktid" value="${esc(instFilter.q)}">
         ${types.map((t) => `<button class="filter-chip ${t === instFilter.type ? "active" : ""}" data-type="${esc(t)}">${esc(t)}</button>`).join("")}
+        <select id="instSort" aria-label="机构排序">
+          <option value="total" ${instFilter.sort === "total" ? "selected" : ""}>按数据量排序</option>
+          <option value="name" ${instFilter.sort === "name" ? "selected" : ""}>按名称排序</option>
+          <option value="ktid" ${instFilter.sort === "ktid" ? "selected" : ""}>按 ktid 排序</option>
+        </select>
+        <span class="hint" id="instSummary"></span>
       </div>
       <div class="inst-grid" id="instGrid"></div>`;
 
     const q = $("#instQ");
     q.addEventListener("input", () => { instFilter.q = q.value; drawInstGrid(); });
+    $("#instSort").addEventListener("change", (e) => { instFilter.sort = e.target.value; drawInstGrid(); });
+    $("#exportInstitutions").addEventListener("click", () => {
+      const rows = META.institutions.map((i) => [i.ktid, i.cn, i.en, i.type, i.country, i.counts.news, i.counts.clue, i.counts.social, i.counts.news + i.counts.clue + i.counts.social]);
+      downloadCsv("zgclab-机构清单.csv", ["ktid", "中文名", "英文名", "类型", "国家", "新闻舆情", "官网线索", "社交媒体", "合计"], rows);
+    });
     view.querySelectorAll(".filter-chip").forEach((b) => {
       b.addEventListener("click", () => {
         instFilter.type = b.dataset.type;
@@ -297,11 +426,18 @@
     const grid = $("#instGrid");
     if (!grid) return;
     const q = instFilter.q.trim().toLowerCase();
-    const list = META.institutions.filter((i) => {
+    let list = META.institutions.filter((i) => {
       if (instFilter.type !== "全部" && i.type !== instFilter.type) return false;
       if (!q) return true;
       return (i.cn + " " + i.en + " " + i.ktid).toLowerCase().includes(q);
     });
+    list.sort((a, b) => {
+      if (instFilter.sort === "name") return a.cn.localeCompare(b.cn, "zh-CN");
+      if (instFilter.sort === "ktid") return a.ktid - b.ktid;
+      return (b.counts.news + b.counts.clue + b.counts.social) - (a.counts.news + a.counts.clue + a.counts.social);
+    });
+    const summary = $("#instSummary");
+    if (summary) summary.textContent = `显示 ${list.length}/${META.institutions.length} 个机构`;
     if (!list.length) { grid.innerHTML = '<div class="empty" style="grid-column:1/-1">没有匹配的机构</div>'; return; }
     grid.innerHTML = list.map((i) => {
       const n = i.counts.news, c = i.counts.clue, s = i.counts.social, t = n + c + s;
@@ -348,7 +484,8 @@
         <div class="tabs" id="instTabs">
           ${ANGLES.map((a) => `<button class="tab ${a === state.angle ? "active" : ""}" data-angle="${a}">${angleDot(a)}${ANG[a].name}<span class="cnt" id="cnt-${a}">${fmt(inst.counts[a])}</span></button>`).join("")}
         </div>
-        <div class="filters"><input type="text" id="instRecQ" placeholder="在该角度的记录内搜索标题 / 摘要 / 来源"></div>
+        <div class="filters"><input type="text" id="instRecQ" placeholder="在该角度的记录内搜索标题 / 摘要 / 来源">
+          <button class="btn" id="exportInstitution">导出当前角度 CSV</button><span class="hint" id="instRecSummary"></span></div>
         <div id="instRecs" class="rec-list"><div class="skeleton">正在加载数据…</div></div>
         <div id="instPager"></div>
       </section>`;
@@ -360,9 +497,10 @@
       try {
         const all = (await ensure(state.angle)).filter((r) => r.ktid === inst.ktid);
         const q = state.q.trim().toLowerCase();
-        const list = q ? all.filter((r) => (titleOf(state.angle, r) + " " + snippetOf(state.angle, r) + " " + val(r, "publish_source") + " " + val(r, "publisher_website")).toLowerCase().includes(q)) : all;
+        const list = q ? all.filter((r) => recordText(state.angle, r).toLowerCase().includes(q)) : all;
         const start = (state.page - 1) * PAGE;
         const slice = list.slice(start, start + PAGE);
+        $("#instRecSummary").textContent = `筛选结果 ${fmt(list.length)} 条`;
         recsBox.innerHTML = slice.length ? slice.map((r) => recCard(state.angle, r)).join("") : '<div class="empty">该角度暂无可展示的记录</div>';
         pagerBox.innerHTML = pager(list.length, state.page, (p) => { state.page = p; draw(); window.scrollTo({ top: recsBox.offsetTop - 120, behavior: "smooth" }); });
         bindPager(pagerBox, (p) => { state.page = p; draw(); });
@@ -381,6 +519,12 @@
       });
     });
     $("#instRecQ").addEventListener("input", (e) => { state.q = e.target.value; state.page = 1; draw(); });
+    $("#exportInstitution").addEventListener("click", async () => {
+      const entries = (await ensure(state.angle)).filter((r) => r.ktid === inst.ktid);
+      const q = state.q.trim().toLowerCase();
+      const filtered = q ? entries.filter((r) => recordText(state.angle, r).toLowerCase().includes(q)) : entries;
+      exportEntries(filtered.map((r) => ({ angle: state.angle, r })), `zgclab-${inst.ktid}-${ANG[state.angle].short}.csv`);
+    });
     draw();
   }
 
@@ -389,28 +533,41 @@
     setActive("explore");
     setCrumb("<b>数据浏览</b>");
     const state = {
-      angle: ANGLES.includes(params.get("angle")) ? params.get("angle") : "news",
+      angle: [ALL, ...ANGLES].includes(params.get("angle")) ? params.get("angle") : "news",
       ktid: params.get("ktid") || "",
       q: params.get("q") || "",
-      sub: "",
+      sub: params.get("sub") || "",
+      from: params.get("from") || "",
+      to: params.get("to") || "",
+      sort: ["newest", "oldest", "relevance"].includes(params.get("sort")) ? params.get("sort") : "newest",
       page: 1,
     };
     view.innerHTML = `
       <div class="page-head"><div><span class="kicker">EXPLORER</span><h1>数据浏览</h1>
-        <p>按角度、机构、关键词筛选三张目标表的真实记录</p></div></div>
+        <p>按角度、机构、关键词、标签、时间组合筛选三张目标表的真实记录</p></div>
+        <div class="page-actions"><button class="btn" id="copyQuery">复制当前查询链接</button><button class="btn primary" id="exportResults">导出筛选结果 CSV</button></div></div>
       <div class="card pad">
         <div class="tabs" id="exTabs">
+          <button class="tab ${state.angle === ALL ? "active" : ""}" data-angle="${ALL}"><span class="dot" style="background:var(--accent)"></span>全部数据<span class="cnt">${fmt(ANGLES.reduce((s, a) => s + META.totals[a], 0))}</span></button>
           ${ANGLES.map((a) => `<button class="tab ${a === state.angle ? "active" : ""}" data-angle="${a}">${angleDot(a)}${ANG[a].name}<span class="cnt">${fmt(META.totals[a])}</span></button>`).join("")}
         </div>
-        <div class="filters">
+        <div class="filters explorer-filters">
           <select id="exInst">
             <option value="">全部机构</option>
             ${META.institutions.map((i) => `<option value="${i.ktid}" ${String(i.ktid) === state.ktid ? "selected" : ""}>${esc(i.cn)}</option>`).join("")}
           </select>
-          <input type="text" id="exQ" placeholder="搜索标题 / 摘要 / 关键词" value="${esc(state.q)}">
+          <input type="text" id="exQ" placeholder="搜索标题 / 摘要 / 正文 / 关键词 / 来源" value="${esc(state.q)}">
           <select id="exSub"></select>
-          <span class="hint" id="exCount" style="color:var(--muted);font-size:12px"></span>
+          <label class="date-filter">从 <input type="date" id="exFrom" value="${esc(state.from)}"></label>
+          <label class="date-filter">至 <input type="date" id="exTo" value="${esc(state.to)}"></label>
+          <select id="exSort" aria-label="结果排序">
+            <option value="newest" ${state.sort === "newest" ? "selected" : ""}>按时间最新</option>
+            <option value="oldest" ${state.sort === "oldest" ? "selected" : ""}>按时间最早</option>
+            <option value="relevance" ${state.sort === "relevance" ? "selected" : ""}>按关键词相关度</option>
+          </select>
+          <button class="filter-chip" id="clearExplore">清除筛选</button>
         </div>
+        <div class="result-bar"><span id="exCount" class="result-count"></span><span class="hint">点击任意行查看完整字段与原文依据</span></div>
         <div class="table-wrap"><table class="data"><thead id="exHead"></thead><tbody id="exBody"></tbody></table></div>
         <div id="exPager"></div>
       </div>`;
@@ -418,32 +575,56 @@
     function subOptions() {
       const sel = $("#exSub"); sel.innerHTML = "";
       let items = [];
-      if (state.angle === "news") items = Object.keys(META.stats.news.tags || {}).map((k) => ["tag", k, "标签：" + k]);
-      else if (state.angle === "clue") items = Object.keys(META.stats.clue.risk_levels || {}).map((k) => ["risk_level", k, "风险：" + k]);
-      else items = Object.keys(META.stats.social.platforms || {}).map((k) => ["platform", k, "平台：" + k]);
-      sel.innerHTML = `<option value="">全部</option>` + items.map(([f, v, label]) => `<option value="${f}:${esc(v)}">${esc(label)}</option>`).join("");
+      if (state.angle === ALL || state.angle === "news") items.push(...Object.keys(META.stats.news.tags || {}).map((k) => [state.angle === ALL ? "news:tag" : "tag", k, "舆情标签：" + k]));
+      if (state.angle === ALL || state.angle === "clue") items.push(...Object.keys(META.stats.clue.risk_levels || {}).map((k) => [state.angle === ALL ? "clue:risk_level" : "risk_level", k, "线索风险：" + k]));
+      if (state.angle === ALL || state.angle === "social") items.push(...Object.keys(META.stats.social.platforms || {}).map((k) => [state.angle === ALL ? "social:platform" : "platform", k, "社媒平台：" + k]));
+      const selected = items.some(([f, v]) => `${f}:${v}` === state.sub) ? state.sub : "";
+      state.sub = selected;
+      sel.innerHTML = `<option value="">全部标签 / 风险 / 平台</option>` + items.map(([f, v, label]) => `<option value="${esc(f + ":" + v)}" ${selected === f + ":" + v ? "selected" : ""}>${esc(label)}</option>`).join("");
     }
 
-    function filtered(all) {
-      let list = all;
-      if (state.ktid) list = list.filter((r) => String(r.ktid) === state.ktid);
+    function filtered(entries) {
+      let list = entries;
+      if (state.ktid) list = list.filter(({ r }) => String(r.ktid) === state.ktid);
       if (state.sub) {
         const i = state.sub.indexOf(":");
-        const f = state.sub.slice(0, i), v = state.sub.slice(i + 1);
-        list = list.filter((r) => (val(r, f) || (f === "risk_level" ? "未判定" : f === "tag" ? "未分类" : "")) === v);
+        const prefix = state.sub.slice(0, i), rest = state.sub.slice(i + 1);
+        const j = rest.indexOf(":");
+        const f = j >= 0 ? rest.slice(0, j) : prefix;
+        const v = j >= 0 ? rest.slice(j + 1) : rest;
+        list = list.filter(({ angle, r }) => {
+          if (state.angle === ALL && angle !== prefix) return false;
+          const fallback = f === "risk_level" ? "未判定" : f === "tag" ? "未分类" : "";
+          return (val(r, f) || fallback) === v;
+        });
       }
       const q = state.q.trim().toLowerCase();
-      if (q) list = list.filter((r) => (titleOf(state.angle, r) + " " + snippetOf(state.angle, r) + " " + val(r, "keywords") + " " + val(r, "key_words") + " " + val(r, "publish_source") + " " + val(r, "account_name")).toLowerCase().includes(q));
+      if (q) list = list.filter(({ angle, r }) => recordText(angle, r).toLowerCase().includes(q));
+      if (state.from) list = list.filter(({ angle, r }) => !day(dateOf(angle, r)) || day(dateOf(angle, r)) >= state.from);
+      if (state.to) list = list.filter(({ angle, r }) => !day(dateOf(angle, r)) || day(dateOf(angle, r)) <= state.to);
+      list = [...list].sort((a, b) => {
+        if (state.sort === "relevance" && q) {
+          const score = (entry) => {
+            const text = recordText(entry.angle, entry.r).toLowerCase();
+            return (text.match(new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g")) || []).length;
+          };
+          return score(b) - score(a) || timestampOf(b.angle, b.r) - timestampOf(a.angle, a.r);
+        }
+        const direction = state.sort === "oldest" ? 1 : -1;
+        return direction * (timestampOf(a.angle, a.r) - timestampOf(b.angle, b.r));
+      });
       return list;
     }
 
     function head() {
+      if (state.angle === ALL) return `<tr><th>角度</th><th>标题 / 内容</th><th>机构</th><th>标签 / 风险 / 平台</th><th>时间</th></tr>`;
       if (state.angle === "news") return `<tr><th>标题</th><th>机构</th><th>来源</th><th>标签</th><th>发布时间</th></tr>`;
       if (state.angle === "clue") return `<tr><th>线索标题</th><th>机构</th><th>风险</th><th>发布者</th><th>发布时间</th></tr>`;
       return `<tr><th>账号 / 内容</th><th>机构</th><th>平台</th><th>互动</th><th>发布时间</th></tr>`;
     }
     function row(angle, r) {
       const t = `<span class="cell-title">${esc(titleOf(angle, r))}</span>`;
+      if (state.angle === ALL) return `<tr data-angle="${angle}" data-id="${esc(r.id || "")}"><td><span class="tag ${angle}">${esc(ANG[angle].name)}</span></td><td>${t}</td><td>${esc(instName(r.ktid))}</td><td>${badgeOf(angle, r) || "—"}</td><td class="cell-muted">${esc(day(dateOf(angle, r)) || "—")}</td></tr>`;
       if (angle === "news") return `<tr data-angle="${angle}" data-id="${esc(r.id || "")}"><td>${t}</td><td>${esc(instName(r.ktid))}</td><td class="cell-muted">${esc(val(r, "publish_source") || "—")}</td><td>${r.tag ? `<span class="tag news">${esc(r.tag)}</span>` : "—"}</td><td class="cell-muted">${esc(day(r.publish_time) || "—")}</td></tr>`;
       if (angle === "clue") return `<tr data-angle="${angle}" data-id="${esc(r.id || "")}"><td>${t}</td><td>${esc(instName(r.ktid))}</td><td>${r.risk_level ? `<span class="tag clue ${RISK_CLASS[r.risk_level] || ""}">${esc(r.risk_level)}</span>` : "—"}</td><td class="cell-muted">${esc(val(r, "publisher_type") || "—")}</td><td class="cell-muted">${esc(day(r.publish_time) || "—")}</td></tr>`;
       const engage = [r.like_count && "赞 " + r.like_count, r.comment_count && "评 " + r.comment_count, r.repost_count && "转 " + r.repost_count].filter(Boolean).join(" · ") || "—";
@@ -454,18 +635,20 @@
       const body = $("#exBody");
       body.innerHTML = `<tr><td colspan="5"><div class="skeleton">正在加载数据…</div></td></tr>`;
       try {
-        const all = await ensure(state.angle);
+        const all = await entriesFor(state.angle);
         const list = filtered(all);
         const start = (state.page - 1) * PAGE;
         const slice = list.slice(start, start + PAGE);
         $("#exHead").innerHTML = head();
-        $("#exCount").textContent = `共 ${fmt(list.length)} 条`;
-        body.innerHTML = slice.length ? slice.map((r) => row(state.angle, r)).join("") : `<tr><td colspan="5"><div class="empty">没有匹配的记录</div></td></tr>`;
+        $("#exCount").textContent = `筛选结果 ${fmt(list.length)} 条 · 当前显示 ${slice.length} 条`;
+        body.innerHTML = slice.length ? slice.map(({ angle, r }) => row(angle, r)).join("") : `<tr><td colspan="5"><div class="empty">没有匹配的记录，请调整筛选条件</div></td></tr>`;
         body.querySelectorAll("tr[data-id]").forEach((tr) => {
           tr.addEventListener("click", () => openRecord(tr.dataset.angle, tr.dataset.id));
         });
         $("#exPager").innerHTML = pager(list.length, state.page, (p) => { state.page = p; refresh(); });
         bindPager($("#exPager"), (p) => { state.page = p; refresh(); });
+        $("#exportResults").onclick = () => exportEntries(list, `zgclab-${state.angle === ALL ? "全部" : ANG[state.angle].short}-筛选结果.csv`);
+        replaceExploreUrl(state);
       } catch (e) {
         body.innerHTML = `<tr><td colspan="5"><div class="empty">加载失败：${esc(e.message)}</div></td></tr>`;
       }
@@ -481,6 +664,16 @@
     $("#exInst").addEventListener("change", (e) => { state.ktid = e.target.value; state.page = 1; refresh(); });
     $("#exQ").addEventListener("input", (e) => { state.q = e.target.value; state.page = 1; refresh(); });
     $("#exSub").addEventListener("change", (e) => { state.sub = e.target.value; state.page = 1; refresh(); });
+    $("#exFrom").addEventListener("change", (e) => { state.from = e.target.value; state.page = 1; refresh(); });
+    $("#exTo").addEventListener("change", (e) => { state.to = e.target.value; state.page = 1; refresh(); });
+    $("#exSort").addEventListener("change", (e) => { state.sort = e.target.value; state.page = 1; refresh(); });
+    $("#clearExplore").addEventListener("click", () => {
+      state.ktid = ""; state.q = ""; state.sub = ""; state.from = ""; state.to = ""; state.sort = "newest"; state.page = 1;
+      $("#exInst").value = ""; $("#exQ").value = ""; $("#exFrom").value = ""; $("#exTo").value = ""; $("#exSort").value = "newest";
+      subOptions(); refresh();
+    });
+    $("#copyQuery").addEventListener("click", () => copyText(queryLink(state), "查询链接已复制"));
+    $("#globalSearch").value = state.q;
     subOptions();
     refresh();
   }
@@ -538,7 +731,7 @@
         <div class="section-head"><h2>数据说明</h2></div>
         <div class="note">
           · 本页面为需求 1 的本地数据展示系统，数据来自已审核入表的交付快照，共 <b>${fmt(total)}</b> 条记录。<br>
-          · 快照生成时间：${esc(META.generated_at.replace("T", " ").slice(0, 19))} UTC；数据包：<span class="mono">${esc(META.source_package.split("/").slice(-1)[0])}</span><br>
+          · 快照生成时间：${esc(META.generated_at.replace("T", " ").slice(0, 19))} UTC；数据包：<span class="mono">${esc(String(META.source_package).split("/").slice(-1)[0])}</span><br>
           · 交付口径：系统字段（主键、创建/修改时间、删除标记等）由接收系统生成，不计入采集方未完成；无法确认的字段留空，不写占位词。<br>
           · 当前展示仅覆盖 20 个验证单位，不代表历史全量；20 家名单用于本阶段练习、回归与验证。
         </div>
@@ -551,6 +744,7 @@
 
   /* ---------- 记录详情弹窗 ---------- */
   const FIELD_LABELS = {
+    id: "快照记录 ID", ktid: "机构 ktid",
     title_cn: "中文标题", title_en: "英文标题", summary_cn: "中文摘要", summary_en: "英文摘要",
     tag: "主题标签", founddate: "发现时间", url: "新闻地址", publish_source: "发布来源", publish_time: "发布时间",
     content_cn: "正文（中文）",
@@ -569,12 +763,13 @@
     const all = cache[angle] || [];
     const r = all.find((x) => String(x.id) === String(id));
     if (!r) return;
-    const link = r.url || r.original_url || r.content_url || r.source_url || "";
-    const rows = Object.keys(FIELD_LABELS)
-      .filter((k) => r[k] != null && r[k] !== "" && !LONG_FIELDS.has(k))
-      .map((k) => `<dt>${FIELD_LABELS[k]}</dt><dd>${k === "risk_level" ? `<span class="tag clue ${RISK_CLASS[r[k]] || ""}">${esc(r[k])}</span>` : k === "tag" ? `<span class="tag news">${esc(r[k])}</span>` : esc(r[k])}</dd>`).join("");
+    const link = safeUrl(r.url || r.original_url || r.content_url || r.source_url || "");
+    const keys = [...new Set([...Object.keys(FIELD_LABELS), ...Object.keys(r)])];
+    const rows = keys
+      .filter((k) => r[k] != null && r[k] !== "" && !LONG_FIELDS.has(k) && k !== "_month")
+      .map((k) => `<dt>${esc(FIELD_LABELS[k] || k)}</dt><dd>${k === "risk_level" ? `<span class="tag clue ${RISK_CLASS[r[k]] || ""}">${esc(r[k])}</span>` : k === "tag" ? `<span class="tag news">${esc(r[k])}</span>` : esc(r[k])}</dd>`).join("");
 
-    const longBlocks = [["content_cn", "正文（中文）"], ["chinese_trans", "中文翻译"], ["summary_cn", "中文摘要"], ["summary", "摘要"], ["original_content", "原始内容"], ["chinese_translation", "中文翻译"]]
+    const longBlocks = [["content_cn", "正文（中文）"], ["chinese_trans", "中文翻译"], ["summary_cn", "中文摘要"], ["summary_en", "英文摘要"], ["summary", "摘要"], ["risk_desc", "风险描述"], ["original_content", "原始内容"], ["chinese_translation", "中文翻译"]]
       .filter(([k]) => r[k]).map(([k, label]) => `<div class="snippet"><h5>${label}</h5>${esc(r[k])}</div>`).join("");
 
     const root = $("#modalRoot");
@@ -587,6 +782,8 @@
         ${longBlocks}
         <div class="modal-actions">
           ${link ? `<a class="btn primary" href="${esc(link)}" target="_blank" rel="noopener">打开原文 ↗</a>` : ""}
+          <button class="btn" id="copyRecordLink">复制记录链接</button>
+          <button class="btn" id="downloadRecord">下载当前记录 CSV</button>
           <a class="btn" href="#/institution/${r.ktid}" id="modalInst">查看该机构</a>
           <button class="btn" id="modalClose2">关闭</button>
         </div>
@@ -599,11 +796,39 @@
     $("#modalClose").addEventListener("click", close);
     $("#modalClose2").addEventListener("click", close);
     $("#modalInst").addEventListener("click", close);
+    $("#copyRecordLink").addEventListener("click", () => copyText(recordLink(angle, r.id), "记录链接已复制"));
+    $("#downloadRecord").addEventListener("click", () => exportEntries([{ angle, r }], `zgclab-${angle}-${r.id}.csv`));
+  }
+
+  async function viewRecord(angle, id) {
+    if (!ANGLES.includes(angle)) {
+      view.innerHTML = '<div class="empty">记录角度无效。<br><a href="#/explore">返回数据浏览</a></div>';
+      return;
+    }
+    setActive("explore");
+    setCrumb(`数据浏览 / <b>${esc(ANG[angle].name)}</b>`);
+    view.innerHTML = `<div class="card pad record-route"><a href="#/explore?angle=${encodeURIComponent(angle)}">← 返回数据浏览</a><div class="skeleton">正在打开记录…</div></div>`;
+    try {
+      await ensure(angle);
+      const record = (cache[angle] || []).find((r) => String(r.id) === String(id));
+      if (!record) {
+        view.querySelector(".skeleton").innerHTML = "记录不存在或已从当前快照移除。";
+        return;
+      }
+      view.innerHTML = `<div class="card pad record-route"><a href="#/explore?angle=${encodeURIComponent(angle)}">← 返回数据浏览</a>
+        <div class="record-route-head"><span class="tag ${angle}">${esc(ANG[angle].name)}</span><span class="date">${esc(day(dateOf(angle, record)) || "时间未标注")}</span></div>
+        <h1>${esc(titleOf(angle, record))}</h1><p>${esc(instName(record.ktid))} · ktid ${esc(record.ktid)}</p>
+        <p class="hint">记录详情已打开。关闭弹窗后可从这里返回数据浏览或查看所属机构。</p></div>`;
+      openRecord(angle, id);
+    } catch (e) {
+      view.querySelector(".skeleton").textContent = "记录加载失败：" + e.message;
+    }
   }
 
   /* ---------- 启动 ---------- */
   function route() {
     const r = parseHash();
+    if (r.name === "record" && r.id && r.extra) return viewRecord(r.id, r.extra);
     if (r.name === "institution" && r.id) return viewInstitution(r.id);
     if (r.name === "institutions") return viewInstitutions();
     if (r.name === "explore") return viewExplore(r.params);
