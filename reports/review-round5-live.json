@@ -1,0 +1,248 @@
+{
+  "round": "live",
+  "target": "https://co-minder.github.io/zgclab-data-page-1/",
+  "tested_at": "2026-11-01T18:31:48.080250+00:00",
+  "data_version": "f2a2c811aeb2ea21",
+  "passed": 37,
+  "checks": [
+    {
+      "check": "全量总览、三角度、全部机构和汇总导出一致",
+      "status": "PASS",
+      "total": 6989,
+      "institutions": 20
+    },
+    {
+      "check": "总览可进入全部明细且没有遗留筛选",
+      "status": "PASS"
+    },
+    {
+      "check": "机构时间线和完整导出集合一致",
+      "status": "PASS",
+      "expected": 1672,
+      "actual": 1672
+    },
+    {
+      "check": "时间线滚动近七天不回退到历史快照",
+      "status": "PASS"
+    },
+    {
+      "check": "质量检查计数 publish_time",
+      "status": "PASS",
+      "expected": 1018,
+      "actual": 1018
+    },
+    {
+      "check": "质量检查计数 url",
+      "status": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "check": "质量检查计数 translation",
+      "status": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "check": "质量检查计数 risk",
+      "status": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "check": "质量检查计数 unknown_risk",
+      "status": "PASS",
+      "expected": 540,
+      "actual": 540
+    },
+    {
+      "check": "质量检查计数 like_count",
+      "status": "PASS",
+      "expected": 84,
+      "actual": 84
+    },
+    {
+      "check": "质量检查计数 comment_count",
+      "status": "PASS",
+      "expected": 167,
+      "actual": 167
+    },
+    {
+      "check": "质量检查计数 repost_count",
+      "status": "PASS",
+      "expected": 125,
+      "actual": 125
+    },
+    {
+      "check": "质量检查计数 view_count",
+      "status": "PASS",
+      "expected": 741,
+      "actual": 741
+    },
+    {
+      "check": "质量问题明细下钻和导出可用",
+      "status": "PASS",
+      "missing_publication": 1018
+    },
+    {
+      "check": "完整正文搜索命中列表节选之外的原文并独立核对记录集合",
+      "status": "PASS",
+      "phrase": "Vishnu Tiwari",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "check": "默认常用查询一行、高级筛选收起且无重复搜索框",
+      "status": "PASS"
+    },
+    {
+      "check": "整个筛选区可收起展开，结果和条件保留",
+      "status": "PASS",
+      "first_row_y": 648
+    },
+    {
+      "check": "高级筛选收起后条件与导出保持生效",
+      "status": "PASS",
+      "actual": 826
+    },
+    {
+      "check": "打开完整详情自动已读，支持改回未读与阅读状态筛选",
+      "status": "PASS"
+    },
+    {
+      "check": "批量标记操作覆盖全部匹配记录并更新未读结果",
+      "status": "PASS",
+      "marked": 36
+    },
+    {
+      "check": "关注机构可多选、保留记录与导出",
+      "status": "PASS",
+      "actual": 1708
+    },
+    {
+      "check": "工作台备份包含关注与已读状态，重复导入不重复",
+      "status": "PASS"
+    },
+    {
+      "check": "刷新仍强制密码，解锁后关注和已读状态保留",
+      "status": "PASS"
+    },
+    {
+      "check": "三万条模拟数据与真实记录 ID 和存储分离",
+      "status": "PASS",
+      "simulated": 30000,
+      "platform": "test",
+      "version": "b0e54223d8cbe67a"
+    },
+    {
+      "check": "模拟开关默认关闭，开启后记录总量精确相加",
+      "status": "PASS",
+      "real": 6989,
+      "simulated": 30000,
+      "combined": 36989
+    },
+    {
+      "check": "模拟查询集合与独立计算一致",
+      "status": "PASS",
+      "conditions": {
+        "angle": "social",
+        "platforms": "test",
+        "period": "7"
+      },
+      "expected": 1220,
+      "actual": 1220
+    },
+    {
+      "check": "模拟查询集合与独立计算一致",
+      "status": "PASS",
+      "conditions": {
+        "angle": "social",
+        "platforms": "test",
+        "ids": "1001140",
+        "like_countMin": "100",
+        "repost_countMin": "20"
+      },
+      "expected": 202,
+      "actual": 202
+    },
+    {
+      "check": "模拟查询集合与独立计算一致",
+      "status": "PASS",
+      "conditions": {
+        "angle": "clue",
+        "risks": "高",
+        "period": "7"
+      },
+      "expected": 360,
+      "actual": 360
+    },
+    {
+      "check": "模拟查询集合与独立计算一致",
+      "status": "PASS",
+      "conditions": {
+        "angle": "news",
+        "tags": "technology",
+        "period": "30"
+      },
+      "expected": 800,
+      "actual": 800
+    },
+    {
+      "check": "模拟查询集合与独立计算一致",
+      "status": "PASS",
+      "conditions": {
+        "angle": "social",
+        "platforms": "test",
+        "like_countMin": "100",
+        "like_countMax": "1000"
+      },
+      "expected": 3600,
+      "actual": 3600
+    },
+    {
+      "check": "模拟查询集合与独立计算一致",
+      "status": "PASS",
+      "conditions": {
+        "angle": "social",
+        "platforms": "test",
+        "like_countMin": "0",
+        "like_countMax": "0"
+      },
+      "expected": 740,
+      "actual": 740
+    },
+    {
+      "check": "模拟查询集合与独立计算一致",
+      "status": "PASS",
+      "conditions": {
+        "angle": "social",
+        "platforms": "test",
+        "engagementMin": "500"
+      },
+      "expected": 7600,
+      "actual": 7600
+    },
+    {
+      "check": "模拟记录完整详情和单条导出明确标注",
+      "status": "PASS"
+    },
+    {
+      "check": "模拟开关贯穿全量总览与机构统计",
+      "status": "PASS"
+    },
+    {
+      "check": "带模拟参数的链接刷新仍要求密码，解锁后恢复测试模式",
+      "status": "PASS"
+    },
+    {
+      "check": "关闭模拟开关立即恢复真实数据，test 平台不再匹配",
+      "status": "PASS"
+    },
+    {
+      "check": "未捕获到页面脚本异常",
+      "status": "PASS",
+      "errors": []
+    }
+  ],
+  "errors": []
+}

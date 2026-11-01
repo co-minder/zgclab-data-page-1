@@ -1,0 +1,22 @@
+{
+  "passed": 16,
+  "checks": [
+    "locked screen, wrong password rejection, and no raw data endpoint",
+    "overview counts and favicon",
+    "all angles, total count, and lazy loading",
+    "institution plus phrase/exclusion query",
+    "complete fields, favorite, CSV, and Escape",
+    "every reload requires the password and exposes no decrypted data",
+    "page size and page survive reload",
+    "date validation and inclusive date filters",
+    "risk counts, keyboard, all 35 fields, next record",
+    "existing record deep links and full news text",
+    "saved query and favorites persist across routes",
+    "institution comparison and export",
+    "institution route restores chosen angle",
+    "slow loading cannot overwrite a new route",
+    "mobile cards, all angle tabs, fixed detail controls, and no overflow",
+    "lock clears the session and re-unlock restores the requested route"
+  ],
+  "errors": []
+}
