@@ -5,7 +5,7 @@
   const META = window.ZGCLAB_META;
   const ANGLES = ["news", "clue", "social"];
   const ANG = META.angles;
-  const COLORS = { news: "#f59e0b", clue: "#0ea5e9", social: "#8b5cf6" };
+  const COLORS = { news: "var(--news)", clue: "var(--clue)", social: "var(--social)" };
   const RISK_CLASS = { "高": "risk-High", "中": "risk-Mid", "低": "risk-Low" };
   const PAGE = 14;
   const ALL = "all";
@@ -285,8 +285,8 @@
       return el;
     }).join("");
     return `<svg viewBox="0 0 200 200" class="donut">${segs}
-      <text x="100" y="97" text-anchor="middle" font-size="26" font-weight="800" fill="#0f172a">${fmt(total)}</text>
-      <text x="100" y="117" text-anchor="middle" font-size="11" fill="#64748b">条入表数据</text></svg>`;
+      <text x="100" y="97" text-anchor="middle" font-size="26" font-weight="600" fill="var(--ink)">${fmt(total)}</text>
+      <text x="100" y="117" text-anchor="middle" font-size="11" fill="var(--muted)">条入表数据</text></svg>`;
   }
 
   function hbars(items, color) {
@@ -319,14 +319,14 @@
     for (let g = 0; g <= 3; g++) {
       const gy = pt + (ih * g) / 3;
       const gv = Math.round((max * (3 - g)) / 3);
-      grid += `<line x1="${pl}" y1="${gy}" x2="${W - pr}" y2="${gy}" stroke="#eef2f7"/>
-        <text x="${pl - 7}" y="${gy + 3}" text-anchor="end" font-size="9.5" fill="#94a3b8">${fmt(gv)}</text>`;
+      grid += `<line x1="${pl}" y1="${gy}" x2="${W - pr}" y2="${gy}" stroke="var(--line-soft)"/>
+        <text x="${pl - 7}" y="${gy + 3}" text-anchor="end" font-size="9.5" fill="var(--muted)">${fmt(gv)}</text>`;
     }
     const step = Math.max(1, Math.ceil(months.length / 9));
     let labels = "";
     months.forEach((m, i) => {
       if (i % step === 0 || i === months.length - 1) {
-        labels += `<text x="${(pl + i * bw + bw / 2).toFixed(1)}" y="${H - 9}" text-anchor="middle" font-size="9.5" fill="#94a3b8">${m.slice(2)}</text>`;
+        labels += `<text x="${(pl + i * bw + bw / 2).toFixed(1)}" y="${H - 9}" text-anchor="middle" font-size="9.5" fill="var(--muted)">${m.slice(2)}</text>`;
       }
     });
     return `<svg viewBox="0 0 ${W} ${H}" class="trend-svg" preserveAspectRatio="none">${grid}${bars}${labels}</svg>`;
@@ -365,7 +365,7 @@
     const socialPlats = META.stats.social.platforms || {};
     const risk = META.stats.clue.risk_levels || {};
     const tags = META.stats.news.tags || {};
-    const platColors = { X: "#1d9bf0", Facebook: "#1877f2", LinkedIn: "#0a66c2" };
+    const platColors = { X: "var(--accent)", Facebook: "#78aaff", LinkedIn: "#7ce5ce" };
 
     view.innerHTML = `
       <div class="page-head">
@@ -394,7 +394,7 @@
         </div>
         <div class="card pad">
           <div class="section-head"><h2>机构数据量 TOP 10</h2></div>
-          ${hbars(rank, "#2563eb")}
+          ${hbars(rank, "var(--accent)")}
         </div>
       </div></section>
 
@@ -408,13 +408,13 @@
 
       <section class="section"><div class="grid g3">
         <div class="card pad"><div class="section-head"><h2>社媒平台</h2></div>
-          ${hbars(Object.entries(socialPlats).map(([k, v]) => ({ label: k, v, href: "#/explore?angle=social&sub=" + encodeURIComponent("platform:" + k), color: platColors[k] || "#8b5cf6" })), "#8b5cf6")}
+          ${hbars(Object.entries(socialPlats).map(([k, v]) => ({ label: k, v, href: "#/explore?angle=social&sub=" + encodeURIComponent("platform:" + k), color: platColors[k] || COLORS.social })), COLORS.social)}
         </div>
         <div class="card pad"><div class="section-head"><h2>线索风险等级</h2></div>
-          ${hbars(Object.entries(risk).map(([k, v]) => ({ label: "风险 " + k, v, href: "#/explore?angle=clue&sub=" + encodeURIComponent("risk_level:" + k), color: k === "高" ? "#ef4444" : k === "中" ? "#f59e0b" : k === "低" ? "#10b981" : "#94a3b8" })), "#94a3b8")}
+          ${hbars(Object.entries(risk).map(([k, v]) => ({ label: "风险 " + k, v, href: "#/explore?angle=clue&sub=" + encodeURIComponent("risk_level:" + k), color: k === "高" ? "var(--danger)" : k === "中" ? COLORS.news : k === "低" ? "var(--ok)" : "var(--muted)" })), "var(--muted)")}
         </div>
         <div class="card pad"><div class="section-head"><h2>舆情主题标签</h2></div>
-          ${hbars(Object.entries(tags).slice(0, 6).map(([k, v]) => ({ label: k, v, href: "#/explore?angle=news&sub=" + encodeURIComponent("tag:" + k), color: "#f59e0b" })), "#f59e0b")}
+          ${hbars(Object.entries(tags).slice(0, 6).map(([k, v]) => ({ label: k, v, href: "#/explore?angle=news&sub=" + encodeURIComponent("tag:" + k), color: COLORS.news })), COLORS.news)}
         </div>
       </div></section>
 
@@ -505,7 +505,7 @@
       return `<article class="inst-card" tabindex="0" role="link" aria-label="查看${esc(i.cn)}" data-ktid="${i.ktid}">
         <div class="ic-head"><h3>${esc(i.cn)}</h3><span class="chip">${esc(i.type || "机构")}</span></div>
         <div class="en">${esc(i.en)}</div>
-        <div class="en" style="color:#94a3b8">ktid ${i.ktid} · ${esc(i.country || "")}</div>
+        <div class="en" style="color:var(--muted)">ktid ${i.ktid} · ${esc(i.country || "")}</div>
         <div class="mini-bar"><i style="width:${pct(n)}%;background:${COLORS.news}"></i><i style="width:${pct(c)}%;background:${COLORS.clue}"></i><i style="width:${pct(s)}%;background:${COLORS.social}"></i></div>
         <div class="ic-counts">
           <div class="ic-count news"><b>${fmt(n)}</b><span>舆情</span></div>
