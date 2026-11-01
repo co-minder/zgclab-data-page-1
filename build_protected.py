@@ -46,10 +46,15 @@ def main() -> None:
             salt = os.urandom(16)
             key = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=salt, iterations=ITERATIONS).derive(password.encode())
             aes = AESGCM(key)
-    paths = [HERE / name for name in ["index.html", "styles.css", "app.js", "core.js", "query.js", "explorer.js"]]
+    paths = [HERE / name for name in ["index.html", "styles.css", "app.js", "core.js", "query.js", "explorer.js", "tools.js"]]
     paths += sorted((HERE / "data").glob("*.js"))
     meta = json.loads((HERE / "data/meta.js").read_text().split("=", 1)[1].strip().removesuffix(";"))
     paths += sorted((HERE / "data/details" / meta["version"]).glob("*.js"))
+    simulation = HERE / "data/simulation/meta.js"
+    if simulation.is_file():
+        sim_meta = json.loads(simulation.read_text().split("=", 1)[1].strip().removesuffix(";"))
+        paths += sorted((HERE / "data/simulation").glob("*.js"))
+        paths += sorted((HERE / "data/simulation/details" / sim_meta["version"]).glob("*.js"))
     (OUT / "encrypted").mkdir(parents=True, exist_ok=True)
     assets = {}
     total_bytes = 0

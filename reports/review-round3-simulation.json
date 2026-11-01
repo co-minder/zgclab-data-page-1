@@ -1,0 +1,126 @@
+{
+  "round": "simulation",
+  "target": "http://127.0.0.1:8789/",
+  "tested_at": "2026-11-01T18:23:07.967023+00:00",
+  "data_version": "f2a2c811aeb2ea21",
+  "passed": 14,
+  "checks": [
+    {
+      "check": "三万条模拟数据与真实记录 ID 和存储分离",
+      "status": "PASS",
+      "simulated": 30000,
+      "platform": "test",
+      "version": "b0e54223d8cbe67a"
+    },
+    {
+      "check": "模拟开关默认关闭，开启后记录总量精确相加",
+      "status": "PASS",
+      "real": 6989,
+      "simulated": 30000,
+      "combined": 36989
+    },
+    {
+      "check": "模拟查询集合与独立计算一致",
+      "status": "PASS",
+      "conditions": {
+        "angle": "social",
+        "platforms": "test",
+        "period": "7"
+      },
+      "expected": 1220,
+      "actual": 1220
+    },
+    {
+      "check": "模拟查询集合与独立计算一致",
+      "status": "PASS",
+      "conditions": {
+        "angle": "social",
+        "platforms": "test",
+        "ids": "1001140",
+        "like_countMin": "100",
+        "repost_countMin": "20"
+      },
+      "expected": 202,
+      "actual": 202
+    },
+    {
+      "check": "模拟查询集合与独立计算一致",
+      "status": "PASS",
+      "conditions": {
+        "angle": "clue",
+        "risks": "高",
+        "period": "7"
+      },
+      "expected": 360,
+      "actual": 360
+    },
+    {
+      "check": "模拟查询集合与独立计算一致",
+      "status": "PASS",
+      "conditions": {
+        "angle": "news",
+        "tags": "technology",
+        "period": "30"
+      },
+      "expected": 800,
+      "actual": 800
+    },
+    {
+      "check": "模拟查询集合与独立计算一致",
+      "status": "PASS",
+      "conditions": {
+        "angle": "social",
+        "platforms": "test",
+        "like_countMin": "100",
+        "like_countMax": "1000"
+      },
+      "expected": 3600,
+      "actual": 3600
+    },
+    {
+      "check": "模拟查询集合与独立计算一致",
+      "status": "PASS",
+      "conditions": {
+        "angle": "social",
+        "platforms": "test",
+        "like_countMin": "0",
+        "like_countMax": "0"
+      },
+      "expected": 740,
+      "actual": 740
+    },
+    {
+      "check": "模拟查询集合与独立计算一致",
+      "status": "PASS",
+      "conditions": {
+        "angle": "social",
+        "platforms": "test",
+        "engagementMin": "500"
+      },
+      "expected": 7600,
+      "actual": 7600
+    },
+    {
+      "check": "模拟记录完整详情和单条导出明确标注",
+      "status": "PASS"
+    },
+    {
+      "check": "模拟开关贯穿全量总览与机构统计",
+      "status": "PASS"
+    },
+    {
+      "check": "带模拟参数的链接刷新仍要求密码，解锁后恢复测试模式",
+      "status": "PASS"
+    },
+    {
+      "check": "关闭模拟开关立即恢复真实数据，test 平台不再匹配",
+      "status": "PASS"
+    },
+    {
+      "check": "未捕获到页面脚本异常",
+      "status": "PASS",
+      "errors": []
+    }
+  ],
+  "errors": []
+}

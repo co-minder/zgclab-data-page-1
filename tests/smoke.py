@@ -115,6 +115,7 @@ def run() -> None:
         assert page.locator("#exBody tr[data-id]").first.get_attribute("data-id") == first_id
         record("page size and page survive reload")
 
+        page.locator("#exPeriod").select_option("custom")
         page.locator("#exFrom").fill("2026-10-01")
         page.locator("#exTo").fill("2026-09-01")
         assert page.locator("#exError").is_visible()

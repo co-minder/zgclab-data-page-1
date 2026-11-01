@@ -1,0 +1,258 @@
+{
+  "round": "layout",
+  "target": "http://127.0.0.1:8789/",
+  "tested_at": "2026-11-01T18:23:52.223266+00:00",
+  "data_version": "f2a2c811aeb2ea21",
+  "passed": 38,
+  "checks": [
+    {
+      "check": "响应式布局与导航",
+      "status": "PASS",
+      "width": 360,
+      "route": "overview",
+      "document_width": 360
+    },
+    {
+      "check": "响应式布局与导航",
+      "status": "PASS",
+      "width": 360,
+      "route": "explore",
+      "document_width": 360
+    },
+    {
+      "check": "响应式布局与导航",
+      "status": "PASS",
+      "width": 360,
+      "route": "timeline",
+      "document_width": 360
+    },
+    {
+      "check": "响应式布局与导航",
+      "status": "PASS",
+      "width": 360,
+      "route": "quality",
+      "document_width": 360
+    },
+    {
+      "check": "响应式布局与导航",
+      "status": "PASS",
+      "width": 360,
+      "route": "fulltext",
+      "document_width": 360
+    },
+    {
+      "check": "响应式布局与导航",
+      "status": "PASS",
+      "width": 360,
+      "route": "watchlist",
+      "document_width": 360
+    },
+    {
+      "check": "展开复杂筛选也不横向溢出",
+      "status": "PASS",
+      "width": 360
+    },
+    {
+      "check": "响应式布局与导航",
+      "status": "PASS",
+      "width": 390,
+      "route": "overview",
+      "document_width": 390
+    },
+    {
+      "check": "响应式布局与导航",
+      "status": "PASS",
+      "width": 390,
+      "route": "explore",
+      "document_width": 390
+    },
+    {
+      "check": "响应式布局与导航",
+      "status": "PASS",
+      "width": 390,
+      "route": "timeline",
+      "document_width": 390
+    },
+    {
+      "check": "响应式布局与导航",
+      "status": "PASS",
+      "width": 390,
+      "route": "quality",
+      "document_width": 390
+    },
+    {
+      "check": "响应式布局与导航",
+      "status": "PASS",
+      "width": 390,
+      "route": "fulltext",
+      "document_width": 390
+    },
+    {
+      "check": "响应式布局与导航",
+      "status": "PASS",
+      "width": 390,
+      "route": "watchlist",
+      "document_width": 390
+    },
+    {
+      "check": "展开复杂筛选也不横向溢出",
+      "status": "PASS",
+      "width": 390
+    },
+    {
+      "check": "响应式布局与导航",
+      "status": "PASS",
+      "width": 768,
+      "route": "overview",
+      "document_width": 768
+    },
+    {
+      "check": "响应式布局与导航",
+      "status": "PASS",
+      "width": 768,
+      "route": "explore",
+      "document_width": 768
+    },
+    {
+      "check": "响应式布局与导航",
+      "status": "PASS",
+      "width": 768,
+      "route": "timeline",
+      "document_width": 768
+    },
+    {
+      "check": "响应式布局与导航",
+      "status": "PASS",
+      "width": 768,
+      "route": "quality",
+      "document_width": 768
+    },
+    {
+      "check": "响应式布局与导航",
+      "status": "PASS",
+      "width": 768,
+      "route": "fulltext",
+      "document_width": 768
+    },
+    {
+      "check": "响应式布局与导航",
+      "status": "PASS",
+      "width": 768,
+      "route": "watchlist",
+      "document_width": 768
+    },
+    {
+      "check": "展开复杂筛选也不横向溢出",
+      "status": "PASS",
+      "width": 768
+    },
+    {
+      "check": "响应式布局与导航",
+      "status": "PASS",
+      "width": 1024,
+      "route": "overview",
+      "document_width": 1024
+    },
+    {
+      "check": "响应式布局与导航",
+      "status": "PASS",
+      "width": 1024,
+      "route": "explore",
+      "document_width": 1024
+    },
+    {
+      "check": "响应式布局与导航",
+      "status": "PASS",
+      "width": 1024,
+      "route": "timeline",
+      "document_width": 1024
+    },
+    {
+      "check": "响应式布局与导航",
+      "status": "PASS",
+      "width": 1024,
+      "route": "quality",
+      "document_width": 1024
+    },
+    {
+      "check": "响应式布局与导航",
+      "status": "PASS",
+      "width": 1024,
+      "route": "fulltext",
+      "document_width": 1024
+    },
+    {
+      "check": "响应式布局与导航",
+      "status": "PASS",
+      "width": 1024,
+      "route": "watchlist",
+      "document_width": 1024
+    },
+    {
+      "check": "展开复杂筛选也不横向溢出",
+      "status": "PASS",
+      "width": 1024
+    },
+    {
+      "check": "响应式布局与导航",
+      "status": "PASS",
+      "width": 1440,
+      "route": "overview",
+      "document_width": 1440
+    },
+    {
+      "check": "响应式布局与导航",
+      "status": "PASS",
+      "width": 1440,
+      "route": "explore",
+      "document_width": 1440
+    },
+    {
+      "check": "响应式布局与导航",
+      "status": "PASS",
+      "width": 1440,
+      "route": "timeline",
+      "document_width": 1440
+    },
+    {
+      "check": "响应式布局与导航",
+      "status": "PASS",
+      "width": 1440,
+      "route": "quality",
+      "document_width": 1440
+    },
+    {
+      "check": "响应式布局与导航",
+      "status": "PASS",
+      "width": 1440,
+      "route": "fulltext",
+      "document_width": 1440
+    },
+    {
+      "check": "响应式布局与导航",
+      "status": "PASS",
+      "width": 1440,
+      "route": "watchlist",
+      "document_width": 1440
+    },
+    {
+      "check": "展开复杂筛选也不横向溢出",
+      "status": "PASS",
+      "width": 1440
+    },
+    {
+      "check": "折叠控件键盘操作和斜杠聚焦可见搜索框",
+      "status": "PASS"
+    },
+    {
+      "check": "尊重系统减少动态效果设置",
+      "status": "PASS"
+    },
+    {
+      "check": "未捕获到页面脚本异常",
+      "status": "PASS",
+      "errors": []
+    }
+  ],
+  "errors": []
+}

@@ -3,15 +3,16 @@
   "use strict";
   window.ZGCLAB_EXPLORER = function (params, api) {
     const Q = window.ZGCLAB_QUERY;
-    const { META, view, esc, fmt, entriesFor, recCard, bindRecords, pager, bindPager, exportEntries, copyText, showToast, workspace, saveWorkspace } = api;
+    const { META, view, esc, fmt, entriesFor, recCard, bindRecords, pager, bindPager, exportEntries, copyText, showToast, workspace, saveWorkspace, isRead, markRead } = api;
     const $ = (selector) => view.querySelector(selector);
     const instMap = new Map(META.institutions.map((i) => [i.ktid, i]));
     const instName = (id) => (instMap.get(Number(id)) || {}).cn || id;
     const state = Q.parse(params);
+    state.sim = META.simulation ? "1" : "";
     state.version = state.version || META.version;
     state.ids = state.ids.filter((id) => instMap.has(Number(id)));
     const metrics = { like_count: "点赞", comment_count: "评论", repost_count: "转发", view_count: "浏览", engagement: "互动合计" };
-    let request = 0, timer, current = [];
+    let request = 0, timer, current = [], customDates = !!(state.from || state.to);
     const alive = () => api.version === api.currentVersion() && view.contains($("#exBody"));
     const href = () => location.href.split("#")[0] + "#/explore?" + Q.serialize(state);
     const options = (values, value) => values.map(([key, label]) => `<option value="${esc(key)}" ${String(key) === String(value) ? "selected" : ""}>${esc(label)}</option>`).join("");
@@ -22,27 +23,31 @@
     const risks = Object.keys(META.stats.clue.risk_levels || {});
     const tags = Object.keys(META.stats.news.tags || {});
     view.innerHTML = `
-      <div class="page-head"><div><span class="kicker">QUERY & MONITOR</span><h1>数据浏览</h1><p>按机构、平台、时间、风险和互动量组合查看，再从结果定位原文。</p></div>
+      <div class="page-head"><div><a class="back-overview" href="#/overview">← 全部数据总览</a><h1>数据浏览</h1><p>先看结果，需要时展开更多筛选。</p></div>
         <div class="page-actions"><button class="btn" id="saveQuery">保存查询</button><button class="btn" id="copyQuery">复制查询链接</button><button class="btn" id="createBrief" disabled>生成观察简报</button><button class="btn primary" id="exportResults" disabled>导出结果 CSV</button></div></div>
       <section class="card pad">
         <div class="tabs" id="exTabs">${["all", "news", "clue", "social"].map((angle) => `<button class="tab ${state.angle === angle ? "active" : ""}" data-angle="${angle}"><span class="dot" style="background:var(--${angle === "all" ? "accent" : angle})"></span>${angle === "all" ? "全部数据" : META.angles[angle].name}<span class="cnt">${fmt(angle === "all" ? Object.values(META.totals).reduce((s,v) => s+v,0) : META.totals[angle])}</span></button>`).join("")}</div>
-        <div class="query-presets"><span class="hint">常用入口</span><button class="filter-chip" data-preset="risk">高风险线索</button><button class="filter-chip" data-preset="company">企业类信息</button><button class="filter-chip" data-preset="ngo">NGO / 智库信息</button><button class="filter-chip" data-preset="popular">X 点赞 ≥ 100</button></div>
+        <div class="filter-toolbar"><span class="hint">筛选条件</span><button class="text-button" id="toggleFilters" aria-controls="exFilterControls" aria-expanded="true">收起筛选</button></div>
+        <div id="exFilterControls">
+        <div class="query-form-grid basic-query">
+          <label>关键词<input id="exQ" type="search" aria-label="查询关键词" placeholder="关键词、完整短语、-排除词" value="${esc(state.q)}"></label>
+          <label>机构<select id="exInst">${options([["", "全部机构"], ...META.institutions.map((i) => [i.ktid,i.cn])], state.ids.length === 1 ? state.ids[0] : "")}</select></label>
+          <label>时间范围<select id="exPeriod">${options([["all","全部日期"],["today","今天"],["7","近 7 天"],["30","近 30 天"],["custom","指定日期"]],state.period === "custom" && !state.from && !state.to ? "all" : state.period)}</select></label>
+        </div>
+        <div class="query-form-grid custom-dates" id="exCustomDates" hidden><label>开始日期<input type="date" id="exFrom" value="${esc(state.from)}"></label><label>结束日期<input type="date" id="exTo" value="${esc(state.to)}"></label></div>
+        <details class="query-options more-filters" id="exMoreFilters"><summary><span>更多筛选 <span id="moreFilterCount" class="chip" hidden></span></span><span class="hint">机构类型、平台、风险、标签、互动量</span></summary>
+        <div class="query-presets"><span class="hint">常用组合</span><button class="filter-chip" data-preset="risk">高风险线索</button><button class="filter-chip" data-preset="company">企业类信息</button><button class="filter-chip" data-preset="ngo">NGO / 智库信息</button><button class="filter-chip" data-preset="popular">X 点赞 ≥ 100</button></div>
         <div class="query-form-grid">
           <label>机构类型<select id="exType">${options([["", "全部类型"], ...types.map((t) => [t,t])], state.type)}</select></label>
           <label>国家<select id="exCountry">${options([["", "全部国家"], ...countries.map((c) => [c,c])], state.country)}</select></label>
-          <label class="wide-control">单个机构快捷选择<select id="exInst">${options([["", "全部机构 / 使用下方多选"], ...META.institutions.map((i) => [i.ktid,i.cn])], state.ids.length === 1 ? state.ids[0] : "")}</select></label>
+          <label>关键词匹配<select id="exMode" aria-label="关键词匹配方式">${options([["all","包含全部关键词"],["any","包含任一关键词"]],state.mode)}</select></label>
+          <label>来源<input id="exSource" type="text" aria-label="来源或账号关键词" placeholder="来源域名 / 发布主体" value="${esc(state.source)}"></label>
         </div>
         <details class="query-options" id="institutionChoices"><summary>多选机构 <span id="selectedInstitutions"></span></summary><div class="institution-choices">${META.institutions.map((i) => `<label class="choice"><input type="checkbox" data-choice="ids" value="${i.ktid}" ${state.ids.includes(String(i.ktid)) ? "checked" : ""}>${esc(i.cn)}</label>`).join("")}</div><p class="hint">同一组内任一匹配，不同条件组同时满足。机构类型和多选机构会共同生效。</p></details>
-        <div class="filters explorer-filters"><input id="exQ" type="text" aria-label="查询关键词" placeholder='关键词、"完整短语"、-排除词' value="${esc(state.q)}"><select id="exMode" aria-label="关键词匹配方式">${options([["all","包含全部关键词"],["any","包含任一关键词"]],state.mode)}</select><input id="exSource" type="text" aria-label="来源或账号关键词" placeholder="来源域名 / 发布主体 / 账号关键词" value="${esc(state.source)}"></div>
         <div class="query-facets">
           <fieldset id="platformChoices"><legend>社媒平台（可多选）</legend>${checkGroup("platforms", platforms)}</fieldset>
           <fieldset id="riskChoices"><legend>线索风险（可多选）</legend>${checkGroup("risks", risks)}</fieldset>
           <fieldset id="tagChoices"><legend>新闻标签（可多选）</legend>${checkGroup("tags", tags)}</fieldset>
-        </div>
-        <div class="query-form-grid date-grid">
-          <label>时间范围<select id="exPeriod">${options([["all","全部日期"],["today","今天"],["7","近 7 天"],["30","近 30 天"],["custom","指定日期"]],state.period === "custom" && !state.from && !state.to ? "all" : state.period)}</select></label>
-          <label>时间口径<select id="exDateField">${options([["published","发布时间"],["collected","采集时间（社媒）"],["discovered","发现时间（官网）"],["found","发现时间（新闻）"],["record","记录时间（发布时间缺失时回退）"]],state.dateField)}</select></label>
-          <label>开始日期<input type="date" id="exFrom" value="${esc(state.from)}"></label><label>结束日期<input type="date" id="exTo" value="${esc(state.to)}"></label>
         </div>
         <details class="query-options" id="exAdvanced"><summary>互动数值与更多条件 <span class="hint">点赞 / 评论 / 转发 / 浏览 · 语言 · 译文 · 附件</span></summary>
           <div class="metric-filters">${Q.METRICS.map((name) => `<label>${metrics[name]}数值范围<div class="number-range"><input type="number" min="0" step="any" data-bound="${name}Min" aria-label="${metrics[name]}下限" placeholder="最低" value="${esc(state[name+"Min"])}"><span>—</span><input type="number" min="0" step="any" data-bound="${name}Max" aria-label="${metrics[name]}上限" placeholder="最高" value="${esc(state[name+"Max"])}"></div></label>`).join("")}</div>
@@ -53,16 +58,19 @@
             <label>中文正文 / 翻译<select id="exTranslation">${options([["","全部"],["yes","有中文正文 / 翻译"],["missing","有原文，缺中文正文 / 翻译"]],state.translation)}</select></label>
             <label>媒体 / 附件<select id="exMedia">${options([["","全部"],["image","包含图片"],["video","包含视频"],["pdf","包含 PDF"],["attachment","包含媒体 / 附件链接"]],state.media)}</select></label>
             <label>查找缺失字段<select id="exMissing">${options([["","不限"],["publish_time","缺少发布时间"],["url","缺少有效原文链接"],["risk","缺少风险等级（官网）"]],state.missing)}</select></label>
+            <label>时间口径<select id="exDateField">${options([["published","发布时间"],["collected","采集时间（社媒）"],["discovered","发现时间（官网）"],["found","发现时间（新闻）"],["record","记录时间（发布时间缺失时回退）"]],state.dateField)}</select></label>
           </div>
         </details>
-        <div class="query-form-grid sort-grid"><label>排序<select id="exSort">${options([["newest","时间最新"],["oldest","时间最早"],["relevance","关键词相关度"], ...Q.METRICS.map((m) => [m,metrics[m]+"从高到低"])],state.sort)}</select></label><label>结果上限<select id="exLimit">${options([[0,"全部匹配结果"],[10,"前 10 条"],[20,"前 20 条"],[50,"前 50 条"]],state.limit)}</select></label><button class="btn" id="clearExplore">清除全部筛选</button></div>
         <p class="query-help">检索列表中的标题、摘要、正文节选、关键词和机构名；空格组合关键词，双引号匹配短语，减号排除。时间统一为北京时间，未提供时区的日期按来源标注处理。</p>
+        </details></div>
         <div id="exError" class="inline-error" role="alert" hidden></div>
-        <div id="exCondition" class="condition-summary"></div><div id="exCoverage" class="coverage-note" role="status"></div>
+        <div id="exCondition" class="condition-summary"></div>
+        <div class="query-results-tools"><label>阅读状态<select id="exRead">${options([["","全部记录"],["unread","只看未读"],["read","只看已读"]],state.read)}</select></label><label>排序<select id="exSort">${options([["newest","时间最新"],["oldest","时间最早"],["relevance","关键词相关度"], ...Q.METRICS.map((m) => [m,metrics[m]+"从高到低"])],state.sort)}</select></label><label>结果上限<select id="exLimit">${options([[0,"全部结果"],[10,"前 10 条"],[20,"前 20 条"],[50,"前 50 条"]],state.limit)}</select></label><button class="text-button" id="clearExplore">清除筛选</button><button class="text-button" id="markResultsRead" disabled>标记结果已读</button></div>
         <div class="result-bar"><span id="exCount" class="result-count" role="status" aria-live="polite"></span><label class="page-size">每页 <select id="exSize" aria-label="每页记录数">${options([14,25,50,100].map((size) => [size,size+" 条"]),state.size)}</select></label></div>
         <div id="exBreakdown" class="query-breakdown"></div><div class="table-wrap explorer-table"><table class="data"><thead id="exHead"></thead><tbody id="exBody"></tbody></table></div><div class="mobile-results rec-list" id="exCards"></div><div id="exPager"></div>
+        <details class="query-notes" id="exNotes"><summary>数据范围与时间口径说明</summary><div id="exCoverage" class="coverage-note" role="status"></div></details>
       </section>
-      <details class="section card pad query-analysis" open><summary>当前结果分析 <span class="hint">数量可点击下钻，保留其他筛选</span></summary><div id="exAnalytics"></div></details>
+      <details class="section card pad query-analysis"><summary>当前结果分析 <span class="hint">展开查看分布、排行与对比</span></summary><div id="exAnalytics"></div></details>
       <section id="briefPanel" class="section card pad" hidden><div class="section-head"><h2>观察简报草稿</h2><button class="btn" id="downloadBrief">下载 Markdown</button></div><p class="hint">事实清单，按当前结果顺序摘录前 20 条，未自动判断重要性或风险走向；可编辑后下载。</p><textarea id="briefText" aria-label="观察简报草稿" rows="15"></textarea></section>`;
 
     function summary() {
@@ -87,15 +95,20 @@
       if (state.media) parts.push("附件："+state.media);
       if (state.missing) parts.push("缺失字段："+state.missing);
       if (state.limit) parts.push("前 "+state.limit+" 条");
+      if (state.read) parts.push(state.read === "read" ? "只看已读" : "只看未读");
+      if (state.sim) parts.push("包含模拟数据（仅供测试）");
       return parts.join(" · ");
     }
     function sync() {
-      for (const [id,key] of [["exType","type"],["exCountry","country"],["exQ","q"],["exMode","mode"],["exSource","source"],["exDateField","dateField"],["exSort","sort"],["exLimit","limit"],["exSize","size"],["exLanguage","language"],["exTranslation","translation"],["exMedia","media"],["exMissing","missing"]]) $("#"+id).value = state[key];
+      for (const [id,key] of [["exType","type"],["exCountry","country"],["exQ","q"],["exMode","mode"],["exSource","source"],["exDateField","dateField"],["exSort","sort"],["exLimit","limit"],["exSize","size"],["exLanguage","language"],["exTranslation","translation"],["exMedia","media"],["exMissing","missing"],["exRead","read"]]) $("#"+id).value = state[key];
       $("#exInst").value = state.ids.length === 1 ? state.ids[0] : "";
       const range = Q.dateRange(state), rolling = state.period !== "custom";
       $("#exFrom").value = range.from; $("#exTo").value = range.to;
       $("#exFrom").disabled = rolling; $("#exTo").disabled = rolling;
-      $("#exPeriod").value = rolling ? state.period : state.from || state.to ? "custom" : "all";
+      $("#exPeriod").value = rolling ? state.period : customDates || state.from || state.to ? "custom" : "all";
+      $("#exCustomDates").hidden = rolling || !customDates && !state.from && !state.to;
+      const moreCount = [state.type,state.country,state.source,state.mode === "any",state.ids.length > 1,state.platforms.length,state.risks.length,state.tags.length,state.account,state.language,state.translation,state.media,state.missing,state.dateField !== "published",...Q.METRICS.map((name) => state[name+"Min"]!==""||state[name+"Max"]!=="")].filter(Boolean).length;
+      $("#moreFilterCount").hidden = !moreCount; $("#moreFilterCount").textContent = `已选 ${moreCount} 项`;
       $("#selectedInstitutions").textContent = state.ids.length ? `已选 ${state.ids.length} 家` : "全部机构";
       view.querySelectorAll("[data-choice]").forEach((input) => { input.checked = state[input.dataset.choice].includes(input.value); });
       view.querySelectorAll("[data-bound]").forEach((input) => { input.value = state[input.dataset.bound]; });
@@ -107,7 +120,7 @@
     function row(angle,r) {
       const counts = angle === "social" ? `<span class="row-metrics">${Object.entries(metrics).map(([key,label]) => { const value=Q.metric(r,key); return `${label} ${value==null ? "未提供" : fmt(value)}`; }).join(" · ")}</span>` : "";
       const badge = angle === "clue" ? r.risk_level || "未判定" : angle === "news" ? r.tag || "未分类" : r.platform || "未提供";
-      return `<tr data-angle="${angle}" data-id="${esc(r.id)}"><td><span class="tag ${angle}">${META.angles[angle].name}</span></td><td><span class="cell-title">${esc(api.titleOf(angle,r))}</span>${counts}</td><td>${esc(instName(r.ktid))}</td><td><span class="tag ${angle} ${angle === "clue" ? ({高:"risk-High",中:"risk-Mid",低:"risk-Low"}[r.risk_level]||"") : ""}">${esc(badge)}</span></td><td class="cell-muted">${esc(Q.recordDay(Q.dateValue(r,state.dateField))||"未提供")}</td></tr>`;
+      return `<tr data-angle="${angle}" data-id="${esc(r.id)}"><td><span class="tag ${angle}">${META.angles[angle].name}</span>${r._simulation?'<span class="simulation-badge">模拟数据</span>':""}</td><td><span class="cell-title">${esc(api.titleOf(angle,r))}</span><span class="read-badge">${isRead(angle,r.id) ? "已读" : "未读"}</span>${counts}</td><td>${esc(instName(r.ktid))}</td><td><span class="tag ${angle} ${angle === "clue" ? ({高:"risk-High",中:"risk-Mid",低:"risk-Low"}[r.risk_level]||"") : ""}">${esc(badge)}</span></td><td class="cell-muted">${esc(Q.recordDay(Q.dateValue(r,state.dateField))||"未提供")}</td></tr>`;
     }
     function metricCard(angle,r) {
       const card = recCard(angle,r);
@@ -142,6 +155,7 @@
       const missing=relevant.length-dates.length;
       $("#exCoverage").textContent=`历史交付快照 ${META.source_package} · 当前机构范围的可用${$("#exDateField option:checked").textContent}：${dates.length?dates[0]+" 至 "+dates[dates.length-1]:"暂无"} · 时间未提供 ${missing} 条。近期零结果不会自动改为旧日期。`;
       if(state.version!==META.version)$("#exCoverage").textContent+=` 注意：分享链接的数据版本 ${state.version} 与当前版本 ${META.version} 不同，当前显示现有数据，不能视为原版本复现。`;
+      if(state.version!==META.version)$("#exNotes").open=true;
     }
     function populateAccounts(all) {
       const values=new Map();
@@ -156,13 +170,14 @@
     }
     async function refresh() {
       const id=++request;
-      $("#exError").hidden=true; $("#exportResults").disabled=true;$("#createBrief").disabled=true;$("#briefPanel").hidden=true;
+      $("#exError").hidden=true; $("#exportResults").disabled=true;$("#createBrief").disabled=true;$("#markResultsRead").disabled=true;$("#briefPanel").hidden=true;
       const problem=Q.validate(state);
       if(problem){$("#exError").hidden=false;$("#exError").textContent=problem;$("#exCount").textContent="筛选条件无效";$("#exBody").innerHTML='<tr><td colspan="5"><div class="empty">请调整条件后继续查询</div></td></tr>';$("#exCards").innerHTML='<div class="empty">请调整条件后继续查询</div>';$("#exPager").innerHTML="";$("#exAnalytics").innerHTML="";return;}
       $("#exBody").innerHTML='<tr><td colspan="5"><div class="skeleton">正在加载数据…</div></td></tr>';$("#exCards").innerHTML='<div class="skeleton">正在加载数据…</div>';$("#exCount").textContent="正在查询…";
       try {
-        const all=await entriesFor(state.angle);
+        const loaded=await entriesFor(state.angle);
         if(id!==request||!alive())return;
+        const all=state.read ? loaded.filter(({angle,r}) => isRead(angle,r.id) === (state.read === "read")) : loaded;
         const result=Q.filter(all,state,instMap);current=result.entries;
         state.page=api.CORE.pageNumber(state.page,current.length,state.size);
         const start=(state.page-1)*state.size,slice=current.slice(start,start+state.size);
@@ -175,6 +190,7 @@
         bindRecords($("#exBody"),current);bindRecords($("#exCards"),current);
         $("#exPager").innerHTML=pager(current.length,state.page,null,state.size);bindPager($("#exPager"),(page)=>{state.page=page;refresh();});
         $("#exportResults").disabled=!current.length;$("#createBrief").disabled=false;
+        $("#markResultsRead").disabled=!current.length;
         coverage(all);populateAccounts(all);analytics(current,all);
         history.replaceState(null,"",href());
         $("#exCount").dataset.query = Q.serialize(state);
@@ -185,7 +201,7 @@
         $("#exCards").innerHTML='<button class="btn" id="retryMobile">重试</button>';$("#retryMobile").onclick=refresh;
       }
     }
-    function changed() {state.page=1;sync();refresh();}
+    function changed() {state.sim=META.simulation?"1":"";state.page=1;sync();refresh();}
     const delayed=()=>{clearTimeout(timer);timer=setTimeout(()=>{if(alive())changed();},180);};
     view.querySelectorAll("[data-choice]").forEach((input)=>input.onchange=()=>{
       const field=input.dataset.choice;
@@ -193,16 +209,19 @@
       if(["platforms","risks","tags"].includes(field)&&input.checked){state.angle={platforms:"social",risks:"clue",tags:"news"}[field];for(const other of ["platforms","risks","tags"])if(other!==field)state[other]=[];}
       changed();
     });
-    for(const [id,key] of [["exType","type"],["exCountry","country"],["exMode","mode"],["exDateField","dateField"],["exSort","sort"],["exLanguage","language"],["exTranslation","translation"],["exMedia","media"],["exMissing","missing"],["exAccount","account"]])$("#"+id).onchange=(event)=>{state[key]=event.target.value;changed();};
+    for(const [id,key] of [["exType","type"],["exCountry","country"],["exMode","mode"],["exDateField","dateField"],["exSort","sort"],["exLanguage","language"],["exTranslation","translation"],["exMedia","media"],["exMissing","missing"],["exAccount","account"],["exRead","read"]])$("#"+id).onchange=(event)=>{state[key]=event.target.value;changed();};
     $("#exInst").onchange=(event)=>{state.ids=event.target.value?[event.target.value]:[];changed();};
     for(const [id,key] of [["exQ","q"],["exSource","source"]])$("#"+id).oninput=(event)=>{state[key]=event.target.value;delayed();};
     $("#exLimit").onchange=(event)=>{state.limit=Number(event.target.value);changed();};
     $("#exSize").onchange=(event)=>{state.size=Number(event.target.value);changed();};
-    $("#exPeriod").onchange=(event)=>{state.period=event.target.value==="all"?"custom":event.target.value;if(event.target.value==="all"){state.from="";state.to="";}changed();};
+    $("#exPeriod").onchange=(event)=>{customDates=event.target.value==="custom";state.period=event.target.value==="all"?"custom":event.target.value;if(event.target.value==="all"){state.from="";state.to="";}changed();};
     for(const [id,key] of [["exFrom","from"],["exTo","to"]])$("#"+id).onchange=(event)=>{state[key]=event.target.value;state.period="custom";changed();};
     view.querySelectorAll("[data-bound]").forEach((input)=>input.oninput=()=>{state[input.dataset.bound]=input.value;delayed();});
     view.querySelectorAll("#exTabs .tab").forEach((button)=>button.onclick=()=>{state.angle=button.dataset.angle;for(const [key,a] of [["platforms","social"],["risks","clue"],["tags","news"]])if(![a,"all"].includes(state.angle))state[key]=[];if(!["social","all"].includes(state.angle))state.account="";changed();});
-    $("#clearExplore").onclick=()=>{Object.assign(state,Q.parse(new URLSearchParams({angle:state.angle})));state.version=META.version;changed();};
+    $("#clearExplore").onclick=()=>{Object.assign(state,Q.parse(new URLSearchParams({angle:state.angle})));state.version=META.version;customDates=false;changed();};
+    $("#toggleFilters").onclick=(event)=>{const hidden=!$("#exFilterControls").hidden;$("#exFilterControls").hidden=hidden;event.currentTarget.setAttribute("aria-expanded",String(!hidden));event.currentTarget.textContent=hidden?"展开筛选":"收起筛选";};
+    $("#markResultsRead").onclick=()=>{markRead(current,true);showToast(`已标记 ${current.length} 条为已读`);refresh();};
+    document.addEventListener("zgclab:readchange",()=>{if(alive())refresh();},{signal:api.signal});
     view.querySelectorAll("[data-preset]").forEach((button)=>button.onclick=()=>{
       Object.assign(state,Q.parse(new URLSearchParams()));
       state.version=META.version;
@@ -228,7 +247,6 @@
     $("#createBrief").onclick=brief;
     $("#downloadBrief").onclick=()=>{const url=URL.createObjectURL(new Blob([$("#briefText").value],{type:"text/markdown;charset=utf-8"}));const anchor=document.createElement("a");anchor.href=url;anchor.download="zgclab-观察简报.md";anchor.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
     document.querySelector("#globalSearch").value=state.q;
-    if(Q.METRICS.some((name)=>state[name+"Min"]!==""||state[name+"Max"]!=="")||state.account||state.language||state.media||state.translation||state.missing)$("#exAdvanced").open=true;
     sync();refresh();
   };
 })();

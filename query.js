@@ -9,6 +9,8 @@
   const DATE_FIELDS = { published: "publish_time", collected: "collected_time", discovered: "discovery_time", found: "founddate" };
   const SORTS = ["newest", "oldest", "relevance", ...METRICS];
   const cache = new WeakMap();
+  const dayCache = new Map();
+  const beijingFormatter = new Intl.DateTimeFormat("en-US", { timeZone: "Asia/Shanghai", year: "numeric", month: "2-digit", day: "2-digit" });
   const list = (value) => [...new Set((Array.isArray(value) ? value : String(value || "").split(",")).filter(Boolean).map(String))];
   function count(value) {
     if (value == null || String(value).trim() === "") return null;
@@ -25,7 +27,7 @@
   function beijingDay(value = new Date()) {
     const date = value instanceof Date ? value : new Date(value);
     if (!Number.isFinite(date.getTime())) return "";
-    const parts = new Intl.DateTimeFormat("en-US", { timeZone: "Asia/Shanghai", year: "numeric", month: "2-digit", day: "2-digit" }).formatToParts(date);
+    const parts = beijingFormatter.formatToParts(date);
     const get = (type) => parts.find((part) => part.type === type).value;
     return `${get("year")}-${get("month")}-${get("day")}`;
   }
@@ -34,7 +36,8 @@
   }
   function recordDay(value) {
     const raw = String(value || "");
-    return /(?:Z|[+-]\d{2}:?\d{2})$/i.test(raw) && Number.isFinite(Date.parse(raw)) ? beijingDay(raw) : core.dateDay(raw);
+    if (!dayCache.has(raw)) dayCache.set(raw, /(?:Z|[+-]\d{2}:?\d{2})$/i.test(raw) && Number.isFinite(Date.parse(raw)) ? beijingDay(raw) : core.dateDay(raw));
+    return dayCache.get(raw);
   }
   function dateValue(row, field = "published") {
     return field === "record" ? row.publish_time || row.founddate || row.discovery_time || row.collected_time || "" : row[DATE_FIELDS[field] || "publish_time"] || "";
@@ -60,6 +63,8 @@
       size: [14, 25, 50, 100].includes(Number(params.get("size"))) ? Number(params.get("size")) : 14,
       page: Math.max(1, Math.floor(Number(params.get("page"))) || 1),
       version: params.get("version") || "",
+      read: ["read", "unread"].includes(params.get("read")) ? params.get("read") : "",
+      sim: params.get("sim") === "1" ? "1" : "",
     };
     for (const name of METRICS) for (const suffix of ["Min", "Max"]) state[name + suffix] = params.get(name + suffix) || "";
     const legacy = params.get("sub") || "";
@@ -71,7 +76,7 @@
     const params = new URLSearchParams();
     params.set("angle", state.angle || "all");
     for (const key of ["ids", "platforms", "risks", "tags"]) if ((state[key] || []).length) params.set(key, state[key].join(","));
-    for (const key of ["type", "country", "q", "source", "account", "language", "translation", "media", "missing", "version"]) if (state[key]) params.set(key, state[key]);
+    for (const key of ["type", "country", "q", "source", "account", "language", "translation", "media", "missing", "version", "read", "sim"]) if (state[key]) params.set(key, state[key]);
     if (state.mode === "any") params.set("mode", "any");
     if (state.dateField && state.dateField !== "published") params.set("dateField", state.dateField);
     if (state.period && state.period !== "custom") params.set("period", state.period);

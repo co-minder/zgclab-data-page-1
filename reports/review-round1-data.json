@@ -1,0 +1,101 @@
+{
+  "round": "data",
+  "target": "http://127.0.0.1:8789/",
+  "tested_at": "2026-11-01T18:22:43.801497+00:00",
+  "data_version": "f2a2c811aeb2ea21",
+  "passed": 16,
+  "checks": [
+    {
+      "check": "全量总览、三角度、全部机构和汇总导出一致",
+      "status": "PASS",
+      "total": 6989,
+      "institutions": 20
+    },
+    {
+      "check": "总览可进入全部明细且没有遗留筛选",
+      "status": "PASS"
+    },
+    {
+      "check": "机构时间线和完整导出集合一致",
+      "status": "PASS",
+      "expected": 1672,
+      "actual": 1672
+    },
+    {
+      "check": "时间线滚动近七天不回退到历史快照",
+      "status": "PASS"
+    },
+    {
+      "check": "质量检查计数 publish_time",
+      "status": "PASS",
+      "expected": 1018,
+      "actual": 1018
+    },
+    {
+      "check": "质量检查计数 url",
+      "status": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "check": "质量检查计数 translation",
+      "status": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "check": "质量检查计数 risk",
+      "status": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "check": "质量检查计数 unknown_risk",
+      "status": "PASS",
+      "expected": 540,
+      "actual": 540
+    },
+    {
+      "check": "质量检查计数 like_count",
+      "status": "PASS",
+      "expected": 84,
+      "actual": 84
+    },
+    {
+      "check": "质量检查计数 comment_count",
+      "status": "PASS",
+      "expected": 167,
+      "actual": 167
+    },
+    {
+      "check": "质量检查计数 repost_count",
+      "status": "PASS",
+      "expected": 125,
+      "actual": 125
+    },
+    {
+      "check": "质量检查计数 view_count",
+      "status": "PASS",
+      "expected": 741,
+      "actual": 741
+    },
+    {
+      "check": "质量问题明细下钻和导出可用",
+      "status": "PASS",
+      "missing_publication": 1018
+    },
+    {
+      "check": "完整正文搜索命中列表节选之外的原文并独立核对记录集合",
+      "status": "PASS",
+      "phrase": "Vishnu Tiwari",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "check": "未捕获到页面脚本异常",
+      "status": "PASS",
+      "errors": []
+    }
+  ],
+  "errors": []
+}

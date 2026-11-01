@@ -1,0 +1,1 @@
+window.ZGCLAB_SIM_META={"version":"b0e54223d8cbe67a","generated_for":"2026-11-02","real_version":"f2a2c811aeb2ea21","label":"模拟数据 · 仅供功能测试","platform":"test","totals":{"news":10000,"clue":10000,"social":10000},"scenarios":["近期7/30天","多机构与类型","高/中/低/无法判断","标签","数值边界与缺失","译文与附件","完整正文搜索"]};

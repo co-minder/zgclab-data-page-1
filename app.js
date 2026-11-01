@@ -2,7 +2,9 @@
 (function () {
   "use strict";
 
-  const META = window.ZGCLAB_META;
+  const REAL_META = window.ZGCLAB_META;
+  let META = REAL_META;
+  let simulationEnabled = false, simulationJob = null, simulationChange = 0;
   const ANGLES = ["news", "clue", "social"];
   const ANG = META.angles;
   const COLORS = { news: "var(--news)", clue: "var(--clue)", social: "var(--social)" };
@@ -11,6 +13,7 @@
   const ALL = "all";
   const CORE = window.ZGCLAB_CORE;
   let routeVersion = 0;
+  let routeController = new AbortController();
   let closeModal = null;
   const storageKey = "zgclab.workspace.v1";
   let workspace = { favorites: [], queries: [] };
@@ -18,6 +21,17 @@
     const stored = JSON.parse(localStorage.getItem(storageKey) || "null");
     if (stored && Array.isArray(stored.favorites) && Array.isArray(stored.queries)) workspace = stored;
   } catch (_) { /* Storage is optional; browsing works without it. */ }
+  workspace.read = workspace.read && typeof workspace.read === "object" && !Array.isArray(workspace.read) ? workspace.read : {};
+  workspace.watchlist = Array.isArray(workspace.watchlist) ? workspace.watchlist.map(Number).filter((id) => META.institutions.some((i) => i.ktid === id)) : [];
+  const readKey = (angle, id) => `${String(id).startsWith("sim-") && window.ZGCLAB_SIM_META ? window.ZGCLAB_SIM_META.version : REAL_META.version}:${angle}:${id}`;
+  const isRead = (angle, id) => !!workspace.read[readKey(angle, id)];
+  function markRead(entries, value) {
+    for (const { angle, r } of entries) {
+      if (value) workspace.read[readKey(angle, r.id)] = new Date().toISOString();
+      else delete workspace.read[readKey(angle, r.id)];
+    }
+    saveWorkspace();
+  }
   function saveWorkspace() {
     try { localStorage.setItem(storageKey, JSON.stringify(workspace)); }
     catch (_) { showToast("浏览器未允许保存，当前操作仅在本次访问中保留"); }
@@ -109,7 +123,7 @@
   }
 
   function recordLink(angle, id) {
-    return baseUrl() + "#/record/" + encodeURIComponent(angle) + "/" + encodeURIComponent(id);
+    return baseUrl() + "#/record/" + encodeURIComponent(angle) + "/" + encodeURIComponent(id) + (String(id).startsWith("sim-") ? "?sim=1" : "");
   }
 
   function queryLink(params) {
@@ -135,16 +149,55 @@
   /* ---------- 数据懒加载 ---------- */
   const cache = {};
   const loading = {};
+  function loadAsset(path) {
+    if (window.ZGCLAB_LOADER) return window.ZGCLAB_LOADER(path);
+    return new Promise((resolve,reject)=>{const script=document.createElement("script");script.src=path;script.onload=resolve;script.onerror=()=>reject(new Error("模拟文件加载失败，可重试"));document.head.appendChild(script);});
+  }
+  function mergedMeta() {
+    const meta=JSON.parse(JSON.stringify(REAL_META));
+    meta.simulation=window.ZGCLAB_SIM_META;
+    for(const angle of ANGLES){
+      const simulated=window["ZGCLAB_SIM_"+angle.toUpperCase()];meta.totals[angle]+=simulated.length;
+      const stat=meta.stats[angle];stat.total=meta.totals[angle];
+      for(const r of simulated){
+        const day=window.ZGCLAB_QUERY.recordDay(dateOf(angle,r));
+        if(day){const month=day.slice(0,7);stat.months[month]=(stat.months[month]||0)+1;stat.date_min=!stat.date_min||day<stat.date_min?day:stat.date_min;stat.date_max=!stat.date_max||day>stat.date_max?day:stat.date_max;}
+        const field={news:"tag",clue:"risk_level",social:"platform"}[angle],group={news:"tags",clue:"risk_levels",social:"platforms"}[angle];const value=r[field]||(angle==="clue"?"未判定":"未分类");stat[group][value]=(stat[group][value]||0)+1;
+        if(day)stat.dated++;
+        if(CORE.safeUrl(window.ZGCLAB_QUERY.sourceLink(r)))stat.linked++;
+        if(snippetOf(angle,r))stat.summarized++;
+      }
+      for(const i of meta.institutions){const n=simulated.filter((r)=>r.ktid===i.ktid).length;i.counts[angle]+=n;i.by_angle[angle]+=n;}
+    }
+    meta.months=[...new Set(ANGLES.flatMap((a)=>Object.keys(meta.stats[a].months)))].filter((m)=>m>="2024-01").sort();
+    return meta;
+  }
+  async function setSimulation(enabled) {
+    const change=++simulationChange;$("#includeSimulation").disabled=true;
+    try{
+      if(enabled){
+        if(!simulationJob)simulationJob=(async()=>{await loadAsset("data/simulation/meta.js");await Promise.all(ANGLES.map((a)=>loadAsset("data/simulation/"+a+".js")));})().catch((e)=>{simulationJob=null;throw e;});
+        await simulationJob;
+      }
+      if(change!==simulationChange)return;
+      simulationEnabled=enabled;META=enabled?mergedMeta():REAL_META;
+      for(const angle of ANGLES)delete cache[angle];
+      $("#includeSimulation").checked=enabled;$("#simulationStatus").hidden=!enabled;
+      $("#simulationStatus").textContent=enabled?`测试模式：包含 ${fmt(Object.values(window.ZGCLAB_SIM_META.totals).reduce((s,n)=>s+n,0))} 条模拟数据 · 平台 test · 日期基准 ${window.ZGCLAB_SIM_META.generated_for}`:"";
+      const raw=location.hash.split("?");const params=new URLSearchParams(raw[1]||"");if(enabled)params.set("sim","1");else params.delete("sim");history.replaceState(null,"",(raw[0]||"#/overview")+(params.size?"?"+params:""));route();
+    }catch(error){$("#includeSimulation").checked=simulationEnabled;showToast(error.message);}
+    finally{$("#includeSimulation").disabled=false;}
+  }
   function ensure(angle) {
     if (!ANGLES.includes(angle)) return Promise.reject(new Error("数据类型无效"));
     if (cache[angle]) return Promise.resolve(cache[angle]);
     const key = "ZGCLAB_" + angle.toUpperCase();
-    if (window[key]) { cache[angle] = window[key]; return Promise.resolve(cache[angle]); }
+    if (window[key]) { cache[angle] = simulationEnabled ? window[key].concat(window["ZGCLAB_SIM_" + angle.toUpperCase()] || []) : window[key]; return Promise.resolve(cache[angle]); }
     if (loading[angle]) return loading[angle];
     if (window.ZGCLAB_LOADER) {
       loading[angle] = window.ZGCLAB_LOADER("data/" + angle + ".js").then(() => {
         if (!Array.isArray(window[key])) throw new Error("数据文件格式错误，请刷新后重试");
-        cache[angle] = window[key];
+        cache[angle] = simulationEnabled ? window[key].concat(window["ZGCLAB_SIM_" + angle.toUpperCase()] || []) : window[key];
         return cache[angle];
       }).catch((failure) => { delete loading[angle]; throw failure; });
       return loading[angle];
@@ -154,7 +207,7 @@
       s.src = "data/" + angle + ".js?v=" + encodeURIComponent(META.version || META.generated_at);
       s.onload = () => {
         if (!Array.isArray(window[key])) { delete loading[angle]; s.remove(); rej(new Error("数据文件格式错误，请刷新后重试")); return; }
-        cache[angle] = window[key]; res(cache[angle]);
+        cache[angle] = simulationEnabled ? window[key].concat(window["ZGCLAB_SIM_" + angle.toUpperCase()] || []) : window[key]; res(cache[angle]);
       };
       s.onerror = () => { delete loading[angle]; s.remove(); rej(new Error("数据文件加载失败，请检查网络后重试")); };
       document.head.appendChild(s);
@@ -166,9 +219,10 @@
   const detailLoading = {};
   function ensureDetail(angle, r) {
     if (r._detail == null || !META.version) return Promise.resolve(null);
-    const key = angle + "-" + r._detail;
+    const key = (r._simulation ? "sim-" : "") + angle + "-" + r._detail;
+    const detailPath = r._simulation ? "data/simulation/details/" + r._simulation_version + "/" + angle + "-" + r._detail + ".js" : "data/details/" + REAL_META.version + "/" + key + ".js";
     if (window.ZGCLAB_LOADER) {
-      if (!detailLoading[key]) detailLoading[key] = window.ZGCLAB_LOADER("data/details/" + META.version + "/" + key + ".js").then(() => {
+      if (!detailLoading[key]) detailLoading[key] = window.ZGCLAB_LOADER(detailPath).then(() => {
         if (!Array.isArray(window.ZGCLAB_DETAILS[key])) throw new Error("详情数据格式错误");
         return window.ZGCLAB_DETAILS[key];
       }).catch((failure) => { delete detailLoading[key]; throw failure; });
@@ -176,7 +230,7 @@
     }
     if (!detailLoading[key]) detailLoading[key] = new Promise((resolve, reject) => {
       const script = document.createElement("script");
-      script.src = "data/details/" + META.version + "/" + key + ".js";
+      script.src = detailPath;
       script.onload = () => {
         if (!Array.isArray(window.ZGCLAB_DETAILS[key])) { delete detailLoading[key]; reject(new Error("详情数据格式错误")); return; }
         resolve(window.ZGCLAB_DETAILS[key]);
@@ -235,9 +289,9 @@
       if (!key.startsWith("_") && key !== "id" && key !== "ktid" && !seen.has(key)) { seen.add(key); keys.push(key); }
     }));
     const contextKeys = Object.keys(context || {});
-    const headers = ["采集角度", "记录ID", "机构", "ktid", ...keys.map((key) => FIELD_LABELS[key] ? `${FIELD_LABELS[key]} (${key})` : key), ...contextKeys];
+    const headers = ["采集角度", "记录ID", "机构", "ktid", "数据性质", ...keys.map((key) => FIELD_LABELS[key] ? `${FIELD_LABELS[key]} (${key})` : key), ...contextKeys];
     const rows = entries.map(({ angle, r }) => [
-      angleName(angle), r.id || "", instName(r.ktid), r.ktid || "",
+      angleName(angle), r.id || "", instName(r.ktid), r.ktid || "", r._simulation ? "模拟数据" : "真实交付数据",
       ...keys.map((key) => r[key] == null ? "" : r[key]), ...contextKeys.map((key) => context[key]),
     ]);
     downloadCsv(filename, headers, rows);
@@ -247,7 +301,7 @@
     const snippet = snippetOf(angle, r);
     const src = angle === "news" ? r.publish_source : angle === "clue" ? (r.publisher_website || r.publish_subject) : (r.account_handle || r.content_type);
     return `<article class="rec" data-angle="${angle}" data-id="${esc(r.id || "")}">
-      <div class="r-top">${angleDot(angle)}<span class="tag ${angle}">${esc(ANG[angle].name)}</span>${badgeOf(angle, r)}
+      <div class="r-top">${angleDot(angle)}<span class="tag ${angle}">${esc(ANG[angle].name)}</span>${r._simulation?'<span class="simulation-badge">模拟数据</span>':""}${badgeOf(angle, r)}
         <span class="date" style="margin-left:auto">${esc(day(dateOf(angle, r)) || "时间未标注")}</span></div>
       <h4>${esc(titleOf(angle, r))}</h4>
       ${snippet ? `<p>${esc(snippet)}</p>` : ""}
@@ -357,6 +411,7 @@
   }
 
   function setActive(route) {
+    document.body.dataset.route = route;
     document.querySelectorAll("[data-route]").forEach((a) => {
       a.classList.toggle("active", a.dataset.route === route);
       if (a.dataset.route === route) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
@@ -370,11 +425,12 @@
   /* ---------- 视图：总览 ---------- */
   function viewOverview() {
     setActive("overview");
-    setCrumb("<b>数据总览</b>");
+    setCrumb("<b>全部数据总览</b>");
     const total = ANGLES.reduce((s, a) => s + (META.totals[a] || 0), 0);
     const units = META.institutions.length;
     const covered = META.institutions.filter((i) => i.counts.news + i.counts.clue + i.counts.social > 0).length;
-    const rank = META.institutions.slice(0, 10).map((i) => ({
+    const institutions = [...META.institutions].sort((a, b) => ANGLES.reduce((s, angle) => s + b.counts[angle] - a.counts[angle], 0));
+    const rank = institutions.slice(0, 10).map((i) => ({
       label: i.cn, v: i.counts.news + i.counts.clue + i.counts.social, href: "#/institution/" + i.ktid,
     }));
 
@@ -385,16 +441,16 @@
 
     view.innerHTML = `
       <div class="page-head">
-        <div><span class="kicker">OVERVIEW</span><h1>数据总览</h1>
-          <p>${units} 个验证单位 · 三个采集角度 · 已审核入表的真实交付数据</p></div>
+        <div><span class="kicker">ALL DATA OVERVIEW</span><h1>全部数据总览</h1>
+          <p>当前快照的全部 ${fmt(total)} 条数据 · ${units} 家机构 · 全部日期</p></div>
+        <div class="page-actions"><button class="btn" id="exportOverview">导出机构汇总</button><a class="btn primary" id="browseAllData" href="#/explore?angle=all">查看全部数据</a></div>
       </div>
 
-      <section class="kpis">
-        <div class="kpi"><div class="k-label">验证机构</div><div class="k-value">${units}</div><div class="k-sub">任务总纲默认名单</div></div>
-        <div class="kpi"><div class="k-label">采集角度</div><div class="k-value">3</div><div class="k-sub">官网 · 社媒 · 新闻舆情</div></div>
-        <div class="kpi"><div class="k-label">入表数据</div><div class="k-value">${fmt(total)}</div><div class="k-sub">舆情 + 线索 + 社媒</div></div>
-        <div class="kpi"><div class="k-label">机构覆盖</div><div class="k-value">${Math.round(covered / units * 100)}<small style="font-size:16px">%</small></div><div class="k-sub">${covered}/${units} 单位有数据</div></div>
+      <section class="kpis overview-kpis" aria-label="全部数据统计">
+        <a class="kpi" data-overview-total="${total}" href="#/explore?angle=all"><div class="k-label">全部记录</div><div class="k-value">${fmt(total)}</div><div class="k-sub">查看全部机构、全部角度明细 →</div></a>
+        ${ANGLES.map((a) => `<a class="kpi ${a}" data-overview-angle="${a}" href="#/explore?angle=${a}"><div class="k-label">${ANG[a].name}</div><div class="k-value">${fmt(META.totals[a])}</div><div class="k-sub">占全部 ${((META.totals[a] / total) * 100).toFixed(1)}% · 查看明细 →</div></a>`).join("")}
       </section>
+      <div class="overview-scope"><span><b>${units}</b> 家机构 · <b>3</b> 个采集角度 · 机构覆盖 <b>${covered}/${units}</b></span><span>快照生成：${esc(META.generated_at.slice(0, 10))} · 本页统计全部数据</span></div>
 
       <section class="section"><div class="grid g2-1">
         <div class="card pad">
@@ -413,6 +469,13 @@
           ${hbars(rank, "var(--accent)")}
         </div>
       </div></section>
+
+      <section class="section card pad" id="overviewInstitutions">
+        <div class="section-head"><h2>全部 ${units} 家机构数据汇总</h2><span class="hint">点击数量查看明细</span></div>
+        <div class="table-wrap"><table class="data overview-institutions"><thead><tr><th>机构</th><th>类型</th><th>新闻舆情</th><th>官网线索</th><th>社交媒体</th><th>合计</th></tr></thead><tbody>
+          ${institutions.map((i) => `<tr data-overview-institution="${i.ktid}"><td><a href="#/institution/${i.ktid}">${esc(i.cn)}</a></td><td>${esc(i.type)}</td>${ANGLES.map((a) => `<td><a href="#/explore?angle=${a}&ids=${i.ktid}">${fmt(i.counts[a])}</a></td>`).join("")}<td><a href="#/explore?angle=all&ids=${i.ktid}">${fmt(ANGLES.reduce((s, a) => s + i.counts[a], 0))}</a></td></tr>`).join("")}
+        </tbody><tfoot><tr><th>全部机构合计</th><td>${units} 家</td>${ANGLES.map((a) => `<td>${fmt(META.totals[a])}</td>`).join("")}<td>${fmt(total)}</td></tr></tfoot></table></div>
+      </section>
 
       <section class="section"><div class="card pad">
         <div class="section-head"><h2>记录时间趋势</h2><span class="hint">按发布时间聚合，缺失时用发现 / 采集时间 · 2024 年起</span></div>
@@ -447,6 +510,7 @@
         </div>
       </div></section>`;
 
+    $("#exportOverview").onclick = () => downloadCsv("zgclab-全部机构数据汇总.csv", ["机构", "类型", "国家", "新闻舆情", "官网线索", "社交媒体", "合计", "数据版本"], institutions.map((i) => [i.cn, i.type, i.country, ...ANGLES.map((a) => i.counts[a]), ANGLES.reduce((s, a) => s + i.counts[a], 0), META.version]));
     view.querySelectorAll("[data-goto]").forEach((el) => {
       el.addEventListener("click", () => { if (el.dataset.goto) location.hash = el.dataset.goto; });
     });
@@ -626,7 +690,7 @@
     return window.ZGCLAB_EXPLORER(params, {
       META, CORE, view, esc, fmt, entriesFor, recCard, bindRecords, pager, bindPager,
       exportEntries, copyText, showToast, workspace, saveWorkspace, titleOf, snippetOf,
-      version: routeVersion, currentVersion: () => routeVersion,
+      version: routeVersion, currentVersion: () => routeVersion, signal: routeController.signal, isRead, markRead,
     });
   }
 
@@ -845,7 +909,7 @@
       finally { if (version === routeVersion) button.disabled = false; }
     };
     $("#backupWorkspace").onclick = () => {
-      const blob = new Blob([JSON.stringify({ version: 1, ...workspace }, null, 2)], {type:"application/json"});
+      const blob = new Blob([JSON.stringify({ version: 2, ...workspace }, null, 2)], {type:"application/json"});
       const url = URL.createObjectURL(blob), a = document.createElement("a"); a.href = url; a.download = "zgclab-workspace.json"; a.click(); window.setTimeout(() => URL.revokeObjectURL(url), 1000);
     };
     $("#importWorkspace").onchange = async (event) => {
@@ -859,6 +923,10 @@
         const queries = parsed.queries.filter((item) => item && typeof item.hash === "string" && /^\/explore(?:\?|$)/.test(item.hash) && typeof item.name === "string");
         for (const item of favorites) if (!isFavorite(item.angle, item.id)) workspace.favorites.push({angle:item.angle,id:item.id,ktid:Number(item.ktid),title:String(item.title || item.id).slice(0,1000),date:String(item.date || ""),savedAt:String(item.savedAt || "")});
         for (const item of queries) if (!workspace.queries.some((q) => q.hash === item.hash)) workspace.queries.push({name:item.name.slice(0,500),hash:item.hash.slice(0,10000),savedAt:String(item.savedAt || "")});
+        if (Array.isArray(parsed.watchlist)) workspace.watchlist = [...new Set([...workspace.watchlist, ...parsed.watchlist.map(Number).filter((id) => instMap.has(id))])];
+        if (parsed.read && typeof parsed.read === "object" && !Array.isArray(parsed.read)) for (const [key, time] of Object.entries(parsed.read)) {
+          if (/^[a-f0-9]{16}:(news|clue|social):[a-z0-9-]+$/i.test(key) && typeof time === "string" && Number.isFinite(Date.parse(time))) workspace.read[key] = time;
+        }
         saveWorkspace(); if (version === routeVersion) viewWorkspace(); showToast("备份已合并导入");
       } catch (e) { showToast(e.message || "备份读取失败"); }
     };
@@ -1039,7 +1107,7 @@
         <div class="record-context"><a href="#/institution/${r.ktid}">${esc(instName(r.ktid))}</a><span class="mono">${esc(r.id)}</span></div>
         <div class="r-top" style="margin-bottom:12px">${angleDot(angle)}<span class="tag ${angle}">${esc(ANG[angle].name)}</span>${badgeOf(angle, r)}
           <span class="date" style="margin-left:auto">${esc(day(dateOf(angle, r)) || "时间未标注")}</span></div>
-        <div class="modal-tools"><button class="btn" id="favoriteRecord">${isFavorite(angle,id) ? "★ 已收藏" : "☆ 收藏记录"}</button><button class="btn" id="copyRecordLink">复制记录链接</button>
+        <div class="modal-tools"><button class="btn" id="favoriteRecord">${isFavorite(angle,id) ? "★ 已收藏" : "☆ 收藏记录"}</button><button class="btn" id="toggleReadRecord">${isRead(angle,id) ? "标为未读" : "标为已读"}</button><button class="btn" id="copyRecordLink">复制记录链接</button>
           <button class="btn" id="downloadRecord">下载记录 CSV</button><button class="btn" id="downloadRecordJson">下载 JSON</button></div>
         <div class="detail-status" id="detailStatus" role="status">正在加载完整交付字段与正文…</div>
         <label class="empty-toggle" id="emptyToggleWrap" hidden><input type="checkbox" id="showEmptyFields"> 显示未填写字段</label>
@@ -1056,6 +1124,7 @@
     document.body.classList.add("modal-open");
     const close = (restoreFocus = true) => {
       root.innerHTML = ""; document.removeEventListener("keydown", onKey); document.body.classList.remove("modal-open"); closeModal = null;
+      if (restoreFocus) document.dispatchEvent(new CustomEvent("zgclab:readchange"));
       if (restoreFocus && previousFocus && previousFocus.isConnected) previousFocus.focus();
     };
     closeModal = close;
@@ -1074,12 +1143,13 @@
     $("#modalClose2").addEventListener("click", () => close());
     $("#modalInst").addEventListener("click", () => close());
     $("#favoriteRecord").onclick = (event) => { event.currentTarget.textContent = toggleFavorite(angle, r) ? "★ 已收藏" : "☆ 收藏记录"; };
+    $("#toggleReadRecord").onclick = (event) => { markRead([{angle,r}],!isRead(angle,id)); event.currentTarget.textContent=isRead(angle,id)?"标为未读":"标为已读"; };
     $("#copyRecordLink").addEventListener("click", () => copyText(recordLink(angle, r.id), "记录链接已复制"));
     let fullRecord = null;
     $("#downloadRecord").addEventListener("click", () => {
       if (fullRecord) {
         const keys = META.schemas[angle];
-        downloadCsv(`zgclab-${r.id}.csv`, ["snapshot_id", ...keys], [[r.id, ...keys.map((key) => fullRecord.fields[key] || "")]]);
+        downloadCsv(`zgclab-${r.id}.csv`, ["snapshot_id", "数据性质", ...keys], [[r.id, r._simulation?"模拟数据":"真实交付数据", ...keys.map((key) => fullRecord.fields[key] || "")]]);
       } else exportEntries([{ angle, r }], `zgclab-${r.id}.csv`);
     });
     $("#downloadRecordJson").onclick = () => {
@@ -1099,6 +1169,7 @@
         if (version !== routeVersion || !token.isConnected) return;
         if (!detail) { $("#detailStatus").textContent = "当前数据包仅提供正文节选"; return; }
         fullRecord = detail;
+        markRead([{angle,r}],true); $("#toggleReadRecord").textContent = "标为未读";
         const filled = Object.values(detail.fields).filter((value) => value != null && value !== "").length;
         $("#detailStatus").textContent = `已载入完整交付记录 · ${filled}/${META.schemas[angle].length} 个字段有值 · 空字段遵循交付口径`;
         $("#emptyToggleWrap").hidden = false;
@@ -1142,9 +1213,17 @@
 
   /* ---------- 启动 ---------- */
   function route() {
+    routeController.abort(); routeController = new AbortController();
     routeVersion += 1;
     if (closeModal) closeModal(false);
     const r = parseHash();
+    if(r.params.get("sim")==="1"&&!simulationEnabled){setSimulation(true);return;}
+    const mobileMore=document.querySelector(".mobile-more");if(mobileMore)mobileMore.open=false;
+    if(simulationEnabled){const parts=location.hash.split("?");const qs=new URLSearchParams(parts[1]||"");if(qs.get("sim")!=="1"){qs.set("sim","1");history.replaceState(null,"",(parts[0]||"#/overview")+"?"+qs);}}
+    if (["timeline", "quality", "fulltext", "watchlist"].includes(r.name)) {
+      setActive(r.name); setCrumb(`<b>${{timeline:"记录时间线",quality:"数据质量",fulltext:"完整正文检索",watchlist:"关注看板"}[r.name]}</b>`);
+      return window.ZGCLAB_TOOLS(r.name, r.params, {META, CORE, Q:window.ZGCLAB_QUERY, view, esc, fmt, entriesFor, ensureDetail, recCard, bindRecords, pager, bindPager, exportEntries, downloadCsv, titleOf, snippetOf, instName, workspace, saveWorkspace, isRead, markRead, showToast, signal:routeController.signal});
+    }
     if (r.name === "workspace") return viewWorkspace();
     if (r.name === "compare") return viewCompare(r.params);
     if (r.name === "record" && r.id && r.extra) return viewRecord(r.id, r.extra);
@@ -1156,6 +1235,7 @@
   }
 
   $("#snapAt").textContent = META.generated_at.slice(0, 10);
+  $("#includeSimulation").onchange=(event)=>setSimulation(event.target.checked);
   $("#globalSearch").addEventListener("keydown", (e) => {
     if (e.key !== "Enter") return;
     const q = e.target.value.trim();
@@ -1163,9 +1243,9 @@
   });
   document.addEventListener("keydown", (event) => {
     if (event.key === "/" && !event.ctrlKey && !event.metaKey && !/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName) && !closeModal) {
-      event.preventDefault(); $("#globalSearch").focus();
+      event.preventDefault(); ($("#exQ") || $("#globalSearch")).focus();
     }
   });
   window.addEventListener("hashchange", () => { window.scrollTo({ top: 0 }); route(); });
-  route();
+  if(new URLSearchParams(location.hash.split("?")[1]||"").get("sim")==="1")setSimulation(true);else route();
 })();

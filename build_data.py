@@ -134,14 +134,16 @@ def main() -> None:
     inst_rows = load_csv(institution_file)
     known = {int(r["ktid"]) for r in inst_rows}
     # Preserve existing public IDs where possible, including links from the first release.
-    previous_ids = {}
+    previous_ids = defaultdict(list)
     for angle in TABLES:
         old_path = OUT / f"{angle}.js"
         if old_path.is_file():
             old_rows = json.loads(old_path.read_text().split("=", 1)[1].strip().removesuffix(";"))
             for row in old_rows:
                 link = row.get("url") or row.get("original_url") or row.get("content_url") or ""
-                previous_ids[(angle, row.get("ktid"), link)] = row.get("id")
+                previous = previous_ids[(angle, row.get("ktid"), link)]
+                if row.get("id") not in previous:
+                    previous.append(row.get("id"))
 
     records = {}
     stats = {}
@@ -149,7 +151,7 @@ def main() -> None:
     details = {}
     schemas = {}
     build_hash = hashlib.sha256()
-    build_hash.update(b"zgclab-data-v3-business-filters")
+    build_hash.update(b"zgclab-data-v4-unique-record-ids")
 
     for angle, filename in TABLES.items():
         rows = load_csv(pkg / filename)
@@ -243,9 +245,12 @@ def main() -> None:
             rec["_media_types"] = media_types
             rec["_month"] = month_key(when)
             link = rec.get("url") or rec.get("original_url") or rec.get("content_url") or ""
-            record_id = previous_ids.get((angle, ktid, link)) or row_identity(angle, r)
-            if record_id in used_ids:
-                record_id = row_identity(angle, r) + "-" + str(len(recs))
+            candidates = previous_ids.get((angle, ktid, link)) or []
+            record_id = next((value for value in candidates if value not in used_ids), None) or row_identity(angle, r)
+            suffix = 0
+            while record_id in used_ids:
+                suffix += 1
+                record_id = row_identity(angle, r) + "-" + str(len(recs)) + ("-" + str(suffix) if suffix > 1 else "")
             used_ids.add(record_id)
             rec["id"] = record_id
             rec["_detail"] = len(detail_rows) // DETAIL_CHUNK_SIZE

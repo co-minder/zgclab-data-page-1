@@ -171,6 +171,7 @@ def run():
 
         # Exercise real controls, not just URL entry.
         query({"angle":"social"})
+        page.locator("#exMoreFilters > summary").click()
         page.locator("#exType").select_option("企业")
         page.wait_for_function("location.hash.includes('type=') && document.querySelector('#exCount').dataset.query===location.hash.split('?')[1]")
         page.locator("#platformChoices input[value='Facebook']").check()
@@ -179,6 +180,7 @@ def run():
         results.append({"id":"UI","task":"实际下拉和勾选条件与导出一致","status":"PASS"})
 
         query({"angle":"social","ids":"1001140","platforms":"X","like_countMin":"100","sort":"like_count"})
+        page.locator("#exMoreFilters > summary").click()
         page.locator("#exAdvanced").evaluate("el=>{el.open=true}")
         page.locator("input[data-bound='repost_countMin']").fill("20")
         page.wait_for_function("location.hash.includes('repost_countMin=20') && document.querySelector('#exCount').dataset.query===location.hash.split('?')[1]")
@@ -186,6 +188,7 @@ def run():
 
         # Analytical counts must reconcile to full filtered results.
         query({"angle":"social","ids":"1001140","platforms":"X"})
+        page.locator(".query-analysis > summary").click()
         n=len(reference({"angle":"social","ids":"1001140","platforms":"X"}))
         platform=page.locator("[data-group='platform'][data-value='X']")
         assert int(platform.locator("b").inner_text().replace(",",""))==n
@@ -195,11 +198,13 @@ def run():
         results.append({"id":"Q41/Q45","task":"分布计数与下钻结果一致","status":"PASS","actual":n})
 
         query({"angle":"clue","risks":"高"})
+        page.locator(".query-analysis > summary").click()
         rank_counts=[int(text.replace(",","")) for text in page.locator("[data-group='institution'] b").all_inner_texts()]
         assert rank_counts==sorted(rank_counts,reverse=True)
         results.append({"id":"Q42","task":"高风险机构排行按真实计数排序","status":"PASS"})
 
         query({"angle":"social","ids":"1000110,1001140","platforms":"X"})
+        page.locator(".query-analysis > summary").click()
         assert page.locator(".metric-comparison tbody tr").count()==2
         results.append({"id":"Q43","task":"多机构互动合计含有效样本数","status":"PASS"})
         assert "前期为 0" in page.locator(".period-comparison").inner_text()

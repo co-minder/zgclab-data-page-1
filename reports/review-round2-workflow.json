@@ -1,0 +1,51 @@
+{
+  "round": "workflow",
+  "target": "http://127.0.0.1:8789/",
+  "tested_at": "2026-11-01T18:22:52.432305+00:00",
+  "data_version": "f2a2c811aeb2ea21",
+  "passed": 9,
+  "checks": [
+    {
+      "check": "默认常用查询一行、高级筛选收起且无重复搜索框",
+      "status": "PASS"
+    },
+    {
+      "check": "整个筛选区可收起展开，结果和条件保留",
+      "status": "PASS",
+      "first_row_y": 648
+    },
+    {
+      "check": "高级筛选收起后条件与导出保持生效",
+      "status": "PASS",
+      "actual": 826
+    },
+    {
+      "check": "打开完整详情自动已读，支持改回未读与阅读状态筛选",
+      "status": "PASS"
+    },
+    {
+      "check": "批量标记操作覆盖全部匹配记录并更新未读结果",
+      "status": "PASS",
+      "marked": 36
+    },
+    {
+      "check": "关注机构可多选、保留记录与导出",
+      "status": "PASS",
+      "actual": 1708
+    },
+    {
+      "check": "工作台备份包含关注与已读状态，重复导入不重复",
+      "status": "PASS"
+    },
+    {
+      "check": "刷新仍强制密码，解锁后关注和已读状态保留",
+      "status": "PASS"
+    },
+    {
+      "check": "未捕获到页面脚本异常",
+      "status": "PASS",
+      "errors": []
+    }
+  ],
+  "errors": []
+}

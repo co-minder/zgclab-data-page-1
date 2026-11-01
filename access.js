@@ -66,6 +66,7 @@
     await loadScript("core.js");
     await loadScript("query.js");
     await loadScript("explorer.js");
+    await loadScript("tools.js");
     const appSource = await decrypt("app.js");
     const parsed = new DOMParser().parseFromString(shell, "text/html");
     parsed.querySelectorAll("script,noscript").forEach((tag) => tag.remove());

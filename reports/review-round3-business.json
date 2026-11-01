@@ -1,0 +1,237 @@
+{
+  "passed": 35,
+  "errors": [],
+  "data_version": "f2a2c811aeb2ea21",
+  "checks": [
+    {
+      "id": "Q02",
+      "task": "按企业类型",
+      "expected": 826,
+      "actual": 826,
+      "status": "PASS"
+    },
+    {
+      "id": "Q03",
+      "task": "按 NGO 类型",
+      "expected": 2564,
+      "actual": 2564,
+      "status": "PASS"
+    },
+    {
+      "id": "Q04",
+      "task": "多选 FBI 与国土安全部",
+      "expected": 3360,
+      "actual": 3360,
+      "status": "PASS"
+    },
+    {
+      "id": "Q05",
+      "task": "国家和机构类型组合",
+      "expected": 3378,
+      "actual": 3378,
+      "status": "PASS"
+    },
+    {
+      "id": "Q09",
+      "task": "机构与 X 平台",
+      "expected": 347,
+      "actual": 347,
+      "status": "PASS"
+    },
+    {
+      "id": "Q10",
+      "task": "企业与多平台",
+      "expected": 64,
+      "actual": 64,
+      "status": "PASS"
+    },
+    {
+      "id": "Q11",
+      "task": "真实近 7 天零结果",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS"
+    },
+    {
+      "id": "Q13",
+      "task": "政府近 30 天新闻",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS"
+    },
+    {
+      "id": "Q15",
+      "task": "机构与含边界日期",
+      "expected": 1,
+      "actual": 1,
+      "status": "PASS"
+    },
+    {
+      "id": "Q17",
+      "task": "风险高或中",
+      "expected": 580,
+      "actual": 580,
+      "status": "PASS"
+    },
+    {
+      "id": "Q18",
+      "task": "NGO 与高风险与日期",
+      "expected": 2,
+      "actual": 2,
+      "status": "PASS"
+    },
+    {
+      "id": "Q19",
+      "task": "排除未判断风险",
+      "expected": 928,
+      "actual": 928,
+      "status": "PASS"
+    },
+    {
+      "id": "Q22",
+      "task": "新闻标签多选",
+      "expected": 1144,
+      "actual": 1144,
+      "status": "PASS"
+    },
+    {
+      "id": "Q26",
+      "task": "平台与精确账号",
+      "expected": 332,
+      "actual": 332,
+      "status": "PASS"
+    },
+    {
+      "id": "Q28",
+      "task": "NGO 英语内容",
+      "expected": 2175,
+      "actual": 2175,
+      "status": "PASS"
+    },
+    {
+      "id": "Q29",
+      "task": "存在中文正文翻译",
+      "expected": 1317,
+      "actual": 1317,
+      "status": "PASS"
+    },
+    {
+      "id": "Q30",
+      "task": "机构图片内容",
+      "expected": 316,
+      "actual": 316,
+      "status": "PASS"
+    },
+    {
+      "id": "Q31",
+      "task": "国土安全部 X 点赞至少 100",
+      "expected": 191,
+      "actual": 191,
+      "status": "PASS"
+    },
+    {
+      "id": "Q32",
+      "task": "兰德转发门槛",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS"
+    },
+    {
+      "id": "Q33",
+      "task": "企业 Facebook 评论门槛",
+      "expected": 1,
+      "actual": 1,
+      "status": "PASS"
+    },
+    {
+      "id": "Q34",
+      "task": "浏览量至少 10000",
+      "expected": 237,
+      "actual": 237,
+      "status": "PASS"
+    },
+    {
+      "id": "Q35",
+      "task": "点赞上下限包含边界",
+      "expected": 259,
+      "actual": 259,
+      "status": "PASS"
+    },
+    {
+      "id": "Q36",
+      "task": "点赞且转发门槛",
+      "expected": 567,
+      "actual": 567,
+      "status": "PASS"
+    },
+    {
+      "id": "Q37",
+      "task": "点赞排行前 20",
+      "expected": 20,
+      "actual": 20,
+      "status": "PASS"
+    },
+    {
+      "id": "Q40",
+      "task": "完整互动合计",
+      "expected": 541,
+      "actual": 541,
+      "status": "PASS"
+    },
+    {
+      "id": "Q46",
+      "task": "有原文缺翻译",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS"
+    },
+    {
+      "id": "Q47",
+      "task": "缺少发布时间",
+      "expected": 1018,
+      "actual": 1018,
+      "status": "PASS"
+    },
+    {
+      "id": "UI",
+      "task": "实际下拉和勾选条件与导出一致",
+      "status": "PASS"
+    },
+    {
+      "id": "Q41/Q45",
+      "task": "分布计数与下钻结果一致",
+      "status": "PASS",
+      "actual": 347
+    },
+    {
+      "id": "Q42",
+      "task": "高风险机构排行按真实计数排序",
+      "status": "PASS"
+    },
+    {
+      "id": "Q43",
+      "task": "多机构互动合计含有效样本数",
+      "status": "PASS"
+    },
+    {
+      "id": "Q44",
+      "task": "近期对比零基数明确说明",
+      "status": "PASS"
+    },
+    {
+      "id": "Q50",
+      "task": "滚动日期和数值条件完整保存",
+      "status": "PASS"
+    },
+    {
+      "id": "A49",
+      "task": "筛选结果简报含证据链接且可编辑导出",
+      "status": "PASS"
+    },
+    {
+      "id": "AUTH",
+      "task": "连续两次刷新都要求重新输入密码，旧密钥失效",
+      "status": "PASS"
+    }
+  ]
+}
