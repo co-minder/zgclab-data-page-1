@@ -13,6 +13,8 @@ from __future__ import annotations
 import csv
 import json
 import sys
+import hashlib
+import re
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
@@ -38,6 +40,7 @@ ANGLE_META = {
 }
 
 CONTENT_CAP = 1500
+DETAIL_CHUNK_SIZE = 75
 
 
 def cut(value: str | None, limit: int = CONTENT_CAP) -> str:
@@ -64,6 +67,25 @@ def parse_dt(value: str | None) -> datetime | None:
 def month_key(value: str | None) -> str:
     dt = parse_dt(value)
     return dt.strftime("%Y-%m") if dt else ""
+
+
+def write_js(path: Path, assignment: str, payload: object) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(assignment + "=" + json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + ";\n", encoding="utf-8")
+
+
+def row_identity(angle: str, row: dict) -> str:
+    """Identity is independent of ordering, so new deliveries keep existing links valid."""
+    link = row.get("url") or row.get("original_url") or row.get("content_url") or ""
+    key = "\0".join([angle, row.get("kt_id") or "", link, row.get("record_id") or row.get("clue_id") or row.get("id") or ""])
+    if not link:
+        key += "\0" + (row.get("title_cn") or row.get("clue_title") or row.get("original_content") or "")
+    return angle + "-" + hashlib.sha256(key.encode()).hexdigest()[:20]
+
+
+def sort_time(row: dict) -> float:
+    dt = parse_dt(row.get("publish_time") or row.get("founddate") or row.get("discovery_time") or row.get("collected_time"))
+    return dt.replace(tzinfo=dt.tzinfo or timezone.utc).timestamp() if dt else float("-inf")
 
 
 def norm_platform(p: str) -> str:
@@ -104,21 +126,42 @@ def build_institutions(rows: list[dict], counts: dict, counts_by_angle: dict) ->
 
 def main() -> None:
     pkg = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else DEFAULT_PKG
-    if not (pkg / TABLES["news"]).exists():
-        raise SystemExit(f"交付包不存在或缺少文件：{pkg}")
+    for filename in TABLES.values():
+        if not (pkg / filename).is_file():
+            raise SystemExit(f"交付包不存在或缺少文件：{pkg / filename}")
 
-    inst_rows = load_csv(INSTITUTIONS_CSV)
-    names = {int(r["ktid"]): r for r in inst_rows}
+    institution_file = Path(sys.argv[2]).resolve() if len(sys.argv) > 2 else INSTITUTIONS_CSV
+    inst_rows = load_csv(institution_file)
+    known = {int(r["ktid"]) for r in inst_rows}
+    # Preserve existing public IDs where possible, including links from the first release.
+    previous_ids = {}
+    for angle in TABLES:
+        old_path = OUT / f"{angle}.js"
+        if old_path.is_file():
+            old_rows = json.loads(old_path.read_text().split("=", 1)[1].strip().removesuffix(";"))
+            for row in old_rows:
+                link = row.get("url") or row.get("original_url") or row.get("content_url") or ""
+                previous_ids[(angle, row.get("ktid"), link)] = row.get("id")
 
     records = {}
     stats = {}
     all_months = set()
+    details = {}
+    schemas = {}
+    build_hash = hashlib.sha256()
+    build_hash.update(b"zgclab-data-v2")
 
     for angle, filename in TABLES.items():
         rows = load_csv(pkg / filename)
+        build_hash.update((pkg / filename).read_bytes())
+        schemas[angle] = list(rows[0]) if rows else []
         recs = []
+        detail_rows = []
+        used_ids = set()
         for r in rows:
             ktid = int(r["kt_id"]) if (r.get("kt_id") or "").strip() else None
+            if ktid not in known:
+                continue
             if angle == "news":
                 rec = {
                     "id": r.get("id", ""),
@@ -126,13 +169,13 @@ def main() -> None:
                     "title_cn": cut(r.get("title_cn"), 300),
                     "title_en": cut(r.get("title_en"), 300),
                     "summary_cn": cut(r.get("summary_cn"), 500),
-                    "summary_en": cut(r.get("summary_en"), 500),
+                    "summary_en": cut(r.get("summary_en"), 240),
                     "tag": (r.get("tag") or "").strip(),
                     "founddate": (r.get("founddate") or "").strip(),
                     "url": (r.get("url") or "").strip(),
                     "publish_source": (r.get("publish_source") or "").strip(),
                     "publish_time": (r.get("publish_time") or "").strip(),
-                    "content_cn": cut(r.get("content_cn"), 500),
+                    "content_cn": cut(r.get("content_cn"), 220),
                 }
                 when = rec["publish_time"] or rec["founddate"]
             elif angle == "clue":
@@ -155,7 +198,7 @@ def main() -> None:
                     "publisher_type": (r.get("publisher_type") or "").strip(),
                     "publisher_business": (r.get("publisher_business") or "").strip(),
                     "publisher_cn_attitude": (r.get("publisher_cn_attitude") or "").strip(),
-                    "chinese_trans": cut(r.get("chinese_trans"), 500),
+                    "chinese_trans": cut(r.get("chinese_trans"), 220),
                     "source": (r.get("source") or "").strip(),
                 }
                 when = rec["publish_time"] or rec["discovery_time"]
@@ -170,8 +213,8 @@ def main() -> None:
                     "content_type": (r.get("content_type") or "").strip(),
                     "content_url": (r.get("content_url") or "").strip(),
                     "title": cut(r.get("title"), 300),
-                    "original_content": cut(r.get("original_content"), 1000),
-                    "chinese_translation": cut(r.get("chinese_translation"), 400),
+                    "original_content": cut(r.get("original_content"), 300),
+                    "chinese_translation": cut(r.get("chinese_translation"), 240),
                     "language": (r.get("language") or "").strip(),
                     "publish_time": (r.get("publish_time") or "").strip(),
                     "collected_time": (r.get("collected_time") or "").strip(),
@@ -186,16 +229,22 @@ def main() -> None:
                 }
                 when = rec["publish_time"] or rec["collected_time"]
             rec["_month"] = month_key(when)
+            link = rec.get("url") or rec.get("original_url") or rec.get("content_url") or ""
+            record_id = previous_ids.get((angle, ktid, link)) or row_identity(angle, r)
+            if record_id in used_ids:
+                record_id = row_identity(angle, r) + "-" + str(len(recs))
+            used_ids.add(record_id)
+            rec["id"] = record_id
+            rec["_detail"] = len(detail_rows) // DETAIL_CHUNK_SIZE
+            detail_rows.append({"id": record_id, "ktid": ktid, "fields": r})
             if rec["_month"]:
                 all_months.add(rec["_month"])
             recs.append(rec)
 
         # 按时间倒序（无时间的排后面）
-        recs.sort(key=lambda x: x.get("publish_time") or "", reverse=True)
-        # 交付表主键按约定留空，这里生成快照内稳定 ID
-        for idx, rec in enumerate(recs):
-            rec["id"] = f"{angle}-{idx + 1}"
+        recs.sort(key=sort_time, reverse=True)
         records[angle] = recs
+        details[angle] = detail_rows
 
         # 统计
         per_inst = Counter(r["ktid"] for r in recs if r["ktid"])
@@ -205,6 +254,11 @@ def main() -> None:
             "institutions": len(per_inst),
             "per_institution": dict(per_inst),
             "months": dict(sorted(months.items())),
+            "dated": sum(bool(parse_dt(r.get("publish_time") or r.get("founddate") or r.get("discovery_time") or r.get("collected_time"))) for r in recs),
+            "linked": sum(bool(re.match(r"^https?://", r.get("url") or r.get("original_url") or r.get("content_url") or "", re.I)) for r in recs),
+            "summarized": sum(bool(r.get("summary_cn") or r.get("summary") or r.get("chinese_translation")) for r in recs),
+            "date_min": min((r.get("publish_time") or r.get("founddate") or r.get("discovery_time") or r.get("collected_time") or "")[:10] for r in recs),
+            "date_max": max((r.get("publish_time") or r.get("founddate") or r.get("discovery_time") or r.get("collected_time") or "")[:10] for r in recs),
         }
         if angle == "news":
             st["tags"] = dict(Counter(r["tag"] or "未分类" for r in recs).most_common())
@@ -243,6 +297,7 @@ def main() -> None:
         span = []
 
     meta = {
+        "version": build_hash.hexdigest()[:16],
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         # 发布到静态站点时只保留交付包名称，避免把服务器绝对路径写入公开快照。
         "source_package": pkg.name,
@@ -252,6 +307,8 @@ def main() -> None:
         "institutions": institutions,
         "stats": stats,
         "months": span,
+        "schemas": schemas,
+        "detail_chunk_size": DETAIL_CHUNK_SIZE,
     }
     # 最新入库（供总览页直接使用，避免首屏加载大文件）
     recent = []
@@ -261,12 +318,13 @@ def main() -> None:
             snippet = r.get("summary_cn") or r.get("summary") or r.get("chinese_translation") or r.get("original_content") or ""
             recent.append({
                 "angle": angle,
+                "id": r["id"],
                 "ktid": r["ktid"],
                 "title": title[:120],
                 "snippet": snippet[:160],
                 "date": r.get("publish_time") or r.get("founddate") or r.get("discovery_time") or r.get("collected_time") or "",
             })
-    recent.sort(key=lambda x: x["date"], reverse=True)
+    recent.sort(key=lambda x: sort_time({"publish_time": x["date"]}), reverse=True)
     meta["recent"] = recent[:9]
     for angle in records:
         records[angle] = [
@@ -276,15 +334,13 @@ def main() -> None:
         meta["totals"][angle] = len(records[angle])
 
     OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / "meta.js").write_text(
-        "window.ZGCLAB_META=" + json.dumps(meta, ensure_ascii=False, separators=(",", ":")) + ";\n",
-        encoding="utf-8",
-    )
+    write_js(OUT / "meta.js", "window.ZGCLAB_META", meta)
     for angle, recs in records.items():
-        (OUT / f"{angle}.js").write_text(
-            f"window.ZGCLAB_{angle.upper()}=" + json.dumps(recs, ensure_ascii=False, separators=(",", ":")) + ";\n",
-            encoding="utf-8",
-        )
+        write_js(OUT / f"{angle}.js", f"window.ZGCLAB_{angle.upper()}", recs)
+        for start in range(0, len(details[angle]), DETAIL_CHUNK_SIZE):
+            chunk = start // DETAIL_CHUNK_SIZE
+            path = OUT / "details" / meta["version"] / f"{angle}-{chunk}.js"
+            write_js(path, f'window.ZGCLAB_DETAILS["{angle}-{chunk}"]', details[angle][start:start + DETAIL_CHUNK_SIZE])
     print(json.dumps({
         "out": str(OUT),
         "generated_at": meta["generated_at"],

@@ -6,9 +6,11 @@
   <title>ZGCLab · 境外机构数据平台</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <meta name="theme-color" content="#0b1220">
+  <meta name="description" content="ZGCLab 境外机构数据平台：20 个验证机构、3 个采集角度，支持跨角度查询、机构对比、完整记录追溯和数据导出。">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<a class="skip-link" href="#view">跳转到主要内容</a>
 <div class="app">
   <aside class="sidebar">
     <div class="brand">
@@ -31,6 +33,14 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h12"/></svg>
         数据浏览
       </a>
+      <a href="#/compare" data-route="compare">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10h6v10M14 20V4h6v16M2 20h20"/></svg>
+        机构对比
+      </a>
+      <a href="#/workspace" data-route="workspace">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12v18l-6-4-6 4z"/></svg>
+        我的工作台
+      </a>
       <a href="#/about" data-route="about">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>
         任务与交付
@@ -49,21 +59,23 @@
       <div class="topbar-spacer"></div>
       <div class="search">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-        <input id="globalSearch" type="text" placeholder="搜索标题 / 账号 / 关键词，回车查询">
+        <input id="globalSearch" type="search" aria-label="全局搜索" placeholder="跨角度搜索 · 回车查询 · / 快速聚焦">
       </div>
       <span class="scope-badge">20 单位 × 3 角度</span>
       <nav class="mobile-nav" aria-label="移动端主导航">
-        <a href="#/overview">总览</a><a href="#/institutions">机构</a><a href="#/explore">浏览</a><a href="#/about">交付</a>
+        <a href="#/overview" data-route="overview">总览</a><a href="#/institutions" data-route="institutions">机构</a><a href="#/explore" data-route="explore">查询</a><a href="#/compare" data-route="compare">对比</a><a href="#/workspace" data-route="workspace">工作台</a><a href="#/about" data-route="about">交付</a>
       </nav>
     </header>
 
-    <main class="view" id="view"></main>
+    <main class="view" id="view" tabindex="-1"></main>
+    <noscript><div class="empty">请在浏览器中启用 JavaScript 以查询数据。</div></noscript>
     <footer class="footer">ZGCLab 境外机构开源数据项目 · 需求 1 数据展示系统 · 数据为真实交付快照</footer>
   </div>
 </div>
 <div id="modalRoot"></div>
 
 <script src="data/meta.js"></script>
+<script src="core.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
