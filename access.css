@@ -1,0 +1,31 @@
+:root{color-scheme:dark;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:#07090d;color:#edf4ff;font-size:14px}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% 32%,rgba(34,118,156,.12),transparent 52%),linear-gradient(rgba(113,164,203,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(113,164,203,.025) 1px,transparent 1px);background-size:auto,48px 48px,48px 48px}
+button,input{font:inherit}
+:focus-visible{outline:2px solid #4cd6ff;outline-offset:3px}
+.access-screen{min-height:100vh;min-height:100dvh;padding:50px 20px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.access-brand{display:flex;align-items:center;gap:12px;margin-bottom:32px;font-size:19px;font-weight:600;letter-spacing:.5px}
+.access-brand-mark{display:grid;place-items:center;width:42px;height:42px;border:1px solid #235064;background:linear-gradient(135deg,rgba(76,214,255,.15),rgba(64,114,245,.1));border-radius:11px;color:#b5f0ff;font:700 23px ui-monospace,monospace;box-shadow:0 0 25px rgba(76,214,255,.07)}
+.access-brand small{display:block;color:#91a2b8;font:9px ui-monospace,monospace;letter-spacing:2px;margin-top:4px}
+.access-card{position:relative;width:min(100%,420px);padding:32px;border:1px solid #263b4b;border-radius:16px;background:linear-gradient(145deg,rgba(76,214,255,.035),transparent 60%),#10151d;box-shadow:0 20px 80px rgba(0,0,0,.35),inset 0 1px rgba(205,228,255,.03)}
+.access-lock-icon{position:absolute;right:28px;top:29px;width:36px;height:36px;color:#4cd6ff;border:1px solid rgba(76,214,255,.18);border-radius:9px;display:grid;place-items:center;background:rgba(76,214,255,.045)}
+.access-lock-icon svg{width:21px;height:21px}
+.access-kicker{color:#4cd6ff;font:9px ui-monospace,monospace;letter-spacing:2px}
+.access-card h1{font-size:25px;margin:12px 0 8px;font-weight:600}
+.access-description{font-size:13px;line-height:1.8;color:#91a2b8;margin:0 0 28px}
+.access-card label{display:block;font-size:12px;color:#c0cede;margin-bottom:8px}
+.access-input-wrap{position:relative}
+.access-card input{width:100%;padding:12px 58px 12px 13px;border:1px solid #304154;border-radius:9px;background:#0b1017;color:#edf4ff;outline:none;font-size:16px}
+.access-card input:focus{border-color:#4cd6ff;box-shadow:0 0 0 3px rgba(76,214,255,.07)}
+.access-card input::placeholder{font-size:13px;color:#71829a}
+.access-toggle{position:absolute;right:7px;top:50%;transform:translateY(-50%);border:0;background:none;color:#91a2b8;padding:8px;cursor:pointer;font-size:12px}
+.access-error{font-size:12px;color:#ff8197;line-height:1.6;min-height:20px;margin:8px 0 12px}
+.access-submit{display:flex;align-items:center;justify-content:space-between;width:100%;padding:12px 15px;border:1px solid #6cdbff;border-radius:9px;background:linear-gradient(135deg,#78e6ff,#43bfff);color:#041721;font-weight:600;cursor:pointer;box-shadow:0 0 20px rgba(76,214,255,.08)}
+.access-submit:hover{background:linear-gradient(135deg,#9cf0ff,#63d0ff)}
+.access-submit:disabled{opacity:.65;cursor:wait}
+.access-note{display:flex;align-items:flex-start;gap:8px;font-size:11px;color:#91a2b8;margin-top:24px;line-height:1.8}
+.access-status-dot{flex:none;width:5px;height:5px;border-radius:50%;background:#54dda9;box-shadow:0 0 8px rgba(84,221,169,.4);margin-top:7px}
+.access-footer{font-size:11px;color:#71829a;margin-top:30px}
+.access-lock-button{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+@media(max-width:820px){.topbar .access-lock-button{order:2;margin-left:0;padding:5px 9px;font-size:11px}}
+@media(max-width:500px){.access-screen{padding:24px 18px}.access-card{padding:26px 22px}.access-brand{margin-bottom:24px}.access-lock-icon{right:21px;top:23px}}

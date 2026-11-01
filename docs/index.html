@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#07090d">
+  <meta name="color-scheme" content="dark">
+  <meta name="robots" content="noindex,nofollow">
+  <title>访问验证 · ZGCLab 数据平台</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="access.css?v=28389276e98a58f34fd3">
+</head>
+<body>
+  <main class="access-screen" id="accessScreen">
+    <div class="access-brand"><span class="access-brand-mark">Z</span><span>ZGCLab <small>DATA PLATFORM</small></span></div>
+    <section class="access-card" aria-labelledby="accessTitle">
+      <div class="access-lock-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></svg></div>
+      <span class="access-kicker">AUTHORIZED ACCESS</span>
+      <h1 id="accessTitle">访问验证</h1>
+      <p class="access-description">请输入访问密码，进入境外机构数据平台。</p>
+      <form id="accessForm">
+        <label for="accessPassword">访问密码</label>
+        <div class="access-input-wrap">
+          <input id="accessPassword" name="password" type="password" autocomplete="current-password" placeholder="请输入访问密码" required autofocus aria-describedby="accessError">
+          <button id="accessToggle" class="access-toggle" type="button" aria-label="显示密码" aria-pressed="false">显示</button>
+        </div>
+        <p id="accessError" class="access-error" role="alert" aria-live="polite"></p>
+        <button class="access-submit" id="accessSubmit" type="submit"><span>解锁并进入</span><span aria-hidden="true">→</span></button>
+      </form>
+      <div class="access-note"><span class="access-status-dot"></span><span>当前标签页解锁后可持续使用，离开时可锁定页面。</span></div>
+    </section>
+    <footer class="access-footer">ZGCLab · 境外机构开源数据平台</footer>
+  </main>
+  <noscript><p class="access-error">请启用 JavaScript 后输入密码。</p></noscript>
+  <script src="access.js?v=28389276e98a58f34fd3" data-manifest="manifest-28389276e98a58f34fd3.json" defer></script>
+</body>
+</html>

@@ -10,8 +10,9 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
-ROOT = Path(__file__).resolve().parent
-ASSETS = {"index.html", "app.js", "core.js", "styles.css", "favicon.svg", "favicon.ico"}
+PROJECT = Path(__file__).resolve().parent
+ROOT = PROJECT / "docs" if (PROJECT / "docs" / "index.html").is_file() else PROJECT
+ASSETS = {"index.html", "app.js", "core.js", "styles.css", "favicon.svg", "favicon.ico", "access.js", "access.css"}
 CACHE: dict[tuple[str, int, int, bool], bytes] = {}
 
 
@@ -28,7 +29,8 @@ class Handler(BaseHTTPRequestHandler):
             name = "favicon.svg"
         path = (ROOT / name).resolve()
         is_data = name.startswith("data/") and name.endswith(".js")
-        if not path.is_relative_to(ROOT) or not (name in ASSETS or is_data) or not path.is_file():
+        is_protected = (name.startswith("encrypted/") and name.endswith(".bin")) or (name.startswith("manifest-") and name.endswith(".json"))
+        if not path.is_relative_to(ROOT) or not (name in ASSETS or is_data or is_protected) or not path.is_file():
             self.send_error(404)
             return
         stat = path.stat()
@@ -47,7 +49,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header("Content-Type", (mimetypes.guess_type(name)[0] or "application/octet-stream") + ("; charset=utf-8" if name.endswith((".js", ".html", ".css")) else ""))
         self.send_header("Content-Length", str(len(data)))
-        self.send_header("Cache-Control", "public, max-age=31536000, immutable" if name.startswith("data/details/") else "no-cache")
+        self.send_header("Cache-Control", "public, max-age=31536000, immutable" if name.startswith(("data/details/", "encrypted/", "manifest-")) else "no-cache")
         self.send_header("ETag", tag)
         self.send_header("Vary", "Accept-Encoding")
         self.send_header("X-Content-Type-Options", "nosniff")

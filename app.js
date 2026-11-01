@@ -141,6 +141,14 @@
     const key = "ZGCLAB_" + angle.toUpperCase();
     if (window[key]) { cache[angle] = window[key]; return Promise.resolve(cache[angle]); }
     if (loading[angle]) return loading[angle];
+    if (window.ZGCLAB_LOADER) {
+      loading[angle] = window.ZGCLAB_LOADER("data/" + angle + ".js").then(() => {
+        if (!Array.isArray(window[key])) throw new Error("数据文件格式错误，请刷新后重试");
+        cache[angle] = window[key];
+        return cache[angle];
+      }).catch((failure) => { delete loading[angle]; throw failure; });
+      return loading[angle];
+    }
     loading[angle] = new Promise((res, rej) => {
       const s = document.createElement("script");
       s.src = "data/" + angle + ".js?v=" + encodeURIComponent(META.version || META.generated_at);
@@ -159,6 +167,13 @@
   function ensureDetail(angle, r) {
     if (r._detail == null || !META.version) return Promise.resolve(null);
     const key = angle + "-" + r._detail;
+    if (window.ZGCLAB_LOADER) {
+      if (!detailLoading[key]) detailLoading[key] = window.ZGCLAB_LOADER("data/details/" + META.version + "/" + key + ".js").then(() => {
+        if (!Array.isArray(window.ZGCLAB_DETAILS[key])) throw new Error("详情数据格式错误");
+        return window.ZGCLAB_DETAILS[key];
+      }).catch((failure) => { delete detailLoading[key]; throw failure; });
+      return detailLoading[key].then((rows) => rows.find((row) => row.id === r.id) || null);
+    }
     if (!detailLoading[key]) detailLoading[key] = new Promise((resolve, reject) => {
       const script = document.createElement("script");
       script.src = "data/details/" + META.version + "/" + key + ".js";

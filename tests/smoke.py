@@ -15,6 +15,8 @@ from playwright.sync_api import sync_playwright
 BASE = os.environ.get("ZGCLAB_TEST_URL", "http://127.0.0.1:8787/")
 ARTIFACTS = Path(os.environ.get("ZGCLAB_TEST_ARTIFACTS", "/home/ubuntu/log/zgclab-web-check"))
 ARTIFACTS.mkdir(parents=True, exist_ok=True)
+password_path = Path(__file__).resolve().parent.parent / ".runtime" / "pages-password"
+PASSWORD = os.environ.get("ZGCLAB_TEST_PASSWORD") or (password_path.read_text().rstrip("\r\n") if password_path.is_file() else None)
 
 
 def run() -> None:
@@ -28,15 +30,40 @@ def run() -> None:
         page.on("pageerror", lambda error: errors.append(str(error)))
         page.set_default_timeout(30000)
 
+        def unlock(target) -> None:
+            if not target.locator("#accessForm").count():
+                return
+            if target.evaluate("!!sessionStorage.getItem('zgclab.access.key.v1')"):
+                target.locator("#lockSession").wait_for()
+                return
+            assert PASSWORD, "Set ZGCLAB_TEST_PASSWORD to test the password-protected deployment"
+            target.locator("#accessPassword").fill(PASSWORD)
+            target.locator("#accessSubmit").click()
+            target.locator("#lockSession").wait_for()
+
         def go(route: str, ready: str) -> None:
             page.goto(BASE + route)
+            unlock(page)
             page.locator(ready).first.wait_for()
 
         def record(label: str) -> None:
             results.append(label)
             print("PASS", label, flush=True)
 
-        go("#/overview", ".kpis")
+        page.goto(BASE + "#/overview")
+        protected = page.locator("#accessForm").count() > 0
+        if protected:
+            assert page.locator(".kpis").count() == 0
+            assert context.request.get(BASE + "data/meta.js").status == 404
+            assert page.evaluate("!window.ZGCLAB_META")
+            page.locator("#accessPassword").fill("incorrect-password-for-test")
+            page.locator("#accessSubmit").click()
+            page.locator("#accessError", has_text="密码不正确").wait_for()
+            assert page.locator(".kpis").count() == 0
+            page.screenshot(path=str(ARTIFACTS / "password.png"))
+            record("locked screen, wrong password rejection, and no raw data endpoint")
+        unlock(page)
+        page.locator(".kpis").wait_for()
         assert "6,989" in page.locator(".kpis").inner_text()
         assert context.request.get(BASE + "favicon.svg").status == 200
         page.screenshot(path=str(ARTIFACTS / "overview.png"), full_page=True)
@@ -147,6 +174,7 @@ def run() -> None:
         race_page = race_context.new_page()
         race_page.on("pageerror", lambda error: errors.append(str(error)))
         race_page.goto(BASE + "#/explore?angle=all", wait_until="domcontentloaded")
+        unlock(race_page)
         race_page.evaluate("location.hash='#/about'")
         race_page.locator("h1", has_text="任务与交付").wait_for()
         race_page.wait_for_function("Array.isArray(window.ZGCLAB_NEWS) && Array.isArray(window.ZGCLAB_CLUE) && Array.isArray(window.ZGCLAB_SOCIAL)")
@@ -173,6 +201,15 @@ def run() -> None:
         assert box["y"] + box["height"] <= 844
         page.keyboard.press("Escape")
         record("mobile cards, all angle tabs, fixed detail controls, and no overflow")
+
+        if protected:
+            page.locator("#lockSession").click()
+            page.locator("#accessForm").wait_for()
+            assert page.evaluate("!sessionStorage.getItem('zgclab.access.key.v1')")
+            assert page.locator("#exCards").count() == 0
+            unlock(page)
+            page.locator("#exCards .rec").first.wait_for()
+            record("lock clears the session and re-unlock restores the requested route")
 
         assert not errors, errors
         context.close()

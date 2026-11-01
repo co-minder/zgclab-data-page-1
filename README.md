@@ -29,9 +29,13 @@ ZGCLab 是一个基于真实交付数据的数据检索与研究工作台。前�
 
 ## 在线查看
 
-代码仓库：<https://github.com/co-minder/zgclab-1>（私有）。当前账号套餐不支持该私有仓库的 GitHub Pages，接口返回 `Your current plan does not support GitHub Pages for this repository.`。如果将来启用支持私有仓库 Pages 的套餐，发布源选择 `main` 分支根目录即可。
+代码仓库：<https://github.com/co-minder/zgclab-data-page-1>（公开）。GitHub Pages 发布源为 `main` 分支的 `/docs`，固定入口：<https://co-minder.github.io/zgclab-data-page-1/>。
 
-网页可直接由 `social` 服务器托管，长驻服务运行在 `zgclab-1-web` tmux 会话。浏览器只读取静态快照，不需要数据库或模型 API。完整复制整个站点后，在本机启动静态 HTTP 服务即可离线使用；在线访问时，没有预先加载的角度和完整详情仍需要网络。
+发布页先要求访问密码，输入正确后在浏览器解密系统文件。同一标签页刷新可恢复解锁，点击顶栏“锁定”清除解锁会话。密码不写入公开 HTML / JavaScript；发布文件使用 PBKDF2-SHA256（600,000 次）与 AES-256-GCM 加密，完整记录仍按需解密加载。
+
+**访问范围说明：** 网站密码保护的是 `/docs` 下的发布文件。仓库根目录和 Git 历史中已有公开源码与数据，依然可以在 GitHub 查看，因此这不是整个项目的保密访问控制。持有密码的人可以查看或导出已解锁数据。
+
+网页也由 `social` 服务器的 `zgclab-1-web` tmux 会话托管，同样提供 `docs/` 密码入口。浏览器只读取静态文件，不需要数据库或模型 API。完整复制 `docs/` 后启动静态 HTTP 服务即可离线使用。
 
 ## 本地或服务器运行
 
@@ -83,8 +87,18 @@ python3 build_data.py /path/to/delivery-package /path/to/institutions.csv
 
 更新后重新加载静态服务即可。提交前建议检查：
 
+更新列表或正文后，需要重新构建加密发布目录（服务器已有 Python `cryptography`）：
+
+```bash
+python3 build_data.py
+python3 build_protected.py
+```
+
+密码从忽略提交的 `.runtime/pages-password` 读取；文件不存在时交互式输入。也可通过 `ZGCLAB_BUILD_PASSWORD` 环境变量提供，不能写进源码、README 或版本历史。`docs/` 是供 Pages 发布的产物，重建后应与源文件一起提交。
+
 ```bash
 node --check app.js
+node --check access.js
 node --test tests/core.test.cjs
 python3 -m py_compile build_data.py serve.py
 git diff --check
@@ -102,6 +116,9 @@ zgclab-1-web/
 ├── app.js            路由、检索、筛选、导出、详情和懒加载
 ├── core.js           查询、日期、排序和 CSV 规则
 ├── build_data.py     从交付包生成 data/*.js
+├── build_protected.py 生成带密码的加密 Pages 发布目录
+├── access.html/css/js 密码入口与浏览器解密加载器
+├── docs/             GitHub Pages 发布文件
 ├── serve.py          只提供站点文件的压缩 HTTP 服务
 ├── tests/            查询规则与浏览器回归
 ├── data/
