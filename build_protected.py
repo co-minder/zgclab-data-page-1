@@ -8,6 +8,7 @@ import gzip
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 
 from cryptography.hazmat.primitives import hashes
@@ -28,18 +29,44 @@ def main() -> None:
         password = getpass.getpass("Pages access password: ")
     if not password:
         raise SystemExit("Password cannot be empty")
-    salt = os.urandom(16)
+    previous = None
+    if (OUT / "index.html").is_file():
+        match = re.search(r'data-manifest="([^"]+)"', (OUT / "index.html").read_text())
+        if match and (OUT / match[1]).is_file():
+            previous = json.loads((OUT / match[1]).read_text())
+    salt = base64.b64decode(previous["salt"]) if previous else os.urandom(16)
     key = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=salt, iterations=ITERATIONS).derive(password.encode())
     aes = AESGCM(key)
-    paths = [HERE / name for name in ["index.html", "styles.css", "app.js", "core.js"]]
-    paths += sorted((HERE / "data").rglob("*.js"))
+    if previous:
+        try:
+            encrypted = (OUT / previous["assets"]["index.html"]).read_bytes()
+            aes.decrypt(encrypted[:12], encrypted[12:], b"index.html")
+        except Exception:
+            previous = None
+            salt = os.urandom(16)
+            key = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=salt, iterations=ITERATIONS).derive(password.encode())
+            aes = AESGCM(key)
+    paths = [HERE / name for name in ["index.html", "styles.css", "app.js", "core.js", "query.js", "explorer.js"]]
+    paths += sorted((HERE / "data").glob("*.js"))
+    meta = json.loads((HERE / "data/meta.js").read_text().split("=", 1)[1].strip().removesuffix(";"))
+    paths += sorted((HERE / "data/details" / meta["version"]).glob("*.js"))
     (OUT / "encrypted").mkdir(parents=True, exist_ok=True)
     assets = {}
     total_bytes = 0
+    reused = 0
     for path in paths:
         name = path.relative_to(HERE).as_posix()
+        raw = path.read_bytes()
+        if previous and name in previous["assets"]:
+            old_name = previous["assets"][name]
+            old_data = (OUT / old_name).read_bytes()
+            if gzip.decompress(aes.decrypt(old_data[:12], old_data[12:], name.encode())) == raw:
+                assets[name] = old_name
+                total_bytes += len(old_data)
+                reused += 1
+                continue
         iv = os.urandom(12)
-        data = iv + aes.encrypt(iv, gzip.compress(path.read_bytes(), compresslevel=9, mtime=0), name.encode())
+        data = iv + aes.encrypt(iv, gzip.compress(raw, compresslevel=9, mtime=0), name.encode())
         encrypted_name = "encrypted/" + hashlib.sha256(data).hexdigest() + ".bin"
         (OUT / encrypted_name).write_bytes(data)
         assets[name] = encrypted_name
@@ -56,7 +83,7 @@ def main() -> None:
     gate = (HERE / "access.html").read_text().replace("ACCESS_MANIFEST", name).replace("ACCESS_VERSION", manifest["version"])
     (OUT / "index.html").write_text(gate)
     (OUT / ".nojekyll").touch()
-    print(json.dumps({"out": str(OUT), "version": manifest["version"], "encrypted_assets": len(assets), "encrypted_mb": round(total_bytes / 1024 / 1024, 2)}, ensure_ascii=False))
+    print(json.dumps({"out": str(OUT), "version": manifest["version"], "encrypted_assets": len(assets), "reused_assets": reused, "encrypted_mb": round(total_bytes / 1024 / 1024, 2)}, ensure_ascii=False))
 
 
 if __name__ == "__main__":

@@ -33,9 +33,6 @@ def run() -> None:
         def unlock(target) -> None:
             if not target.locator("#accessForm").count():
                 return
-            if target.evaluate("!!sessionStorage.getItem('zgclab.access.key.v1')"):
-                target.locator("#lockSession").wait_for()
-                return
             assert PASSWORD, "Set ZGCLAB_TEST_PASSWORD to test the password-protected deployment"
             target.locator("#accessPassword").fill(PASSWORD)
             target.locator("#accessSubmit").click()
@@ -77,7 +74,7 @@ def run() -> None:
         page.locator("#exInst").select_option("5775050")
         page.locator("#exQ").fill('"OpenAI" -military')
         page.wait_for_function("location.hash.includes('q=') && document.querySelector('#exCount').textContent.includes('筛选结果')")
-        assert "ktid=5775050" in page.url
+        assert "ids=5775050" in page.url
         assert all("OpenAI" in text for text in page.locator("#exBody tr[data-id]").all_inner_texts())
         record("institution plus phrase/exclusion query")
 
@@ -108,6 +105,12 @@ def run() -> None:
         page.wait_for_function("location.hash.includes('page=2')")
         first_id = page.locator("#exBody tr[data-id]").first.get_attribute("data-id")
         page.reload()
+        if protected:
+            page.locator("#accessForm").wait_for()
+            assert page.locator("#exBody").count() == 0
+            assert page.evaluate("!sessionStorage.getItem('zgclab.access.key.v1') && !window.ZGCLAB_META")
+            record("every reload requires the password and exposes no decrypted data")
+            unlock(page)
         page.locator("#exBody tr[data-id]").first.wait_for()
         assert page.locator("#exBody tr[data-id]").first.get_attribute("data-id") == first_id
         record("page size and page survive reload")
@@ -126,7 +129,7 @@ def run() -> None:
 
         go("#/explore?angle=clue&sub=" + quote("risk_level:高"), "#exBody tr[data-id]")
         assert "200" in page.locator("#exCount").inner_text()
-        assert all("高" in text for text in page.locator("#exBody tr[data-id] td:nth-child(3)").all_inner_texts())
+        assert all("高" in text for text in page.locator("#exBody tr[data-id] td:nth-child(4)").all_inner_texts())
         page.locator("#exBody tr[data-id]").first.focus()
         page.keyboard.press("Enter")
         page.wait_for_function("document.querySelector('#detailStatus').textContent.includes('已载入完整交付记录')")

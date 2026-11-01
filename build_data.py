@@ -149,7 +149,7 @@ def main() -> None:
     details = {}
     schemas = {}
     build_hash = hashlib.sha256()
-    build_hash.update(b"zgclab-data-v2")
+    build_hash.update(b"zgclab-data-v3-business-filters")
 
     for angle, filename in TABLES.items():
         rows = load_csv(pkg / filename)
@@ -228,6 +228,19 @@ def main() -> None:
                     "source_url": (r.get("source_url") or "").strip(),
                 }
                 when = rec["publish_time"] or rec["collected_time"]
+            rec["_has_original"] = bool(r.get("content") or r.get("original_content"))
+            rec["_has_translation"] = bool(r.get("content_cn") or r.get("chinese_trans") or r.get("chinese_translation"))
+            media = " ".join(str(r.get(key) or "") for key in ["media_urls", "attachment_urls", "report_path"])
+            media_types = []
+            if media and media.strip() not in ("[]", "{}", "null"):
+                media_types.append("attachment")
+                if re.search(r"\.(?:jpe?g|png|gif|webp|svg)|image|pbs\.twimg\.com|scontent", media, re.I):
+                    media_types.append("image")
+                if re.search(r"\.(?:mp4|webm|mov|m3u8)|video|youtube|youtu\.be", media, re.I):
+                    media_types.append("video")
+                if re.search(r"\.pdf(?:\b|\?)", media, re.I):
+                    media_types.append("pdf")
+            rec["_media_types"] = media_types
             rec["_month"] = month_key(when)
             link = rec.get("url") or rec.get("original_url") or rec.get("content_url") or ""
             record_id = previous_ids.get((angle, ktid, link)) or row_identity(angle, r)

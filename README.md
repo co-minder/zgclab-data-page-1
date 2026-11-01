@@ -29,9 +29,13 @@ ZGCLab 是一个基于真实交付数据的数据检索与研究工作台。前�
 
 ## 在线查看
 
+本轮业务查询增强支持机构类型、国家、多机构、多平台、多风险 / 标签、精确账号、滚动近 7 / 30 天、独立时间口径、互动数值上下限、互动排行前 N、原文语言、翻译与媒体筛选。结果下方提供分布、排行、下钻、7 天窗口对比和机构互动有效样本统计；可保存完整条件、导出含版本和条件的 CSV，并生成可编辑的观察简报草稿。
+
+两类需求共 100 项见 [业务监测需求清单-50项.md](业务监测需求清单-50项.md)，实际范围与验收证据见 [需求实施与验收报告.md](需求实施与验收报告.md)。近期零结果不等于实时采集未发现信息，简报不自动推断因果或立场变化。
+
 代码仓库：<https://github.com/co-minder/zgclab-data-page-1>（公开）。GitHub Pages 发布源为 `main` 分支的 `/docs`，固定入口：<https://co-minder.github.io/zgclab-data-page-1/>。
 
-发布页先要求访问密码，输入正确后在浏览器解密系统文件。同一标签页刷新可恢复解锁，点击顶栏“锁定”清除解锁会话。密码不写入公开 HTML / JavaScript；发布文件使用 PBKDF2-SHA256（600,000 次）与 AES-256-GCM 加密，完整记录仍按需解密加载。
+发布页先要求访问密码，输入正确后在浏览器解密系统文件。**每次打开或刷新都必须重新输入密码**，点击顶栏“锁定”立即回到密码页。密钥仅存在当前文档内存，不写入浏览器存储，旧版本留下的会话密钥会被清除。密码不写入公开 HTML / JavaScript；发布文件使用 PBKDF2-SHA256（600,000 次）与 AES-256-GCM 加密，完整记录仍按需解密加载。
 
 **访问范围说明：** 网站密码保护的是 `/docs` 下的发布文件。仓库根目录和 Git 历史中已有公开源码与数据，依然可以在 GitHub 查看，因此这不是整个项目的保密访问控制。持有密码的人可以查看或导出已解锁数据。
 
@@ -99,11 +103,12 @@ python3 build_protected.py
 ```bash
 node --check app.js
 node --check access.js
-node --test tests/core.test.cjs
+node --test tests/core.test.cjs tests/query.test.cjs
 python3 -m py_compile build_data.py serve.py
 git diff --check
 # 服务器现有 Python Playwright + Google Chrome 可运行浏览器回归：
 ZGCLAB_TEST_URL=http://127.0.0.1:8788/ python3 tests/smoke.py
+ZGCLAB_TEST_URL=http://127.0.0.1:8788/ python3 tests/business.py
 ```
 
 ## 文件结构

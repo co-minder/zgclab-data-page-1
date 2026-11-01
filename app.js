@@ -228,16 +228,17 @@
     return (await ensure(angle)).map((r) => ({ angle, r }));
   }
 
-  function exportEntries(entries, filename) {
+  function exportEntries(entries, filename, context) {
     const keys = [];
     const seen = new Set();
     entries.forEach(({ r }) => Object.keys(r).forEach((key) => {
       if (!key.startsWith("_") && key !== "id" && key !== "ktid" && !seen.has(key)) { seen.add(key); keys.push(key); }
     }));
-    const headers = ["采集角度", "记录ID", "机构", "ktid", ...keys.map((key) => FIELD_LABELS[key] ? `${FIELD_LABELS[key]} (${key})` : key)];
+    const contextKeys = Object.keys(context || {});
+    const headers = ["采集角度", "记录ID", "机构", "ktid", ...keys.map((key) => FIELD_LABELS[key] ? `${FIELD_LABELS[key]} (${key})` : key), ...contextKeys];
     const rows = entries.map(({ angle, r }) => [
       angleName(angle), r.id || "", instName(r.ktid), r.ktid || "",
-      ...keys.map((key) => r[key] == null ? "" : r[key]),
+      ...keys.map((key) => r[key] == null ? "" : r[key]), ...contextKeys.map((key) => context[key]),
     ]);
     downloadCsv(filename, headers, rows);
   }
@@ -622,6 +623,14 @@
   function viewExplore(params) {
     setActive("explore");
     setCrumb("<b>数据浏览</b>");
+    return window.ZGCLAB_EXPLORER(params, {
+      META, CORE, view, esc, fmt, entriesFor, recCard, bindRecords, pager, bindPager,
+      exportEntries, copyText, showToast, workspace, saveWorkspace, titleOf, snippetOf,
+      version: routeVersion, currentVersion: () => routeVersion,
+    });
+  }
+
+  function legacyExplore(params) {
     const state = {
       angle: [ALL, ...ANGLES].includes(params.get("angle")) ? params.get("angle") : ALL,
       ktid: instMap.has(Number(params.get("ktid"))) ? params.get("ktid") : "",

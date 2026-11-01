@@ -4,7 +4,8 @@
   const script = document.currentScript;
   const manifestUrl = new URL(script.dataset.manifest, location.href);
   const base = new URL(".", manifestUrl);
-  const sessionKey = "zgclab.access.key.v1";
+  // Remove keys written by older releases. An unlock lives only in this document.
+  try { sessionStorage.removeItem("zgclab.access.key.v1"); } catch (_) { /* Storage is optional. */ }
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();
   const form = document.querySelector("#accessForm");
@@ -18,7 +19,6 @@
   const loaded = new Map();
 
   const fromBase64 = (text) => Uint8Array.from(atob(text), (char) => char.charCodeAt(0));
-  const toBase64 = (bytes) => btoa(String.fromCharCode(...new Uint8Array(bytes)));
 
   async function getManifest() {
     if (!manifest) {
@@ -64,6 +64,8 @@
     // Load the small startup assets before replacing the login screen.
     await loadScript("data/meta.js");
     await loadScript("core.js");
+    await loadScript("query.js");
+    await loadScript("explorer.js");
     const appSource = await decrypt("app.js");
     const parsed = new DOMParser().parseFromString(shell, "text/html");
     parsed.querySelectorAll("script,noscript").forEach((tag) => tag.remove());
@@ -79,10 +81,7 @@
     lock.type = "button";
     lock.textContent = "锁定";
     lock.setAttribute("aria-label", "锁定页面");
-    lock.onclick = () => {
-      try { sessionStorage.removeItem(sessionKey); } catch (_) { /* Storage is optional. */ }
-      location.reload();
-    };
+    lock.onclick = () => location.reload();
     document.querySelector(".topbar").appendChild(lock);
     const url = URL.createObjectURL(new Blob([appSource], { type: "text/javascript" }));
     await new Promise((resolve, reject) => {
@@ -91,11 +90,6 @@
       document.head.appendChild(tag);
     });
     URL.revokeObjectURL(url);
-  }
-
-  function rememberKey(raw) {
-    try { sessionStorage.setItem(sessionKey, JSON.stringify({ version: manifest.version, key: toBase64(raw) })); }
-    catch (_) { /* Private browsing may disable session storage. */ }
   }
 
   function message(failure) {
@@ -120,11 +114,10 @@
       if (!crypto.subtle || typeof DecompressionStream === "undefined") throw new Error("请使用最新版本的 Chrome、Safari 或 Edge，并通过 HTTPS 访问。");
       await getManifest();
       const material = await crypto.subtle.importKey("raw", encoder.encode(input.value), "PBKDF2", false, ["deriveKey"]);
-      key = await crypto.subtle.deriveKey({ name: "PBKDF2", salt: fromBase64(manifest.salt), iterations: manifest.iterations, hash: "SHA-256" }, material, { name: "AES-GCM", length: 256 }, true, ["decrypt"]);
+      key = await crypto.subtle.deriveKey({ name: "PBKDF2", salt: fromBase64(manifest.salt), iterations: manifest.iterations, hash: "SHA-256" }, material, { name: "AES-GCM", length: 256 }, false, ["decrypt"]);
       const shell = await decrypt("index.html");
       input.value = "";
       await mount(shell);
-      rememberKey(await crypto.subtle.exportKey("raw", key));
     } catch (failure) {
       if (shellMounted) { location.reload(); return; }
       error.textContent = message(failure); input.select(); input.focus();
@@ -132,21 +125,6 @@
     }
   });
 
-  (async function restore() {
-    let saved;
-    try { saved = JSON.parse(sessionStorage.getItem(sessionKey) || "null"); } catch (_) { return; }
-    if (!saved || !crypto.subtle || typeof DecompressionStream === "undefined") return;
-    starting = true; submit.disabled = true; submit.firstElementChild.textContent = "正在恢复会话…";
-    try {
-      await getManifest();
-      if (saved.version !== manifest.version) throw new Error("版本已更新，请重新输入访问密码。");
-      key = await crypto.subtle.importKey("raw", fromBase64(saved.key), "AES-GCM", true, ["decrypt"]);
-      await mount(await decrypt("index.html"));
-    } catch (failure) {
-      try { sessionStorage.removeItem(sessionKey); } catch (_) { /* Storage is optional. */ }
-      if (shellMounted) { location.reload(); return; }
-      starting = false; submit.disabled = false; submit.firstElementChild.textContent = "解锁并进入";
-      error.textContent = failure.name === "OperationError" ? "请重新输入访问密码。" : message(failure);
-    }
-  })();
+  // A page restored from back/forward cache must also request the password again.
+  window.addEventListener("pageshow", (event) => { if (event.persisted) location.reload(); });
 })();

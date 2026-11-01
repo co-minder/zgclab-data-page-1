@@ -12,7 +12,7 @@ from urllib.parse import unquote, urlsplit
 
 PROJECT = Path(__file__).resolve().parent
 ROOT = PROJECT / "docs" if (PROJECT / "docs" / "index.html").is_file() else PROJECT
-ASSETS = {"index.html", "app.js", "core.js", "styles.css", "favicon.svg", "favicon.ico", "access.js", "access.css"}
+ASSETS = {"index.html", "app.js", "core.js", "query.js", "explorer.js", "styles.css", "favicon.svg", "favicon.ico", "access.js", "access.css"}
 CACHE: dict[tuple[str, int, int, bool], bytes] = {}
 
 
