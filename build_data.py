@@ -151,7 +151,7 @@ def main() -> None:
     details = {}
     schemas = {}
     build_hash = hashlib.sha256()
-    build_hash.update(b"zgclab-data-v4-unique-record-ids")
+    build_hash.update(b"zgclab-data-v5-categorical-filters")
 
     for angle, filename in TABLES.items():
         rows = load_csv(pkg / filename)
@@ -176,6 +176,7 @@ def main() -> None:
                     "founddate": (r.get("founddate") or "").strip(),
                     "url": (r.get("url") or "").strip(),
                     "publish_source": (r.get("publish_source") or "").strip(),
+                    "source": (r.get("source") or "").strip(),
                     "publish_time": (r.get("publish_time") or "").strip(),
                     "content_cn": cut(r.get("content_cn"), 220),
                 }
@@ -200,6 +201,8 @@ def main() -> None:
                     "publisher_type": (r.get("publisher_type") or "").strip(),
                     "publisher_business": (r.get("publisher_business") or "").strip(),
                     "publisher_cn_attitude": (r.get("publisher_cn_attitude") or "").strip(),
+                    "publisher_domain": (r.get("publisher_domain") or "").strip(),
+                    "related_subject": (r.get("related_subject") or "").strip(),
                     "chinese_trans": cut(r.get("chinese_trans"), 220),
                     "source": (r.get("source") or "").strip(),
                 }
@@ -223,6 +226,8 @@ def main() -> None:
                     "keywords": (r.get("keywords") or "").strip(),
                     "mentions": (r.get("mentions") or "").strip(),
                     "hashtags": (r.get("hashtags") or "").strip(),
+                    "data_status": (r.get("data_status") or "").strip(),
+                    "batch_no": (r.get("batch_no") or "").strip(),
                     "like_count": r.get("like_count") or "",
                     "comment_count": r.get("comment_count") or "",
                     "repost_count": r.get("repost_count") or "",

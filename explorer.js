@@ -22,6 +22,9 @@
     const platforms = Object.keys(META.stats.social.platforms || {});
     const risks = Object.keys(META.stats.clue.risk_levels || {});
     const tags = Object.keys(META.stats.news.tags || {});
+    let facetEntries = [], facetScope = "", facetCatalog = new Map();
+    const facetSearch = new Map(), facetLimits = new Map();
+    const facetMarkup = () => Object.entries(Q.FACETS).map(([key, descriptor]) => `<details class="field-facet" data-facet-panel="${key}"><summary>${esc(descriptor.label)} <span class="facet-selected" data-facet-selected="${key}"></span></summary><div class="field-facet-body"><label class="facet-search-label">搜索${esc(descriptor.label)}<input type="search" data-facet-search="${key}" aria-label="搜索${esc(descriptor.label)}" placeholder="输入后查找选项"></label><div class="facet-choice-list" data-facet-options="${key}"></div><button class="text-button" data-facet-more="${key}" hidden>显示更多选项</button><p class="hint">${esc(descriptor.help || "同一字段内多选任一匹配，不同字段同时满足。")}</p></div></details>`).join("");
     view.innerHTML = `
       <div class="page-head"><div><a class="back-overview" href="#/overview">← 全部数据总览</a><h1>数据浏览</h1><p>先看结果，需要时展开更多筛选。</p></div>
         <div class="page-actions"><button class="btn" id="saveQuery">保存查询</button><button class="btn" id="copyQuery">复制查询链接</button><button class="btn" id="createBrief" disabled>生成观察简报</button><button class="btn primary" id="exportResults" disabled>导出结果 CSV</button></div></div>
@@ -41,7 +44,7 @@
           <label>机构类型<select id="exType">${options([["", "全部类型"], ...types.map((t) => [t,t])], state.type)}</select></label>
           <label>国家<select id="exCountry">${options([["", "全部国家"], ...countries.map((c) => [c,c])], state.country)}</select></label>
           <label>关键词匹配<select id="exMode" aria-label="关键词匹配方式">${options([["all","包含全部关键词"],["any","包含任一关键词"]],state.mode)}</select></label>
-          <label>来源<input id="exSource" type="text" aria-label="来源或账号关键词" placeholder="来源域名 / 发布主体" value="${esc(state.source)}"></label>
+          <label>来源关键词<input id="exSource" type="text" aria-label="来源或账号关键词" placeholder="来源域名 / 发布主体模糊搜索" value="${esc(state.source)}"></label>
         </div>
         <details class="query-options" id="institutionChoices"><summary>多选机构 <span id="selectedInstitutions"></span></summary><div class="institution-choices">${META.institutions.map((i) => `<label class="choice"><input type="checkbox" data-choice="ids" value="${i.ktid}" ${state.ids.includes(String(i.ktid)) ? "checked" : ""}>${esc(i.cn)}</label>`).join("")}</div><p class="hint">同一组内任一匹配，不同条件组同时满足。机构类型和多选机构会共同生效。</p></details>
         <div class="query-facets">
@@ -49,12 +52,12 @@
           <fieldset id="riskChoices"><legend>线索风险（可多选）</legend>${checkGroup("risks", risks)}</fieldset>
           <fieldset id="tagChoices"><legend>新闻标签（可多选）</legend>${checkGroup("tags", tags)}</fieldset>
         </div>
-        <details class="query-options" id="exAdvanced"><summary>互动数值与更多条件 <span class="hint">点赞 / 评论 / 转发 / 浏览 · 语言 · 译文 · 附件</span></summary>
+        <section class="field-filter-section" aria-label="字段与标签筛选"><div class="section-head"><h2 id="fieldFiltersTitle">字段与标签筛选</h2><span class="hint">精确选择 · 同字段多选任一匹配</span></div><p class="hint">选项来自当前数据和机构范围，括号内为该范围的记录数；可与关键词、日期等条件组合。</p><div class="field-facets" id="exFieldFilters">${facetMarkup()}</div></section>
+        <details class="query-options" id="exAdvanced"><summary>互动数值与更多条件 <span class="hint">点赞 / 评论 / 转发 / 浏览 · 账号 · 译文 · 附件</span></summary>
           <div class="metric-filters">${Q.METRICS.map((name) => `<label>${metrics[name]}数值范围<div class="number-range"><input type="number" min="0" step="any" data-bound="${name}Min" aria-label="${metrics[name]}下限" placeholder="最低" value="${esc(state[name+"Min"])}"><span>—</span><input type="number" min="0" step="any" data-bound="${name}Max" aria-label="${metrics[name]}上限" placeholder="最高" value="${esc(state[name+"Max"])}"></div></label>`).join("")}</div>
           <p class="hint">门槛包含边界。缺失指标不当作 0；互动合计仅在点赞、评论、转发三项均有值时计算。指标为交付时的观测值，不是实时值。</p>
           <div class="query-form-grid">
             <label>精确账号<select id="exAccount"><option value="">全部账号</option></select></label>
-            <label>原文语言<select id="exLanguage">${options([["","全部语言"],["en","英语（en）"],["zh-Hans","简体中文（zh-Hans）"],["es","西班牙语（es）"],["ro","罗马尼亚语（ro）"],["und","语言未确定（und）"]],state.language)}</select></label>
             <label>中文正文 / 翻译<select id="exTranslation">${options([["","全部"],["yes","有中文正文 / 翻译"],["missing","有原文，缺中文正文 / 翻译"]],state.translation)}</select></label>
             <label>媒体 / 附件<select id="exMedia">${options([["","全部"],["image","包含图片"],["video","包含视频"],["pdf","包含 PDF"],["attachment","包含媒体 / 附件链接"]],state.media)}</select></label>
             <label>查找缺失字段<select id="exMissing">${options([["","不限"],["publish_time","缺少发布时间"],["url","缺少有效原文链接"],["risk","缺少风险等级（官网）"]],state.missing)}</select></label>
@@ -90,7 +93,7 @@
         if (state[name+"Max"] !== "") parts.push(metrics[name]+" ≤ "+state[name+"Max"]);
       }
       if (state.account) parts.push("账号："+state.account);
-      if (state.language) parts.push("语言："+state.language);
+      for (const [key, descriptor] of Object.entries(Q.FACETS)) if (state[key].length) parts.push(descriptor.label+"："+state[key].map((v)=>Q.facetLabel(key,v)).join(" / "));
       if (state.translation) parts.push(state.translation === "yes" ? "有中文正文 / 翻译" : "缺中文正文 / 翻译");
       if (state.media) parts.push("附件："+state.media);
       if (state.missing) parts.push("缺失字段："+state.missing);
@@ -100,14 +103,14 @@
       return parts.join(" · ");
     }
     function sync() {
-      for (const [id,key] of [["exType","type"],["exCountry","country"],["exQ","q"],["exMode","mode"],["exSource","source"],["exDateField","dateField"],["exSort","sort"],["exLimit","limit"],["exSize","size"],["exLanguage","language"],["exTranslation","translation"],["exMedia","media"],["exMissing","missing"],["exRead","read"]]) $("#"+id).value = state[key];
+      for (const [id,key] of [["exType","type"],["exCountry","country"],["exQ","q"],["exMode","mode"],["exSource","source"],["exDateField","dateField"],["exSort","sort"],["exLimit","limit"],["exSize","size"],["exTranslation","translation"],["exMedia","media"],["exMissing","missing"],["exRead","read"]]) $("#"+id).value = state[key];
       $("#exInst").value = state.ids.length === 1 ? state.ids[0] : "";
       const range = Q.dateRange(state), rolling = state.period !== "custom";
       $("#exFrom").value = range.from; $("#exTo").value = range.to;
       $("#exFrom").disabled = rolling; $("#exTo").disabled = rolling;
       $("#exPeriod").value = rolling ? state.period : customDates || state.from || state.to ? "custom" : "all";
       $("#exCustomDates").hidden = rolling || !customDates && !state.from && !state.to;
-      const moreCount = [state.type,state.country,state.source,state.mode === "any",state.ids.length > 1,state.platforms.length,state.risks.length,state.tags.length,state.account,state.language,state.translation,state.media,state.missing,state.dateField !== "published",...Q.METRICS.map((name) => state[name+"Min"]!==""||state[name+"Max"]!=="")].filter(Boolean).length;
+      const moreCount = [state.type,state.country,state.source,state.mode === "any",state.ids.length > 1,state.platforms.length,state.risks.length,state.tags.length,state.account,state.translation,state.media,state.missing,state.dateField !== "published",...Object.keys(Q.FACETS).map((key)=>state[key].length),...Q.METRICS.map((name) => state[name+"Min"]!==""||state[name+"Max"]!=="")].filter(Boolean).length;
       $("#moreFilterCount").hidden = !moreCount; $("#moreFilterCount").textContent = `已选 ${moreCount} 项`;
       $("#selectedInstitutions").textContent = state.ids.length ? `已选 ${state.ids.length} 家` : "全部机构";
       view.querySelectorAll("[data-choice]").forEach((input) => { input.checked = state[input.dataset.choice].includes(input.value); });
@@ -116,6 +119,30 @@
       $("#platformChoices").hidden = !["all","social"].includes(state.angle);
       $("#riskChoices").hidden = !["all","clue"].includes(state.angle);
       $("#tagChoices").hidden = !["all","news"].includes(state.angle);
+      $("#fieldFiltersTitle").textContent = ({news:"新闻来源与标签",clue:"官网发布者与分类",social:"社媒标签与内容"})[state.angle] || "字段与标签筛选";
+      view.querySelectorAll("[data-facet-panel]").forEach((panel)=>{const key=panel.dataset.facetPanel;panel.hidden=state.angle!=="all"&&!Q.FACETS[key].angles.includes(state.angle);panel.querySelector("[data-facet-selected]").textContent=state[key].length?`已选 ${state[key].length}`:"";});
+    }
+    function renderFacet(key) {
+      const panel=$(`[data-facet-panel="${key}"]`);
+      if(panel.hidden)return;
+      const selected=new Set(state[key].map((value)=>Q.facetNormalize(key,value)));
+      const isSelected=(value)=>selected.has(Q.facetNormalize(key,value));
+      let catalog=[...(facetCatalog.get(key)||[])];
+      for(const value of state[key])if(!catalog.some((item)=>Q.facetNormalize(key,item.value)===Q.facetNormalize(key,value)))catalog.unshift({value,count:0});
+      const search=api.CORE.normalize(facetSearch.get(key)||"");
+      catalog=catalog.filter((item)=>isSelected(item.value)||!search||api.CORE.normalize(Q.facetLabel(key,item.value)).includes(search));
+      catalog.sort((a,b)=>Number(isSelected(b.value))-Number(isSelected(a.value)));
+      const limit=facetLimits.get(key)||30, shown=catalog.slice(0,limit);
+      panel.querySelector("[data-facet-options]").innerHTML=shown.map(({value,count})=>`<label class="facet-option"><input type="checkbox" data-facet-choice="${key}" value="${esc(value)}" ${isSelected(value)?"checked":""}><span>${esc(Q.facetLabel(key,value))}</span><small>${fmt(count)}</small></label>`).join("")||'<p class="hint">没有匹配选项。</p>';
+      const more=panel.querySelector("[data-facet-more]");more.hidden=catalog.length<=shown.length;more.textContent=`显示更多（已显示 ${shown.length}/${catalog.length}）`;
+    }
+    function populateFacets(all) {
+      const signature=JSON.stringify([state.angle,state.ids,state.type,state.country]);
+      if(signature!==facetScope){
+        facetScope=signature;facetEntries=all.filter(({r})=>{const i=instMap.get(r.ktid)||{};return (!state.ids.length||state.ids.includes(String(r.ktid)))&&(!state.type||i.type===state.type)&&(!state.country||i.country===state.country);});
+        facetCatalog=new Map(Object.keys(Q.FACETS).map((key)=>[key,Q.facetOptions(facetEntries,key)]));
+      }
+      for(const key of Object.keys(Q.FACETS))renderFacet(key);
     }
     function row(angle,r) {
       const counts = angle === "social" ? `<span class="row-metrics">${Object.entries(metrics).map(([key,label]) => { const value=Q.metric(r,key); return `${label} ${value==null ? "未提供" : fmt(value)}`; }).join(" · ")}</span>` : "";
@@ -131,7 +158,7 @@
       if (field === "institution") state.ids = [value];
       else {
         const target = {platform:["social","platforms"],risk:["clue","risks"],tag:["news","tags"]}[field];
-        state.angle=target[0]; state.platforms=[];state.risks=[];state.tags=[];state[target[1]]=[value];
+        Q.setAngle(state,target[0]);state[target[1]]=[value];
       }
       state.page=1; sync(); refresh();
     }
@@ -179,6 +206,7 @@
         if(id!==request||!alive())return;
         const all=state.read ? loaded.filter(({angle,r}) => isRead(angle,r.id) === (state.read === "read")) : loaded;
         const result=Q.filter(all,state,instMap);current=result.entries;
+        sync();
         state.page=api.CORE.pageNumber(state.page,current.length,state.size);
         const start=(state.page-1)*state.size,slice=current.slice(start,start+state.size);
         $("#exCount").textContent=`筛选结果 ${fmt(current.length)} 条 · ${new Set(current.map(({r})=>r.ktid)).size} 个机构 · 当前显示 ${current.length?start+1:0}–${start+slice.length} 条${state.limit?`（全部匹配 ${fmt(result.matched)} 条，取前 ${state.limit} 条）`:""}`;
@@ -191,7 +219,7 @@
         $("#exPager").innerHTML=pager(current.length,state.page,null,state.size);bindPager($("#exPager"),(page)=>{state.page=page;refresh();});
         $("#exportResults").disabled=!current.length;$("#createBrief").disabled=false;
         $("#markResultsRead").disabled=!current.length;
-        coverage(all);populateAccounts(all);analytics(current,all);
+        coverage(all);populateAccounts(all);populateFacets(loaded);analytics(current,all);
         history.replaceState(null,"",href());
         $("#exCount").dataset.query = Q.serialize(state);
       }catch(failure){
@@ -206,10 +234,21 @@
     view.querySelectorAll("[data-choice]").forEach((input)=>input.onchange=()=>{
       const field=input.dataset.choice;
       if(input.checked)state[field]=[...new Set([...state[field],input.value])];else state[field]=state[field].filter((v)=>v!==input.value);
-      if(["platforms","risks","tags"].includes(field)&&input.checked){state.angle={platforms:"social",risks:"clue",tags:"news"}[field];for(const other of ["platforms","risks","tags"])if(other!==field)state[other]=[];}
+      if(["platforms","risks","tags"].includes(field)&&input.checked)Q.setAngle(state,{platforms:"social",risks:"clue",tags:"news"}[field]);
       changed();
     });
-    for(const [id,key] of [["exType","type"],["exCountry","country"],["exMode","mode"],["exDateField","dateField"],["exSort","sort"],["exLanguage","language"],["exTranslation","translation"],["exMedia","media"],["exMissing","missing"],["exAccount","account"],["exRead","read"]])$("#"+id).onchange=(event)=>{state[key]=event.target.value;changed();};
+    $("#exFieldFilters").addEventListener("change",(event)=>{
+      const input=event.target;if(!input.matches("[data-facet-choice]"))return;
+      const key=input.dataset.facetChoice,descriptor=Q.FACETS[key];
+      if(input.checked){
+        if(descriptor.angles.length===1)Q.setAngle(state,descriptor.angles[0]);
+        state[key]=[...new Set([...state[key],input.value])];
+      }else state[key]=state[key].filter((v)=>Q.facetNormalize(key,v)!==Q.facetNormalize(key,input.value));
+      changed();
+    });
+    view.querySelectorAll("[data-facet-search]").forEach((input)=>input.oninput=()=>{facetSearch.set(input.dataset.facetSearch,input.value);facetLimits.set(input.dataset.facetSearch,30);renderFacet(input.dataset.facetSearch);});
+    view.querySelectorAll("[data-facet-more]").forEach((button)=>button.onclick=()=>{const key=button.dataset.facetMore;facetLimits.set(key,(facetLimits.get(key)||30)+60);renderFacet(key);});
+    for(const [id,key] of [["exType","type"],["exCountry","country"],["exMode","mode"],["exDateField","dateField"],["exSort","sort"],["exTranslation","translation"],["exMedia","media"],["exMissing","missing"],["exAccount","account"],["exRead","read"]])$("#"+id).onchange=(event)=>{state[key]=event.target.value;changed();};
     $("#exInst").onchange=(event)=>{state.ids=event.target.value?[event.target.value]:[];changed();};
     for(const [id,key] of [["exQ","q"],["exSource","source"]])$("#"+id).oninput=(event)=>{state[key]=event.target.value;delayed();};
     $("#exLimit").onchange=(event)=>{state.limit=Number(event.target.value);changed();};
@@ -217,7 +256,7 @@
     $("#exPeriod").onchange=(event)=>{customDates=event.target.value==="custom";state.period=event.target.value==="all"?"custom":event.target.value;if(event.target.value==="all"){state.from="";state.to="";}changed();};
     for(const [id,key] of [["exFrom","from"],["exTo","to"]])$("#"+id).onchange=(event)=>{state[key]=event.target.value;state.period="custom";changed();};
     view.querySelectorAll("[data-bound]").forEach((input)=>input.oninput=()=>{state[input.dataset.bound]=input.value;delayed();});
-    view.querySelectorAll("#exTabs .tab").forEach((button)=>button.onclick=()=>{state.angle=button.dataset.angle;for(const [key,a] of [["platforms","social"],["risks","clue"],["tags","news"]])if(![a,"all"].includes(state.angle))state[key]=[];if(!["social","all"].includes(state.angle))state.account="";changed();});
+    view.querySelectorAll("#exTabs .tab").forEach((button)=>button.onclick=()=>{Q.setAngle(state,button.dataset.angle);changed();});
     $("#clearExplore").onclick=()=>{Object.assign(state,Q.parse(new URLSearchParams({angle:state.angle})));state.version=META.version;customDates=false;changed();};
     $("#toggleFilters").onclick=(event)=>{const hidden=!$("#exFilterControls").hidden;$("#exFilterControls").hidden=hidden;event.currentTarget.setAttribute("aria-expanded",String(!hidden));event.currentTarget.textContent=hidden?"展开筛选":"收起筛选";};
     $("#markResultsRead").onclick=()=>{markRead(current,true);showToast(`已标记 ${current.length} 条为已读`);refresh();};

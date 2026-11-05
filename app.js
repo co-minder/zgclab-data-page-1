@@ -1035,18 +1035,18 @@
   const FIELD_LABELS = {
     id: "快照记录 ID", ktid: "机构 ktid",
     title_cn: "中文标题", title_en: "英文标题", summary_cn: "中文摘要", summary_en: "英文摘要",
-    tag: "主题标签", founddate: "发现时间", url: "新闻地址", publish_source: "发布来源", publish_time: "发布时间",
+    tag: "主题标签", founddate: "发现时间", url: "新闻地址", publish_source: "发布媒体", publish_time: "发布时间",
     content_cn: "正文（中文）",
     title: "标题", summary: "摘要", risk_level: "风险等级", risk_desc: "风险描述", publish_channel: "发布渠道",
     publish_subject: "发布主体", industry: "所属行业", discovery_time: "发现时间", language: "语言",
     key_words: "关键词", original_url: "原文地址", publisher_website: "发布者网站", publisher_type: "发布者类型",
-    publisher_business: "发布者业务", publisher_cn_attitude: "对华态度", chinese_trans: "中文翻译", source: "来源",
+    publisher_business: "发布者业务", publisher_cn_attitude: "对华态度", chinese_trans: "中文翻译", source: "采集来源",
     platform: "平台", account_name: "账号名称", account_handle: "账号 handle", account_url: "账号主页",
     content_type: "内容类型", content_url: "内容链接", original_content: "原始内容", chinese_translation: "中文翻译",
     collected_time: "采集时间", keywords: "关键词", mentions: "提及账号", hashtags: "话题标签",
     like_count: "点赞数", comment_count: "评论数", repost_count: "转发数", view_count: "浏览数", source_url: "数据依据 URL",
     kt_id: "机构 ktid", clue_id: "线索主键", record_id: "原始记录标识", task_id: "任务标识", batch_no: "采集批次", account_id: "账号标识", content_id: "平台内容标识",
-    clue_title: "线索标题", clue_summary: "线索摘要", related_subject: "关联主体", publisher_domain: "发布者领域", original_content: "原始正文",
+    clue_title: "线索标题", clue_summary: "线索摘要", related_subject: "关联主体", publisher_domain: "发布者域名", original_content: "原始正文",
     content: "原文正文", report_path: "报告 / 证据地址", media_urls: "媒体地址", attachment_urls: "附件地址", content_hash: "内容哈希", raw_json: "原始 JSON", data_status: "数据状态",
     create_time: "创建时间", update_time: "更新时间", del_flag: "删除标记", audit_status: "审核状态", audit_opinion: "审核意见", audit_tags: "审核标签", audit_risk_level: "审核风险", audit_time: "审核时间", audit_user: "审核人", is_pinned: "置顶标记",
   };
@@ -1072,8 +1072,21 @@
 
   function schemaMarkup(angle, fields, showEmpty) {
     const schema = META.schemas && META.schemas[angle] || Object.keys(fields);
-    return schema.filter((key) => showEmpty || fields[key] != null && fields[key] !== "").map((key) =>
-      `<div class="schema-field"><dt>${esc(FIELD_LABELS[key] || key)}<code>${esc(key)}</code></dt><dd>${fieldValue(key, fields[key])}</dd></div>`).join("");
+    return schema.filter((key) => showEmpty || fields[key] != null && fields[key] !== "").map((key) => {
+      const Q=window.ZGCLAB_QUERY;
+      const facet=Object.keys(Q.FACETS).find((name)=>Q.FACETS[name].field===key&&Q.FACETS[name].angles.includes(angle));
+      const basic={tag:"tags",risk_level:"risks",platform:"platforms"}[key];
+      const filter=facet||basic;
+      const values=facet?Q.facetValues(fields,facet):basic&&fields[key]?[String(fields[key])]:[];
+      const links=filter?values.map((value)=>{
+        const currentRoute=parseHash(),params=Q.parse(currentRoute.params);Q.setAngle(params,angle);
+        if(currentRoute.name==="institution"&&currentRoute.id)params.ids=[String(currentRoute.id)];
+        if(facet)params[facet]=[value];else params[basic]=[value];
+        params.page=1;params.version=META.version;params.sim=simulationEnabled?"1":"";
+        return `<a class="field-filter-link" data-filter-field="${esc(key)}" data-filter-value="${esc(value)}" href="#/explore?${esc(Q.serialize(params))}" aria-label="按${esc(FIELD_LABELS[key]||key)}筛选：${esc(value)}">筛选${esc(facet?Q.facetLabel(facet,value):value)} →</a>`;
+      }).join(""):"";
+      return `<div class="schema-field"><dt>${esc(FIELD_LABELS[key] || key)}<code>${esc(key)}</code></dt><dd>${fieldValue(key, fields[key])}${links?`<div class="field-filter-links">${links}</div>`:""}</dd></div>`;
+    }).join("");
   }
 
   function toggleFavorite(angle, r) {
@@ -1142,6 +1155,11 @@
     $("#modalClose").addEventListener("click", () => close());
     $("#modalClose2").addEventListener("click", () => close());
     $("#modalInst").addEventListener("click", () => close());
+    root.querySelector(".modal").addEventListener("click",(event)=>{
+      const filterLink=event.target.closest(".field-filter-link");
+      if(!filterLink||event.button!==0||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
+      if(filterLink.hash===location.hash){event.preventDefault();route();}
+    });
     $("#favoriteRecord").onclick = (event) => { event.currentTarget.textContent = toggleFavorite(angle, r) ? "★ 已收藏" : "☆ 收藏记录"; };
     $("#toggleReadRecord").onclick = (event) => { markRead([{angle,r}],!isRead(angle,id)); event.currentTarget.textContent=isRead(angle,id)?"标为未读":"标为已读"; };
     $("#copyRecordLink").addEventListener("click", () => copyText(recordLink(angle, r.id), "记录链接已复制"));

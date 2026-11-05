@@ -37,13 +37,17 @@ def main():
             fields = {key: "" for key in meta["schemas"][angle]}
             fields.update({"id": rec["id"], "kt_id": str(inst["ktid"]), "publish_time": rec["publish_time"] or ""})
             if angle == "news":
-                rec.update(title_cn=title, title_en=title, summary_cn="【模拟摘要】人工智能、芯片出口政策测试。", content_cn=translated[:1500], url=url, tag=["policy", "security", "technology", "other", "risk", "geopolitics"][scenario % 6], publish_source="test.example.invalid", founddate=timestamp)
-                fields.update(title_cn=title, title_en=title, summary_cn=rec["summary_cn"], content=body, content_cn=translated, url=url, tag=rec["tag"], publish_source=rec["publish_source"], founddate=timestamp)
+                rec.update(title_cn=title, title_en=title, summary_cn="【模拟摘要】人工智能、芯片出口政策测试。", content_cn=translated[:1500], url=url, tag=["policy", "security", "technology", "other", "risk", "geopolitics"][scenario % 6], publish_source="test.example.invalid", founddate=timestamp, source="test_feed")
+                fields.update(title_cn=title, title_en=title, summary_cn=rec["summary_cn"], content=body, content_cn=translated, url=url, tag=rec["tag"], publish_source=rec["publish_source"], founddate=timestamp, source=rec["source"])
             elif angle == "clue":
                 rec.update(title=title, summary="【模拟线索】用于风险、时间与缺失值筛选。", original_url=url, risk_level=["高", "中", "低", "无法判断", ""][scenario % 5], risk_desc="【模拟风险描述】仅验证显示，不构成风险判断。", language=["en", "zh-Hans", "es"][scenario % 3], chinese_trans=translated[:1500], discovery_time=timestamp, publisher_website="https://example.invalid", key_words="AI 芯片 出口")
+                rec.update(publish_channel="test_web", publisher_domain="test.example.invalid", publisher_type="test_publisher", publisher_cn_attitude=["无法判断", "中性", "复杂", "积极", "消极"][scenario % 5], publish_subject="【模拟主体】"+inst["cn"], related_subject="【模拟主体】"+inst["cn"], industry="模拟测试行业", source="test_clue")
                 fields.update(clue_title=title, clue_summary=rec["summary"], original_content=body, chinese_trans=translated, original_url=url, risk_level=rec["risk_level"], risk_desc=rec["risk_desc"], language=rec["language"], discovery_time=timestamp, key_words=rec["key_words"])
+                for key in ["publish_channel", "publisher_domain", "publisher_type", "publisher_cn_attitude", "publish_subject", "related_subject", "industry", "source"]:
+                    fields[key] = rec[key]
             else:
                 rec.update(title=title, platform="test", account_handle=f"test_{inst['ktid']}_{scenario % 3}", account_name="【模拟账号】"+inst["cn"], account_url="https://example.invalid/test", original_content=body[:1500], chinese_translation=translated[:1500], content_url=url, source_url=url, collected_time=timestamp, language=["en", "zh-Hans", "es"][scenario % 3], hashtags="#test #AI #simulation", content_type=["text", "image", "video"][scenario % 3])
+                rec.update(keywords=json.dumps(["模拟测试", "AI", "芯片出口"], ensure_ascii=False), mentions="['test_account']", data_status="模拟新增", batch_no="test-batch-"+str(scenario % 3 + 1))
                 for offset, key in enumerate(["like_count", "comment_count", "repost_count", "view_count"]):
                     rec[key] = None if (scenario + offset) % 17 == 16 else str(boundary[(scenario + offset * 3) % len(boundary)] * (10 if key == "view_count" else 1))
                 fields.update({key: rec.get(key) or "" for key in meta["schemas"][angle] if key in rec})

@@ -71,3 +71,35 @@ test("group totals and comparison windows are disjoint and explicit",()=>{
   assert.equal(compare.percent,null);
   assert.equal(compare.previousTo,"2026-09-24");
 });
+
+test("social tags parse JSON, Python lists and plain tags without matching body substrings",()=>{
+  assert.deepEqual(Q.tokenValues('["AI","芯片出口"]'),["AI","芯片出口"]);
+  assert.deepEqual(Q.tokenValues("['FBI', 'ICYMI']"),["FBI","ICYMI"]);
+  assert.deepEqual(Q.tokenValues("#test #AI #simulation"),["#test","#AI","#simulation"]);
+  assert.deepEqual(Q.tokenValues("[]"),[]);
+  const entries=[{angle:"social",r:{id:"tagged",ktid:1,hashtags:"['FBI']",mentions:"['ICEgov']",keywords:'["AI","芯片出口"]'}},{angle:"social",r:{id:"body-only",ktid:1,original_content:"FBI AI @ICEgov",hashtags:"['FBIOffice']"}}];
+  assert.deepEqual(Q.filter(entries,state({hashtags:"#fbi",mentions:"@icegov",keywords:"芯片出口"}),inst).entries.map(({r})=>r.id),["tagged"]);
+});
+test("exact sources distinguish collection source from publisher and preserve OR within AND",()=>{
+  const entries=[{angle:"news",r:{id:"one",ktid:1,source:"Google News RSS",publish_source:"cnn.com"}},{angle:"news",r:{id:"two",ktid:1,source:"Google News RSS discovery",publish_source:"cnn.com"}},{angle:"news",r:{id:"three",ktid:2,source:"Google News RSS",publish_source:"other.com"}}];
+  assert.deepEqual(Q.filter(entries,state({sources:"Google News RSS",publishSources:"cnn.com"}),inst).entries.map(({r})=>r.id),["one"]);
+  const params=new URLSearchParams({sources:"Google News RSS"});params.append("sources","Google News RSS discovery");
+  assert.equal(Q.filter(entries,Q.parse(params),inst).entries.length,3);
+});
+test("facet parameters round trip commas, Unicode, repeated values, and legacy language",()=>{
+  const params=new URLSearchParams({angle:"clue",industries:"Policy, research",attitudes:"无法判断",publisherDomains:"dhs.gov",languages:"en"});params.append("languages","en-US");
+  const original=Q.parse(params);assert.deepEqual(Q.parse(new URLSearchParams(Q.serialize(original))),original);
+  assert.deepEqual(Q.parse(new URLSearchParams({language:"en"})).languages,["en"]);
+  assert.equal(Q.serialize(Q.parse(new URLSearchParams({language:"en"}))).includes("languages=en"),true);
+});
+test("missing facet values are separate from inability-to-judge labels and option counts deduplicate tags",()=>{
+  const entries=[{angle:"clue",r:{id:"missing",ktid:1}},{angle:"clue",r:{id:"unknown",ktid:1,publisher_cn_attitude:"无法判断"}}];
+  assert.deepEqual(Q.filter(entries,state({attitudes:Q.EMPTY}),inst).entries.map(({r})=>r.id),["missing"]);
+  assert.deepEqual(Q.filter(entries,state({attitudes:"无法判断"}),inst).entries.map(({r})=>r.id),["unknown"]);
+  const options=Q.facetOptions([{angle:"social",r:{hashtags:"['FBI', '#fbi']"}}],"hashtags");assert.equal(options.length,1);assert.equal(options[0].count,1);
+});
+test("changing angles removes incompatible categories and metric constraints",()=>{
+  const selected=state({angle:"social",hashtags:"FBI",contentTypes:"post",like_countMin:"100",languages:"en",sort:"like_count"});
+  Q.setAngle(selected,"clue");assert.deepEqual(selected.hashtags,[]);assert.deepEqual(selected.contentTypes,[]);assert.equal(selected.like_countMin,"");assert.equal(selected.sort,"newest");assert.deepEqual(selected.languages,["en"]);
+  assert.match(Q.validate(state({angle:"all",publisherDomains:"dhs.gov",contentTypes:"post"})),/不同采集角度/);
+});
