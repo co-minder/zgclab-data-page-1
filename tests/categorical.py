@@ -239,7 +239,9 @@ def run():
         def panel(key):
             page.locator("#exMoreFilters").evaluate("el=>{el.open=true}")
             locator = page.locator(f"[data-facet-panel='{key}']")
-            locator.evaluate("el=>{el.open=true}")
+            if not locator.evaluate("el=>el.open"):
+                locator.locator(":scope > summary").click()
+            locator.locator(".field-facet-body").wait_for(state="visible")
             return locator
 
         unlock()
@@ -265,6 +267,7 @@ def run():
         media.locator("input[value='csis.org']").check()
         ready()
         assert assert_ids({"angle": "news", "publishSources": "csis.org"}) == 167
+        media = panel("publishSources")
         media.locator("[data-facet-search]").fill("no-such-publisher")
         assert media.locator("input[value='csis.org']").is_checked()
         passed("长选项列表渐进展开、搜索、选中项始终可见", initially=30, expanded=90)
@@ -276,6 +279,7 @@ def run():
         source.locator("input[value='Google News RSS discovery']").check()
         ready()
         n = assert_ids({"angle": "news", "sources": ["Google News RSS", "Google News RSS discovery"]})
+        source = panel("sources")
         source.locator("input[value='Google News RSS']").uncheck()
         ready()
         assert assert_ids({"angle": "news", "sources": "Google News RSS discovery"}) == 1664

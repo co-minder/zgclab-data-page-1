@@ -1,0 +1,300 @@
+{
+  "target": "http://127.0.0.1:8789/",
+  "tested_at": "2026-11-05T16:07:17.111277+00:00",
+  "passed": 24,
+  "errors": [],
+  "measurements": [
+    {
+      "width": 1440,
+      "angle": "clue",
+      "closed_first_record_y": 325.88,
+      "open_first_record_y": 485.88,
+      "filter_height": 34
+    },
+    {
+      "width": 360,
+      "angle": "news",
+      "closed_first_record_y": 395.44,
+      "expanded_first_record_y": 559.44
+    },
+    {
+      "width": 360,
+      "angle": "clue",
+      "closed_first_record_y": 395.44,
+      "expanded_first_record_y": 691.44
+    },
+    {
+      "width": 360,
+      "angle": "social",
+      "closed_first_record_y": 395.44,
+      "expanded_first_record_y": 647.44
+    },
+    {
+      "width": 390,
+      "angle": "news",
+      "closed_first_record_y": 395.44,
+      "expanded_first_record_y": 559.44
+    },
+    {
+      "width": 390,
+      "angle": "clue",
+      "closed_first_record_y": 395.44,
+      "expanded_first_record_y": 691.44
+    },
+    {
+      "width": 390,
+      "angle": "social",
+      "closed_first_record_y": 395.44,
+      "expanded_first_record_y": 647.44
+    },
+    {
+      "width": 768,
+      "angle": "news",
+      "closed_first_record_y": 364.59,
+      "expanded_first_record_y": 481.59
+    },
+    {
+      "width": 768,
+      "angle": "clue",
+      "closed_first_record_y": 364.59,
+      "expanded_first_record_y": 567.59
+    },
+    {
+      "width": 768,
+      "angle": "social",
+      "closed_first_record_y": 364.59,
+      "expanded_first_record_y": 567.59
+    },
+    {
+      "width": 1024,
+      "angle": "news",
+      "closed_first_record_y": 337.06,
+      "expanded_first_record_y": 454.06
+    },
+    {
+      "width": 1024,
+      "angle": "clue",
+      "closed_first_record_y": 337.06,
+      "expanded_first_record_y": 540.06
+    },
+    {
+      "width": 1024,
+      "angle": "social",
+      "closed_first_record_y": 337.06,
+      "expanded_first_record_y": 540.06
+    },
+    {
+      "width": 1440,
+      "angle": "news",
+      "closed_first_record_y": 325.88,
+      "expanded_first_record_y": 442.88
+    },
+    {
+      "width": 1440,
+      "angle": "clue",
+      "closed_first_record_y": 325.88,
+      "expanded_first_record_y": 485.88
+    },
+    {
+      "width": 1440,
+      "angle": "social",
+      "closed_first_record_y": 325.88,
+      "expanded_first_record_y": 485.88
+    },
+    {
+      "width": 1920,
+      "angle": "news",
+      "closed_first_record_y": 325.88,
+      "expanded_first_record_y": 399.88
+    },
+    {
+      "width": 1920,
+      "angle": "clue",
+      "closed_first_record_y": 325.88,
+      "expanded_first_record_y": 485.88
+    },
+    {
+      "width": 1920,
+      "angle": "social",
+      "closed_first_record_y": 325.88,
+      "expanded_first_record_y": 442.88
+    }
+  ],
+  "checks": [
+    {
+      "check": "默认和展开分类时结果均在首屏，分类控件等高",
+      "status": "PASS",
+      "closed_first_y": 325.88,
+      "expanded_first_y": 485.88,
+      "control_height": 34
+    },
+    {
+      "check": "风险使用相同多选弹层，打开不推移记录，Escape 关闭并返回焦点",
+      "status": "PASS",
+      "results": 200
+    },
+    {
+      "check": "仅一个分类弹层打开，点击外部关闭，可单独移除已选条件",
+      "status": "PASS"
+    },
+    {
+      "check": "机构采用统一搜索多选，可逐项移除并清除全部",
+      "status": "PASS",
+      "two_institutions": 9,
+      "remaining_institution": 3
+    },
+    {
+      "check": "收起筛选会关闭弹层，已选条件仍可见并可移除",
+      "status": "PASS"
+    },
+    {
+      "check": "不同宽度分类一致，弹层不撑高结果且位于窗口内",
+      "status": "PASS",
+      "width": 360,
+      "angle": "news",
+      "closed_first_record_y": 395.44,
+      "expanded_first_record_y": 559.44
+    },
+    {
+      "check": "不同宽度分类一致，弹层不撑高结果且位于窗口内",
+      "status": "PASS",
+      "width": 360,
+      "angle": "clue",
+      "closed_first_record_y": 395.44,
+      "expanded_first_record_y": 691.44
+    },
+    {
+      "check": "不同宽度分类一致，弹层不撑高结果且位于窗口内",
+      "status": "PASS",
+      "width": 360,
+      "angle": "social",
+      "closed_first_record_y": 395.44,
+      "expanded_first_record_y": 647.44
+    },
+    {
+      "check": "不同宽度分类一致，弹层不撑高结果且位于窗口内",
+      "status": "PASS",
+      "width": 390,
+      "angle": "news",
+      "closed_first_record_y": 395.44,
+      "expanded_first_record_y": 559.44
+    },
+    {
+      "check": "不同宽度分类一致，弹层不撑高结果且位于窗口内",
+      "status": "PASS",
+      "width": 390,
+      "angle": "clue",
+      "closed_first_record_y": 395.44,
+      "expanded_first_record_y": 691.44
+    },
+    {
+      "check": "不同宽度分类一致，弹层不撑高结果且位于窗口内",
+      "status": "PASS",
+      "width": 390,
+      "angle": "social",
+      "closed_first_record_y": 395.44,
+      "expanded_first_record_y": 647.44
+    },
+    {
+      "check": "不同宽度分类一致，弹层不撑高结果且位于窗口内",
+      "status": "PASS",
+      "width": 768,
+      "angle": "news",
+      "closed_first_record_y": 364.59,
+      "expanded_first_record_y": 481.59
+    },
+    {
+      "check": "不同宽度分类一致，弹层不撑高结果且位于窗口内",
+      "status": "PASS",
+      "width": 768,
+      "angle": "clue",
+      "closed_first_record_y": 364.59,
+      "expanded_first_record_y": 567.59
+    },
+    {
+      "check": "不同宽度分类一致，弹层不撑高结果且位于窗口内",
+      "status": "PASS",
+      "width": 768,
+      "angle": "social",
+      "closed_first_record_y": 364.59,
+      "expanded_first_record_y": 567.59
+    },
+    {
+      "check": "不同宽度分类一致，弹层不撑高结果且位于窗口内",
+      "status": "PASS",
+      "width": 1024,
+      "angle": "news",
+      "closed_first_record_y": 337.06,
+      "expanded_first_record_y": 454.06
+    },
+    {
+      "check": "不同宽度分类一致，弹层不撑高结果且位于窗口内",
+      "status": "PASS",
+      "width": 1024,
+      "angle": "clue",
+      "closed_first_record_y": 337.06,
+      "expanded_first_record_y": 540.06
+    },
+    {
+      "check": "不同宽度分类一致，弹层不撑高结果且位于窗口内",
+      "status": "PASS",
+      "width": 1024,
+      "angle": "social",
+      "closed_first_record_y": 337.06,
+      "expanded_first_record_y": 540.06
+    },
+    {
+      "check": "不同宽度分类一致，弹层不撑高结果且位于窗口内",
+      "status": "PASS",
+      "width": 1440,
+      "angle": "news",
+      "closed_first_record_y": 325.88,
+      "expanded_first_record_y": 442.88
+    },
+    {
+      "check": "不同宽度分类一致，弹层不撑高结果且位于窗口内",
+      "status": "PASS",
+      "width": 1440,
+      "angle": "clue",
+      "closed_first_record_y": 325.88,
+      "expanded_first_record_y": 485.88
+    },
+    {
+      "check": "不同宽度分类一致，弹层不撑高结果且位于窗口内",
+      "status": "PASS",
+      "width": 1440,
+      "angle": "social",
+      "closed_first_record_y": 325.88,
+      "expanded_first_record_y": 485.88
+    },
+    {
+      "check": "不同宽度分类一致，弹层不撑高结果且位于窗口内",
+      "status": "PASS",
+      "width": 1920,
+      "angle": "news",
+      "closed_first_record_y": 325.88,
+      "expanded_first_record_y": 399.88
+    },
+    {
+      "check": "不同宽度分类一致，弹层不撑高结果且位于窗口内",
+      "status": "PASS",
+      "width": 1920,
+      "angle": "clue",
+      "closed_first_record_y": 325.88,
+      "expanded_first_record_y": 485.88
+    },
+    {
+      "check": "不同宽度分类一致，弹层不撑高结果且位于窗口内",
+      "status": "PASS",
+      "width": 1920,
+      "angle": "social",
+      "closed_first_record_y": 325.88,
+      "expanded_first_record_y": 442.88
+    },
+    {
+      "check": "无页面脚本异常",
+      "status": "PASS",
+      "errors": []
+    }
+  ]
+}

@@ -71,7 +71,9 @@ def run() -> None:
         assert page.locator("#exBody tr[data-id]").count() == 14
         record("all angles, total count, and lazy loading")
 
-        page.locator("#exInst").select_option("5775050")
+        page.locator("#exInst > summary").click()
+        page.locator("[data-facet-choice='ids'][value='5775050']").check()
+        page.locator("#exInst [data-facet-close]").last.click()
         page.locator("#exQ").fill('"OpenAI" -military')
         page.wait_for_function("location.hash.includes('q=') && document.querySelector('#exCount').textContent.includes('筛选结果')")
         assert "ids=5775050" in page.url

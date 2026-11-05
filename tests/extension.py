@@ -179,12 +179,13 @@ def run():
             passed("整个筛选区可收起展开，结果和条件保留", first_row_y=round(y))
 
             page.locator("#exMoreFilters > summary").click()
-            page.locator("#exType").select_option("企业")
+            page.locator("#exType > summary").click()
+            page.locator("[data-facet-choice='type'][value='企业']").check()
             ready_query()
             assert "826" in page.locator("#exCount").inner_text()
             page.locator("#exMoreFilters > summary").click()
             assert "企业" in page.locator("#exCondition").inner_text()
-            assert "已选 1 项" in page.locator("#moreFilterCount").inner_text()
+            assert "1" in page.locator("#moreFilterCount").inner_text()
             page.locator("#toggleFilters").click()
             assert "企业" in page.locator("#exCondition").inner_text()
             assert len(download_rows("#exportResults")) == 826

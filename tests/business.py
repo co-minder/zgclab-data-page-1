@@ -172,8 +172,10 @@ def run():
         # Exercise real controls, not just URL entry.
         query({"angle":"social"})
         page.locator("#exMoreFilters > summary").click()
-        page.locator("#exType").select_option("企业")
+        page.locator("#exType > summary").click()
+        page.locator("[data-facet-choice='type'][value='企业']").check()
         page.wait_for_function("location.hash.includes('type=') && document.querySelector('#exCount').dataset.query===location.hash.split('?')[1]")
+        page.locator("#platformChoices > summary").click()
         page.locator("#platformChoices input[value='Facebook']").check()
         page.wait_for_function("location.hash.includes('platforms=Facebook') && document.querySelector('#exCount').dataset.query===location.hash.split('?')[1]")
         assert set(export_ids()[0]) == set(reference({"angle":"social","type":"企业","platforms":"Facebook"}))
