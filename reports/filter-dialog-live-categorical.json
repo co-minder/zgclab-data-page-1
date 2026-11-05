@@ -1,0 +1,649 @@
+{
+  "target": "https://co-minder.github.io/zgclab-data-page-1/",
+  "tested_at": "2026-11-05T16:47:23.949593+00:00",
+  "data_version": "f064c896c123cbf4",
+  "simulation_version": "f30968625c5c6ad0",
+  "real_records": 6989,
+  "simulation_records": 30000,
+  "passed": 74,
+  "errors": [],
+  "maximum_query_and_export_seconds": 5.994,
+  "checks": [
+    {
+      "check": "列表分类字段与完整交付字段一致",
+      "status": "PASS",
+      "facet": "sources",
+      "records": 25143
+    },
+    {
+      "check": "列表分类字段与完整交付字段一致",
+      "status": "PASS",
+      "facet": "publishSources",
+      "records": 13675
+    },
+    {
+      "check": "列表分类字段与完整交付字段一致",
+      "status": "PASS",
+      "facet": "channels",
+      "records": 11468
+    },
+    {
+      "check": "列表分类字段与完整交付字段一致",
+      "status": "PASS",
+      "facet": "languages",
+      "records": 23314
+    },
+    {
+      "check": "列表分类字段与完整交付字段一致",
+      "status": "PASS",
+      "facet": "publisherTypes",
+      "records": 11468
+    },
+    {
+      "check": "列表分类字段与完整交付字段一致",
+      "status": "PASS",
+      "facet": "publisherDomains",
+      "records": 11468
+    },
+    {
+      "check": "列表分类字段与完整交付字段一致",
+      "status": "PASS",
+      "facet": "attitudes",
+      "records": 11468
+    },
+    {
+      "check": "列表分类字段与完整交付字段一致",
+      "status": "PASS",
+      "facet": "publishSubjects",
+      "records": 11468
+    },
+    {
+      "check": "列表分类字段与完整交付字段一致",
+      "status": "PASS",
+      "facet": "relatedSubjects",
+      "records": 11468
+    },
+    {
+      "check": "列表分类字段与完整交付字段一致",
+      "status": "PASS",
+      "facet": "industries",
+      "records": 11468
+    },
+    {
+      "check": "列表分类字段与完整交付字段一致",
+      "status": "PASS",
+      "facet": "contentTypes",
+      "records": 11846
+    },
+    {
+      "check": "列表分类字段与完整交付字段一致",
+      "status": "PASS",
+      "facet": "hashtags",
+      "records": 11846
+    },
+    {
+      "check": "列表分类字段与完整交付字段一致",
+      "status": "PASS",
+      "facet": "mentions",
+      "records": 11846
+    },
+    {
+      "check": "列表分类字段与完整交付字段一致",
+      "status": "PASS",
+      "facet": "keywords",
+      "records": 11846
+    },
+    {
+      "check": "列表分类字段与完整交付字段一致",
+      "status": "PASS",
+      "facet": "dataStates",
+      "records": 11846
+    },
+    {
+      "check": "列表分类字段与完整交付字段一致",
+      "status": "PASS",
+      "facet": "batches",
+      "records": 11846
+    },
+    {
+      "check": "默认高级筛选收起，模拟数据关闭",
+      "status": "PASS"
+    },
+    {
+      "check": "采集来源 discovery",
+      "status": "PASS",
+      "conditions": {
+        "angle": "news",
+        "sources": "Google News RSS discovery"
+      },
+      "expected": 1664,
+      "actual": 1664,
+      "elapsed_seconds": 0.625
+    },
+    {
+      "check": "采集来源 RSS 精确区分前缀",
+      "status": "PASS",
+      "conditions": {
+        "angle": "news",
+        "sources": "Google News RSS"
+      },
+      "expected": 946,
+      "actual": 946,
+      "elapsed_seconds": 0.478
+    },
+    {
+      "check": "采集来源多选 OR",
+      "status": "PASS",
+      "conditions": {
+        "angle": "news",
+        "sources": [
+          "Google News RSS",
+          "Google News RSS discovery"
+        ]
+      },
+      "expected": 2610,
+      "actual": 2610,
+      "elapsed_seconds": 0.665
+    },
+    {
+      "check": "新闻发布媒体",
+      "status": "PASS",
+      "conditions": {
+        "angle": "news",
+        "publishSources": "csis.org"
+      },
+      "expected": 167,
+      "actual": 167,
+      "elapsed_seconds": 0.362
+    },
+    {
+      "check": "采集来源和发布媒体 AND",
+      "status": "PASS",
+      "conditions": {
+        "angle": "news",
+        "sources": "Google News RSS discovery",
+        "publishSources": "csis.org"
+      },
+      "expected": 141,
+      "actual": 141,
+      "elapsed_seconds": 0.354
+    },
+    {
+      "check": "机构 policy 标签和采集来源",
+      "status": "PASS",
+      "conditions": {
+        "angle": "news",
+        "ids": "1000110",
+        "tags": "policy",
+        "sources": "Google News RSS discovery"
+      },
+      "expected": 153,
+      "actual": 153,
+      "elapsed_seconds": 0.313
+    },
+    {
+      "check": "官网渠道",
+      "status": "PASS",
+      "conditions": {
+        "angle": "clue",
+        "channels": "official_web"
+      },
+      "expected": 1468,
+      "actual": 1468,
+      "elapsed_seconds": 0.463
+    },
+    {
+      "check": "官网语言地区代码",
+      "status": "PASS",
+      "conditions": {
+        "angle": "clue",
+        "languages": "en-US"
+      },
+      "expected": 133,
+      "actual": 133,
+      "elapsed_seconds": 0.343
+    },
+    {
+      "check": "官网语言多选",
+      "status": "PASS",
+      "conditions": {
+        "angle": "clue",
+        "languages": [
+          "en",
+          "en-US"
+        ]
+      },
+      "expected": 1454,
+      "actual": 1454,
+      "elapsed_seconds": 0.417
+    },
+    {
+      "check": "旧语言链接兼容",
+      "status": "PASS",
+      "conditions": {
+        "angle": "clue",
+        "language": "en"
+      },
+      "expected": 1321,
+      "actual": 1321,
+      "elapsed_seconds": 0.49
+    },
+    {
+      "check": "发布者类型",
+      "status": "PASS",
+      "conditions": {
+        "angle": "clue",
+        "publisherTypes": "government"
+      },
+      "expected": 10,
+      "actual": 10,
+      "elapsed_seconds": 0.27
+    },
+    {
+      "check": "发布者域名 dhs.gov",
+      "status": "PASS",
+      "conditions": {
+        "angle": "clue",
+        "publisherDomains": "dhs.gov"
+      },
+      "expected": 3,
+      "actual": 3,
+      "elapsed_seconds": 0.292
+    },
+    {
+      "check": "对华态度无法判断",
+      "status": "PASS",
+      "conditions": {
+        "angle": "clue",
+        "attitudes": "无法判断"
+      },
+      "expected": 1278,
+      "actual": 1278,
+      "elapsed_seconds": 0.449
+    },
+    {
+      "check": "对华态度消极",
+      "status": "PASS",
+      "conditions": {
+        "angle": "clue",
+        "attitudes": "消极"
+      },
+      "expected": 68,
+      "actual": 68,
+      "elapsed_seconds": 0.295
+    },
+    {
+      "check": "域名语言态度渠道组合",
+      "status": "PASS",
+      "conditions": {
+        "angle": "clue",
+        "publisherDomains": "dhs.gov",
+        "languages": "en",
+        "attitudes": "无法判断",
+        "channels": "official_web"
+      },
+      "expected": 3,
+      "actual": 3,
+      "elapsed_seconds": 0.276
+    },
+    {
+      "check": "发布主体",
+      "status": "PASS",
+      "conditions": {
+        "angle": "clue",
+        "publishSubjects": "战略与国际研究中心"
+      },
+      "expected": 727,
+      "actual": 727,
+      "elapsed_seconds": 0.373
+    },
+    {
+      "check": "关联主体",
+      "status": "PASS",
+      "conditions": {
+        "angle": "clue",
+        "relatedSubjects": "兰德公司"
+      },
+      "expected": 249,
+      "actual": 249,
+      "elapsed_seconds": 0.329
+    },
+    {
+      "check": "所属行业",
+      "status": "PASS",
+      "conditions": {
+        "angle": "clue",
+        "industries": "公共政策研究"
+      },
+      "expected": 77,
+      "actual": 77,
+      "elapsed_seconds": 0.296
+    },
+    {
+      "check": "官网采集来源",
+      "status": "PASS",
+      "conditions": {
+        "angle": "clue",
+        "sources": "clue"
+      },
+      "expected": 1468,
+      "actual": 1468,
+      "elapsed_seconds": 0.435
+    },
+    {
+      "check": "原创帖子类型",
+      "status": "PASS",
+      "conditions": {
+        "angle": "social",
+        "contentTypes": "post"
+      },
+      "expected": 1575,
+      "actual": 1575,
+      "elapsed_seconds": 0.415
+    },
+    {
+      "check": "转发帖子类型",
+      "status": "PASS",
+      "conditions": {
+        "angle": "social",
+        "contentTypes": "repost"
+      },
+      "expected": 271,
+      "actual": 271,
+      "elapsed_seconds": 0.493
+    },
+    {
+      "check": "社媒语言",
+      "status": "PASS",
+      "conditions": {
+        "angle": "social",
+        "languages": "en"
+      },
+      "expected": 1828,
+      "actual": 1828,
+      "elapsed_seconds": 0.514
+    },
+    {
+      "check": "Python 话题标签",
+      "status": "PASS",
+      "conditions": {
+        "angle": "social",
+        "hashtags": "FBI"
+      },
+      "expected": 94,
+      "actual": 94,
+      "elapsed_seconds": 0.442
+    },
+    {
+      "check": "标签前缀和大小写",
+      "status": "PASS",
+      "conditions": {
+        "angle": "social",
+        "hashtags": "#fbi"
+      },
+      "expected": 94,
+      "actual": 94,
+      "elapsed_seconds": 0.384
+    },
+    {
+      "check": "标签多选 OR",
+      "status": "PASS",
+      "conditions": {
+        "angle": "social",
+        "hashtags": [
+          "FBI",
+          "ICYMI"
+        ]
+      },
+      "expected": 105,
+      "actual": 105,
+      "elapsed_seconds": 0.262
+    },
+    {
+      "check": "提及账号",
+      "status": "PASS",
+      "conditions": {
+        "angle": "social",
+        "mentions": "@SecMullinDHS"
+      },
+      "expected": 75,
+      "actual": 75,
+      "elapsed_seconds": 0.311
+    },
+    {
+      "check": "JSON 关键词短语",
+      "status": "PASS",
+      "conditions": {
+        "angle": "social",
+        "keywords": "deportation flights"
+      },
+      "expected": 1,
+      "actual": 1,
+      "elapsed_seconds": 0.251
+    },
+    {
+      "check": "空标签",
+      "status": "PASS",
+      "conditions": {
+        "angle": "social",
+        "hashtags": "__field_missing__"
+      },
+      "expected": 1666,
+      "actual": 1666,
+      "elapsed_seconds": 0.359
+    },
+    {
+      "check": "空关键词数组",
+      "status": "PASS",
+      "conditions": {
+        "angle": "social",
+        "keywords": "__field_missing__"
+      },
+      "expected": 320,
+      "actual": 320,
+      "elapsed_seconds": 0.283
+    },
+    {
+      "check": "社媒状态",
+      "status": "PASS",
+      "conditions": {
+        "angle": "social",
+        "dataStates": "新增"
+      },
+      "expected": 1846,
+      "actual": 1846,
+      "elapsed_seconds": 0.42
+    },
+    {
+      "check": "采集批次",
+      "status": "PASS",
+      "conditions": {
+        "angle": "social",
+        "batches": "social-volume-20260918"
+      },
+      "expected": 1626,
+      "actual": 1626,
+      "elapsed_seconds": 0.381
+    },
+    {
+      "check": "标签机构平台类型日期 AND",
+      "status": "PASS",
+      "conditions": {
+        "angle": "social",
+        "ids": "1000110",
+        "platforms": "X",
+        "contentTypes": "post",
+        "hashtags": "FBI",
+        "from": "2026-09-01",
+        "to": "2026-09-30"
+      },
+      "expected": 4,
+      "actual": 4,
+      "elapsed_seconds": 0.297
+    },
+    {
+      "check": "模拟话题标签",
+      "status": "PASS",
+      "conditions": {
+        "angle": "social",
+        "platforms": "test",
+        "hashtags": "#test",
+        "sim": "1"
+      },
+      "expected": 10000,
+      "actual": 10000,
+      "elapsed_seconds": 5.994
+    },
+    {
+      "check": "模拟提及与关键词组合",
+      "status": "PASS",
+      "conditions": {
+        "angle": "social",
+        "platforms": "test",
+        "mentions": "@test_account",
+        "keywords": "芯片出口",
+        "dataStates": "模拟新增",
+        "sim": "1"
+      },
+      "expected": 10000,
+      "actual": 10000,
+      "elapsed_seconds": 2.913
+    },
+    {
+      "check": "模拟官网分类组合",
+      "status": "PASS",
+      "conditions": {
+        "angle": "clue",
+        "channels": "test_web",
+        "publisherDomains": "test.example.invalid",
+        "publisherTypes": "test_publisher",
+        "attitudes": "中性",
+        "sim": "1"
+      },
+      "expected": 2000,
+      "actual": 2000,
+      "elapsed_seconds": 0.884
+    },
+    {
+      "check": "模拟新闻来源",
+      "status": "PASS",
+      "conditions": {
+        "angle": "news",
+        "sources": "test_feed",
+        "sim": "1"
+      },
+      "expected": 10000,
+      "actual": 10000,
+      "elapsed_seconds": 1.415
+    },
+    {
+      "check": "长选项列表渐进展开、搜索、选中项始终可见",
+      "status": "PASS",
+      "initially": 30,
+      "expanded": 90
+    },
+    {
+      "check": "实际勾选来源多选 OR 与取消选择",
+      "status": "PASS",
+      "union": 2610
+    },
+    {
+      "check": "域名态度联合筛选及折叠后条件、结果导出一致",
+      "status": "PASS",
+      "actual": 3
+    },
+    {
+      "check": "归一化标签分享链接可见并可取消，恢复完整社媒结果",
+      "status": "PASS"
+    },
+    {
+      "check": "社媒标签搜索、机构范围计数与跨字段 AND",
+      "status": "PASS",
+      "scope_count": 94,
+      "actual": 94
+    },
+    {
+      "check": "详情标签筛选保留机构日期，相同链接也能关闭详情并返回结果",
+      "status": "PASS"
+    },
+    {
+      "check": "官网详情渠道、语言、域名、态度、类型均有筛选入口",
+      "status": "PASS"
+    },
+    {
+      "check": "从机构详情按字段筛选会保留路径中的机构范围",
+      "status": "PASS"
+    },
+    {
+      "check": "多值标签保存分享和刷新恢复，刷新仍要求密码",
+      "status": "PASS"
+    },
+    {
+      "check": "切换角度清除不适用标签和互动门槛，显示对应分类",
+      "status": "PASS"
+    },
+    {
+      "check": "模拟详情筛选链接保留开关，关闭后测试标签无真实命中",
+      "status": "PASS"
+    },
+    {
+      "check": "展开分类筛选无横向溢出",
+      "status": "PASS",
+      "angle": "news",
+      "width": 390
+    },
+    {
+      "check": "展开分类筛选无横向溢出",
+      "status": "PASS",
+      "angle": "clue",
+      "width": 390
+    },
+    {
+      "check": "展开分类筛选无横向溢出",
+      "status": "PASS",
+      "angle": "social",
+      "width": 390
+    },
+    {
+      "check": "展开分类筛选无横向溢出",
+      "status": "PASS",
+      "angle": "news",
+      "width": 768
+    },
+    {
+      "check": "展开分类筛选无横向溢出",
+      "status": "PASS",
+      "angle": "clue",
+      "width": 768
+    },
+    {
+      "check": "展开分类筛选无横向溢出",
+      "status": "PASS",
+      "angle": "social",
+      "width": 768
+    },
+    {
+      "check": "展开分类筛选无横向溢出",
+      "status": "PASS",
+      "angle": "news",
+      "width": 1440
+    },
+    {
+      "check": "展开分类筛选无横向溢出",
+      "status": "PASS",
+      "angle": "clue",
+      "width": 1440
+    },
+    {
+      "check": "展开分类筛选无横向溢出",
+      "status": "PASS",
+      "angle": "social",
+      "width": 1440
+    },
+    {
+      "check": "无页面脚本异常",
+      "status": "PASS",
+      "errors": []
+    }
+  ]
+}
