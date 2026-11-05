@@ -197,7 +197,7 @@ def run():
         browser = pw.chromium.launch(headless=True, executable_path=shutil.which("google-chrome"), args=["--no-sandbox"])
         context = browser.new_context(viewport={"width": 1440, "height": 1000}, accept_downloads=True)
         page = context.new_page()
-        page.set_default_timeout(30000)
+        page.set_default_timeout(int(os.environ.get("ZGCLAB_TEST_TIMEOUT_MS", "30000")))
         page.on("pageerror", lambda error: errors.append(str(error)))
         page.goto(BASE + "#/explore?angle=all")
 
@@ -207,7 +207,13 @@ def run():
             ready()
 
         def ready():
-            page.wait_for_function("document.querySelector('#exCount')?.dataset.query===location.hash.split('?')[1] && !document.querySelector('#exError')?.textContent")
+            try:
+                page.wait_for_function("document.querySelector('#exCount')?.dataset.query===location.hash.split('?')[1] && !document.querySelector('#exError')?.textContent")
+            except Exception:
+                page.screenshot(path=str(OUT / "query-failure.png"), full_page=True)
+                state = page.evaluate("({url:location.href,title:document.title,version:window.ZGCLAB_META?.version,count:document.querySelector('#exCount')?.textContent,error:document.querySelector('#exError')?.textContent,accessError:document.querySelector('#accessError')?.textContent})")
+                (OUT / "failure.json").write_text(json.dumps({"state": state, "errors": errors}, ensure_ascii=False, indent=2))
+                raise
 
         def query(params):
             if params.get("sim") != "1" and page.locator("#includeSimulation").is_checked():

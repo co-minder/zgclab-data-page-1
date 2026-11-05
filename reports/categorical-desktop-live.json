@@ -1,0 +1,34 @@
+{
+  "target": "https://co-minder.github.io/zgclab-data-page-1/",
+  "release_commit": "feddc553df3566b0b05939d0f597a279e013af91",
+  "manifest": "manifest-7f1798f11205e0f0e51a.json",
+  "data_version": "f064c896c123cbf4",
+  "method": "OpenCode Browser 实际页面解锁与字段控件操作",
+  "checks": [
+    {
+      "check": "原网站加载新版社媒和分类字段",
+      "status": "PASS",
+      "social_records": 1846,
+      "new_facet_groups": 16
+    },
+    {
+      "check": "实际点击话题标签 FBI",
+      "status": "PASS",
+      "expected": 94,
+      "actual": 94,
+      "condition": "社交媒体 · 发布时间 · 话题标签：#FBI",
+      "selected": ["FBI"],
+      "horizontal_overflow": false
+    },
+    {
+      "check": "官网域名与对华态度联合筛选",
+      "status": "PASS",
+      "conditions": {"publisherDomains": "dhs.gov", "attitudes": "无法判断"},
+      "expected": 3,
+      "actual": 3,
+      "record_ids": ["clue-208", "clue-266", "clue-534"]
+    }
+  ],
+  "passed": 3,
+  "errors": []
+}
