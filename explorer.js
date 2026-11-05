@@ -33,35 +33,20 @@
     };
     const selections = (key) => Array.isArray(state[key]) ? state[key] : state[key] ? [state[key]] : [];
     const filterLabel = (key,value) => key === "ids" ? instName(value) : Q.FACETS[key] ? Q.facetLabel(key,value) : (facetCatalog.get(key)||[]).find((item)=>item.value===value)?.label || value;
-    let facetScope = "", facetCatalog = new Map(), facetEntries = [];
+    let facetScope = "", facetCatalog = new Map(), facetEntries = [], activeFilter = "ids", dialogFocus = null;
     const facetSearch = new Map(), facetLimits = new Map();
-    const filterIDs = {ids:"exInst",type:"exType",country:"exCountry",platforms:"platformChoices",risks:"riskChoices",tags:"tagChoices",account:"exAccount",translation:"exTranslation",media:"exMedia",missing:"exMissing"};
-    const facetMarkup = (keys) => keys.map((key) => {
-      const descriptor=filters[key];
-      return `<details class="field-facet" data-facet-panel="${key}" ${filterIDs[key]?`id="${filterIDs[key]}"`:""}><summary aria-label="${esc(descriptor.label)}筛选"><span class="facet-name">${esc(descriptor.label)}</span><span class="facet-preview" data-facet-preview="${key}">${esc(descriptor.empty||"不限")}</span><span class="facet-selected" data-facet-selected="${key}" hidden></span><span class="facet-chevron" aria-hidden="true">⌄</span></summary><div class="field-facet-body" role="group" aria-label="${esc(descriptor.label)}选项"><div class="facet-panel-head"><b>${esc(descriptor.label)}</b><button type="button" class="text-button" data-facet-clear="${key}">清空</button><button type="button" class="facet-close" data-facet-close="${key}" aria-label="关闭${esc(descriptor.label)}筛选">×</button></div><input type="search" data-facet-search="${key}" aria-label="搜索${esc(descriptor.label)}" placeholder="搜索${esc(descriptor.label)}" autocomplete="off"><div class="facet-choice-list" data-facet-options="${key}"></div><button type="button" class="text-button facet-more" data-facet-more="${key}" hidden>显示更多选项</button><div class="facet-panel-foot"><span>${descriptor.single?"单选 · 自动生效":"可多选 · 任一匹配"}</span><button type="button" class="text-button" data-facet-close="${key}">完成</button></div>${descriptor.help?`<span class="facet-help" title="${esc(descriptor.help)}">${esc(descriptor.help)}</span>`:""}</div></details>`;
-    }).join("");
+    const filterNav = (keys) => keys.map((key)=>`<button type="button" class="filter-field-button" data-filter-tab="${key}" aria-controls="filter-panel-${key}" aria-pressed="false"><span>${esc(filters[key].label)}</span><span class="filter-field-value" data-facet-preview="${key}">不限</span><span class="filter-field-count" data-facet-selected="${key}" hidden></span></button>`).join("");
+    const facetMarkup = () => Object.entries(filters).map(([key,descriptor])=>`<section class="filter-field-panel" data-facet-panel="${key}" id="filter-panel-${key}" aria-label="${esc(descriptor.label)}选项" hidden><div class="filter-editor-heading"><h3>${esc(descriptor.label)}</h3><button type="button" class="text-button" data-facet-clear="${key}">清空此项</button></div><p class="filter-field-help">${esc(descriptor.help|| (descriptor.single?"选择一个条件，结果自动更新。":"可选择多个值，满足任意一项的记录都会保留。"))}</p><input type="search" data-facet-search="${key}" aria-label="搜索${esc(descriptor.label)}" placeholder="搜索${esc(descriptor.label)}" autocomplete="off"><div class="facet-choice-list" data-facet-options="${key}"></div><button type="button" class="text-button facet-more" data-facet-more="${key}" hidden>显示更多选项</button></section>`).join("");
     view.innerHTML = `
       <div class="explorer-workspace">
       <div class="page-head explore-head"><h1>数据浏览</h1><div class="page-actions"><button class="btn" id="saveQuery">保存查询</button><button class="btn" id="copyQuery">复制链接</button><button class="btn" id="createBrief" disabled>生成简报</button><button class="btn primary" id="exportResults" disabled>导出 CSV</button></div></div>
       <section class="card explore-card">
         <div class="explore-scope-row">
         <div class="tabs" id="exTabs">${["all", "news", "clue", "social"].map((angle) => `<button class="tab ${state.angle === angle ? "active" : ""}" data-angle="${angle}"><span class="dot" style="background:var(--${angle === "all" ? "accent" : angle})"></span>${angle === "all" ? "全部数据" : META.angles[angle].name}<span class="cnt">${fmt(angle === "all" ? Object.values(META.totals).reduce((s,v) => s+v,0) : META.totals[angle])}</span></button>`).join("")}</div>
-        <button class="text-button" id="toggleFilters" aria-controls="exFilterControls" aria-expanded="true">收起筛选</button></div>
-        <div id="exFilterControls">
-        <div class="query-form-grid basic-query">
-          <label class="keyword-control"><span class="sr-only">关键词</span><input id="exQ" type="search" aria-label="查询关键词" placeholder="搜索关键词、&quot;完整短语&quot;、-排除词" value="${esc(state.q)}"></label>
-          ${facetMarkup(["ids"])}
-          <label class="inline-select"><span>时间</span><select id="exPeriod" aria-label="时间范围">${options([["all","全部日期"],["today","今天"],["7","近 7 天"],["30","近 30 天"],["custom","指定日期"]],state.period === "custom" && !state.from && !state.to ? "all" : state.period)}</select></label>
         </div>
-        <div class="query-form-grid custom-dates" id="exCustomDates" hidden><label>开始日期<input type="date" id="exFrom" value="${esc(state.from)}"></label><label>结束日期<input type="date" id="exTo" value="${esc(state.to)}"></label></div>
-        <details class="more-filters" id="exMoreFilters"><summary><span>更多筛选 <span id="moreFilterCount" class="facet-count" hidden></span></span><span class="hint">分类、标签与数值</span></summary>
-        <div class="filter-grid" id="exFieldFilters" aria-label="分类筛选">${facetMarkup(["type","country","platforms","risks","tags",...Object.keys(Q.FACETS)])}</div>
-        <div class="extra-filter-bar"><details class="query-shortcuts"><summary>常用查询</summary><div class="query-presets"><button data-preset="risk">高风险线索</button><button data-preset="company">企业类信息</button><button data-preset="ngo">NGO / 智库信息</button><button data-preset="popular">X 点赞 ≥ 100</button></div></details><details class="query-extra" id="exAdvanced"><summary>更多条件与互动数值</summary>
-          <div class="extra-controls"><div class="filter-grid">${facetMarkup(["account","translation","media","missing"])}</div>
-          <div class="query-form-grid query-preferences"><label class="inline-select"><span>词语匹配</span><select id="exMode" aria-label="关键词匹配方式">${options([["all","全部词"],["any","任一词"]],state.mode)}</select></label><label class="inline-select"><span>时间口径</span><select id="exDateField" aria-label="时间口径">${options([["published","发布时间"],["collected","采集时间（社媒）"],["discovered","发现时间（官网）"],["found","发现时间（新闻）"],["record","记录时间（允许回退）"]],state.dateField)}</select></label><label class="source-keyword"><span class="sr-only">来源关键词</span><input id="exSource" type="text" aria-label="来源或账号关键词" placeholder="来源、域名或账号模糊搜索" value="${esc(state.source)}"></label></div>
-          <div class="metric-filters" id="exMetricFilters">${Q.METRICS.map((name) => `<label>${metrics[name]}<div class="number-range"><input type="number" min="0" step="any" data-bound="${name}Min" aria-label="${metrics[name]}下限" placeholder="最低" value="${esc(state[name+"Min"])}"><span>—</span><input type="number" min="0" step="any" data-bound="${name}Max" aria-label="${metrics[name]}上限" placeholder="最高" value="${esc(state[name+"Max"])}"></div></label>`).join("")}</div>
-          </div></details><details class="query-guide"><summary>筛选说明</summary><p>同字段多选任一匹配，不同字段同时满足。选项数量按当前角度、机构、类型和国家计数。关键词查标题、摘要、正文节选及机构名，支持双引号和减号排除。时间按北京时间，数值门槛包含边界，缺失指标不当作 0。</p></details></div>
-        </details></div>
+        <div class="explore-search-bar">
+          <label class="keyword-control"><span class="sr-only">关键词</span><input id="exQ" type="search" aria-label="查询关键词" placeholder="搜索关键词、&quot;完整短语&quot;、-排除词" value="${esc(state.q)}"></label>
+          <button type="button" class="btn filter-open-button" id="openFilters" aria-haspopup="dialog" aria-controls="exFilterDialog"><svg viewBox="0 0 20 20" width="15" height="15" aria-hidden="true"><path d="M3 5h14M5 10h10M8 15h4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>筛选条件<span id="moreFilterCount" class="filter-trigger-count" hidden></span></button></div>
         <div id="exError" class="inline-error" role="alert" hidden></div>
         <div id="exCondition" class="active-conditions" aria-label="已选筛选条件" hidden></div>
         <div class="query-results-tools"><span id="exCount" class="result-count" role="status" aria-live="polite"></span><label><span class="sr-only">阅读状态</span><select id="exRead" aria-label="阅读状态">${options([["","全部阅读状态"],["unread","只看未读"],["read","只看已读"]],state.read)}</select></label><label><span class="sr-only">排序</span><select id="exSort" aria-label="排序">${options([["newest","时间最新"],["oldest","时间最早"],["relevance","关键词相关度"], ...Q.METRICS.map((m) => [m,metrics[m]+"从高到低"])],state.sort)}</select></label><label><span class="sr-only">结果上限</span><select id="exLimit" aria-label="结果上限">${options([[0,"全部结果"],[10,"前 10 条"],[20,"前 20 条"],[50,"前 50 条"]],state.limit)}</select></label><label><span class="sr-only">每页记录数</span><select id="exSize" aria-label="每页记录数">${options([14,25,50,100].map((size) => [size,size+" 条 / 页"]),state.size)}</select></label><button class="text-button" id="markResultsRead" disabled>标记已读</button></div>
@@ -69,7 +54,12 @@
         <details class="query-notes" id="exNotes"><summary>数据范围与时间口径说明</summary><div id="exCoverage" class="coverage-note" role="status"></div></details>
       </section>
       <details class="section card pad query-analysis"><summary>当前结果分析 <span class="hint">展开查看分布、排行与对比</span></summary><div id="exAnalytics"></div></details>
-      <section id="briefPanel" class="section card pad" hidden><div class="section-head"><h2>观察简报草稿</h2><button class="btn" id="downloadBrief">下载 Markdown</button></div><p class="hint">事实清单，按当前结果顺序摘录前 20 条，未自动判断重要性或风险走向；可编辑后下载。</p><textarea id="briefText" aria-label="观察简报草稿" rows="15"></textarea></section></div>`;
+      <section id="briefPanel" class="section card pad" hidden><div class="section-head"><h2>观察简报草稿</h2><button class="btn" id="downloadBrief">下载 Markdown</button></div><p class="hint">事实清单，按当前结果顺序摘录前 20 条，未自动判断重要性或风险走向；可编辑后下载。</p><textarea id="briefText" aria-label="观察简报草稿" rows="15"></textarea></section>
+      <dialog class="filter-dialog" id="exFilterDialog" aria-labelledby="filterDialogTitle" aria-describedby="filterDialogHint"><div class="filter-dialog-shell"><header class="filter-dialog-header"><div><h2 id="filterDialogTitle">筛选条件 <span id="filterDialogAngle"></span></h2><p id="filterDialogHint">选择后自动更新，关闭窗口即可查看结果。</p></div><button type="button" class="filter-dialog-close" data-close-filters aria-label="关闭筛选窗口">×</button></header><div class="filter-dialog-layout"><nav class="filter-field-nav" aria-label="筛选项目"><div class="filter-nav-group"><span>机构范围</span>${filterNav(["ids","type","country"])}</div><div class="filter-nav-group" id="categoryFilterGroup"><span>分类与标签</span>${filterNav(["platforms","risks","tags",...Object.keys(Q.FACETS)])}</div><div class="filter-nav-group"><span>其他条件</span>${filterNav(["account","translation","media","missing"])}<button type="button" class="filter-field-button" data-filter-tab="time" aria-controls="filter-panel-time" aria-pressed="false"><span>日期与时间</span><span class="filter-field-value" id="filterTimeValue">不限</span></button><button type="button" class="filter-field-button" data-filter-tab="text" aria-controls="filter-panel-text" aria-pressed="false"><span>文本匹配</span><span class="filter-field-value" id="filterTextValue">全部词</span></button><button type="button" class="filter-field-button" data-filter-tab="metrics" aria-controls="filter-panel-metrics" aria-pressed="false"><span>互动数值</span><span class="filter-field-value" id="filterMetricsValue">不限</span></button><button type="button" class="filter-field-button" data-filter-tab="presets" aria-controls="filter-panel-presets" aria-pressed="false"><span>常用查询</span></button></div></nav><div class="filter-editor" id="filterEditor">${facetMarkup()}
+      <section class="filter-field-panel" data-input-panel="time" id="filter-panel-time" hidden><div class="filter-editor-heading"><h3>日期与时间</h3><button class="text-button" type="button" data-clear-inputs="time">清空此项</button></div><p class="filter-field-help">按北京时间筛选。未提供所选时间的记录不参与日期范围匹配。</p><div class="filter-input-grid"><label>时间范围<select id="exPeriod">${options([["all","全部日期"],["today","今天"],["7","近 7 天"],["30","近 30 天"],["custom","指定日期"]],state.period === "custom" && !state.from && !state.to ? "all" : state.period)}</select></label><label>时间口径<select id="exDateField">${options([["published","发布时间"],["collected","采集时间（社媒）"],["discovered","发现时间（官网）"],["found","发现时间（新闻）"],["record","记录时间（允许回退）"]],state.dateField)}</select></label></div><div class="filter-input-grid" id="exCustomDates" hidden><label>开始日期<input type="date" id="exFrom" value="${esc(state.from)}"></label><label>结束日期<input type="date" id="exTo" value="${esc(state.to)}"></label></div></section>
+      <section class="filter-field-panel" data-input-panel="text" id="filter-panel-text" hidden><div class="filter-editor-heading"><h3>文本匹配</h3><button class="text-button" type="button" data-clear-inputs="text">清空此项</button></div><p class="filter-field-help">关键词检索标题、摘要、正文节选和机构名；双引号匹配短语，减号排除词。</p><div class="filter-input-grid"><label>关键词匹配<select id="exMode">${options([["all","包含全部关键词"],["any","包含任一关键词"]],state.mode)}</select></label><label>来源、域名或账号<input id="exSource" type="search" aria-label="来源或账号关键词" placeholder="输入文字进行模糊搜索" value="${esc(state.source)}"></label></div></section>
+      <section class="filter-field-panel" data-input-panel="metrics" id="filter-panel-metrics" hidden><div class="filter-editor-heading"><h3>互动数值</h3><button class="text-button" type="button" data-clear-inputs="metrics">清空此项</button></div><p class="filter-field-help">上下限包含边界；缺失值不当作 0。互动合计仅在点赞、评论、转发三项均有值时计算。</p><div class="filter-metric-grid" id="exMetricFilters">${Q.METRICS.map((name)=>`<label>${metrics[name]}<div class="number-range"><input type="number" min="0" step="any" data-bound="${name}Min" aria-label="${metrics[name]}下限" placeholder="最低" value="${esc(state[name+"Min"])}"><span>—</span><input type="number" min="0" step="any" data-bound="${name}Max" aria-label="${metrics[name]}上限" placeholder="最高" value="${esc(state[name+"Max"])}"></div></label>`).join("")}</div></section>
+      <section class="filter-field-panel" data-input-panel="presets" id="filter-panel-presets" hidden><div class="filter-editor-heading"><h3>常用查询</h3></div><p class="filter-field-help">选择一个组合，将当前条件切换为该查询。</p><div class="filter-preset-list"><button type="button" data-preset="risk">高风险线索</button><button type="button" data-preset="company">企业类信息</button><button type="button" data-preset="ngo">NGO / 智库信息</button><button type="button" data-preset="popular">X 点赞 ≥ 100</button></div></section></div></div><footer class="filter-dialog-footer"><button type="button" class="text-button" id="resetDialogFilters">清除全部条件</button><span id="filterDialogStatus" role="status" aria-live="polite"></span><button type="button" class="btn primary" id="showFilterResults" data-close-filters>查看结果</button></footer></div></dialog></div>`;
 
     function summary() {
       const parts = [state.angle === "all" ? "全部角度" : META.angles[state.angle].name];
@@ -104,23 +94,55 @@
       $("#exFrom").disabled = rolling; $("#exTo").disabled = rolling;
       $("#exPeriod").value = rolling ? state.period : customDates || state.from || state.to ? "custom" : "all";
       $("#exCustomDates").hidden = rolling || !customDates && !state.from && !state.to;
-      const moreCount = [state.type,state.country,state.source,state.mode === "any",state.ids.length > 1,state.platforms.length,state.risks.length,state.tags.length,state.account,state.translation,state.media,state.missing,state.dateField !== "published",...Object.keys(Q.FACETS).map((key)=>state[key].length),...Q.METRICS.map((name) => state[name+"Min"]!==""||state[name+"Max"]!=="")].filter(Boolean).length;
-      $("#moreFilterCount").hidden = !moreCount; $("#moreFilterCount").textContent = `已选 ${moreCount} 项`;
+      const moreCount = [state.ids.length,state.type,state.country,state.source,state.mode === "any",state.platforms.length,state.risks.length,state.tags.length,state.account,state.translation,state.media,state.missing,state.dateField !== "published",range.from||range.to,...Object.keys(Q.FACETS).map((key)=>state[key].length),...Q.METRICS.map((name) => state[name+"Min"]!==""||state[name+"Max"]!=="")].filter(Boolean).length;
+      $("#moreFilterCount").hidden = !moreCount; $("#moreFilterCount").textContent = moreCount;
       view.querySelectorAll("[data-bound]").forEach((input) => { input.value = state[input.dataset.bound]; });
       view.querySelectorAll("#exTabs .tab").forEach((button) => button.classList.toggle("active",button.dataset.angle === state.angle));
-      $("#exMetricFilters").hidden = !["all","social"].includes(state.angle);
-      view.querySelectorAll("[data-facet-panel]").forEach((panel)=>{
-        const key=panel.dataset.facetPanel,descriptor=filters[key],chosen=selections(key);
-        panel.hidden=state.angle!=="all"&&!descriptor.angles.includes(state.angle);
-        if(panel.hidden)panel.open=false;
-        const preview=panel.querySelector("[data-facet-preview]"),badge=panel.querySelector("[data-facet-selected]");
+      $("#filterDialogAngle").textContent=state.angle==="all"?"全部数据":META.angles[state.angle].name;
+      view.querySelectorAll("[data-filter-tab]").forEach((button)=>{
+        const key=button.dataset.filterTab,descriptor=filters[key];
+        button.hidden=descriptor?state.angle!=="all"&&!descriptor.angles.includes(state.angle):key==="metrics"&&!["all","social"].includes(state.angle);
+        if(button.hidden&&key===activeFilter)activeFilter="ids";
+        if(!descriptor)return;
+        const chosen=selections(key),preview=button.querySelector("[data-facet-preview]"),badge=button.querySelector("[data-facet-selected]");
         preview.textContent=chosen.length ? filterLabel(key,chosen[0]) : descriptor.empty||"不限";
         preview.title=chosen.map((value)=>filterLabel(key,value)).join("、");
-        badge.hidden=chosen.length<2;badge.textContent=chosen.length>1?`+${chosen.length-1}`:"";
-        panel.classList.toggle("has-selection",!!chosen.length);
-        panel.querySelector("[data-facet-clear]").disabled=!chosen.length;
+        badge.hidden=!chosen.length;badge.textContent=chosen.length;
+        button.classList.toggle("has-selection",!!chosen.length);
+        $(`[data-facet-clear="${key}"]`).disabled=!chosen.length;
       });
+      $("#filterTimeValue").textContent=range.from||range.to?({today:"今天",7:"近 7 天",30:"近 30 天"})[state.period]||"指定日期":"不限";
+      $("#filterTextValue").textContent=state.source?"已设置":state.mode==="any"?"任一词":"全部词";
+      $("#filterMetricsValue").textContent=Q.METRICS.some((key)=>state[key+"Min"]!==""||state[key+"Max"]!=="")?"已设置":"不限";
+      updateFilterPanels();
       renderConditions();
+    }
+    function updateFilterPanels() {
+      view.querySelectorAll("[data-filter-tab]").forEach((button)=>{const selected=button.dataset.filterTab===activeFilter;button.classList.toggle("active",selected);button.setAttribute("aria-pressed",String(selected));});
+      view.querySelectorAll("[data-facet-panel]").forEach((panel)=>panel.hidden=panel.dataset.facetPanel!==activeFilter);
+      view.querySelectorAll("[data-input-panel]").forEach((panel)=>panel.hidden=panel.dataset.inputPanel!==activeFilter);
+    }
+    function selectFilter(key) {
+      const trigger=$(`[data-filter-tab="${key}"]`);
+      if(!trigger||trigger.hidden)return;
+      activeFilter=key;updateFilterPanels();
+      if(filters[key])renderFacet(key);
+      $("#filterEditor").scrollTop=0;
+    }
+    function openFilters(key) {
+      dialogFocus=document.activeElement;
+      selectFilter(key||activeFilter);
+      if(!$("#exFilterDialog").open)$("#exFilterDialog").showModal();
+      document.body.classList.add("filter-window-open");
+      const selected=$(`[data-filter-tab="${activeFilter}"]`);
+      selected?.focus({preventScroll:true});
+      selected?.scrollIntoView({block:"nearest"});
+    }
+    function closeFilters() {
+      if(timer){clearTimeout(timer);timer=null;changed();}
+      $("#exFilterDialog").close();
+      document.body.classList.remove("filter-window-open");
+      if(dialogFocus?.isConnected)dialogFocus.focus({preventScroll:true});
     }
     function renderConditions() {
       const chips=[];
@@ -138,18 +160,6 @@
       $("#exCondition").hidden=!chips.length;
       $("#exCondition").innerHTML=chips.join("")+(chips.length?'<button type="button" class="text-button clear-filters" id="clearExplore">清除全部</button>':"");
     }
-    function positionFacet(panel) {
-      if(!panel.open||panel.hidden)return;
-      const body=panel.querySelector(".field-facet-body"),anchor=panel.querySelector("summary").getBoundingClientRect();
-      const width=Math.min(328,innerWidth-24),left=Math.max(12,Math.min(anchor.left,innerWidth-width-12));
-      const below=innerHeight-anchor.bottom-12,above=anchor.top-12,up=below<260&&above>below;
-      body.style.width=width+"px";body.style.left=left+"px";
-      body.style.maxHeight=Math.max(140,Math.min(440,up?above-6:below-6))+"px";
-      body.style.top=up?"auto":(anchor.bottom+6)+"px";body.style.bottom=up?(innerHeight-anchor.top+6)+"px":"auto";
-    }
-    function closeFacets(except) {
-      view.querySelectorAll("[data-facet-panel][open]").forEach((panel)=>{if(panel!==except)panel.open=false;});
-    }
     function renderFacet(key) {
       const panel=$(`[data-facet-panel="${key}"]`);
       if(panel.hidden)return;
@@ -166,7 +176,6 @@
       panel.querySelector("[data-facet-options]").innerHTML=shown.map((item)=>`<label class="facet-option"><input type="${filters[key].single?"radio":"checkbox"}" name="facet-${key}" data-facet-choice="${key}" value="${esc(item.value)}" ${isSelected(item.value)?"checked":""}><span>${esc(label(item))}</span><small>${item.count==null?"":fmt(item.count)}</small></label>`).join("")||'<p class="hint">没有匹配选项。</p>';
       if(focusValue!=null)[...panel.querySelectorAll("[data-facet-choice]")].find((input)=>input.value===focusValue)?.focus({preventScroll:true});
       const more=panel.querySelector("[data-facet-more]");more.hidden=catalog.length<=shown.length;more.textContent=`显示更多（已显示 ${shown.length}/${catalog.length}）`;
-      positionFacet(panel);
     }
     function populateFacets(all) {
       const signature=JSON.stringify([state.angle,state.ids,state.type,state.country]);
@@ -188,7 +197,7 @@
         facetCatalog.set("media",[["image","包含图片"],["video","包含视频"],["pdf","包含 PDF"],["attachment","包含媒体 / 附件链接"]].map(([value,label])=>({value,label,count:facetEntries.filter(({r})=>(r._media_types||[]).includes(value)).length})));
         facetCatalog.set("missing",[["publish_time","缺少发布时间"],["url","缺少有效原文链接"],["risk","缺少风险等级（官网）"]].map(([value,label])=>({value,label,count:facetEntries.filter(({angle,r})=>value==="publish_time"?!r.publish_time:value==="url"?!api.CORE.safeUrl(Q.sourceLink(r)):angle==="clue"&&!r.risk_level).length})));
       }
-      for(const key of Object.keys(filters))renderFacet(key);
+      if(filters[activeFilter])renderFacet(activeFilter);
       sync();
     }
     function row(angle,r) {
@@ -233,9 +242,10 @@
     }
     async function refresh() {
       const id=++request;
-      $("#exError").hidden=true; $("#exportResults").disabled=true;$("#createBrief").disabled=true;$("#markResultsRead").disabled=true;$("#briefPanel").hidden=true;
+      $("#exError").hidden=true;$("#exError").textContent="";$("#exportResults").disabled=true;$("#createBrief").disabled=true;$("#markResultsRead").disabled=true;$("#briefPanel").hidden=true;
       const problem=Q.validate(state);
-      if(problem){$("#exError").hidden=false;$("#exError").textContent=problem;$("#exCount").textContent="筛选条件无效";$("#exBody").innerHTML='<tr><td colspan="5"><div class="empty">请调整条件后继续查询</div></td></tr>';$("#exCards").innerHTML='<div class="empty">请调整条件后继续查询</div>';$("#exPager").innerHTML="";$("#exAnalytics").innerHTML="";return;}
+      if(problem){$("#exError").hidden=false;$("#exError").textContent=problem;$("#filterDialogStatus").textContent=problem;$("#filterDialogStatus").classList.add("has-error");$("#showFilterResults").disabled=true;$("#exCount").textContent="筛选条件无效";$("#exBody").innerHTML='<tr><td colspan="5"><div class="empty">请调整条件后继续查询</div></td></tr>';$("#exCards").innerHTML='<div class="empty">请调整条件后继续查询</div>';$("#exPager").innerHTML="";$("#exAnalytics").innerHTML="";return;}
+      $("#filterDialogStatus").classList.remove("has-error");$("#filterDialogStatus").textContent="正在更新…";$("#showFilterResults").disabled=false;
       $("#exBody").innerHTML='<tr><td colspan="5"><div class="skeleton">正在加载数据…</div></td></tr>';$("#exCards").innerHTML='<div class="skeleton">正在加载数据…</div>';$("#exCount").textContent="正在查询…";
       try {
         const loaded=await entriesFor(state.angle);
@@ -246,6 +256,7 @@
         state.page=api.CORE.pageNumber(state.page,current.length,state.size);
         const start=(state.page-1)*state.size,slice=current.slice(start,start+state.size);
         $("#exCount").textContent=`筛选结果 ${fmt(current.length)} 条 · ${new Set(current.map(({r})=>r.ktid)).size} 个机构 · 当前显示 ${current.length?start+1:0}–${start+slice.length} 条${state.limit?`（全部匹配 ${fmt(result.matched)} 条，取前 ${state.limit} 条）`:""}`;
+        $("#filterDialogStatus").textContent=`匹配 ${fmt(current.length)} 条记录`;
         $("#exBreakdown").hidden=state.angle!=="all";
         $("#exBreakdown").innerHTML=["news","clue","social"].map((a)=>`<span class="tag ${a}">${META.angles[a].name} ${fmt(current.filter((e)=>e.angle===a).length)}</span>`).join("");
         $("#exHead").innerHTML='<tr><th>角度</th><th>标题 / 内容与互动值</th><th>机构</th><th>风险 / 标签 / 平台</th><th>所选时间</th></tr>';
@@ -260,46 +271,36 @@
         $("#exCount").dataset.query = Q.serialize(state);
       }catch(failure){
         if(id!==request||!alive())return;
-        $("#exCount").textContent="查询未完成";$("#exError").hidden=false;$("#exError").textContent=failure.message;
+        $("#exCount").textContent="查询未完成";$("#exError").hidden=false;$("#exError").textContent=failure.message;$("#filterDialogStatus").textContent=failure.message;
         $("#exBody").innerHTML='<tr><td colspan="5"><button class="btn" id="retryExplore">重试</button></td></tr>';$("#retryExplore").onclick=refresh;
         $("#exCards").innerHTML='<button class="btn" id="retryMobile">重试</button>';$("#retryMobile").onclick=refresh;
       }
     }
     function changed() {state.sim=META.simulation?"1":"";state.page=1;sync();refresh();}
-    const delayed=()=>{clearTimeout(timer);timer=setTimeout(()=>{if(alive())changed();},180);};
-    $("#exFilterControls").addEventListener("change",(event)=>{
+    const delayed=()=>{clearTimeout(timer);timer=setTimeout(()=>{timer=null;if(alive())changed();},180);};
+    $("#exFilterDialog").addEventListener("change",(event)=>{
       const input=event.target;if(!input.matches("[data-facet-choice]"))return;
       const key=input.dataset.facetChoice,descriptor=filters[key];
       if(input.checked){
         if(descriptor.angles.length===1)Q.setAngle(state,descriptor.angles[0]);
         state[key]=descriptor.single?input.value:[...new Set([...state[key],input.value])];
       }else state[key]=descriptor.single?"":state[key].filter((v)=>Q.facetNormalize(key,v)!==Q.facetNormalize(key,input.value));
-      if(descriptor.single){input.closest("[data-facet-panel]").open=false;input.closest("[data-facet-panel]").querySelector("summary").focus();}
       changed();
     });
-    view.querySelectorAll("[data-facet-panel]").forEach((panel)=>{
-      const trigger=panel.querySelector("summary");
-      trigger.addEventListener("click",()=>{
-        if(!panel.open){closeFacets(panel);positionFacetAfterOpen(panel);}
-      });
-      panel.addEventListener("toggle",()=>{
-        trigger.setAttribute("aria-expanded",String(panel.open));
-        if(panel.open){closeFacets(panel);renderFacet(panel.dataset.facetPanel);positionFacet(panel);}
-      });
+    $("#openFilters").onclick=()=>openFilters();
+    view.querySelectorAll("[data-filter-tab]").forEach((button)=>button.onclick=()=>selectFilter(button.dataset.filterTab));
+    view.querySelectorAll("[data-close-filters]").forEach((button)=>button.onclick=closeFilters);
+    $("#exFilterDialog").addEventListener("cancel",(event)=>{event.preventDefault();closeFilters();});
+    $("#exFilterDialog").addEventListener("keydown",(event)=>{
+      if(event.key!=="Tab")return;
+      const targets=[...event.currentTarget.querySelectorAll("button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled])")].filter((node)=>node.getClientRects().length&&!node.closest("[hidden]"));
+      const first=targets[0],last=targets[targets.length-1];
+      if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus();}
+      else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}
     });
-    function positionFacetAfterOpen(panel){requestAnimationFrame(()=>{if(alive()&&panel.open)positionFacet(panel);});}
-    document.addEventListener("pointerdown",(event)=>{if(!event.target.closest("[data-facet-panel]"))closeFacets();},{signal:api.signal});
-    document.addEventListener("keydown",(event)=>{
-      if(event.key!=="Escape")return;
-      const open=view.querySelector("[data-facet-panel][open]");
-      if(open){event.preventDefault();closeFacets();open.querySelector("summary").focus();}
-    },{signal:api.signal});
-    window.addEventListener("resize",()=>view.querySelectorAll("[data-facet-panel][open]").forEach(positionFacet),{signal:api.signal});
-    document.addEventListener("scroll",(event)=>{
-      if(event.target instanceof Element&&event.target.closest(".field-facet-body"))return;
-      view.querySelectorAll("[data-facet-panel][open]").forEach(positionFacet);
-    },{capture:true,signal:api.signal});
-    view.querySelectorAll("[data-facet-close]").forEach((button)=>button.onclick=()=>{const panel=button.closest("[data-facet-panel]");panel.open=false;panel.querySelector("summary").focus();});
+    $("#exFilterDialog").addEventListener("click",(event)=>{if(event.target===$("#exFilterDialog")){const rect=event.target.getBoundingClientRect();if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)closeFilters();}});
+    $("#exFilterDialog").addEventListener("close",()=>{if(!$("#exFilterDialog").open){document.body.classList.remove("filter-window-open");if(dialogFocus?.isConnected)dialogFocus.focus({preventScroll:true});}});
+    api.signal.addEventListener("abort",()=>{document.body.classList.remove("filter-window-open");if($("#exFilterDialog")?.open)$("#exFilterDialog").close();},{once:true});
     view.querySelectorAll("[data-facet-clear]").forEach((button)=>button.onclick=()=>{const key=button.dataset.facetClear;state[key]=filters[key].single?"":[];changed();});
     view.querySelectorAll("[data-facet-search]").forEach((input)=>input.oninput=()=>{facetSearch.set(input.dataset.facetSearch,input.value);facetLimits.set(input.dataset.facetSearch,30);renderFacet(input.dataset.facetSearch);});
     view.querySelectorAll("[data-facet-more]").forEach((button)=>button.onclick=()=>{const key=button.dataset.facetMore;facetLimits.set(key,(facetLimits.get(key)||30)+60);renderFacet(key);});
@@ -310,10 +311,18 @@
     $("#exPeriod").onchange=(event)=>{customDates=event.target.value==="custom";state.period=event.target.value==="all"?"custom":event.target.value;if(event.target.value==="all"){state.from="";state.to="";}changed();};
     for(const [id,key] of [["exFrom","from"],["exTo","to"]])$("#"+id).onchange=(event)=>{state[key]=event.target.value;state.period="custom";changed();};
     view.querySelectorAll("[data-bound]").forEach((input)=>input.oninput=()=>{state[input.dataset.bound]=input.value;delayed();});
-    view.querySelectorAll("#exTabs .tab").forEach((button)=>button.onclick=()=>{closeFacets();Q.setAngle(state,button.dataset.angle);changed();});
+    view.querySelectorAll("#exTabs .tab").forEach((button)=>button.onclick=()=>{Q.setAngle(state,button.dataset.angle);changed();});
+    function resetFilters(){Object.assign(state,Q.parse(new URLSearchParams({angle:state.angle})));state.version=META.version;customDates=false;changed();}
+    $("#resetDialogFilters").onclick=resetFilters;
+    view.querySelectorAll("[data-clear-inputs]").forEach((button)=>button.onclick=()=>{
+      if(button.dataset.clearInputs==="time"){state.from="";state.to="";state.period="custom";state.dateField="published";customDates=false;}
+      if(button.dataset.clearInputs==="text"){state.mode="all";state.source="";}
+      if(button.dataset.clearInputs==="metrics")for(const key of Q.METRICS){state[key+"Min"]="";state[key+"Max"]="";}
+      changed();
+    });
     $("#exCondition").onclick=(event)=>{
       const clear=event.target.closest("#clearExplore"),remove=event.target.closest("[data-remove-filter]");
-      if(clear){Object.assign(state,Q.parse(new URLSearchParams({angle:state.angle})));state.version=META.version;customDates=false;changed();}
+      if(clear)resetFilters();
       else if(remove){
         const key=remove.dataset.removeFilter,value=remove.dataset.removeValue;
         if(Array.isArray(state[key]))state[key]=state[key].filter((v)=>Q.facetNormalize(key,v)!==Q.facetNormalize(key,value));
@@ -322,9 +331,6 @@
         changed();
       }
     };
-    $("#toggleFilters").onclick=(event)=>{closeFacets();const hidden=!$("#exFilterControls").hidden;$("#exFilterControls").hidden=hidden;event.currentTarget.setAttribute("aria-expanded",String(!hidden));event.currentTarget.textContent=hidden?"展开筛选":"收起筛选";};
-    $("#exMoreFilters").addEventListener("toggle",()=>{if(!$("#exMoreFilters").open)closeFacets();});
-    $("#exAdvanced").addEventListener("toggle",()=>closeFacets());
     $("#markResultsRead").onclick=()=>{markRead(current,true);showToast(`已标记 ${current.length} 条为已读`);refresh();};
     document.addEventListener("zgclab:readchange",()=>{if(alive())refresh();},{signal:api.signal});
     view.querySelectorAll("[data-preset]").forEach((button)=>button.onclick=()=>{

@@ -223,6 +223,8 @@ def run():
             ready()
 
         def exported():
+            if page.locator("#exFilterDialog").evaluate("el=>el.open"):
+                page.locator("#showFilterResults").click()
             if page.locator("#exportResults").is_disabled(): return []
             with page.expect_download() as download:
                 page.locator("#exportResults").click()
@@ -237,16 +239,16 @@ def run():
             return len(actual)
 
         def panel(key):
-            page.locator("#exMoreFilters").evaluate("el=>{el.open=true}")
+            if not page.locator("#exFilterDialog").evaluate("el=>el.open"):
+                page.locator("#openFilters").click()
+            page.locator(f"[data-filter-tab='{key}']").click()
             locator = page.locator(f"[data-facet-panel='{key}']")
-            if not locator.evaluate("el=>el.open"):
-                locator.locator(":scope > summary").click()
-            locator.locator(".field-facet-body").wait_for(state="visible")
+            locator.wait_for(state="visible")
             return locator
 
         unlock()
         assert not page.locator("#includeSimulation").is_checked()
-        assert not page.locator("#exMoreFilters").evaluate("el=>el.open")
+        assert not page.locator("#exFilterDialog").evaluate("el=>el.open")
         passed("默认高级筛选收起，模拟数据关闭")
 
         timings = []
@@ -293,8 +295,7 @@ def run():
         panel("attitudes").locator("input[value='无法判断']").check()
         ready()
         n = assert_ids({"angle": "clue", "ids": "1001140", "publisherDomains": "dhs.gov", "attitudes": "无法判断"})
-        page.locator("#exMoreFilters > summary").click()
-        page.locator("#toggleFilters").click()
+        assert not page.locator("#exFilterDialog").evaluate("el=>el.open")
         assert "dhs.gov" in page.locator("#exCondition").inner_text()
         assert len(exported()) == n
         passed("域名态度联合筛选及折叠后条件、结果导出一致", actual=n)
@@ -380,9 +381,10 @@ def run():
         params = parse_qs(urlsplit(page.url).fragment.split("?", 1)[1])
         assert "hashtags" not in params and "like_countMin" not in params and "sort" not in params
         assert assert_ids({"angle": "clue"}) == 1468
-        page.locator("#exMoreFilters").evaluate("el=>{el.open=true}")
-        assert page.locator("[data-facet-panel='hashtags']").is_hidden()
-        assert page.locator("[data-facet-panel='publisherDomains']").is_visible()
+        panel("publisherDomains")
+        assert page.locator("[data-filter-tab='hashtags']").is_hidden()
+        assert page.locator("[data-filter-tab='publisherDomains']").is_visible()
+        page.locator("#showFilterResults").click()
         passed("切换角度清除不适用标签和互动门槛，显示对应分类")
 
         query({"angle": "social", "hashtags": "test", "sim": "1"})
@@ -404,8 +406,6 @@ def run():
                 for key in keys: panel(key)
                 assert page.evaluate("document.documentElement.scrollWidth<=innerWidth+1"), (angle, width)
                 if width in (390, 1440):
-                    if angle == "news":
-                        page.locator("[data-facet-panel='sources']").scroll_into_view_if_needed()
                     page.screenshot(path=str(OUT / f"categorical-{angle}-{width}.png"), full_page=True)
                 passed("展开分类筛选无横向溢出", angle=angle, width=width)
         assert not errors, errors

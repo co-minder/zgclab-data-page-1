@@ -171,21 +171,23 @@ def run():
 
         # Exercise real controls, not just URL entry.
         query({"angle":"social"})
-        page.locator("#exMoreFilters > summary").click()
-        page.locator("#exType > summary").click()
+        page.locator("#openFilters").click()
+        page.locator("[data-filter-tab='type']").click()
         page.locator("[data-facet-choice='type'][value='企业']").check()
         page.wait_for_function("location.hash.includes('type=') && document.querySelector('#exCount').dataset.query===location.hash.split('?')[1]")
-        page.locator("#platformChoices > summary").click()
-        page.locator("#platformChoices input[value='Facebook']").check()
+        page.locator("[data-filter-tab='platforms']").click()
+        page.locator("[data-facet-choice='platforms'][value='Facebook']").check()
         page.wait_for_function("location.hash.includes('platforms=Facebook') && document.querySelector('#exCount').dataset.query===location.hash.split('?')[1]")
+        page.locator("#showFilterResults").click()
         assert set(export_ids()[0]) == set(reference({"angle":"social","type":"企业","platforms":"Facebook"}))
         results.append({"id":"UI","task":"实际下拉和勾选条件与导出一致","status":"PASS"})
 
         query({"angle":"social","ids":"1001140","platforms":"X","like_countMin":"100","sort":"like_count"})
-        page.locator("#exMoreFilters > summary").click()
-        page.locator("#exAdvanced").evaluate("el=>{el.open=true}")
+        page.locator("#openFilters").click()
+        page.locator("[data-filter-tab='metrics']").click()
         page.locator("input[data-bound='repost_countMin']").fill("20")
         page.wait_for_function("location.hash.includes('repost_countMin=20') && document.querySelector('#exCount').dataset.query===location.hash.split('?')[1]")
+        page.locator("#showFilterResults").click()
         assert set(export_ids()[0])==set(reference({"angle":"social","ids":"1001140","platforms":"X","like_countMin":"100","repost_countMin":"20"}))
 
         # Analytical counts must reconcile to full filtered results.

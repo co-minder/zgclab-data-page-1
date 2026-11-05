@@ -71,9 +71,10 @@ def run() -> None:
         assert page.locator("#exBody tr[data-id]").count() == 14
         record("all angles, total count, and lazy loading")
 
-        page.locator("#exInst > summary").click()
+        page.locator("#openFilters").click()
+        page.locator("[data-filter-tab='ids']").click()
         page.locator("[data-facet-choice='ids'][value='5775050']").check()
-        page.locator("#exInst [data-facet-close]").last.click()
+        page.locator("#showFilterResults").click()
         page.locator("#exQ").fill('"OpenAI" -military')
         page.wait_for_function("location.hash.includes('q=') && document.querySelector('#exCount').textContent.includes('筛选结果')")
         assert "ids=5775050" in page.url
@@ -117,6 +118,8 @@ def run() -> None:
         assert page.locator("#exBody tr[data-id]").first.get_attribute("data-id") == first_id
         record("page size and page survive reload")
 
+        page.locator("#openFilters").click()
+        page.locator("[data-filter-tab='time']").click()
         page.locator("#exPeriod").select_option("custom")
         page.locator("#exFrom").fill("2026-10-01")
         page.locator("#exTo").fill("2026-09-01")
@@ -126,6 +129,7 @@ def run() -> None:
         page.locator("#exTo").fill("2026-09-30")
         page.locator("#exBody tr[data-id]").first.wait_for()
         page.wait_for_function("!document.querySelector('#exportResults').disabled")
+        page.locator("#showFilterResults").click()
         dates = page.locator("#exBody tr[data-id] td:last-child").all_inner_texts()
         assert all("2026-09-01" <= date <= "2026-09-30" for date in dates)
         record("date validation and inclusive date filters")
