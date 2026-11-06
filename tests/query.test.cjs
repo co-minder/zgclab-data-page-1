@@ -103,3 +103,21 @@ test("changing angles removes incompatible categories and metric constraints",()
   Q.setAngle(selected,"clue");assert.deepEqual(selected.hashtags,[]);assert.deepEqual(selected.contentTypes,[]);assert.equal(selected.like_countMin,"");assert.equal(selected.sort,"newest");assert.deepEqual(selected.languages,["en"]);
   assert.match(Q.validate(state({angle:"all",publisherDomains:"dhs.gov",contentTypes:"post"})),/不同采集角度/);
 });
+test("social handle and display name filter independently, combine, and keep spaces in URLs",()=>{
+  const entries=[
+    {angle:"social",r:{id:"arkansas",ktid:1,platform:"X",account_handle:"ArkansasState",account_name:"Arkansas State"}},
+    {angle:"social",r:{id:"same-name",ktid:2,platform:"Facebook",account_handle:"arkansas_alumni",account_name:"Arkansas State"}},
+    {angle:"social",r:{id:"body-only",ktid:1,account_handle:"Other",account_name:"Other",original_content:"Arkansas State @ArkansasState"}},
+    {angle:"social",r:{id:"missing",ktid:1}},
+  ];
+  const matched=(params)=>Q.filter(entries,Q.parse(params),inst).entries.map(({r})=>r.id).sort();
+  assert.deepEqual(matched(new URLSearchParams({accountHandles:"@arkansasstate"})),["arkansas"]);
+  assert.deepEqual(matched(new URLSearchParams({accountNames:"Arkansas State"})),["arkansas","same-name"]);
+  assert.deepEqual(matched(new URLSearchParams({accountNames:"Arkansas"})),[]);
+  const params=new URLSearchParams({angle:"social",accountNames:"Arkansas State",accountHandles:"ArkansasState"});params.append("accountHandles","arkansas_alumni");
+  assert.deepEqual(matched(params),["arkansas","same-name"]);
+  params.set("platforms","X");assert.deepEqual(matched(params),["arkansas"]);
+  const selected=Q.parse(params);assert.deepEqual(Q.parse(new URLSearchParams(Q.serialize(selected))),selected);
+  Q.setAngle(selected,"clue");assert.deepEqual(selected.accountHandles,[]);assert.deepEqual(selected.accountNames,[]);
+  assert.deepEqual(matched(new URLSearchParams({accountHandles:Q.EMPTY})),["missing"]);
+});

@@ -20,6 +20,8 @@
     publishSubjects: { field: "publish_subject", label: "发布主体", angles: ["clue"] },
     relatedSubjects: { field: "related_subject", label: "关联主体", angles: ["clue"] },
     industries: { field: "industry", label: "所属行业", angles: ["clue"], help: "按交付字段原值选择，尚未合并近义行业名称。" },
+    accountHandles: { field: "account_handle", label: "账号 handle", angles: ["social"], prefix: "@", help: "按完整账号标识匹配，忽略大小写和前导 @；可与平台组合，也可同时选择多个账号。" },
+    accountNames: { field: "account_name", label: "账号名称", angles: ["social"], help: "按完整显示名称匹配，名称中的空格保持原样；可多选并与平台、账号 handle 等条件组合。" },
     contentTypes: { field: "content_type", label: "内容类型", angles: ["social"] },
     hashtags: { field: "hashtags", label: "话题标签", angles: ["social"], tokens: true, prefix: "#", help: "只匹配 hashtags 字段中的完整标签，忽略大小写和前导 #。" },
     mentions: { field: "mentions", label: "提及账号", angles: ["social"], tokens: true, prefix: "@", help: "只匹配 mentions 字段中的完整账号，忽略大小写和前导 @。" },

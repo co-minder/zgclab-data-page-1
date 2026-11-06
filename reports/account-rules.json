@@ -1,0 +1,7 @@
+{
+  "passed": 22,
+  "failed": 0,
+  "errors": [],
+  "command": "node --test tests/core.test.cjs tests/query.test.cjs",
+  "tested_at": "2026-11-06T07:12:30.144320+00:00"
+}

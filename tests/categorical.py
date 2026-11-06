@@ -36,6 +36,8 @@ FIELDS = {
     "publishSubjects": ("publish_subject", ("clue",)),
     "relatedSubjects": ("related_subject", ("clue",)),
     "industries": ("industry", ("clue",)),
+    "accountHandles": ("account_handle", ("social",)),
+    "accountNames": ("account_name", ("social",)),
     "contentTypes": ("content_type", ("social",)),
     "hashtags": ("hashtags", ("social",)),
     "mentions": ("mentions", ("social",)),
@@ -64,7 +66,7 @@ for folder, version in ((ROOT / "data/details", META["version"]), (ROOT / "data/
 
 def norm(value, key=""):
     raw = unicodedata.normalize("NFKC", str(value)).lower().strip()
-    return raw.lstrip("#" if key == "hashtags" else "@") if key in ("hashtags", "mentions") else raw
+    return raw.lstrip("#" if key == "hashtags" else "@") if key in ("hashtags", "mentions", "accountHandles") else raw
 
 
 def values(fields, key):
@@ -177,6 +179,19 @@ CASES[29] = ("社媒状态", {"angle": "social", "dataStates": next(FULL[r["id"]
 industry = next((FULL[r["id"]]["industry"] for a, r in REAL if a == "clue" and "," in FULL[r["id"]].get("industry", "")), None)
 if industry:
     CASES.append(("行业原值含逗号", {"angle": "clue", "industries": industry}))
+CASES.extend([
+    ("账号 handle ArkansasState", {"angle": "social", "accountHandles": "ArkansasState"}),
+    ("账号 handle 前缀与大小写", {"angle": "social", "accountHandles": "@arkansasstate"}),
+    ("完整账号名称包含空格", {"angle": "social", "accountNames": "Arkansas State"}),
+    ("handle 名称与平台组合", {"angle": "social", "accountHandles": "ArkansasState", "accountNames": "Arkansas State", "platforms": "X"}),
+    ("账号 handle 多选", {"angle": "social", "accountHandles": ["ArkansasState", "FBI"]}),
+    ("账号名称多选", {"angle": "social", "accountNames": ["Arkansas State", "FBI"]}),
+    ("账号名称完整匹配不取部分词", {"angle": "social", "accountNames": "Arkansas"}),
+    ("不相符的 handle 与名称零结果", {"angle": "social", "accountHandles": "ArkansasState", "accountNames": "FBI"}),
+    ("账号与日期机构组合", {"angle": "social", "accountHandles": "ArkansasState", "ids": "1002550", "from": "2026-10-01", "to": "2026-10-31"}),
+])
+sim_account = next(r for a, r in SIMULATED if a == "social")
+CASES.append(("模拟账号 handle 和名称", {"angle": "social", "platforms": "test", "accountHandles": sim_account["account_handle"], "accountNames": sim_account["account_name"], "sim": "1"}))
 
 
 def run():
@@ -324,6 +339,50 @@ def run():
         ready()
         n = assert_ids({"angle": "social", "ids": "1000110", "hashtags": "FBI", "contentTypes": "post"})
         passed("社媒标签搜索、机构范围计数与跨字段 AND", scope_count=expected_scope, actual=n)
+
+        query({"angle": "social"})
+        handles = panel("accountHandles")
+        handles.locator("[data-facet-search]").fill("Arkansas")
+        handle = handles.locator("input[value='ArkansasState']")
+        assert handle.locator("..").locator("small").inner_text() == "1"
+        handle.check()
+        ready()
+        names = panel("accountNames")
+        names.locator("[data-facet-search]").fill("Arkansas State")
+        names.locator("input[value='Arkansas State']").check()
+        ready()
+        account_params = {"angle": "social", "accountHandles": "ArkansasState", "accountNames": "Arkansas State"}
+        assert assert_ids(account_params) == 1
+        page.locator("#saveQuery").click()
+        account_saved = page.evaluate("JSON.parse(localStorage.getItem('zgclab.workspace.v1')).queries[0]")
+        account_qs = parse_qs(account_saved["hash"].split("?", 1)[1])
+        assert account_qs["accountNames"] == ["Arkansas State"] and account_qs["accountHandles"] == ["ArkansasState"]
+        page.reload()
+        page.locator("#accessForm").wait_for()
+        unlock()
+        assert assert_ids(account_params) == 1
+        page.locator("[data-remove-filter='accountHandles']").click()
+        ready()
+        assert "accountHandles=" not in page.url
+        assert assert_ids({"angle": "social", "accountNames": "Arkansas State"}) == 1
+        passed("账号 handle 名称可搜索多选组合、保存并单独移除", actual=1)
+
+        account_context = {"angle": "social", "ids": "1002550", "platforms": "X", "from": "2026-10-01", "to": "2026-10-31"}
+        for field, key, value in (("account_handle", "accountHandles", "ArkansasState"), ("account_name", "accountNames", "Arkansas State")):
+            query(account_context)
+            page.locator("#exBody tr[data-id]").first.click()
+            page.wait_for_function("document.querySelector('#detailStatus')?.textContent.includes('已载入完整交付记录')")
+            link = page.locator(f".field-filter-link[data-filter-field='{field}']")
+            assert link.count() == 1
+            target = parse_qs(link.get_attribute("href").split("?", 1)[1])
+            for preserved in ("ids", "platforms", "from", "to"):
+                assert target[preserved] == [account_context[preserved]], target
+            assert target[key] == [value]
+            link.click()
+            page.locator(".modal").wait_for(state="detached")
+            ready()
+            assert assert_ids({**account_context, key: value}) == 1
+            passed("详情账号字段筛选保留机构平台与日期", field=field, actual=1)
 
         # Detail links must preserve applicable context and also close on an identical hash.
         detail_params = {"angle": "social", "ids": "1000110", "hashtags": "FBI", "from": "2026-01-01", "to": "2026-09-30"}

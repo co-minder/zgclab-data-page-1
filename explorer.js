@@ -26,7 +26,7 @@
       risks: { label: "线索风险", angles: ["clue"] },
       tags: { label: "新闻标签", angles: ["news"] },
       ...Q.FACETS,
-      account: { label: "精确账号", single: true, angles: ["social"] },
+      account: { label: "平台＋账号", single: true, angles: ["social"], help: "精确匹配平台与账号的组合。也可分别使用“账号 handle”“账号名称”进行多选。" },
       translation: { label: "中文正文 / 翻译", single: true, angles: ["news","clue","social"] },
       media: { label: "媒体 / 附件", single: true, angles: ["news","clue","social"] },
       missing: { label: "缺失字段", single: true, angles: ["news","clue","social"] },
@@ -50,7 +50,7 @@
         <div id="exError" class="inline-error" role="alert" hidden></div>
         <div id="exCondition" class="active-conditions" aria-label="已选筛选条件" hidden></div>
         <div class="query-results-tools"><span id="exCount" class="result-count" role="status" aria-live="polite"></span><label><span class="sr-only">阅读状态</span><select id="exRead" aria-label="阅读状态">${options([["","全部阅读状态"],["unread","只看未读"],["read","只看已读"]],state.read)}</select></label><label><span class="sr-only">排序</span><select id="exSort" aria-label="排序">${options([["newest","时间最新"],["oldest","时间最早"],["relevance","关键词相关度"], ...Q.METRICS.map((m) => [m,metrics[m]+"从高到低"])],state.sort)}</select></label><label><span class="sr-only">结果上限</span><select id="exLimit" aria-label="结果上限">${options([[0,"全部结果"],[10,"前 10 条"],[20,"前 20 条"],[50,"前 50 条"]],state.limit)}</select></label><label><span class="sr-only">每页记录数</span><select id="exSize" aria-label="每页记录数">${options([14,25,50,100].map((size) => [size,size+" 条 / 页"]),state.size)}</select></label><button class="text-button" id="markResultsRead" disabled>标记已读</button></div>
-        <div id="exBreakdown" class="query-breakdown"></div><div class="table-wrap explorer-table"><table class="data"><thead id="exHead"></thead><tbody id="exBody"></tbody></table></div><div class="mobile-results rec-list" id="exCards"></div><div id="exPager"></div>
+        <div id="exBreakdown" class="query-breakdown"></div><div class="table-wrap explorer-table"><table class="data"><colgroup><col class="column-angle"><col class="column-title"><col class="column-institution"><col class="column-category"><col class="column-date"></colgroup><thead id="exHead"></thead><tbody id="exBody"></tbody></table></div><div class="mobile-results rec-list" id="exCards"></div><div id="exPager"></div>
         <details class="query-notes" id="exNotes"><summary>数据范围与时间口径说明</summary><div id="exCoverage" class="coverage-note" role="status"></div></details>
       </section>
       <details class="section card pad query-analysis"><summary>当前结果分析 <span class="hint">展开查看分布、排行与对比</span></summary><div id="exAnalytics"></div></details>
@@ -203,7 +203,7 @@
     function row(angle,r) {
       const counts = angle === "social" ? `<span class="row-metrics">${Object.entries(metrics).map(([key,label]) => { const value=Q.metric(r,key); return `${label} ${value==null ? "未提供" : fmt(value)}`; }).join(" · ")}</span>` : "";
       const badge = angle === "clue" ? r.risk_level || "未判定" : angle === "news" ? r.tag || "未分类" : r.platform || "未提供";
-      return `<tr data-angle="${angle}" data-id="${esc(r.id)}"><td><span class="tag ${angle}">${META.angles[angle].name}</span>${r._simulation?'<span class="simulation-badge">模拟数据</span>':""}</td><td><span class="cell-title">${esc(api.titleOf(angle,r))}</span><span class="read-badge">${isRead(angle,r.id) ? "已读" : "未读"}</span>${counts}</td><td>${esc(instName(r.ktid))}</td><td><span class="tag ${angle} ${angle === "clue" ? ({高:"risk-High",中:"risk-Mid",低:"risk-Low"}[r.risk_level]||"") : ""}">${esc(badge)}</span></td><td class="cell-muted">${esc(Q.recordDay(Q.dateValue(r,state.dateField))||"未提供")}</td></tr>`;
+      return `<tr data-angle="${angle}" data-id="${esc(r.id)}"><td class="row-angle"><span class="tag ${angle}">${META.angles[angle].name}</span>${r._simulation?'<span class="simulation-badge">模拟数据</span>':""}</td><td><span class="cell-title">${esc(api.titleOf(angle,r))}</span><span class="read-badge">${isRead(angle,r.id) ? "已读" : "未读"}</span>${counts}</td><td class="row-institution">${esc(instName(r.ktid))}</td><td class="row-category"><span class="tag ${angle} ${angle === "clue" ? ({高:"risk-High",中:"risk-Mid",低:"risk-Low"}[r.risk_level]||"") : ""}">${esc(badge)}</span></td><td class="cell-muted row-date">${esc(Q.recordDay(Q.dateValue(r,state.dateField))||"未提供")}</td></tr>`;
     }
     function metricCard(angle,r) {
       const card = recCard(angle,r);

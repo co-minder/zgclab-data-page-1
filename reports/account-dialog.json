@@ -1,0 +1,308 @@
+{
+  "target": "http://127.0.0.1:8789/",
+  "tested_at": "2026-11-06T07:11:04.172073+00:00",
+  "passed": 31,
+  "errors": [],
+  "measurements": [
+    {
+      "width": 360,
+      "angle": "news",
+      "first_record_y": 314.44
+    },
+    {
+      "width": 360,
+      "angle": "clue",
+      "first_record_y": 314.44
+    },
+    {
+      "width": 360,
+      "angle": "social",
+      "first_record_y": 314.44
+    },
+    {
+      "width": 390,
+      "angle": "news",
+      "first_record_y": 314.44
+    },
+    {
+      "width": 390,
+      "angle": "clue",
+      "first_record_y": 314.44
+    },
+    {
+      "width": 390,
+      "angle": "social",
+      "first_record_y": 314.44
+    },
+    {
+      "width": 609,
+      "angle": "news",
+      "first_record_y": 314.44
+    },
+    {
+      "width": 609,
+      "angle": "clue",
+      "first_record_y": 314.44
+    },
+    {
+      "width": 609,
+      "angle": "social",
+      "first_record_y": 314.44
+    },
+    {
+      "width": 768,
+      "angle": "news",
+      "first_record_y": 285.59
+    },
+    {
+      "width": 768,
+      "angle": "clue",
+      "first_record_y": 285.59
+    },
+    {
+      "width": 768,
+      "angle": "social",
+      "first_record_y": 285.59
+    },
+    {
+      "width": 1024,
+      "angle": "news",
+      "first_record_y": 302.06
+    },
+    {
+      "width": 1024,
+      "angle": "clue",
+      "first_record_y": 302.06
+    },
+    {
+      "width": 1024,
+      "angle": "social",
+      "first_record_y": 302.06
+    },
+    {
+      "width": 1440,
+      "angle": "news",
+      "first_record_y": 290.88
+    },
+    {
+      "width": 1440,
+      "angle": "clue",
+      "first_record_y": 290.88
+    },
+    {
+      "width": 1440,
+      "angle": "social",
+      "first_record_y": 290.88
+    },
+    {
+      "width": 1920,
+      "angle": "news",
+      "first_record_y": 290.88
+    },
+    {
+      "width": 1920,
+      "angle": "clue",
+      "first_record_y": 290.88
+    },
+    {
+      "width": 1920,
+      "angle": "social",
+      "first_record_y": 290.88
+    }
+  ],
+  "checks": [
+    {
+      "check": "主页面仅搜索和筛选入口，筛选区不占表头前的空间",
+      "status": "PASS",
+      "first_record_y": 290.88
+    },
+    {
+      "check": "整个筛选为独立模态窗口，机构选项横向对齐",
+      "status": "PASS",
+      "row_height": 37
+    },
+    {
+      "check": "FBI 与 policy 在同一窗口组合，关闭后结果和条件保留",
+      "status": "PASS",
+      "actual": 431
+    },
+    {
+      "check": "Escape 和遮罩关闭不丢条件，恢复焦点和页面滚动",
+      "status": "PASS"
+    },
+    {
+      "check": "弹窗焦点限制、机构搜索多选与页面条件单项移除",
+      "status": "PASS"
+    },
+    {
+      "check": "弹窗内日期错误清晰提示，清空当前项和重置全部可恢复",
+      "status": "PASS"
+    },
+    {
+      "check": "离开查询会清理弹窗和滚动状态，各角度显示适用字段",
+      "status": "PASS"
+    },
+    {
+      "check": "不同宽度弹窗位于屏幕内，选项横向对齐，表格不位移",
+      "status": "PASS",
+      "width": 360,
+      "angle": "news",
+      "first_record_y": 314.44
+    },
+    {
+      "check": "不同宽度弹窗位于屏幕内，选项横向对齐，表格不位移",
+      "status": "PASS",
+      "width": 360,
+      "angle": "clue",
+      "first_record_y": 314.44
+    },
+    {
+      "check": "不同宽度弹窗位于屏幕内，选项横向对齐，表格不位移",
+      "status": "PASS",
+      "width": 360,
+      "angle": "social",
+      "first_record_y": 314.44
+    },
+    {
+      "check": "不同宽度弹窗位于屏幕内，选项横向对齐，表格不位移",
+      "status": "PASS",
+      "width": 390,
+      "angle": "news",
+      "first_record_y": 314.44
+    },
+    {
+      "check": "不同宽度弹窗位于屏幕内，选项横向对齐，表格不位移",
+      "status": "PASS",
+      "width": 390,
+      "angle": "clue",
+      "first_record_y": 314.44
+    },
+    {
+      "check": "不同宽度弹窗位于屏幕内，选项横向对齐，表格不位移",
+      "status": "PASS",
+      "width": 390,
+      "angle": "social",
+      "first_record_y": 314.44
+    },
+    {
+      "check": "不同宽度弹窗位于屏幕内，选项横向对齐，表格不位移",
+      "status": "PASS",
+      "width": 609,
+      "angle": "news",
+      "first_record_y": 314.44
+    },
+    {
+      "check": "不同宽度弹窗位于屏幕内，选项横向对齐，表格不位移",
+      "status": "PASS",
+      "width": 609,
+      "angle": "clue",
+      "first_record_y": 314.44
+    },
+    {
+      "check": "不同宽度弹窗位于屏幕内，选项横向对齐，表格不位移",
+      "status": "PASS",
+      "width": 609,
+      "angle": "social",
+      "first_record_y": 314.44
+    },
+    {
+      "check": "不同宽度弹窗位于屏幕内，选项横向对齐，表格不位移",
+      "status": "PASS",
+      "width": 768,
+      "angle": "news",
+      "first_record_y": 285.59
+    },
+    {
+      "check": "不同宽度弹窗位于屏幕内，选项横向对齐，表格不位移",
+      "status": "PASS",
+      "width": 768,
+      "angle": "clue",
+      "first_record_y": 285.59
+    },
+    {
+      "check": "不同宽度弹窗位于屏幕内，选项横向对齐，表格不位移",
+      "status": "PASS",
+      "width": 768,
+      "angle": "social",
+      "first_record_y": 285.59
+    },
+    {
+      "check": "不同宽度弹窗位于屏幕内，选项横向对齐，表格不位移",
+      "status": "PASS",
+      "width": 1024,
+      "angle": "news",
+      "first_record_y": 302.06
+    },
+    {
+      "check": "不同宽度弹窗位于屏幕内，选项横向对齐，表格不位移",
+      "status": "PASS",
+      "width": 1024,
+      "angle": "clue",
+      "first_record_y": 302.06
+    },
+    {
+      "check": "不同宽度弹窗位于屏幕内，选项横向对齐，表格不位移",
+      "status": "PASS",
+      "width": 1024,
+      "angle": "social",
+      "first_record_y": 302.06
+    },
+    {
+      "check": "不同宽度弹窗位于屏幕内，选项横向对齐，表格不位移",
+      "status": "PASS",
+      "width": 1440,
+      "angle": "news",
+      "first_record_y": 290.88
+    },
+    {
+      "check": "不同宽度弹窗位于屏幕内，选项横向对齐，表格不位移",
+      "status": "PASS",
+      "width": 1440,
+      "angle": "clue",
+      "first_record_y": 290.88
+    },
+    {
+      "check": "不同宽度弹窗位于屏幕内，选项横向对齐，表格不位移",
+      "status": "PASS",
+      "width": 1440,
+      "angle": "social",
+      "first_record_y": 290.88
+    },
+    {
+      "check": "不同宽度弹窗位于屏幕内，选项横向对齐，表格不位移",
+      "status": "PASS",
+      "width": 1920,
+      "angle": "news",
+      "first_record_y": 290.88
+    },
+    {
+      "check": "不同宽度弹窗位于屏幕内，选项横向对齐，表格不位移",
+      "status": "PASS",
+      "width": 1920,
+      "angle": "clue",
+      "first_record_y": 290.88
+    },
+    {
+      "check": "不同宽度弹窗位于屏幕内，选项横向对齐，表格不位移",
+      "status": "PASS",
+      "width": 1920,
+      "angle": "social",
+      "first_record_y": 290.88
+    },
+    {
+      "check": "放大显示时机构勾选、名称、计数仍在同一行",
+      "status": "PASS",
+      "zoom": 1.25
+    },
+    {
+      "check": "放大显示时机构勾选、名称、计数仍在同一行",
+      "status": "PASS",
+      "zoom": 1.5
+    },
+    {
+      "check": "无页面脚本异常",
+      "status": "PASS",
+      "errors": []
+    }
+  ]
+}
