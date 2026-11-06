@@ -1,0 +1,10 @@
+{
+  "completed_at": "2026-11-06T07:18:44.570622+00:00",
+  "manifest": "manifest-553e7db8da6200caf554.json",
+  "checks": {
+    "table-layout": 50,
+    "categorical": 89
+  },
+  "passed": 139,
+  "errors": []
+}

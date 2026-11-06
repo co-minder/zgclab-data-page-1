@@ -1,0 +1,397 @@
+{
+  "target": "https://co-minder.github.io/zgclab-data-page-1/",
+  "tested_at": "2026-11-06T07:17:35.547218+00:00",
+  "passed": 50,
+  "errors": [],
+  "checks": [
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 900,
+      "zoom": 1,
+      "angle": "news",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 900,
+      "zoom": 1,
+      "angle": "clue",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 900,
+      "zoom": 1,
+      "angle": "social",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 900,
+      "zoom": 1.25,
+      "angle": "news",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 900,
+      "zoom": 1.25,
+      "angle": "clue",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 900,
+      "zoom": 1.25,
+      "angle": "social",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 900,
+      "zoom": 1.5,
+      "angle": "news",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 900,
+      "zoom": 1.5,
+      "angle": "clue",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 900,
+      "zoom": 1.5,
+      "angle": "social",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1024,
+      "zoom": 1,
+      "angle": "news",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1024,
+      "zoom": 1,
+      "angle": "clue",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1024,
+      "zoom": 1,
+      "angle": "social",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1024,
+      "zoom": 1.25,
+      "angle": "news",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1024,
+      "zoom": 1.25,
+      "angle": "clue",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1024,
+      "zoom": 1.25,
+      "angle": "social",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1024,
+      "zoom": 1.5,
+      "angle": "news",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1024,
+      "zoom": 1.5,
+      "angle": "clue",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1024,
+      "zoom": 1.5,
+      "angle": "social",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1180,
+      "zoom": 1,
+      "angle": "news",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1180,
+      "zoom": 1,
+      "angle": "clue",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1180,
+      "zoom": 1,
+      "angle": "social",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1180,
+      "zoom": 1.25,
+      "angle": "news",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1180,
+      "zoom": 1.25,
+      "angle": "clue",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1180,
+      "zoom": 1.25,
+      "angle": "social",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1180,
+      "zoom": 1.5,
+      "angle": "news",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1180,
+      "zoom": 1.5,
+      "angle": "clue",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1180,
+      "zoom": 1.5,
+      "angle": "social",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1280,
+      "zoom": 1,
+      "angle": "news",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1280,
+      "zoom": 1,
+      "angle": "clue",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1280,
+      "zoom": 1,
+      "angle": "social",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1280,
+      "zoom": 1.25,
+      "angle": "news",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1280,
+      "zoom": 1.25,
+      "angle": "clue",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1280,
+      "zoom": 1.25,
+      "angle": "social",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1280,
+      "zoom": 1.5,
+      "angle": "news",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1280,
+      "zoom": 1.5,
+      "angle": "clue",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1280,
+      "zoom": 1.5,
+      "angle": "social",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1440,
+      "zoom": 1,
+      "angle": "news",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1440,
+      "zoom": 1,
+      "angle": "clue",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1440,
+      "zoom": 1,
+      "angle": "social",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1440,
+      "zoom": 1.25,
+      "angle": "news",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1440,
+      "zoom": 1.25,
+      "angle": "clue",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1440,
+      "zoom": 1.25,
+      "angle": "social",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1440,
+      "zoom": 1.5,
+      "angle": "news",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1440,
+      "zoom": 1.5,
+      "angle": "clue",
+      "checked_rows": 14
+    },
+    {
+      "check": "角度标签与日期保持完整一行",
+      "status": "PASS",
+      "width": 1440,
+      "zoom": 1.5,
+      "angle": "social",
+      "checked_rows": 14
+    },
+    {
+      "check": "手机使用卡片且无横向溢出",
+      "status": "PASS",
+      "width": 360,
+      "angle": "clue"
+    },
+    {
+      "check": "手机使用卡片且无横向溢出",
+      "status": "PASS",
+      "width": 360,
+      "angle": "social"
+    },
+    {
+      "check": "手机使用卡片且无横向溢出",
+      "status": "PASS",
+      "width": 390,
+      "angle": "clue"
+    },
+    {
+      "check": "手机使用卡片且无横向溢出",
+      "status": "PASS",
+      "width": 390,
+      "angle": "social"
+    },
+    {
+      "check": "无页面脚本异常",
+      "status": "PASS",
+      "errors": []
+    }
+  ]
+}
