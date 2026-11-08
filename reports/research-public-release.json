@@ -1,0 +1,254 @@
+{
+  "tested_at": "2026-11-08T15:28:26.909446+00:00",
+  "target": "https://co-minder.github.io/zgclab-data-page-1/",
+  "expected_manifest": "manifest-6421c8a18fb064ae7dc9.json",
+  "release_commit": "1627db07607ee1c769272aedb7ddf81fce5437c4",
+  "checks": [
+    {
+      "check": "Pages serves the final manifest",
+      "status": "PASS",
+      "evidence": "manifest-6421c8a18fb064ae7dc9.json"
+    },
+    {
+      "check": "A fresh document requires the password",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "check": "Simulation remains off",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "check": "Published page connects to the same database snapshot",
+      "status": "PASS",
+      "evidence": {
+        "schema_version": 2,
+        "source_version": "f064c896c123cbf4",
+        "research_version": "a8acd9d0b712fbe06a65",
+        "total": 6989
+      }
+    },
+    {
+      "check": "Published model status is rendered",
+      "status": "PASS",
+      "evidence": "研究服务已连接\n\n资料库：6,989 条真实记录\n\n模型可用：DeepSeek V4.1 Flash · ready\n\n索引 6,989 条 · 资料版本 f064c896c123cbf4\n\n模型状态来自 relay 健康检查；本次是否实际使用以结果为准。\n\n入库时间 2026-11-08T14:45:40+00:00\n\n服务快照生成 2026-11-05T15:10:46+00:00"
+    },
+    {
+      "check": "Published exact count is 221 without model usage",
+      "status": "PASS",
+      "evidence": {
+        "state": "database_answer",
+        "model": {
+          "id": "auto/deepseek-v4.1-flash",
+          "used": false,
+          "attempted": false,
+          "reason": "exact_database_aggregate"
+        },
+        "aggregates": {
+          "scope": {
+            "dataset": "real",
+            "filters": {
+              "date_field": "published_at",
+              "institution": [
+                1002550
+              ]
+            },
+            "source_version": "f064c896c123cbf4",
+            "date_field": "published_at",
+            "timezone": "Asia/Shanghai",
+            "relaxed": false,
+            "term_match": [],
+            "strategy": "structured_filters",
+            "date_semantics": "Original source publication dates only; recovered dates do not change this scope"
+          },
+          "scoped": {
+            "total": 221,
+            "by_angle": {
+              "news": 100,
+              "clue": 120,
+              "social": 1
+            },
+            "by_institution": [
+              {
+                "ktid": 1002550,
+                "cn": "阿肯色州立大学",
+                "en": "Arkansas State University",
+                "count": 221,
+                "by_angle": {
+                  "news": 100,
+                  "clue": 120,
+                  "social": 1
+                }
+              }
+            ],
+            "by_platform": [
+              {
+                "platform": "official_web",
+                "count": 120
+              },
+              {
+                "platform": "Google News RSS discovery",
+                "count": 98
+              },
+              {
+                "platform": "Bing News RSS",
+                "count": 2
+              },
+              {
+                "platform": "X",
+                "count": 1
+              }
+            ]
+          },
+          "matched": {
+            "total": 221,
+            "by_angle": {
+              "news": 100,
+              "clue": 120,
+              "social": 1
+            },
+            "by_institution": [
+              {
+                "ktid": 1002550,
+                "cn": "阿肯色州立大学",
+                "en": "Arkansas State University",
+                "count": 221,
+                "by_angle": {
+                  "news": 100,
+                  "clue": 120,
+                  "social": 1
+                }
+              }
+            ],
+            "by_platform": [
+              {
+                "platform": "official_web",
+                "count": 120
+              },
+              {
+                "platform": "Google News RSS discovery",
+                "count": 98
+              },
+              {
+                "platform": "Bing News RSS",
+                "count": 2
+              },
+              {
+                "platform": "X",
+                "count": 1
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "check": "Published statistical citation receives focus",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "check": "Published handle and platform filters find the real record",
+      "status": "PASS",
+      "evidence": "筛选结果 1 条 · 1 个机构 · 当前显示 1–1 条"
+    },
+    {
+      "check": "Filters still use an independent modal",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "check": "Published topic dialog contains keyboard focus",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "check": "Published topic dialog restores trigger focus",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "check": "Published changes page uses all full text fingerprints and a zero baseline",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "check": "Published collection plan contains the four categories and ten suggestions",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "check": "390px published plan has no page overflow",
+      "status": "PASS",
+      "evidence": {
+        "page": 390,
+        "viewport": 390
+      }
+    },
+    {
+      "check": "768px published plan has no page overflow",
+      "status": "PASS",
+      "evidence": {
+        "page": 768,
+        "viewport": 768
+      }
+    },
+    {
+      "check": "1440px published plan has no page overflow",
+      "status": "PASS",
+      "evidence": {
+        "page": 1440,
+        "viewport": 1440
+      }
+    },
+    {
+      "check": "Refresh 1 requires the password again",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "check": "Refresh 2 requires the password again",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "check": "Published navigation has no page script errors",
+      "status": "PASS",
+      "evidence": []
+    }
+  ],
+  "page_errors": [],
+  "model_business_requests": 0,
+  "passed": 19,
+  "failed": 0,
+  "finished_at": "2026-11-08T15:28:44.943387+00:00",
+  "artifacts": "/home/ubuntu/log/zgclab-research-public-release-20261108-r2",
+  "previous_runs": [
+    {
+      "report": "/home/ubuntu/log/zgclab-research-public-release-20261108/results.json",
+      "passed": 3,
+      "failed": 1,
+      "error": "Page.wait_for_function: Timeout 30000ms exceeded.",
+      "scope": "Initial public health display request did not complete before the UI timeout; retained as observed transient failure."
+    }
+  ],
+  "network_observation": "First run timed out waiting for service status; authenticated status later returned HTTP 200 and a separate complete rerun passed 19/19. No product or timeout assertion was changed between runs.",
+  "pages_deployment": {
+    "id": 42494728746,
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "1627db07607ee1c769272aedb7ddf81fce5437c4",
+    "url": "https://github.com/co-minder/zgclab-data-page-1/actions/runs/42494728746"
+  },
+  "desktop_browser_reconnect": {
+    "verified": true,
+    "initial_health_timeout_observed": true,
+    "after_manual_reconnect": "database 6989 and DeepSeek V4.1 Flash ready",
+    "question_submitted": false
+  },
+  "published_screenshots": [
+    "reports/research-published-assistant.png",
+    "reports/research-published-plan-mobile.png"
+  ]
+}

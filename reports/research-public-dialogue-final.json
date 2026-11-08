@@ -1,0 +1,543 @@
+{
+  "target": "https://co-minder.github.io/zgclab-data-page-1/",
+  "mode": "public-dialogue-targeted",
+  "scope": "targeted public Pages UI dialogue; not a full acceptance suite",
+  "tested_at": "2026-11-08T15:30:55.137841+00:00",
+  "run_id": "20261108T153012Z-3072676",
+  "release": {
+    "scope": "targeted public Pages UI dialogue; not a full acceptance suite",
+    "expected_manifest": "manifest-6421c8a18fb064ae7dc9.json",
+    "release_commit": "1627db07607ee1c769272aedb7ddf81fce5437c4",
+    "release_commit_evidence": "server repository HEAD plus actual public Pages manifest",
+    "source_version": "f064c896c123cbf4",
+    "research_version": "a8acd9d0b712fbe06a65",
+    "model_question_budget": 2,
+    "retry_budget": 0,
+    "preserved_setup_failure": "reports/research-public-dialogue-setup-failure.json",
+    "source_file_sha256": {
+      "service/chat.py": "98e632c9317fde014aaea909e007ab5b3f233980bdc96e89b4234ae3477e1bcc",
+      "service/intent.py": "fd2956503dcde06f5d4c96a27ab3b7f26a4a57454009242bcea9db2796b91b64",
+      "service/retrieval.py": "c11913318dbf8959bfd1427e4f5f9d981e6ce888c56d330114b9e404dd083a65",
+      "assistant.js": "158799d7671514a9e128a4bf52e01fb99af06a73211b62e027b4f4cbb41e0ee9",
+      "research.js": "8400c9bce246214d7977c3cdeca9e689f8dafd6153b8e7f1d86586648fca14ab"
+    },
+    "prior_evidence": {
+      "comprehensive_report": "reports/research-acceptance-1db-comprehensive.json",
+      "backup_supplement": "reports/research-acceptance-backup-final.json"
+    },
+    "static_reference_sha256": "e67148800703e0b755fd2d569ab1fe9c96dbcfacff6009472a58d1e0bbca98dc"
+  },
+  "protected_manifest": "manifest-6421c8a18fb064ae7dc9.json",
+  "passed": 8,
+  "failed": 0,
+  "blocked": 0,
+  "skipped": 0,
+  "errors": [],
+  "page_errors": [],
+  "real_chat_requests": 4,
+  "business_model_questions": 2,
+  "business_model_question_budget": 2,
+  "non_model_boundary_requests": 2,
+  "automatic_retries": 0,
+  "full_suite_executed": false,
+  "targeted_checks_complete": true,
+  "checks": [
+    {
+      "id": "release_context",
+      "check": "发布 commit 与资料版本范围",
+      "section": "public",
+      "status": "PASS",
+      "evidence": {
+        "repository_head": "1627db07607ee1c769272aedb7ddf81fce5437c4",
+        "expected_public_manifest": "manifest-6421c8a18fb064ae7dc9.json",
+        "source_version": "f064c896c123cbf4",
+        "research_version": "a8acd9d0b712fbe06a65",
+        "raw_reference_sha256": "e67148800703e0b755fd2d569ab1fe9c96dbcfacff6009472a58d1e0bbca98dc"
+      },
+      "elapsed_seconds": 0.003
+    },
+    {
+      "id": "pages_unlock",
+      "check": "公网Pages密码解锁及实际最终manifest",
+      "section": "public",
+      "status": "PASS",
+      "evidence": {
+        "actual_pages_url": "https://co-minder.github.io/zgclab-data-page-1/#/assistant?mode=chat&angle=social&ids=1002550",
+        "actual_manifest": "manifest-6421c8a18fb064ae7dc9.json",
+        "password_reused_for_service": true,
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T153012Z-3072676/001-public-unlocked.png"
+      },
+      "elapsed_seconds": 5.329
+    },
+    {
+      "id": "public_status",
+      "check": "公网API只读数据库及source/research版本",
+      "section": "public",
+      "status": "PASS",
+      "evidence": {
+        "source_version": "f064c896c123cbf4",
+        "research_version": "a8acd9d0b712fbe06a65",
+        "database_total": 6989,
+        "dataset": "real",
+        "api_base": "https://bringing-themes-mae-dating.trycloudflare.com",
+        "initial_status_observations": [
+          {
+            "kind": "initial_ui_status",
+            "elapsed_from_navigation_seconds": 6.4,
+            "observed_state": "研究服务已连接\n\n资料库：6,989 条真实记录\n\n模型可用：DeepSeek V4.1 Flash · ready\n\n索引 6,989 条 · 资料版本 f064c896c123cbf4\n\n模型状态来自 relay 健康检查；本次是否实际使用以结果为准。\n\n入库时间 2026-11-08T14:45:40+00:00\n\n服务快照生成 2026-11-05T15:10:46+00:00"
+          },
+          {
+            "kind": "authenticated_status_check",
+            "duration_seconds": 0.149,
+            "state": "ready",
+            "ui_reconnects": 0
+          }
+        ],
+        "one_ui_reconnect_allowed": 1
+      },
+      "elapsed_seconds": 1.222
+    },
+    {
+      "id": "public_original_chinese",
+      "check": "原中文问题真实answered/used及原文引用",
+      "section": "public",
+      "status": "PASS",
+      "evidence": {
+        "model": {
+          "id": "auto/deepseek-v4.1-flash",
+          "used": true,
+          "attempted": true,
+          "reason": null
+        },
+        "question": "请概括 Arkansas State 对阵 South Alabama 的比赛结果，并给出原文引用。",
+        "visible_answer": "模型选取的数据库原文摘录（未改写）：\nA-State Faces Setback in High-Scoring Matchup Versus South Alabama, 56-49 [C1]\n以上为来源文本摘录，仅核验逐字对应关系，不代表来源陈述已获事实核实；未覆盖全部记录。",
+        "verified_citations": [
+          {
+            "citation_id": "C1",
+            "id": "social-1",
+            "angle": "social",
+            "field": "original_text",
+            "paragraph": 2,
+            "snippet": "A-State Faces Setback in High-Scoring Matchup Versus South Alabama, 56-49 https://t.co/4uChDuOQVI",
+            "source_url": "https://x.com/ArkansasState/status/2108426110039908459",
+            "source_version": "f064c896c123cbf4",
+            "quotes": [
+              "A-State Faces Setback in High-Scoring Matchup Versus South Alabama, 56-49"
+            ]
+          }
+        ],
+        "history_messages": 0,
+        "response_artifact": "/home/ubuntu/log/zgclab-research-acceptance/20261108T153012Z-3072676/002-api-chat.json",
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T153012Z-3072676/003-assistant-real-answer.png",
+        "request_filters": {
+          "date_field": "published_at",
+          "institution": [
+            1002550
+          ],
+          "angle": [
+            "social"
+          ]
+        },
+        "effective_scope": {
+          "dataset": "real",
+          "filters": {
+            "institution": [
+              1002550
+            ],
+            "angle": [
+              "social"
+            ],
+            "date_field": "published_at"
+          },
+          "source_version": "f064c896c123cbf4",
+          "date_field": "published_at",
+          "timezone": "Asia/Shanghai",
+          "relaxed": false,
+          "term_match": [
+            [
+              "比赛",
+              "game",
+              "match",
+              "matchup",
+              "football",
+              "soccer",
+              "contest"
+            ],
+            [
+              "结果",
+              "比分",
+              "outcome",
+              "result",
+              "score",
+              "setback",
+              "win",
+              "loss"
+            ],
+            [
+              "south"
+            ],
+            [
+              "alabama"
+            ]
+          ],
+          "strategy": "fts5_and",
+          "date_semantics": "Original source publication dates only; recovered dates do not change this scope"
+        },
+        "current_ui_filters": {
+          "angle": "social",
+          "ids": [
+            "1002550"
+          ]
+        },
+        "conversation": {
+          "history_used": false,
+          "original_message": "请概括 Arkansas State 对阵 South Alabama 的比赛结果，并给出原文引用。",
+          "same_source_requested": false,
+          "scope_basis": "bounded_user_history_and_current_filters",
+          "source_record_ids": null,
+          "source_basis": null,
+          "request_intent": {
+            "enabled": true,
+            "normalized_query": "Arkansas State   South Alabama 的比赛结果",
+            "removed_request_phrases": [
+              {
+                "text": "请概括 ",
+                "reason": "answer_directive"
+              },
+              {
+                "text": "对阵",
+                "reason": "entity_relation"
+              },
+              {
+                "text": "并给出原文引用",
+                "reason": "citation_instruction"
+              }
+            ],
+            "citation_requested": true,
+            "same_source_requested": false,
+            "referential": false,
+            "source_reference": false,
+            "requested_attributes": [
+              "outcome"
+            ]
+          }
+        },
+        "source_record_ids": [
+          "social-1"
+        ],
+        "actual_pages_url": "https://co-minder.github.io/zgclab-data-page-1/#/assistant?mode=chat&angle=social&ids=1002550"
+      },
+      "elapsed_seconds": 15.74
+    },
+    {
+      "id": "public_followup_score",
+      "check": "比分是多少followup历史与当前filter同源锁定",
+      "section": "public",
+      "status": "PASS",
+      "evidence": {
+        "model": {
+          "id": "auto/deepseek-v4.1-flash",
+          "used": true,
+          "attempted": true,
+          "reason": null
+        },
+        "question": "这条资料里双方比分是多少？请继续引用同一来源。",
+        "visible_answer": "模型选取的数据库原文摘录（未改写）：\nA-State Faces Setback in High-Scoring Matchup Versus South Alabama, 56-49 [C1]\n以上为来源文本摘录，仅核验逐字对应关系，不代表来源陈述已获事实核实；未覆盖全部记录。",
+        "verified_citations": [
+          {
+            "citation_id": "C1",
+            "id": "social-1",
+            "angle": "social",
+            "field": "original_text",
+            "paragraph": 2,
+            "snippet": "A-State Faces Setback in High-Scoring Matchup Versus South Alabama, 56-49 https://t.co/4uChDuOQVI",
+            "source_url": "https://x.com/ArkansasState/status/2108426110039908459",
+            "source_version": "f064c896c123cbf4",
+            "quotes": [
+              "A-State Faces Setback in High-Scoring Matchup Versus South Alabama, 56-49"
+            ]
+          }
+        ],
+        "history_messages": 2,
+        "response_artifact": "/home/ubuntu/log/zgclab-research-acceptance/20261108T153012Z-3072676/004-api-chat.json",
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T153012Z-3072676/005-assistant-followup.png",
+        "request_filters": {
+          "date_field": "published_at",
+          "institution": [
+            1002550
+          ],
+          "angle": [
+            "social"
+          ]
+        },
+        "effective_scope": {
+          "dataset": "real",
+          "filters": {
+            "institution": [
+              1002550
+            ],
+            "angle": [
+              "social"
+            ],
+            "date_field": "published_at",
+            "record_ids": [
+              "social-1"
+            ]
+          },
+          "source_version": "f064c896c123cbf4",
+          "date_field": "published_at",
+          "timezone": "Asia/Shanghai",
+          "relaxed": false,
+          "term_match": [
+            [
+              "比赛",
+              "game",
+              "match",
+              "matchup",
+              "football",
+              "soccer"
+            ],
+            [
+              "结果",
+              "比分",
+              "outcome",
+              "result",
+              "score",
+              "setback",
+              "win",
+              "loss"
+            ],
+            [
+              "south"
+            ],
+            [
+              "alabama"
+            ]
+          ],
+          "strategy": "fts5_and",
+          "date_semantics": "Original source publication dates only; recovered dates do not change this scope"
+        },
+        "current_ui_filters": {
+          "angle": "social",
+          "ids": [
+            "1002550"
+          ]
+        },
+        "conversation": {
+          "history_used": true,
+          "original_message": "这条资料里双方比分是多少？请继续引用同一来源。",
+          "same_source_requested": true,
+          "scope_basis": "bounded_user_history_and_current_filters",
+          "source_record_ids": [
+            "social-1"
+          ],
+          "source_basis": "unique_previous_user_query_match",
+          "request_intent": {
+            "enabled": true,
+            "normalized_query": "比分",
+            "removed_request_phrases": [
+              {
+                "text": "这条资料里",
+                "reason": "conversation_reference"
+              },
+              {
+                "text": "是多少",
+                "reason": "question_grammar"
+              },
+              {
+                "text": "请继续引用同一来源",
+                "reason": "citation_instruction"
+              }
+            ],
+            "citation_requested": true,
+            "same_source_requested": true,
+            "referential": true,
+            "source_reference": true,
+            "requested_attributes": [
+              "score"
+            ]
+          }
+        },
+        "source_record_ids": [
+          "social-1"
+        ],
+        "actual_pages_url": "https://co-minder.github.io/zgclab-data-page-1/#/assistant?mode=chat&angle=social&ids=1002550"
+      },
+      "elapsed_seconds": 17.161
+    },
+    {
+      "id": "public_citation_only",
+      "check": "无主题引用expandfalse无模型且无记录答案",
+      "section": "public",
+      "status": "PASS",
+      "evidence": {
+        "question": "请给出原文引用。",
+        "state": "no_results",
+        "model": {
+          "id": "auto/deepseek-v4.1-flash",
+          "used": false,
+          "attempted": false,
+          "reason": "no_results"
+        },
+        "expand": false,
+        "request_history_messages": 0,
+        "record_citations": 0,
+        "visible_answer": "研究问题\n\n请给出原文引用。\n\n资料检索摘录 · 无模型答案\n\n未调用大模型；当前展示数据库检索资料。 原因：没有匹配资料\n\n当前真实数据库及筛选范围内未检索到可引用的资料。可以调整关键词、机构、角度或日期；现有证据不足以回答该问题。\n\n索引 6,989 条 · 资料版本 f064c896c123cbf4 · 结构化范围 1 条 · 规则命中 0 条\n\n服务检索式：请给出原文引用。\n\n本次检索词 / 扩展与近似词\n给出原文引用\n复制本轮与引用\n[A1]\n数据库精确统计\n按真实记录去重计数\n\n结构化筛选范围：阿肯色州立大学 · 社交媒体 · 全部平台 · 不限 至 不限\n\n资料版本 f064c896c123cbf4 · 时间字段 published_at · Asia/Shanghai\n\n范围总数与按检索规则命中数；均不以返回段落数量估算\n口径\t全部\t新闻舆情\t官网线索\t社交媒体\n结构化范围\t1\t0\t0\t1\n检索规则命中\t0\t0\t0\t0\n\n检索规则 fts5_and；检索词 给出原文引用\n\n统计仅描述已入库快照，不代表全网数量或实时覆盖。\n\n在数据浏览查看结构化范围 →\n当前范围没有匹配资料，请缩小问题或减少筛选后重试。",
+        "response_artifact": "/home/ubuntu/log/zgclab-research-acceptance/20261108T153012Z-3072676/006-api-chat.json",
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T153012Z-3072676/007-public-citation-only.png"
+      },
+      "elapsed_seconds": 0.834
+    },
+    {
+      "id": "public_unknown",
+      "check": "未知主题expandfalse无模型且明确无证据",
+      "section": "public",
+      "status": "PASS",
+      "evidence": {
+        "question": "qazxresearchabsent9d87ac632b45e701",
+        "state": "no_results",
+        "model": {
+          "id": "auto/deepseek-v4.1-flash",
+          "used": false,
+          "attempted": false,
+          "reason": "no_results"
+        },
+        "expand": false,
+        "request_history_messages": 0,
+        "record_citations": 0,
+        "visible_answer": "研究问题\n\nqazxresearchabsent9d87ac632b45e701\n\n资料检索摘录 · 无模型答案\n\n未调用大模型；当前展示数据库检索资料。 原因：没有匹配资料\n\n当前真实数据库及筛选范围内未检索到可引用的资料。可以调整关键词、机构、角度或日期；现有证据不足以回答该问题。\n\n索引 6,989 条 · 资料版本 f064c896c123cbf4 · 结构化范围 1 条 · 规则命中 0 条\n\n服务检索式：qazxresearchabsent9d87ac632b45e701\n\n本次检索词 / 扩展与近似词\nqazxresearchabsent9d87ac632b45e701\n复制本轮与引用\n[A1]\n数据库精确统计\n按真实记录去重计数\n\n结构化筛选范围：阿肯色州立大学 · 社交媒体 · 全部平台 · 不限 至 不限\n\n资料版本 f064c896c123cbf4 · 时间字段 published_at · Asia/Shanghai\n\n范围总数与按检索规则命中数；均不以返回段落数量估算\n口径\t全部\t新闻舆情\t官网线索\t社交媒体\n结构化范围\t1\t0\t0\t1\n检索规则命中\t0\t0\t0\t0\n\n检索规则 fts5_and；检索词 qazxresearchabsent9d87ac632b45e701\n\n统计仅描述已入库快照，不代表全网数量或实时覆盖。\n\n在数据浏览查看结构化范围 →\n当前范围没有匹配资料，请缩小问题或减少筛选后重试。",
+        "response_artifact": "/home/ubuntu/log/zgclab-research-acceptance/20261108T153012Z-3072676/008-api-chat.json",
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T153012Z-3072676/009-public-unknown.png"
+      },
+      "elapsed_seconds": 0.593
+    },
+    {
+      "id": "public_integrity",
+      "check": "仅两次业务模型问题无重试且无页面异常",
+      "section": "public",
+      "status": "PASS",
+      "evidence": {
+        "model_business_questions": 2,
+        "non_model_boundary_requests": 2,
+        "real_chat_requests": 4,
+        "retry_requests": 0,
+        "page_errors": [],
+        "targeted_only": true
+      },
+      "elapsed_seconds": 0.0
+    }
+  ],
+  "api_routes": [
+    {
+      "path": "/api/session",
+      "status": 200
+    },
+    {
+      "path": "/api/status",
+      "status": 200
+    },
+    {
+      "path": "/api/status",
+      "status": 200
+    },
+    {
+      "path": "/api/chat",
+      "status": 200
+    },
+    {
+      "path": "/api/chat",
+      "status": 200
+    },
+    {
+      "path": "/api/chat",
+      "status": 200
+    },
+    {
+      "path": "/api/status",
+      "status": 200
+    },
+    {
+      "path": "/api/chat",
+      "status": 200
+    }
+  ],
+  "request_constraints": [
+    {
+      "message": "请概括 Arkansas State 对阵 South Alabama 的比赛结果，并给出原文引用。",
+      "expand": true,
+      "filters": {
+        "date_field": "published_at",
+        "institution": [
+          1002550
+        ],
+        "angle": [
+          "social"
+        ]
+      },
+      "history_messages": 0
+    },
+    {
+      "message": "这条资料里双方比分是多少？请继续引用同一来源。",
+      "expand": true,
+      "filters": {
+        "date_field": "published_at",
+        "institution": [
+          1002550
+        ],
+        "angle": [
+          "social"
+        ]
+      },
+      "history_messages": 2
+    },
+    {
+      "message": "请给出原文引用。",
+      "expand": false,
+      "filters": {
+        "date_field": "published_at",
+        "institution": [
+          1002550
+        ],
+        "angle": [
+          "social"
+        ]
+      },
+      "history_messages": 0
+    },
+    {
+      "message": "qazxresearchabsent9d87ac632b45e701",
+      "expand": false,
+      "filters": {
+        "date_field": "published_at",
+        "institution": [
+          1002550
+        ],
+        "angle": [
+          "social"
+        ]
+      },
+      "history_messages": 0
+    }
+  ],
+  "service_versions": {
+    "source_version": "f064c896c123cbf4",
+    "research_version": "a8acd9d0b712fbe06a65",
+    "database_total": 6989,
+    "dataset": "real",
+    "api_base": "https://bringing-themes-mae-dating.trycloudflare.com"
+  },
+  "status_observations": [
+    {
+      "kind": "initial_ui_status",
+      "elapsed_from_navigation_seconds": 6.4,
+      "observed_state": "研究服务已连接\n\n资料库：6,989 条真实记录\n\n模型可用：DeepSeek V4.1 Flash · ready\n\n索引 6,989 条 · 资料版本 f064c896c123cbf4\n\n模型状态来自 relay 健康检查；本次是否实际使用以结果为准。\n\n入库时间 2026-11-08T14:45:40+00:00\n\n服务快照生成 2026-11-05T15:10:46+00:00"
+    },
+    {
+      "kind": "authenticated_status_check",
+      "duration_seconds": 0.149,
+      "state": "ready",
+      "ui_reconnects": 0
+    }
+  ],
+  "artifacts": "/home/ubuntu/log/zgclab-research-acceptance/20261108T153012Z-3072676"
+}

@@ -1,0 +1,73 @@
+{
+  "target": "https://co-minder.github.io/zgclab-data-page-1/",
+  "mode": "public-dialogue-targeted",
+  "scope": "targeted public Pages UI dialogue; not a full acceptance suite",
+  "tested_at": "2026-11-08T15:28:57.642728+00:00",
+  "run_id": "20261108T152853Z-3071674",
+  "release": {
+    "scope": "targeted public Pages UI dialogue; not a full acceptance suite",
+    "expected_manifest": "manifest-6421c8a18fb064ae7dc9.json",
+    "release_commit": "1627db07607ee1c769272aedb7ddf81fce5437c4",
+    "release_commit_evidence": "server repository HEAD plus actual public Pages manifest",
+    "source_version": "f064c896c123cbf4",
+    "research_version": "a8acd9d0b712fbe06a65",
+    "model_question_budget": 2,
+    "retry_budget": 0,
+    "source_file_sha256": {
+      "service/chat.py": "98e632c9317fde014aaea909e007ab5b3f233980bdc96e89b4234ae3477e1bcc",
+      "service/intent.py": "fd2956503dcde06f5d4c96a27ab3b7f26a4a57454009242bcea9db2796b91b64",
+      "service/retrieval.py": "c11913318dbf8959bfd1427e4f5f9d981e6ce888c56d330114b9e404dd083a65",
+      "assistant.js": "158799d7671514a9e128a4bf52e01fb99af06a73211b62e027b4f4cbb41e0ee9",
+      "research.js": "8400c9bce246214d7977c3cdeca9e689f8dafd6153b8e7f1d86586648fca14ab"
+    },
+    "prior_evidence": {
+      "comprehensive_report": "reports/research-acceptance-1db-comprehensive.json",
+      "backup_supplement": "reports/research-acceptance-backup-final.json"
+    },
+    "static_reference_sha256": "e67148800703e0b755fd2d569ab1fe9c96dbcfacff6009472a58d1e0bbca98dc"
+  },
+  "protected_manifest": null,
+  "passed": 1,
+  "failed": 1,
+  "blocked": 0,
+  "skipped": 0,
+  "errors": [
+    {
+      "id": "public_harness",
+      "error": "nothing to repeat at position 14"
+    }
+  ],
+  "page_errors": [],
+  "real_chat_requests": 0,
+  "business_model_questions": 0,
+  "business_model_question_budget": 2,
+  "non_model_boundary_requests": 0,
+  "automatic_retries": 0,
+  "full_suite_executed": false,
+  "targeted_checks_complete": false,
+  "checks": [
+    {
+      "id": "release_context",
+      "check": "发布 commit 与资料版本范围",
+      "section": "public",
+      "status": "PASS",
+      "evidence": {
+        "repository_head": "1627db07607ee1c769272aedb7ddf81fce5437c4",
+        "expected_public_manifest": "manifest-6421c8a18fb064ae7dc9.json",
+        "source_version": "f064c896c123cbf4",
+        "research_version": "a8acd9d0b712fbe06a65",
+        "raw_reference_sha256": "e67148800703e0b755fd2d569ab1fe9c96dbcfacff6009472a58d1e0bbca98dc"
+      },
+      "elapsed_seconds": 0.006
+    },
+    {
+      "id": "public_harness",
+      "status": "FAIL",
+      "error": "nothing to repeat at position 14"
+    }
+  ],
+  "api_routes": [],
+  "request_constraints": [],
+  "service_versions": {},
+  "artifacts": "/home/ubuntu/log/zgclab-research-acceptance/20261108T152853Z-3071674"
+}

@@ -21,8 +21,7 @@
     "public": "reports/research-public-api.json"
   },
   "pending": [
-    "authorized Git commit and push",
-    "actual GitHub Pages deployment acceptance",
+    "commit and push public evidence",
     "COS archive with remote SHA-256 verification"
   ],
   "commit_scope_review": {
@@ -46,5 +45,25 @@
     "scope": "staged release text; password and provider/GitHub secret formats",
     "credentials_logged": false
   },
-  "independent_security_remaining": []
+  "independent_security_remaining": [],
+  "release_commit": "1627db07607ee1c769272aedb7ddf81fce5437c4",
+  "published_manifest": "manifest-6421c8a18fb064ae7dc9.json",
+  "pages_deployment": {
+    "status": "completed",
+    "conclusion": "success",
+    "run_id": 42494728746
+  },
+  "public_page_checks": {
+    "report": "reports/research-public-release.json",
+    "passed": 19,
+    "failed": 0,
+    "initial_timeout_retained": "reports/research-public-release-initial.json"
+  },
+  "public_dialogue_checks": {
+    "report": "reports/research-public-dialogue-final.json",
+    "passed": 8,
+    "failed": 0,
+    "business_model_questions": 2,
+    "automatic_retries": 0
+  }
 }
