@@ -27,7 +27,7 @@
   },
   "shared_owner": "main session ses_e6cd45dc7ffdpaE4LPjiHhd5m6",
   "publication_manifest": "manifest-d69bea92e77232e27415.json",
-  "status": "final independent encrypted design accepted; ready to publish",
+  "status": "published; final public17groups passed; immutable COS archive pending",
   "release_preparation_agent": "ses_e43efa1b4ffevkk3cJUOXL8LPB",
   "review_findings_to_resolve": [
     "D01 change/coverage task visibility",
@@ -74,5 +74,16 @@
     "final_css_refinement": "Only evidence desktop spacing changed; affected actual encrypted checks repeated with earlier behavior provenance retained.",
     "page_errors": 0,
     "model_calls": 0
+  },
+  "public_verification": {
+    "release_commit": "5ecdade258d55ac5eba3a98a8f00fb2683f8d512",
+    "actual_manifest": "manifest-d69bea92e77232e27415.json",
+    "passed": 17,
+    "failed": 0,
+    "model_business_requests": 0,
+    "page_errors": [],
+    "artifact_report": "/home/ubuntu/log/zgclab-ui-design-20261109/public/20261108T173346Z-3d3bfa74fa/results.json",
+    "committed_report": "reports/research-design-public-20261109.json",
+    "report_sha256": "2af4fbfe8bc45a3010246427c03cc615168e1f82c8e6d3af08ac325abc44f37c"
   }
 }
