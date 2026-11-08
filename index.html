@@ -9,6 +9,9 @@
   <meta name="color-scheme" content="dark">
   <meta name="description" content="ZGCLab 境外机构数据平台：20 个验证机构、3 个采集角度，支持跨角度查询、机构对比、完整记录追溯和数据导出。">
   <link rel="stylesheet" href="styles.css?v=night-1">
+  <link rel="stylesheet" href="projects.css">
+  <link rel="stylesheet" href="research.css">
+  <link rel="stylesheet" href="assistant.css">
 </head>
 <body>
 <a class="skip-link" href="#view">跳转到主要内容</a>
@@ -40,6 +43,9 @@
         机构对比
       </a>
       <span class="nav-group-label">研究与跟进</span>
+      <a href="#/assistant" data-route="assistant"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v12H9l-5 4zM8 8h8M8 12h5"/></svg>资料对话与模糊查询</a>
+      <a href="#/projects" data-route="projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h7l2 3h9v12H3zM3 6V3h7l2 3"/></svg>专题资料夹</a>
+      <a href="#/changes" data-route="changes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-7M3 3v6h6M12 7v5l3 2"/></svg>新增与变化</a>
       <a href="#/timeline" data-route="timeline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3v18M5 6h14M5 12h10M5 18h14"/><circle cx="5" cy="6" r="2"/><circle cx="5" cy="12" r="2"/><circle cx="5" cy="18" r="2"/></svg>记录时间线</a>
       <a href="#/fulltext" data-route="fulltext"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 3h12v8M4 3v18h9M7 7h6M7 11h5"/><circle cx="16" cy="16" r="4"/><path d="m19 19 3 3"/></svg>完整正文检索</a>
       <a href="#/watchlist" data-route="watchlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3 3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg>关注看板</a>
@@ -49,6 +55,8 @@
       </a>
       <span class="nav-group-label">数据管理</span>
       <a href="#/quality" data-route="quality"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3 8 4v6c0 4-8 8-8 8s-8-4-8-8V7zM8 12l3 3 5-6"/></svg>数据质量</a>
+      <a href="#/coverage" data-route="coverage"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 20h18M5 17V9h3v8M11 17V4h3v13M17 17v-5h3v5"/></svg>来源与时间覆盖</a>
+      <a href="#/collection-plan" data-route="collection-plan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 3h16v18H4zM8 7h8M8 12h8M8 17h5"/></svg>未来采集建议</a>
       <a href="#/about" data-route="about">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>
         任务与交付
@@ -75,7 +83,7 @@
       <nav class="mobile-nav" aria-label="移动端主导航">
         <a href="#/overview" data-route="overview">全部总览</a><a href="#/institutions" data-route="institutions">机构</a><a href="#/explore" data-route="explore">查询</a><a href="#/compare" data-route="compare">对比</a><a href="#/workspace" data-route="workspace">工作台</a><a href="#/about" data-route="about">交付</a>
       </nav>
-      <details class="mobile-more"><summary>更多功能</summary><nav aria-label="研究与数据管理"><a href="#/timeline" data-route="timeline">记录时间线</a><a href="#/fulltext" data-route="fulltext">完整正文检索</a><a href="#/watchlist" data-route="watchlist">关注看板</a><a href="#/quality" data-route="quality">数据质量</a></nav></details>
+      <details class="mobile-more"><summary>更多功能</summary><nav aria-label="研究与数据管理"><a href="#/assistant" data-route="assistant">资料对话与模糊查询</a><a href="#/projects" data-route="projects">专题资料夹</a><a href="#/changes" data-route="changes">新增与变化</a><a href="#/timeline" data-route="timeline">记录时间线</a><a href="#/fulltext" data-route="fulltext">完整正文检索</a><a href="#/watchlist" data-route="watchlist">关注看板</a><a href="#/quality" data-route="quality">数据质量</a><a href="#/coverage" data-route="coverage">来源与时间覆盖</a><a href="#/collection-plan" data-route="collection-plan">未来采集建议</a></nav></details>
     </header>
 
     <div class="simulation-status" id="simulationStatus" role="status" hidden></div>
@@ -91,6 +99,11 @@
 <script src="query.js"></script>
 <script src="explorer.js"></script>
 <script src="tools.js"></script>
+<script src="service-config.js"></script>
+<script src="service-client.js"></script>
+<script src="projects.js"></script>
+<script src="research.js"></script>
+<script src="assistant.js"></script>
 <script src="app.js?v=night-1"></script>
 </body>
 </html>

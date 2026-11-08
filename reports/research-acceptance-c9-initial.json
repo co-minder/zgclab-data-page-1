@@ -1,0 +1,2066 @@
+{
+  "target": "http://127.0.0.1:8789/",
+  "run_id": "20261108T144911Z-2995278",
+  "tested_at": "2026-11-08T14:51:23.538817+00:00",
+  "mode": "all",
+  "passed": 55,
+  "failed": 4,
+  "blocked": 2,
+  "skipped": 0,
+  "errors": [
+    {
+      "id": "project_focus",
+      "error": "{'action': 'Tab from last submit button', 'focus': {'tag': 'BODY', 'id': '', 'inside': False, 'visible': True}}"
+    },
+    {
+      "id": "changes_hashes",
+      "error": "AssertionError"
+    },
+    {
+      "id": "assistant_answer",
+      "error": "{'state': 'no_results', 'model': {'id': 'auto/deepseek-v4.1-flash', 'used': False, 'attempted': True, 'reason': 'no_results'}, 'answer': '当前真实数据库及筛选范围内未检索到可引用的资料。可以调整关键词、机构、角度或日期；现有证据不足以回答该问题。'}"
+    },
+    {
+      "id": "page_errors",
+      "error": "[{'message': \"Cannot read properties of null (reading 'open')\", 'stack': \"TypeError: Cannot read properties of null (reading 'open')\\n    at HTMLDialogElement.<anonymous> (blob:http://127.0.0.1:8789/c9d1e453-46e2-4f4f-a298-7a4e3512d2bb:307:80)\", 'url': 'http://127.0.0.1:8789/#/projects'}]"
+    }
+  ],
+  "page_errors": [
+    {
+      "message": "Cannot read properties of null (reading 'open')",
+      "stack": "TypeError: Cannot read properties of null (reading 'open')\n    at HTMLDialogElement.<anonymous> (blob:http://127.0.0.1:8789/c9d1e453-46e2-4f4f-a298-7a4e3512d2bb:307:80)",
+      "url": "http://127.0.0.1:8789/#/projects"
+    }
+  ],
+  "real_chat_requests": 3,
+  "real_chat_budget": 3,
+  "build": {
+    "manifest": "f064c896c123cbf4",
+    "research": null,
+    "assets": [
+      "blob:http://127.0.0.1:8789/6a64882f-ed4e-4f5d-a2e0-68343b248627",
+      "blob:http://127.0.0.1:8789/2266b314-2732-49b5-8f6d-ba71c33bdead",
+      "blob:http://127.0.0.1:8789/7606d693-2a21-46a5-812e-b9dbbc5cc63e",
+      "blob:http://127.0.0.1:8789/db2f2102-ee88-4152-afce-055a9d9a99c7",
+      "blob:http://127.0.0.1:8789/d1f6f8f1-5168-42a7-b734-4f1a3bfc0bd5",
+      "blob:http://127.0.0.1:8789/f69e8e87-10b8-4052-932f-baa34d2a782a",
+      "blob:http://127.0.0.1:8789/561b4060-17f6-49d7-befc-d5a7d1d5a835",
+      "blob:http://127.0.0.1:8789/791387f6-acbe-41c6-ab7c-ce5518ba20db",
+      "blob:http://127.0.0.1:8789/ad956235-af47-473d-be00-c37577ee5f38",
+      "blob:http://127.0.0.1:8789/5a594d93-ac8d-4e0e-a386-8a8577a226e7",
+      "blob:http://127.0.0.1:8789/4eef83e4-6c16-4fae-9e0c-133e5d798550"
+    ]
+  },
+  "protected_manifest": "manifest-c9c301ebb07995098230.json",
+  "acceptance_complete": false,
+  "checks": [
+    {
+      "id": "raw",
+      "check": "原始交付快照、稳定 ID 与 6989 总量不变",
+      "section": "data",
+      "status": "PASS",
+      "evidence": {
+        "sha256": "e67148800703e0b755fd2d569ab1fe9c96dbcfacff6009472a58d1e0bbca98dc",
+        "files": 98,
+        "counts": {
+          "news": 3675,
+          "clue": 1468,
+          "social": 1846
+        },
+        "version": "f064c896c123cbf4"
+      },
+      "elapsed_seconds": 0.288
+    },
+    {
+      "id": "metadata",
+      "check": "研究 records[id] 与完整原始记录一一对应",
+      "section": "data",
+      "status": "PASS",
+      "evidence": {
+        "records": 6989,
+        "key_format": "records[id]",
+        "source_version": "f064c896c123cbf4"
+      },
+      "elapsed_seconds": 0.014
+    },
+    {
+      "id": "fingerprints",
+      "check": "6989 条完整原文译文 SHA-256 均与原字段一致",
+      "section": "data",
+      "status": "PASS",
+      "evidence": {
+        "full_original_and_translation_sha256": 6989,
+        "algorithm": "SHA-256 of exact UTF-8 complete delivery field strings",
+        "source_version": "f064c896c123cbf4"
+      },
+      "elapsed_seconds": 0.182
+    },
+    {
+      "id": "change_fixture",
+      "check": "独立 fixture 检测正文尾部变化与占位补译",
+      "section": "data",
+      "status": "PASS",
+      "evidence": {
+        "fixture_only": true,
+        "fullFingerprintCount": 1,
+        "unchanged": 0,
+        "tail_change": [
+          "content"
+        ],
+        "placeholder_to_translation": [
+          "translated"
+        ],
+        "compact_utf16_bytes": 508
+      },
+      "elapsed_seconds": 0.3
+    },
+    {
+      "id": "translations",
+      "check": "独立识别 325 条无法翻译占位",
+      "section": "data",
+      "status": "PASS",
+      "evidence": {
+        "placeholders": 325,
+        "available": 6664,
+        "by_angle": {
+          "clue": 288,
+          "news": 29,
+          "social": 8
+        },
+        "examples": [
+          "clue-100",
+          "clue-101",
+          "clue-104",
+          "clue-109",
+          "clue-1093",
+          "clue-1107"
+        ]
+      },
+      "elapsed_seconds": 0.003
+    },
+    {
+      "id": "dates",
+      "check": "626 条恢复日期有原始帖子日期与身份依据",
+      "section": "data",
+      "status": "PASS",
+      "evidence": {
+        "original_missing": 1018,
+        "recovered": 626,
+        "unresolved": 392,
+        "basis": "matched original top-level post ID, URL and response date; raw publish_time unchanged"
+      },
+      "elapsed_seconds": 0.582
+    },
+    {
+      "id": "coverage_data",
+      "check": "机构角度平台覆盖与最新采集字段可独立复算",
+      "section": "data",
+      "status": "PASS",
+      "evidence": {
+        "institutions": 20,
+        "cells": 120,
+        "zero_cells": 26,
+        "platforms": [
+          "Facebook",
+          "LinkedIn",
+          "X"
+        ],
+        "monitoring": "not_connected"
+      },
+      "elapsed_seconds": 0.11
+    },
+    {
+      "id": "simulation_data",
+      "check": "30000 模拟记录独立且社媒平台为 test",
+      "section": "data",
+      "status": "PASS",
+      "evidence": {
+        "total": 30000,
+        "counts": {
+          "news": 10000,
+          "clue": 10000,
+          "social": 10000
+        },
+        "social_platforms": [
+          "test"
+        ]
+      },
+      "elapsed_seconds": 1.079
+    },
+    {
+      "id": "unlock",
+      "check": "加密入口解锁且模拟数据默认关闭",
+      "section": "ui",
+      "status": "PASS",
+      "evidence": {
+        "version": "f064c896c123cbf4",
+        "simulation_default": false,
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/001-unlocked.png"
+      },
+      "elapsed_seconds": 1.56
+    },
+    {
+      "id": "query_regression",
+      "check": "原有跨角度、账号、日期查询及完整 CSV 回归",
+      "section": "ui",
+      "status": "PASS",
+      "evidence": {
+        "queries": [
+          {
+            "conditions": {
+              "angle": "all"
+            },
+            "records": 6989,
+            "csv": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/002-download.csv"
+          },
+          {
+            "conditions": {
+              "angle": "news"
+            },
+            "records": 3675,
+            "csv": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/003-download.csv"
+          },
+          {
+            "conditions": {
+              "angle": "clue"
+            },
+            "records": 1468,
+            "csv": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/004-download.csv"
+          },
+          {
+            "conditions": {
+              "angle": "social"
+            },
+            "records": 1846,
+            "csv": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/005-download.csv"
+          },
+          {
+            "conditions": {
+              "angle": "social",
+              "accountHandles": "ArkansasState",
+              "platforms": "X"
+            },
+            "records": 1,
+            "csv": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/006-download.csv"
+          },
+          {
+            "conditions": {
+              "angle": "news",
+              "ids": "1000580",
+              "from": "2024-01-31",
+              "to": "2024-10-27"
+            },
+            "records": 90,
+            "csv": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/007-download.csv"
+          }
+        ],
+        "saved_query": true,
+        "filter_focus_restored": true
+      },
+      "elapsed_seconds": 4.924
+    },
+    {
+      "id": "project_focus",
+      "check": "键盘专题弹窗焦点限制与 Escape 恢复",
+      "section": "ui",
+      "status": "FAIL",
+      "error": "{'action': 'Tab from last submit button', 'focus': {'tag': 'BODY', 'id': '', 'inside': False, 'visible': True}}",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/ubuntu/zgclab-1-web/tests/research_acceptance.py\", line 182, in case\n    evidence = action()\n               ^^^^^^^^\n  File \"/home/ubuntu/zgclab-1-web/tests/research_acceptance.py\", line 418, in project_focus\n    assert focus[\"inside\"] and focus[\"visible\"], {\"action\": \"Tab from last submit button\", \"focus\": focus}\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: {'action': 'Tab from last submit button', 'focus': {'tag': 'BODY', 'id': '', 'inside': False, 'visible': True}}\n",
+      "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/008-project_focus-failure.png",
+      "page": {
+        "url": "http://127.0.0.1:8789/#/projects",
+        "text": "跳转到主要内容\nZ\nZGCLab 数据平台\n境外机构开源情报\n数据工作区\n全部数据总览\n机构库\n数据浏览\n机构对比\n研究与跟进\n资料对话与模糊查询\n专题资料夹\n新增与变化\n记录时间线\n完整正文检索\n关注看板\n我的工作台\n数据管理\n数据质量\n来源与时间覆盖\n未来采集建议\n任务与交付\n需求 1 · 数据展示系统\n20 个验证单位 × 3 个采集角度\n数据快照：2026-11-05\n全部总览\n专题资料夹\n20 单位 × 3 角度\n带模拟数据\n锁定\nPROJECTS\n专题资料夹\n\n整理证据、核查材料，再形成带引用的专题报告。\n\n＋ 新建专题\n备份全部专题\n导入 JSON\n\n内容保存在当前浏览器；专题备份和工作台备份均可用于恢复专题。\n\n搜索专题\n专题范围\n进行中\n已归档\n全部专题\n\n当前范围没有专题。\n\n把材料放进一个研究问题\n\n建立专题后，可加入记录、整理批注、核查状态和重点摘录，并生成可编辑的 Markdown 引用草稿。\n\n建立第一个专题\nZGCLab 境外机构开源数据项目 · 需求 1 数据展示系统 · 数据为真实交付快照\n查询已保存；近期条件每次打开都会重新计算"
+      },
+      "elapsed_seconds": 0.72
+    },
+    {
+      "id": "project_create",
+      "check": "新建专题及自有文本安全",
+      "section": "ui",
+      "status": "PASS",
+      "evidence": {
+        "project_id": "prj-752a8a85-b054-4e81-a996-01cfe92735e2",
+        "literal_user_text": true,
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/009-project-created.png"
+      },
+      "elapsed_seconds": 0.698
+    },
+    {
+      "id": "project_add",
+      "check": "当前筛选完整 90 条及详情真实记录加入专题",
+      "section": "ui",
+      "status": "PASS",
+      "evidence": {
+        "filter_records_added": 90,
+        "detail_record": "social-1",
+        "total": 91,
+        "duplicate_skipped": true,
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/010-project-materials.png"
+      },
+      "elapsed_seconds": 2.355
+    },
+    {
+      "id": "project_edit",
+      "check": "批注摘录状态顺序及跨页材料选择",
+      "section": "ui",
+      "status": "PASS",
+      "evidence": {
+        "total": 91,
+        "selected": 90,
+        "edited_record": "news:news-3445",
+        "last_page_record": "social-1",
+        "note_status_order_persisted": true
+      },
+      "elapsed_seconds": 1.202
+    },
+    {
+      "id": "project_report",
+      "check": "草稿引用全部 90 条已选材料并保留顺序版本",
+      "section": "ui",
+      "status": "PASS",
+      "evidence": {
+        "visible_filtered_materials": 1,
+        "draft_materials": 90,
+        "reference_list": 90,
+        "ordered_ids": [
+          "news-3446",
+          "news-3447",
+          "news-3449",
+          "news-3451",
+          "news-3463",
+          "news-3465",
+          "news-3485",
+          "news-3488",
+          "news-3502",
+          "news-3504",
+          "news-3508",
+          "news-3514",
+          "news-3516",
+          "news-3520",
+          "news-3537",
+          "news-3540",
+          "news-3544",
+          "news-3554",
+          "news-3557",
+          "news-3558",
+          "news-3561",
+          "news-3564",
+          "news-3565",
+          "news-3566",
+          "news-3570",
+          "news-3571",
+          "news-3572",
+          "news-3574",
+          "news-3575",
+          "news-3576",
+          "news-3579",
+          "news-3580",
+          "news-3581",
+          "news-3582",
+          "news-3584",
+          "news-3585",
+          "news-3586",
+          "news-3587",
+          "news-3589",
+          "news-3590",
+          "news-3591",
+          "news-3593",
+          "news-3594",
+          "news-3595",
+          "news-3599",
+          "news-3600",
+          "news-3601",
+          "news-3604",
+          "news-3602",
+          "news-3603",
+          "news-3605",
+          "news-3606",
+          "news-3607",
+          "news-3608",
+          "news-3609",
+          "news-3610",
+          "news-3612",
+          "news-3614",
+          "news-3613",
+          "news-3611",
+          "news-3615",
+          "news-3616",
+          "news-3618",
+          "news-3620",
+          "news-3622",
+          "news-3627",
+          "news-3628",
+          "news-3629",
+          "news-3630",
+          "news-3631",
+          "news-3632",
+          "news-3633",
+          "news-3634",
+          "news-3635",
+          "news-3636",
+          "news-3637",
+          "news-3638",
+          "news-3639",
+          "news-3640",
+          "news-3641",
+          "news-3642",
+          "news-3643",
+          "news-3645",
+          "news-3644",
+          "news-3646",
+          "news-3647",
+          "news-3648",
+          "news-3649",
+          "news-3650",
+          "social-1"
+        ],
+        "markdown_sha256": "51b4ae8e24d9d5bd823d93ddd95840fcf7ddb904ace97e8a8f1e03a9f0dea012",
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/011-project-report-90.png"
+      },
+      "elapsed_seconds": 0.546
+    },
+    {
+      "id": "project_backup",
+      "check": "编辑 Markdown、JSON/CSV 导出与幂等导入",
+      "section": "ui",
+      "status": "PASS",
+      "evidence": {
+        "downloads": {
+          "json": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/012-download.json",
+          "csv": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/013-download.csv",
+          "md": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/014-download.md"
+        },
+        "edited_markdown_persisted": true,
+        "idempotent_import": true,
+        "invalid_import_atomic": true
+      },
+      "elapsed_seconds": 10.217
+    },
+    {
+      "id": "old_backup",
+      "check": "旧工作台备份兼容且保留既有专题",
+      "section": "ui",
+      "status": "PASS",
+      "evidence": {
+        "version": 1,
+        "missing_optional_projects_accepted": true,
+        "preserved_projects": 1,
+        "favorites": 1
+      },
+      "elapsed_seconds": 0.248
+    },
+    {
+      "id": "evidence",
+      "check": "social-1/clue-1 完整文本分段对照定位复制引用",
+      "section": "ui",
+      "status": "PASS",
+      "evidence": {
+        "records": [
+          {
+            "id": "social-1",
+            "original_paragraphs": 1,
+            "translation_paragraphs": 1,
+            "copied_reference": "Arkansas State · Arkansas State (@ArkansasState) on X\n机构：阿肯色州立大学\n记录：social/social-1\n数据版本：f064c896c123cbf4\n记录稳定链接：http://127.0.0.1:8789/#/record/social/social-1?version=f064c896c123cbf4\n证据定位：http://127.0.0.1:8789/#/evidence?angle=social&id=social-1&version=f064c896c123cbf4&p=original-1\n原文 URL：https://x.com/ArkansasState/status/2108426110039908459\n原文摘录：A-State Faces Setback in High-Scoring Matchup Versus South Alabama, 56-49 https://t.co/4uChDuOQVI",
+            "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/015-evidence-social-1.png"
+          },
+          {
+            "id": "clue-1",
+            "original_paragraphs": 2,
+            "translation_paragraphs": 26,
+            "copied_reference": "Global Affairs Expert Webinar: North Korea’s Strategic Playbook | CFR Education\n机构：美国外交关系协会（对外关系委员会）\n记录：clue/clue-1\n数据版本：f064c896c123cbf4\n记录稳定链接：http://127.0.0.1:8789/#/record/clue/clue-1?version=f064c896c123cbf4\n证据定位：http://127.0.0.1:8789/#/evidence?angle=clue&id=clue-1&version=f064c896c123cbf4&p=original-1\n原文 URL：https://www.cfr.org/education/events/global-affairs-expert-webinar-north-koreas-strategic-playbook\n原文摘录：EventsGlobal Affairs Expert Webinar: North Korea’s Strategic PlaybookShareEventsWebinarGlobal Affairs Expert Webinar: North Korea’s Strategic PlaybookWatch Jenny Town lead a conversation on North Korea’s strategic playbook.",
+            "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/016-evidence-clue-1.png"
+          }
+        ],
+        "alignment": "independent source line segmentation; semantic alignment is not claimed"
+      },
+      "elapsed_seconds": 2.29
+    },
+    {
+      "id": "evidence_quality",
+      "check": "证据页说明占位译文、恢复日期和来源依据",
+      "section": "ui",
+      "status": "PASS",
+      "evidence": {
+        "placeholder_record": "clue-100",
+        "recovered_record": "social-1190",
+        "effective_date": "2024-04-15T20:20:34Z",
+        "recovery_basis": [
+          "top_level_post_date",
+          "postId=content_id",
+          "url=content_url",
+          "time=timestamp_within_1s"
+        ],
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/017-evidence-recovery.png"
+      },
+      "elapsed_seconds": 0.548
+    },
+    {
+      "id": "related",
+      "check": "真实可解释候选可人工确认移除并持久恢复",
+      "section": "ui",
+      "status": "PASS",
+      "evidence": {
+        "group_id": "relation-3795cf4e-1b22-4b35-8967-d297cad558b2",
+        "candidate_confirmed_then_removed": "social-133",
+        "manual_real_record": "social-1",
+        "persisted_members": [
+          {
+            "angle": "clue",
+            "id": "clue-1"
+          },
+          {
+            "angle": "social",
+            "id": "social-1"
+          }
+        ],
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/018-related-reviewed.png"
+      },
+      "elapsed_seconds": 3.776
+    },
+    {
+      "id": "changes",
+      "check": "首次基线与同快照零变化及保存查询关注订阅",
+      "section": "ui",
+      "status": "PASS",
+      "evidence": {
+        "baseline_records": 6989,
+        "first_changes": 0,
+        "same_snapshot_changes": 0,
+        "saved_query_subscription": {
+          "scope": "query",
+          "queryHash": "/explore?angle=news&ids=1000580&version=f064c896c123cbf4&from=2024-01-31&to=2024-10-27",
+          "kind": "added",
+          "notify": true,
+          "savedAt": "2026-11-08T14:49:49.984Z"
+        },
+        "watchlist_subscription": {
+          "scope": "watchlist",
+          "queryHash": "",
+          "kind": "added",
+          "notify": true,
+          "savedAt": "2026-11-08T14:49:52.433Z"
+        },
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/019-changes-zero.png"
+      },
+      "elapsed_seconds": 8.754
+    },
+    {
+      "id": "changes_hashes",
+      "check": "6989 全文指纹 compact 基线真实持久化且刷新零变化",
+      "section": "ui",
+      "status": "FAIL",
+      "error": "AssertionError",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/ubuntu/zgclab-1-web/tests/research_acceptance.py\", line 182, in case\n    evidence = action()\n               ^^^^^^^^\n  File \"/home/ubuntu/zgclab-1-web/tests/research_acceptance.py\", line 605, in changes_hashes\n    assert \"使用已有全文指纹\" in self.page.locator(\"#researchBody\").inner_text()\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/020-changes_hashes-failure.png",
+      "page": {
+        "url": "http://127.0.0.1:8789/#/changes",
+        "text": "跳转到主要内容\nZ\nZGCLab 数据平台\n境外机构开源情报\n数据工作区\n全部数据总览\n机构库\n数据浏览\n机构对比\n研究与跟进\n资料对话与模糊查询\n专题资料夹\n新增与变化\n记录时间线\n完整正文检索\n关注看板\n我的工作台\n数据管理\n数据质量\n来源与时间覆盖\n未来采集建议\n任务与交付\n需求 1 · 数据展示系统\n20 个验证单位 × 3 个采集角度\n数据快照：2026-11-05\n全部总览\n新增与变化\n20 单位 × 3 角度\n带模拟数据\n锁定\n← 全部数据总览\n变化中心\n\n以浏览器保存的数据版本基线比对当前已加载快照。\n\n变化中心\n未来采集建议\n来源与缺口\n检查最新资料版本\n\n点击后比较检索服务与当前页面的资料版本；不会启动采集或调用模型。\n\n快照、检索与采集状态\n当前快照\nf064c896c123cbf4\n快照生成\n2026-11-05T15:10:46+00:00\n最近记录采集字段\n2026-10-09T13:26:05.796590+00:00\n最近发现字段\n2026-09-26 16:05:09.075215+00:00\n检索服务\n已就绪（已有快照检索）\n采集任务证据\n未接入采集任务证据\n检索库资料版本\nf064c896c123cbf4\n检索库研究元数据版本\na8acd9d0b712fbe06a65\n\n仅比较本次已加载快照。检索服务就绪仅表示可查询已入库材料；采集任务的连续运行需另有真实任务证据。静态页面关闭后不会持续采集或推送。\n\n以 f064c896c123cbf4（建立于 2026-11-08T14:49:45.425Z）为已查看基线，与当前 f064c896c123cbf4 比较。\n\n全文指纹覆盖 6,989/6,989 条，比较完整原文与译文。“当前快照未出现”也可能来自采集范围变化，不等于源文已删除。\n\n订阅范围\n全部记录\n关注机构\n保存查询：新闻舆情 · 克劳德斯特赖克公司 · 指定日期 2024-01-31 至 2024-10-27 · 发布时间\n保存查询：QA legacy query\n变化类型\n全部变化\n快照新增\n原文 / 标题变更\n译文变更\n补译\n元数据变更\n元数据恢复\n当前快照未出现\n保存订阅条件\n导出当前变化\n标记本次完整快照已查看\n打开变化中心时，在本页提醒匹配变化\n\n订阅保存在当前浏览器。每次打开后检查已加载快照，离线或关闭页面时不会持续运行。\n\n当前基线估算占用 1.39 MiB（UTF-16 口径，仅比较指纹与必要引用字段）。浏览器已确认保存。\n\n当前条件匹配 0 条变化；完整快照共 0 条变化。\n\n当前条件没有相对基线的变化。已有未读记录与新增记录含义不同。\n上一页\n第 1 / 1 页 · 0 条\n下一页\nZGCLab 境外机构开源数据项目 · 需求 1 数据展示系统 · 数据为真实交付快照"
+      },
+      "elapsed_seconds": 0.912
+    },
+    {
+      "id": "coverage",
+      "check": "网页机构角度平台计数及最近采集字段符合真实记录",
+      "section": "ui",
+      "status": "PASS",
+      "evidence": {
+        "known_gaps": {
+          "publish_time": 1018,
+          "effective_date": 392,
+          "translation": 325
+        },
+        "measurements": [
+          {
+            "ktid": "1000110",
+            "angle": "news",
+            "records": 1446,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1000110",
+            "angle": "clue",
+            "records": 6,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1000110",
+            "angle": "social",
+            "records": 236,
+            "observed_cells": 4,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1001140",
+            "angle": "news",
+            "records": 1185,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1001140",
+            "angle": "clue",
+            "records": 3,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1001140",
+            "angle": "social",
+            "records": 484,
+            "observed_cells": 4,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1000490",
+            "angle": "news",
+            "records": 225,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1000490",
+            "angle": "clue",
+            "records": 727,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1000490",
+            "angle": "social",
+            "records": 365,
+            "observed_cells": 4,
+            "zero_cells": 1
+          },
+          {
+            "ktid": "1000580",
+            "angle": "news",
+            "records": 368,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1000580",
+            "angle": "clue",
+            "records": 75,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1000580",
+            "angle": "social",
+            "records": 73,
+            "observed_cells": 4,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1001190",
+            "angle": "news",
+            "records": 15,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1001190",
+            "angle": "clue",
+            "records": 20,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1001190",
+            "angle": "social",
+            "records": 351,
+            "observed_cells": 4,
+            "zero_cells": 1
+          },
+          {
+            "ktid": "1000480",
+            "angle": "news",
+            "records": 2,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1000480",
+            "angle": "clue",
+            "records": 249,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1000480",
+            "angle": "social",
+            "records": 39,
+            "observed_cells": 4,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1001210",
+            "angle": "news",
+            "records": 7,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1001210",
+            "angle": "clue",
+            "records": 58,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1001210",
+            "angle": "social",
+            "records": 207,
+            "observed_cells": 4,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1002550",
+            "angle": "news",
+            "records": 100,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1002550",
+            "angle": "clue",
+            "records": 120,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1002550",
+            "angle": "social",
+            "records": 1,
+            "observed_cells": 4,
+            "zero_cells": 2
+          },
+          {
+            "ktid": "1001270",
+            "angle": "news",
+            "records": 35,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1001270",
+            "angle": "clue",
+            "records": 120,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1001270",
+            "angle": "social",
+            "records": 9,
+            "observed_cells": 4,
+            "zero_cells": 2
+          },
+          {
+            "ktid": "1001290",
+            "angle": "news",
+            "records": 18,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1001290",
+            "angle": "clue",
+            "records": 62,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1001290",
+            "angle": "social",
+            "records": 19,
+            "observed_cells": 4,
+            "zero_cells": 2
+          },
+          {
+            "ktid": "1000760",
+            "angle": "news",
+            "records": 40,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1000760",
+            "angle": "clue",
+            "records": 15,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1000760",
+            "angle": "social",
+            "records": 11,
+            "observed_cells": 4,
+            "zero_cells": 1
+          },
+          {
+            "ktid": "1055920",
+            "angle": "news",
+            "records": 38,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1055920",
+            "angle": "clue",
+            "records": 1,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1055920",
+            "angle": "social",
+            "records": 11,
+            "observed_cells": 4,
+            "zero_cells": 2
+          },
+          {
+            "ktid": "1056587",
+            "angle": "news",
+            "records": 36,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1056587",
+            "angle": "clue",
+            "records": 2,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1056587",
+            "angle": "social",
+            "records": 1,
+            "observed_cells": 4,
+            "zero_cells": 2
+          },
+          {
+            "ktid": "1056514",
+            "angle": "news",
+            "records": 35,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1056514",
+            "angle": "clue",
+            "records": 1,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1056514",
+            "angle": "social",
+            "records": 1,
+            "observed_cells": 4,
+            "zero_cells": 2
+          },
+          {
+            "ktid": "1001350",
+            "angle": "news",
+            "records": 15,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1001350",
+            "angle": "clue",
+            "records": 2,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1001350",
+            "angle": "social",
+            "records": 19,
+            "observed_cells": 4,
+            "zero_cells": 1
+          },
+          {
+            "ktid": "5775050",
+            "angle": "news",
+            "records": 33,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "5775050",
+            "angle": "clue",
+            "records": 2,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "5775050",
+            "angle": "social",
+            "records": 1,
+            "observed_cells": 4,
+            "zero_cells": 2
+          },
+          {
+            "ktid": "2575920",
+            "angle": "news",
+            "records": 27,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "2575920",
+            "angle": "clue",
+            "records": 2,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "2575920",
+            "angle": "social",
+            "records": 1,
+            "observed_cells": 4,
+            "zero_cells": 2
+          },
+          {
+            "ktid": "1056630",
+            "angle": "news",
+            "records": 25,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1056630",
+            "angle": "clue",
+            "records": 1,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1056630",
+            "angle": "social",
+            "records": 1,
+            "observed_cells": 4,
+            "zero_cells": 2
+          },
+          {
+            "ktid": "2572960",
+            "angle": "news",
+            "records": 23,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "2572960",
+            "angle": "clue",
+            "records": 1,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "2572960",
+            "angle": "social",
+            "records": 1,
+            "observed_cells": 4,
+            "zero_cells": 2
+          },
+          {
+            "ktid": "1001150",
+            "angle": "news",
+            "records": 2,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1001150",
+            "angle": "clue",
+            "records": 1,
+            "observed_cells": 1,
+            "zero_cells": 0
+          },
+          {
+            "ktid": "1001150",
+            "angle": "social",
+            "records": 15,
+            "observed_cells": 4,
+            "zero_cells": 2
+          }
+        ],
+        "institution_angle_platform_counts": true,
+        "csv": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/021-download.csv",
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/022-coverage.png"
+      },
+      "elapsed_seconds": 8.624
+    },
+    {
+      "id": "plan",
+      "check": "四类未来建议、本地待办与状态备注导出",
+      "section": "ui",
+      "status": "PASS",
+      "evidence": {
+        "categories": [
+          "完整性与可追溯",
+          "来源与时间覆盖",
+          "报告、活动与关键人员",
+          "合作关系与多时点互动"
+        ],
+        "tasks": {
+          "report-parsing": {
+            "id": "report-parsing",
+            "title": "报告全文、附件与真实页级解析",
+            "status": "doing",
+            "priority": "P1",
+            "createdAt": "2026-11-08T14:50:04.156Z",
+            "updatedAt": "2026-11-08T14:50:04.780Z",
+            "note": "QA 真实报告页码 <img id=\"qa-research-xss\" src=\"x\" onerror=\"window.__researchQAXSS=1\">"
+          },
+          "interaction-history": {
+            "id": "interaction-history",
+            "title": "多时点互动、回复与引用关系",
+            "status": "todo",
+            "priority": "P2",
+            "createdAt": "2026-11-08T14:50:04.437Z",
+            "updatedAt": "2026-11-08T14:50:04.437Z"
+          }
+        },
+        "export_rows": 10,
+        "csv": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/023-download.csv",
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/024-plan.png"
+      },
+      "elapsed_seconds": 2.693
+    },
+    {
+      "id": "quality",
+      "check": "五项质量卡片下钻及模拟数据分母口径",
+      "section": "ui",
+      "status": "PASS",
+      "evidence": {
+        "cards": {
+          "publish_time": {
+            "count": 1018,
+            "applicable": "适用 6,989 条 · 14.6%",
+            "visible_ids": [
+              "news-3668",
+              "news-3675",
+              "news-3665",
+              "news-3669",
+              "news-3671",
+              "news-3674",
+              "news-3673",
+              "news-3666",
+              "news-3667",
+              "news-3670",
+              "news-3672",
+              "clue-1120",
+              "clue-1237",
+              "clue-1234"
+            ]
+          },
+          "recovered_time": {
+            "count": 626,
+            "applicable": "适用 6,989 条 · 9.0%",
+            "visible_ids": [
+              "social-1613",
+              "social-1490",
+              "social-1535",
+              "social-1552",
+              "social-1620",
+              "social-1630",
+              "social-1641",
+              "social-1580",
+              "social-1590",
+              "social-1647",
+              "social-1654",
+              "social-1656",
+              "social-1661",
+              "social-1663"
+            ]
+          },
+          "unresolved_time": {
+            "count": 392,
+            "applicable": "适用 6,989 条 · 5.6%",
+            "visible_ids": [
+              "news-3668",
+              "news-3675",
+              "news-3665",
+              "news-3669",
+              "news-3671",
+              "news-3674",
+              "news-3673",
+              "news-3666",
+              "news-3667",
+              "news-3670",
+              "news-3672",
+              "clue-1120",
+              "clue-1237",
+              "clue-1234"
+            ]
+          },
+          "translation": {
+            "count": 325,
+            "applicable": "适用 6,989 条 · 4.7%",
+            "visible_ids": [
+              "news-3665",
+              "news-74",
+              "news-154",
+              "news-261",
+              "news-492",
+              "news-1041",
+              "news-1053",
+              "news-1072",
+              "news-1272",
+              "news-1313",
+              "news-1388",
+              "news-1427",
+              "news-1589",
+              "news-1603"
+            ]
+          },
+          "translation_placeholder": {
+            "count": 325,
+            "applicable": "适用 6,989 条 · 4.7%",
+            "visible_ids": [
+              "news-3665",
+              "news-74",
+              "news-154",
+              "news-261",
+              "news-492",
+              "news-1041",
+              "news-1053",
+              "news-1072",
+              "news-1272",
+              "news-1313",
+              "news-1388",
+              "news-1427",
+              "news-1589",
+              "news-1603"
+            ]
+          }
+        },
+        "simulation_excluded_from_recovery_denominator": true,
+        "test_platform_real_hits": 0
+      },
+      "elapsed_seconds": 4.254
+    },
+    {
+      "id": "assistant_search",
+      "check": "网页真实数据库检索复用解锁认证并呈现原文引用",
+      "section": "live",
+      "status": "PASS",
+      "evidence": {
+        "source": "real service response observed in browser",
+        "request": {
+          "query": "Arkansas State South Alabama",
+          "filters": {
+            "date_field": "published_at",
+            "institution": [
+              1002550
+            ],
+            "angle": [
+              "social"
+            ]
+          },
+          "expand": true,
+          "semantic": false,
+          "limit": 20
+        },
+        "coverage": {
+          "dataset": "real",
+          "source_version": "f064c896c123cbf4",
+          "database_total": 6989,
+          "scoped_records": 1,
+          "matched_records": 1,
+          "returned_records": 1,
+          "returned_paragraphs": 1,
+          "exhaustive": true,
+          "warning": "Counts describe the stored real snapshot, not the entire web; retrieved paragraphs are a bounded sample."
+        },
+        "citations": [
+          {
+            "citation_id": "C1",
+            "id": "social-1",
+            "angle": "social",
+            "field": "original_text",
+            "paragraph": 2,
+            "snippet": "A-State Faces Setback in High-Scoring Matchup Versus South Alabama, 56-49 https://t.co/4uChDuOQVI",
+            "source_url": "https://x.com/ArkansasState/status/2108426110039908459",
+            "source_version": "f064c896c123cbf4",
+            "quotes": null
+          }
+        ],
+        "response_artifact": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/025-api-search.json",
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/026-assistant-search.png"
+      },
+      "elapsed_seconds": 2.319
+    },
+    {
+      "id": "assistant_answer",
+      "check": "网页实际看到 DeepSeek Flash 答案及可点击真实引用",
+      "section": "live",
+      "status": "FAIL",
+      "error": "{'state': 'no_results', 'model': {'id': 'auto/deepseek-v4.1-flash', 'used': False, 'attempted': True, 'reason': 'no_results'}, 'answer': '当前真实数据库及筛选范围内未检索到可引用的资料。可以调整关键词、机构、角度或日期；现有证据不足以回答该问题。'}",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/ubuntu/zgclab-1-web/tests/research_acceptance.py\", line 182, in case\n    evidence = action()\n               ^^^^^^^^\n  File \"/home/ubuntu/zgclab-1-web/tests/research_acceptance.py\", line 774, in assistant_answer\n    return self.answer(\"请概括 Arkansas State 对阵 South Alabama 的比赛结果，并给出原文引用。\")\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ubuntu/zgclab-1-web/tests/research_acceptance.py\", line 756, in answer\n    assert payload.get(\"state\") == \"answered\", {\"state\": payload.get(\"state\"), \"model\": payload.get(\"model\"), \"answer\": payload.get(\"answer\")}\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: {'state': 'no_results', 'model': {'id': 'auto/deepseek-v4.1-flash', 'used': False, 'attempted': True, 'reason': 'no_results'}, 'answer': '当前真实数据库及筛选范围内未检索到可引用的资料。可以调整关键词、机构、角度或日期；现有证据不足以回答该问题。'}\n",
+      "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/028-assistant_answer-failure.png",
+      "page": {
+        "url": "http://127.0.0.1:8789/#/assistant?mode=chat&angle=social&ids=1002550",
+        "text": "跳转到主要内容\nZ\nZGCLab 数据平台\n境外机构开源情报\n数据工作区\n全部数据总览\n机构库\n数据浏览\n机构对比\n研究与跟进\n资料对话与模糊查询\n专题资料夹\n新增与变化\n记录时间线\n完整正文检索\n关注看板\n我的工作台\n数据管理\n数据质量\n来源与时间覆盖\n未来采集建议\n任务与交付\n需求 1 · 数据展示系统\n20 个验证单位 × 3 个采集角度\n数据快照：2026-11-05\n全部总览\n资料对话与模糊查询\n20 单位 × 3 角度\n带模拟数据\n锁定\n← 全部数据总览\n资料问答\n\n查找真实交付资料，围绕可核对的引用继续提问。\n\n快照 f064c896c123cbf4\n资料检索\n资料对话\n围绕资料连续提问。服务未提供模型时，明确展示检索结果供人工阅读。\n试一试\n有哪些关于人工智能安全的资料？\n查找国土安全部的网络安全相关记录\nCSIS 最近关注了哪些对华议题？\n研究问题或追问\nEnter 发送 · Shift + Enter 换行\n最多 1200 字符\n发送问题\n已展示资料检索摘录，无模型生成答案。\n最多发送最近 4 轮历史（合计不超过 12000 字符）；当前会话保留最近 12 轮。\n复制 Markdown\n导出 Markdown\n在本浏览器保存当前对话\n已保存会话\n选择已保存会话\n请概括 Arkansas State 对阵 South Alabama 的比赛结果，并给出原文引用。 · 2026-11-08\n新对话\n清空当前对话\n\n当前对话已保存至本浏览器。\n\n仅保存问题、回答和引用；共享设备使用后请清空。登录密码、令牌和模型密钥不会写入对话。\n\n研究问题\n\n请概括 Arkansas State 对阵 South Alabama 的比赛结果，并给出原文引用。\n\n资料检索摘录 · 无模型答案\n\n已尝试模型；当前展示数据库检索资料。 原因：没有匹配资料\n\n当前真实数据库及筛选范围内未检索到可引用的资料。可以调整关键词、机构、角度或日期；现有证据不足以回答该问题。\n\n索引 6,989 条 · 资料版本 f064c896c123cbf4 · 结构化范围 1 条 · 规则命中 0 条\n\n服务检索式：请概括 Arkansas State 对阵 South Alabama 的比赛结果，并给出原文引用。\n\n本次检索词 / 扩展与近似词\n比赛\ngame\nmatch\nmatchup\nfootball\nsoccer\n结果\n比分\noutcome\nresult\nscore\nsetback\nwin\nloss\n对阵\nsouth\nalabama\n并给出原文引用\n撤回扩展并重查\n复制本轮与引用\n[A1]\n数据库精确统计\n按真实记录去重计数\n\n结构化筛选范围：阿肯色州立大学 · 社交媒体 · 全部平台 · 不限 至 不限\n\n资料版本 f064c896c123cbf4 · 时间字段 published_at · Asia/Shanghai\n\n范围总数与按检索规则命中数；均不以返回段落数量估算\n口径\t全部\t新闻舆情\t官网线索\t社交媒体\n结构化范围\t1\t0\t0\t1\n检索规则命中\t0\t0\t0\t0\n\n检索规则 fts5_and；检索词 比赛、game、match、matchup、football、soccer、结果、比分、outcome、result、score、setback、win、loss、对阵、south、alabama、并给出原文引用\n\n统计仅描述已入库快照，不代表全网数量或实时覆盖。\n\n在数据浏览查看结构化范围 →\n当前范围没有匹配资料，请缩小问题或减少筛选后重试。\n研究服务\n重新连接\n\n研究服务已连接\n\n资料库：6,989 条真实记录\n\n模型可用：auto/deepseek-v4.1-flash\n\n索引 6,989 条 · 资料版本 f064c896c123cbf4\n\n入库时间 2026-11-08T14:45:40+00:00\n\n服务快照生成 2026-11-05T15:10:46+00:00\n\n指定模型：DeepSeek V4.1 Flash。实际模型以服务返回状态为准。\n\n资料范围\n重置\n\n1 家机构 · 社交媒体 · 全部日期\n\n采集角度\n全部角度\n新闻舆情\n官网线索\n社交媒体\n机构 已选 1 家\n美国联邦调查局\n美国国土安全部\n战略与国际研究中心\n克劳德斯特赖克公司\n大西洋理事会\n兰德公司\n布鲁金斯学会\n阿肯色州立大学\n新美国安全中心\n美国外交关系协会（对外关系委员会）\n洛克希德·马丁公司\n卡隆公司\n英特尔\n摩根大通\n保卫民主基金会\nOpenAI\n霍尼韦尔\nIBM\n思科\n美国国务院\n社媒平台 全部\n开始日期\n结束日期\n\n日期按发布时间（北京时间）；指定日期时排除缺少发布时间的记录。\n\n默认由 DeepSeek Flash 理解检索问题；实际参与状态随结果展示。\n\n允许检索扩展词\n\n关闭后同时停用模型重写、近义词和近似词；结果可撤回扩展后重查。\n\n每次最多返回证据段落\n10 段\n20 段\n30 段\n资料边界\n\n资料版本 f064c896c123cbf4\n快照生成 2026-11-05T15:10:46+00:00\n记录日期 1984-12-21 至 2026-11-12\n\n服务端资料版本与截止信息会随结果展示；记录日期上限不代表已完整覆盖此前的公开信息。\n\n引用是外部资料中的陈述，可能有遗漏或错误。请结合完整记录与原文核实。\n\n进入完整正文检索 →\nZGCLab 境外机构开源数据项目 · 需求 1 数据展示系统 · 数据为真实交付快照"
+      },
+      "elapsed_seconds": 10.033
+    },
+    {
+      "id": "assistant_literal_answer",
+      "check": "独立关键词问题验证真实模型答案（不代替中文问题验收）",
+      "section": "live",
+      "status": "PASS",
+      "evidence": {
+        "model": {
+          "id": "auto/deepseek-v4.1-flash",
+          "used": true,
+          "attempted": true,
+          "reason": null
+        },
+        "question": "Arkansas State South Alabama",
+        "visible_answer": "模型选取的数据库原文摘录（未改写）：\nA-State Faces Setback in High-Scoring Matchup Versus South Alabama, 56-49 [C1]\n以上为来源文本摘录，仅核验逐字对应关系，不代表来源陈述已获事实核实；未覆盖全部记录。",
+        "verified_citations": [
+          {
+            "citation_id": "C1",
+            "id": "social-1",
+            "angle": "social",
+            "field": "original_text",
+            "paragraph": 2,
+            "snippet": "A-State Faces Setback in High-Scoring Matchup Versus South Alabama, 56-49 https://t.co/4uChDuOQVI",
+            "source_url": "https://x.com/ArkansasState/status/2108426110039908459",
+            "source_version": "f064c896c123cbf4",
+            "quotes": [
+              "A-State Faces Setback in High-Scoring Matchup Versus South Alabama, 56-49"
+            ]
+          }
+        ],
+        "history_messages": 1,
+        "response_artifact": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/029-api-chat.json",
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/030-assistant-real-answer.png"
+      },
+      "elapsed_seconds": 20.434
+    },
+    {
+      "id": "assistant_followup",
+      "check": "第二轮真实对话携带历史并继续引用真实材料",
+      "section": "live",
+      "status": "BLOCKED",
+      "prerequisites": [
+        "assistant_answer"
+      ],
+      "elapsed_seconds": 0.0
+    },
+    {
+      "id": "assistant_no_evidence",
+      "check": "无证据明确不能回答且不编造记录引用",
+      "section": "live",
+      "status": "PASS",
+      "evidence": {
+        "state": "no_results",
+        "visible_answer": "研究问题\n\nqazxresearchabsent9d87ac632b45e701\n\n资料检索摘录 · 无模型答案\n\n未调用大模型；当前展示数据库检索资料。 原因：没有匹配资料\n\n当前真实数据库及筛选范围内未检索到可引用的资料。可以调整关键词、机构、角度或日期；现有证据不足以回答该问题。\n\n索引 6,989 条 · 资料版本 f064c896c123cbf4 · 结构化范围 6,989 条 · 规则命中 0 条\n\n服务检索式：qazxresearchabsent9d87ac632b45e701\n\n本次检索词 / 扩展与近似词\nqazxresearchabsent9d87ac632b45e701\n复制本轮与引用\n[A1]\n数据库精确统计\n按真实记录去重计数\n\n结构化筛选范围：全部机构 · 全部角度 · 全部平台 · 不限 至 不限\n\n资料版本 f064c896c123cbf4 · 时间字段 published_at · Asia/Shanghai\n\n范围总数与按检索规则命中数；均不以返回段落数量估算\n口径\t全部\t新闻舆情\t官网线索\t社交媒体\n结构化范围\t6,989\t3,675\t1,468\t1,846\n检索规则命中\t0\t0\t0\t0\n\n检索规则 fts5_and；检索词 qazxresearchabsent9d87ac632b45e701\n\n统计仅描述已入库快照，不代表全网数量或实时覆盖。\n\n在数据浏览查看结构化范围 →\n当前范围没有匹配资料，请缩小问题或减少筛选后重试。",
+        "record_citations": 0,
+        "chat_requests": 3,
+        "response_artifact": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/031-api-chat.json",
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/032-assistant-no-evidence.png"
+      },
+      "elapsed_seconds": 1.24
+    },
+    {
+      "id": "workspace_backup",
+      "check": "完整工作台备份恢复专题、分组、基线、待办及可用对话",
+      "section": "ui",
+      "status": "BLOCKED",
+      "prerequisites": [
+        "assistant_answer"
+      ],
+      "elapsed_seconds": 0.0
+    },
+    {
+      "id": "quickswitch",
+      "check": "新增路由快速切换无迟到渲染或残留弹窗",
+      "section": "ui",
+      "status": "PASS",
+      "evidence": {
+        "transitions": 21,
+        "final_route": "#/projects",
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/033-quickswitch.png"
+      },
+      "elapsed_seconds": 10.924
+    },
+    {
+      "id": "layout_projects_390",
+      "check": "390px projects 导航、无页面溢出与键盘焦点",
+      "section": "layout",
+      "status": "PASS",
+      "evidence": {
+        "width": 390,
+        "route": "projects",
+        "geometry": {
+          "width": 390,
+          "scroll": 390,
+          "body": 390
+        },
+        "keyboard_focus": {
+          "tag": "BUTTON",
+          "visible": true,
+          "focusVisible": true,
+          "name": "备份全部专题",
+          "inView": true
+        },
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/034-projects-390.png"
+      },
+      "elapsed_seconds": 1.174
+    },
+    {
+      "id": "layout_assistant_390",
+      "check": "390px assistant 导航、无页面溢出与键盘焦点",
+      "section": "layout",
+      "status": "PASS",
+      "evidence": {
+        "width": 390,
+        "route": "assistant",
+        "geometry": {
+          "width": 390,
+          "scroll": 390,
+          "body": 390
+        },
+        "keyboard_focus": {
+          "tag": "BUTTON",
+          "visible": true,
+          "focusVisible": true,
+          "name": "资料检索",
+          "inView": true
+        },
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/035-assistant-390.png"
+      },
+      "elapsed_seconds": 0.728
+    },
+    {
+      "id": "layout_evidence_390",
+      "check": "390px evidence 导航、无页面溢出与键盘焦点",
+      "section": "layout",
+      "status": "PASS",
+      "evidence": {
+        "width": 390,
+        "route": "evidence",
+        "geometry": {
+          "width": 390,
+          "scroll": 390,
+          "body": 390
+        },
+        "keyboard_focus": {
+          "tag": "A",
+          "visible": true,
+          "focusVisible": true,
+          "name": "变化中心",
+          "inView": true
+        },
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/036-evidence-390.png"
+      },
+      "elapsed_seconds": 0.939
+    },
+    {
+      "id": "layout_related_390",
+      "check": "390px related 导航、无页面溢出与键盘焦点",
+      "section": "layout",
+      "status": "PASS",
+      "evidence": {
+        "width": 390,
+        "route": "related",
+        "geometry": {
+          "width": 390,
+          "scroll": 390,
+          "body": 390
+        },
+        "keyboard_focus": {
+          "tag": "A",
+          "visible": true,
+          "focusVisible": true,
+          "name": "变化中心",
+          "inView": true
+        },
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/037-related-390.png"
+      },
+      "elapsed_seconds": 1.346
+    },
+    {
+      "id": "layout_changes_390",
+      "check": "390px changes 导航、无页面溢出与键盘焦点",
+      "section": "layout",
+      "status": "PASS",
+      "evidence": {
+        "width": 390,
+        "route": "changes",
+        "geometry": {
+          "width": 390,
+          "scroll": 390,
+          "body": 390
+        },
+        "keyboard_focus": {
+          "tag": "A",
+          "visible": true,
+          "focusVisible": true,
+          "name": "变化中心",
+          "inView": true
+        },
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/038-changes-390.png"
+      },
+      "elapsed_seconds": 0.739
+    },
+    {
+      "id": "layout_coverage_390",
+      "check": "390px coverage 导航、无页面溢出与键盘焦点",
+      "section": "layout",
+      "status": "PASS",
+      "evidence": {
+        "width": 390,
+        "route": "coverage",
+        "geometry": {
+          "width": 390,
+          "scroll": 390,
+          "body": 390
+        },
+        "keyboard_focus": {
+          "tag": "A",
+          "visible": true,
+          "focusVisible": true,
+          "name": "变化中心",
+          "inView": true
+        },
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/039-coverage-390.png"
+      },
+      "elapsed_seconds": 0.359
+    },
+    {
+      "id": "layout_collection-plan_390",
+      "check": "390px collection-plan 导航、无页面溢出与键盘焦点",
+      "section": "layout",
+      "status": "PASS",
+      "evidence": {
+        "width": 390,
+        "route": "collection-plan",
+        "geometry": {
+          "width": 390,
+          "scroll": 390,
+          "body": 390
+        },
+        "keyboard_focus": {
+          "tag": "A",
+          "visible": true,
+          "focusVisible": true,
+          "name": "变化中心",
+          "inView": true
+        },
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/040-collection-plan-390.png"
+      },
+      "elapsed_seconds": 0.556
+    },
+    {
+      "id": "layout_quality_390",
+      "check": "390px quality 导航、无页面溢出与键盘焦点",
+      "section": "layout",
+      "status": "PASS",
+      "evidence": {
+        "width": 390,
+        "route": "quality",
+        "geometry": {
+          "width": 390,
+          "scroll": 390,
+          "body": 390
+        },
+        "keyboard_focus": {
+          "tag": "SELECT",
+          "visible": true,
+          "focusVisible": true,
+          "name": "全部机构\n美国联邦调查局\n美国国土安全部\n战略与国际研究中心\n克劳德斯特赖克公司\n大西洋理事会\n兰德公司\n布鲁金斯学会\n阿肯色州立大学\n新美国安全中心\n美国外交关系协会（对外关系委员会）\n洛克希德·马丁公司\n卡隆公司\n英特尔\n摩根大通\n保卫民主基金会\nOpenAI\n霍尼韦尔\nIBM\n思科\n美国国务院",
+          "inView": true
+        },
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/041-quality-390.png"
+      },
+      "elapsed_seconds": 0.379
+    },
+    {
+      "id": "layout_projects_768",
+      "check": "768px projects 导航、无页面溢出与键盘焦点",
+      "section": "layout",
+      "status": "PASS",
+      "evidence": {
+        "width": 768,
+        "route": "projects",
+        "geometry": {
+          "width": 768,
+          "scroll": 768,
+          "body": 768
+        },
+        "keyboard_focus": {
+          "tag": "BUTTON",
+          "visible": true,
+          "focusVisible": true,
+          "name": "备份全部专题",
+          "inView": true
+        },
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/042-projects-768.png"
+      },
+      "elapsed_seconds": 0.801
+    },
+    {
+      "id": "layout_assistant_768",
+      "check": "768px assistant 导航、无页面溢出与键盘焦点",
+      "section": "layout",
+      "status": "PASS",
+      "evidence": {
+        "width": 768,
+        "route": "assistant",
+        "geometry": {
+          "width": 768,
+          "scroll": 768,
+          "body": 768
+        },
+        "keyboard_focus": {
+          "tag": "BUTTON",
+          "visible": true,
+          "focusVisible": true,
+          "name": "资料检索",
+          "inView": true
+        },
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/043-assistant-768.png"
+      },
+      "elapsed_seconds": 0.622
+    },
+    {
+      "id": "layout_evidence_768",
+      "check": "768px evidence 导航、无页面溢出与键盘焦点",
+      "section": "layout",
+      "status": "PASS",
+      "evidence": {
+        "width": 768,
+        "route": "evidence",
+        "geometry": {
+          "width": 768,
+          "scroll": 768,
+          "body": 768
+        },
+        "keyboard_focus": {
+          "tag": "A",
+          "visible": true,
+          "focusVisible": true,
+          "name": "变化中心",
+          "inView": true
+        },
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/044-evidence-768.png"
+      },
+      "elapsed_seconds": 0.701
+    },
+    {
+      "id": "layout_related_768",
+      "check": "768px related 导航、无页面溢出与键盘焦点",
+      "section": "layout",
+      "status": "PASS",
+      "evidence": {
+        "width": 768,
+        "route": "related",
+        "geometry": {
+          "width": 768,
+          "scroll": 768,
+          "body": 768
+        },
+        "keyboard_focus": {
+          "tag": "A",
+          "visible": true,
+          "focusVisible": true,
+          "name": "变化中心",
+          "inView": true
+        },
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/045-related-768.png"
+      },
+      "elapsed_seconds": 1.085
+    },
+    {
+      "id": "layout_changes_768",
+      "check": "768px changes 导航、无页面溢出与键盘焦点",
+      "section": "layout",
+      "status": "PASS",
+      "evidence": {
+        "width": 768,
+        "route": "changes",
+        "geometry": {
+          "width": 768,
+          "scroll": 768,
+          "body": 768
+        },
+        "keyboard_focus": {
+          "tag": "A",
+          "visible": true,
+          "focusVisible": true,
+          "name": "变化中心",
+          "inView": true
+        },
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/046-changes-768.png"
+      },
+      "elapsed_seconds": 1.116
+    },
+    {
+      "id": "layout_coverage_768",
+      "check": "768px coverage 导航、无页面溢出与键盘焦点",
+      "section": "layout",
+      "status": "PASS",
+      "evidence": {
+        "width": 768,
+        "route": "coverage",
+        "geometry": {
+          "width": 768,
+          "scroll": 768,
+          "body": 768
+        },
+        "keyboard_focus": {
+          "tag": "A",
+          "visible": true,
+          "focusVisible": true,
+          "name": "变化中心",
+          "inView": true
+        },
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/047-coverage-768.png"
+      },
+      "elapsed_seconds": 0.807
+    },
+    {
+      "id": "layout_collection-plan_768",
+      "check": "768px collection-plan 导航、无页面溢出与键盘焦点",
+      "section": "layout",
+      "status": "PASS",
+      "evidence": {
+        "width": 768,
+        "route": "collection-plan",
+        "geometry": {
+          "width": 768,
+          "scroll": 768,
+          "body": 768
+        },
+        "keyboard_focus": {
+          "tag": "A",
+          "visible": true,
+          "focusVisible": true,
+          "name": "变化中心",
+          "inView": true
+        },
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/048-collection-plan-768.png"
+      },
+      "elapsed_seconds": 0.876
+    },
+    {
+      "id": "layout_quality_768",
+      "check": "768px quality 导航、无页面溢出与键盘焦点",
+      "section": "layout",
+      "status": "PASS",
+      "evidence": {
+        "width": 768,
+        "route": "quality",
+        "geometry": {
+          "width": 768,
+          "scroll": 768,
+          "body": 768
+        },
+        "keyboard_focus": {
+          "tag": "SELECT",
+          "visible": true,
+          "focusVisible": true,
+          "name": "全部机构\n美国联邦调查局\n美国国土安全部\n战略与国际研究中心\n克劳德斯特赖克公司\n大西洋理事会\n兰德公司\n布鲁金斯学会\n阿肯色州立大学\n新美国安全中心\n美国外交关系协会（对外关系委员会）\n洛克希德·马丁公司\n卡隆公司\n英特尔\n摩根大通\n保卫民主基金会\nOpenAI\n霍尼韦尔\nIBM\n思科\n美国国务院",
+          "inView": true
+        },
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/049-quality-768.png"
+      },
+      "elapsed_seconds": 0.668
+    },
+    {
+      "id": "layout_projects_1440",
+      "check": "1440px projects 导航、无页面溢出与键盘焦点",
+      "section": "layout",
+      "status": "PASS",
+      "evidence": {
+        "width": 1440,
+        "route": "projects",
+        "geometry": {
+          "width": 1440,
+          "scroll": 1440,
+          "body": 1440
+        },
+        "keyboard_focus": {
+          "tag": "BUTTON",
+          "visible": true,
+          "focusVisible": true,
+          "name": "备份全部专题",
+          "inView": true
+        },
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/050-projects-1440.png"
+      },
+      "elapsed_seconds": 0.917
+    },
+    {
+      "id": "layout_assistant_1440",
+      "check": "1440px assistant 导航、无页面溢出与键盘焦点",
+      "section": "layout",
+      "status": "PASS",
+      "evidence": {
+        "width": 1440,
+        "route": "assistant",
+        "geometry": {
+          "width": 1440,
+          "scroll": 1440,
+          "body": 1440
+        },
+        "keyboard_focus": {
+          "tag": "BUTTON",
+          "visible": true,
+          "focusVisible": true,
+          "name": "资料检索",
+          "inView": true
+        },
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/051-assistant-1440.png"
+      },
+      "elapsed_seconds": 0.727
+    },
+    {
+      "id": "layout_evidence_1440",
+      "check": "1440px evidence 导航、无页面溢出与键盘焦点",
+      "section": "layout",
+      "status": "PASS",
+      "evidence": {
+        "width": 1440,
+        "route": "evidence",
+        "geometry": {
+          "width": 1440,
+          "scroll": 1440,
+          "body": 1440
+        },
+        "keyboard_focus": {
+          "tag": "A",
+          "visible": true,
+          "focusVisible": true,
+          "name": "变化中心",
+          "inView": true
+        },
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/052-evidence-1440.png"
+      },
+      "elapsed_seconds": 1.046
+    },
+    {
+      "id": "layout_related_1440",
+      "check": "1440px related 导航、无页面溢出与键盘焦点",
+      "section": "layout",
+      "status": "PASS",
+      "evidence": {
+        "width": 1440,
+        "route": "related",
+        "geometry": {
+          "width": 1440,
+          "scroll": 1440,
+          "body": 1440
+        },
+        "keyboard_focus": {
+          "tag": "A",
+          "visible": true,
+          "focusVisible": true,
+          "name": "变化中心",
+          "inView": true
+        },
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/053-related-1440.png"
+      },
+      "elapsed_seconds": 1.505
+    },
+    {
+      "id": "layout_changes_1440",
+      "check": "1440px changes 导航、无页面溢出与键盘焦点",
+      "section": "layout",
+      "status": "PASS",
+      "evidence": {
+        "width": 1440,
+        "route": "changes",
+        "geometry": {
+          "width": 1440,
+          "scroll": 1440,
+          "body": 1440
+        },
+        "keyboard_focus": {
+          "tag": "A",
+          "visible": true,
+          "focusVisible": true,
+          "name": "变化中心",
+          "inView": true
+        },
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/054-changes-1440.png"
+      },
+      "elapsed_seconds": 1.007
+    },
+    {
+      "id": "layout_coverage_1440",
+      "check": "1440px coverage 导航、无页面溢出与键盘焦点",
+      "section": "layout",
+      "status": "PASS",
+      "evidence": {
+        "width": 1440,
+        "route": "coverage",
+        "geometry": {
+          "width": 1440,
+          "scroll": 1440,
+          "body": 1440
+        },
+        "keyboard_focus": {
+          "tag": "A",
+          "visible": true,
+          "focusVisible": true,
+          "name": "变化中心",
+          "inView": true
+        },
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/055-coverage-1440.png"
+      },
+      "elapsed_seconds": 0.739
+    },
+    {
+      "id": "layout_collection-plan_1440",
+      "check": "1440px collection-plan 导航、无页面溢出与键盘焦点",
+      "section": "layout",
+      "status": "PASS",
+      "evidence": {
+        "width": 1440,
+        "route": "collection-plan",
+        "geometry": {
+          "width": 1440,
+          "scroll": 1440,
+          "body": 1440
+        },
+        "keyboard_focus": {
+          "tag": "A",
+          "visible": true,
+          "focusVisible": true,
+          "name": "变化中心",
+          "inView": true
+        },
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/056-collection-plan-1440.png"
+      },
+      "elapsed_seconds": 0.637
+    },
+    {
+      "id": "layout_quality_1440",
+      "check": "1440px quality 导航、无页面溢出与键盘焦点",
+      "section": "layout",
+      "status": "PASS",
+      "evidence": {
+        "width": 1440,
+        "route": "quality",
+        "geometry": {
+          "width": 1440,
+          "scroll": 1440,
+          "body": 1440
+        },
+        "keyboard_focus": {
+          "tag": "SELECT",
+          "visible": true,
+          "focusVisible": true,
+          "name": "全部机构\n美国联邦调查局\n美国国土安全部\n战略与国际研究中心\n克劳德斯特赖克公司\n大西洋理事会\n兰德公司\n布鲁金斯学会\n阿肯色州立大学\n新美国安全中心\n美国外交关系协会（对外关系委员会）\n洛克希德·马丁公司\n卡隆公司\n英特尔\n摩根大通\n保卫民主基金会\nOpenAI\n霍尼韦尔\nIBM\n思科\n美国国务院",
+          "inView": true
+        },
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/057-quality-1440.png"
+      },
+      "elapsed_seconds": 0.553
+    },
+    {
+      "id": "lock",
+      "check": "锁定和刷新均清除解锁及服务凭据并重新要求密码",
+      "section": "ui",
+      "status": "PASS",
+      "evidence": {
+        "lock_requires_password": "[REDACTED]",
+        "refresh_requires_password": "[REDACTED]",
+        "credentials_in_storage": false,
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/058-locked.png"
+      },
+      "elapsed_seconds": 2.659
+    },
+    {
+      "id": "mock_html",
+      "check": "受控问题与生成答案 HTML 不执行且引用键盘可定位",
+      "section": "mock",
+      "status": "PASS",
+      "evidence": {
+        "kind": "controlled rendering only, not real model verification",
+        "html_executed": false,
+        "citation": "C7",
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/059-mock-html.png"
+      },
+      "elapsed_seconds": 2.256
+    },
+    {
+      "id": "mock_late",
+      "check": "受控迟到问答不覆盖已切换专题页面",
+      "section": "mock",
+      "status": "PASS",
+      "evidence": {
+        "kind": "controlled late response only",
+        "request_outcome": "fulfilled",
+        "final_route": "#/projects",
+        "screenshot": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278/060-mock-late.png"
+      },
+      "elapsed_seconds": 1.679
+    },
+    {
+      "id": "raw_after",
+      "check": "验收全过程未改写原始交付数据",
+      "section": "integrity",
+      "status": "PASS",
+      "evidence": {
+        "sha256": "e67148800703e0b755fd2d569ab1fe9c96dbcfacff6009472a58d1e0bbca98dc",
+        "files": 98,
+        "counts": {
+          "news": 3675,
+          "clue": 1468,
+          "social": 1846
+        },
+        "version": "f064c896c123cbf4"
+      },
+      "elapsed_seconds": 0.387
+    },
+    {
+      "id": "page_errors",
+      "check": "无页面脚本异常且真实问答不超过三次",
+      "section": "integrity",
+      "status": "FAIL",
+      "error": "[{'message': \"Cannot read properties of null (reading 'open')\", 'stack': \"TypeError: Cannot read properties of null (reading 'open')\\n    at HTMLDialogElement.<anonymous> (blob:http://127.0.0.1:8789/c9d1e453-46e2-4f4f-a298-7a4e3512d2bb:307:80)\", 'url': 'http://127.0.0.1:8789/#/projects'}]",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/ubuntu/zgclab-1-web/tests/research_acceptance.py\", line 182, in case\n    evidence = action()\n               ^^^^^^^^\n  File \"/home/ubuntu/zgclab-1-web/tests/research_acceptance.py\", line 888, in no_page_errors\n    assert not self.js_errors, self.js_errors\n           ^^^^^^^^^^^^^^^^^^\nAssertionError: [{'message': \"Cannot read properties of null (reading 'open')\", 'stack': \"TypeError: Cannot read properties of null (reading 'open')\\n    at HTMLDialogElement.<anonymous> (blob:http://127.0.0.1:8789/c9d1e453-46e2-4f4f-a298-7a4e3512d2bb:307:80)\", 'url': 'http://127.0.0.1:8789/#/projects'}]\n",
+      "elapsed_seconds": 0.0
+    }
+  ],
+  "network": [
+    {
+      "path": "/api/session",
+      "status": 200
+    },
+    {
+      "path": "/api/status",
+      "status": 200
+    },
+    {
+      "path": "/api/status",
+      "status": 200
+    },
+    {
+      "path": "/api/status",
+      "status": 200
+    },
+    {
+      "path": "/api/status",
+      "status": 200
+    },
+    {
+      "path": "/api/status",
+      "status": 200
+    },
+    {
+      "path": "/api/status",
+      "status": 200
+    },
+    {
+      "path": "/api/search",
+      "status": 200
+    },
+    {
+      "path": "/api/status",
+      "status": 200
+    },
+    {
+      "path": "/api/chat",
+      "status": 200
+    },
+    {
+      "path": "/api/chat",
+      "status": 200
+    },
+    {
+      "path": "/api/chat",
+      "status": 200
+    },
+    {
+      "path": "/api/status",
+      "status": 200
+    },
+    {
+      "path": "/api/status",
+      "status": 200
+    },
+    {
+      "path": "/api/status",
+      "status": 200
+    },
+    {
+      "path": "/api/status",
+      "status": 200
+    },
+    {
+      "path": "/api/status",
+      "status": 200
+    },
+    {
+      "path": "/api/status",
+      "status": 200
+    },
+    {
+      "path": "/api/status",
+      "status": 200
+    },
+    {
+      "path": "/api/status",
+      "status": 200
+    },
+    {
+      "path": "/api/status",
+      "status": 200
+    },
+    {
+      "path": "/api/status",
+      "status": 200
+    },
+    {
+      "path": "/api/status",
+      "status": 200
+    },
+    {
+      "path": "/api/session",
+      "status": 200
+    },
+    {
+      "path": "/api/session",
+      "status": 200
+    },
+    {
+      "path": "/api/status",
+      "status": 200
+    },
+    {
+      "path": "/api/session",
+      "status": 200
+    },
+    {
+      "path": "/api/status",
+      "status": 200
+    },
+    {
+      "path": "/api/chat",
+      "status": 200
+    },
+    {
+      "path": "/api/session",
+      "status": 200
+    },
+    {
+      "path": "/api/status",
+      "status": 200
+    }
+  ],
+  "artifacts": "/home/ubuntu/log/zgclab-research-acceptance/20261108T144911Z-2995278"
+}

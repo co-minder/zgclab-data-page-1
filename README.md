@@ -14,6 +14,12 @@ ZGCLab 是一个基于真实交付数据的数据检索与研究工作台。前�
 
 当前快照共 **6,989 条**已审核入表记录，覆盖 **20 个验证机构**。数据来源为 `20261011-current-reviewed` 交付包。
 
+## 研究与资料问答
+
+研究扩展增加专题资料夹、自然语言检索与资料对话、相关资料候选、原文译文对照引用、快照变化订阅、来源与时间覆盖，以及未来采集建议。用法、数据边界、服务连接和验收见 [研究功能与资料问答-20261108.md](研究功能与资料问答-20261108.md)。
+
+资料问答使用 social 上的只读 SQLite 全文数据库，模型由 Mac 本地 magpie 管理的 DeepSeek V4.1 Flash 提供。模型理解问题后的检索、模型根据证据生成回答、数据库精确统计分别显示实际状态和引用。数据库仅索引真实资料；供应商密钥不分发给网页或服务器。启动与配置见 `service/README.md`。
+
 ## 页面与功能
 
 第二轮增加全量总览入口、可收起筛选，以及记录时间线、数据质量、完整正文检索、已读 / 未读和关注看板。顶栏“带模拟数据”可加载独立的 30,000 条测试记录，社媒平台为 `test`，默认关闭。使用说明、目录隔离和五轮审核见 [第二轮功能与五轮审核.md](第二轮功能与五轮审核.md)。
@@ -45,7 +51,7 @@ ZGCLab 是一个基于真实交付数据的数据检索与研究工作台。前�
 
 **访问范围说明：** 网站密码保护的是 `/docs` 下的发布文件。仓库根目录和 Git 历史中已有公开源码与数据，依然可以在 GitHub 查看，因此这不是整个项目的保密访问控制。持有密码的人可以查看或导出已解锁数据。
 
-网页也由 `social` 服务器的 `zgclab-1-web` tmux 会话托管，同样提供 `docs/` 密码入口。浏览器只读取静态文件，不需要数据库或模型 API。完整复制 `docs/` 后启动静态 HTTP 服务即可离线使用。
+网页也由 `social` 服务器的 `zgclab-1-web` tmux 会话托管，同样提供 `docs/` 密码入口。资料浏览、专题和研究页面可通过静态服务离线使用；自然语言检索与资料对话连接独立资料 API。当前模型回答提供逐字来源摘录，精确统计由数据库计算。完整复制 `docs/` 后启动静态 HTTP 服务即可使用离线功能。
 
 ## 本地或服务器运行
 
@@ -54,11 +60,11 @@ cd /home/ubuntu/zgclab-1-web
 python3 serve.py --bind 127.0.0.1 --port 8788
 ```
 
-访问 `http://127.0.0.1:8788/`。`serve.py` 只提供前端和 `data/*.js` 文件，支持 gzip、ETag 与版本化详情缓存，拒绝访问 `.git`、脚本和其他项目文件。服务器上使用 tmux 常驻并保存日志：
+访问 `http://127.0.0.1:8788/`。`serve.py` 提供前端发布文件，支持 gzip、ETag 与版本化详情缓存，并将许可的 `/api/*` 请求转发至回环地址 `127.0.0.1:8791`；拒绝访问 `.git`、数据库、服务源码和其他项目文件。API 启动方法见 `service/README.md`。服务器上使用 tmux 常驻并保存日志：
 
 ```bash
 tmux new-window -d -t zgclab-1-web -n public-web \
-  'cd /home/ubuntu/zgclab-1-web && python3 -u serve.py --bind 0.0.0.0 --port 8788 > /home/ubuntu/log/zgclab-web-public.log 2>&1'
+  'cd /home/ubuntu/zgclab-1-web && python3 -u serve.py --bind 127.0.0.1 --port 8788 > /home/ubuntu/log/zgclab-web-public.log 2>&1'
 ```
 
 Mac 端通过 SSH 转发：
@@ -101,6 +107,7 @@ python3 build_data.py /path/to/delivery-package /path/to/institutions.csv
 
 ```bash
 python3 build_data.py
+python3 build_research_data.py
 python3 build_protected.py
 ```
 

@@ -59,14 +59,21 @@
     return loaded.get(path);
   }
 
-  async function mount(shell) {
-    const css = await decrypt("styles.css");
+  async function mount(shell, password) {
+    const css = (await Promise.all(["styles.css", "projects.css", "research.css", "assistant.css"].map(decrypt))).join("\n");
     // Load the small startup assets before replacing the login screen.
     await loadScript("data/meta.js");
     await loadScript("core.js");
     await loadScript("query.js");
     await loadScript("explorer.js");
     await loadScript("tools.js");
+    await loadScript("service-config.js");
+    await loadScript("service-client.js");
+    window.ZGCLAB_SERVICE_CLIENT.setPassword(password);
+    password = "";
+    await loadScript("projects.js");
+    await loadScript("research.js");
+    await loadScript("assistant.js");
     const appSource = await decrypt("app.js");
     const parsed = new DOMParser().parseFromString(shell, "text/html");
     parsed.querySelectorAll("script,noscript").forEach((tag) => tag.remove());
@@ -82,7 +89,7 @@
     lock.type = "button";
     lock.textContent = "锁定";
     lock.setAttribute("aria-label", "锁定页面");
-    lock.onclick = () => location.reload();
+    lock.onclick = () => { window.ZGCLAB_SERVICE_CLIENT.clear(); location.reload(); };
     document.querySelector(".topbar").appendChild(lock);
     const url = URL.createObjectURL(new Blob([appSource], { type: "text/javascript" }));
     await new Promise((resolve, reject) => {
@@ -117,8 +124,9 @@
       const material = await crypto.subtle.importKey("raw", encoder.encode(input.value), "PBKDF2", false, ["deriveKey"]);
       key = await crypto.subtle.deriveKey({ name: "PBKDF2", salt: fromBase64(manifest.salt), iterations: manifest.iterations, hash: "SHA-256" }, material, { name: "AES-GCM", length: 256 }, false, ["decrypt"]);
       const shell = await decrypt("index.html");
+      const password = input.value;
       input.value = "";
-      await mount(shell);
+      await mount(shell, password);
     } catch (failure) {
       if (shellMounted) { location.reload(); return; }
       error.textContent = message(failure); input.select(); input.focus();

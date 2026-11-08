@@ -18,7 +18,10 @@
     catch(error) { if(live())$("#toolBody").innerHTML=`<div class="inline-error">${esc(error.message)}</div><button class="btn" id="retryTool">重新加载</button>`; if(live())$("#retryTool").onclick=()=>window.ZGCLAB_TOOLS(name,params,api); return; }
     if(!live())return;
     if(name==="timeline") timeline();
-    if(name==="quality") quality();
+    if(name==="quality") {
+      try { await api.ensureResearch?.(); } catch (_) { /* Delivered fields remain usable. */ }
+      if(live())quality();
+    }
     if(name==="watchlist") watchlist();
     if(name==="fulltext") fulltext();
 
@@ -56,12 +59,19 @@
 
     function quality() {
       let institution=params.get("ids")||"";
-      $("#toolBody").innerHTML=`<div class="tool-filters"><label>机构<select id="qualityInst">${instOptions(institution)}</select></label><button class="btn" id="exportQuality">导出质量统计</button></div><div id="qualityStats"></div><div id="qualityRecords" class="rec-list"></div><div id="qualityPager"></div>`;
+      const translationText=r=>String(r.content_cn||r.chinese_trans||r.chinese_translation||"").trim();
+      const translationPlaceholder=r=>/^(?:无法翻译|翻译失败|待翻译|无法生成|available|null|none)$/i.test(translationText(r));
+      const usableTranslation=r=>!!r._has_translation&&!translationPlaceholder(r);
+      const publication=r=>window.ZGCLAB_RESEARCH?.records?.[r.id]?.publication;
+      $("#toolBody").innerHTML=`<div class="tool-filters"><label>机构<select id="qualityInst">${instOptions(institution)}</select></label><button class="btn" id="exportQuality">导出质量统计</button><a class="btn" href="#/coverage">来源与时间覆盖</a><a class="btn" href="#/collection-plan">未来采集建议</a></div><p class="note">字段非空不等于资料可用。“无法翻译”等占位单独列出；原始交付值保留，可从证据阅读查看恢复依据。链接检查仅核对地址格式，不代表外部网站当前可访问。</p><div id="qualityStats"></div><div id="qualityRecords" class="rec-list"></div><div id="qualityPager"></div>`;
       let selected=null,page=1,subset=[],issueRows=[];
       const issueDefinitions=[
         ["publish_time","发布时间未提供",()=>true,({r})=>!r.publish_time],
+        ["recovered_time","发布时间已从原始响应恢复",({r})=>!r._simulation,({r})=>publication(r)?.status==="recovered"&&publication(r)?.verified===true],
+        ["unresolved_time","发布时间仍待取得或核验",({r})=>!r._simulation,({r})=>!r.publish_time&&publication(r)?.status!=="recovered"],
         ["url","原文链接无效或缺失",()=>true,({r})=>!CORE.safeUrl(Q.sourceLink(r))],
-        ["translation","有原文、缺中文正文 / 翻译",({r})=>!!r._has_original,({r})=>!!r._has_original&&!r._has_translation],
+        ["translation","有原文、缺可用中文正文 / 翻译",({r})=>!!r._has_original,({r})=>!!r._has_original&&!usableTranslation(r)],
+        ["translation_placeholder","中文正文 / 翻译为占位文字",()=>true,({r})=>translationPlaceholder(r)],
         ["risk","风险等级为空",({angle})=>angle==="clue",({angle,r})=>angle==="clue"&&!r.risk_level],
         ["unknown_risk","风险等级为无法判断",({angle})=>angle==="clue",({angle,r})=>angle==="clue"&&r.risk_level==="无法判断"],
         ...["like_count","comment_count","repost_count","view_count"].map((key,index)=>[key,["点赞数未提供","评论数未提供","转发数未提供","浏览量未提供"][index],({angle})=>angle==="social",({angle,r})=>angle==="social"&&Q.metric(r,key)==null])
@@ -69,7 +79,7 @@
       function detail() {
         issueRows=selected?subset.filter(issueDefinitions.find(([key])=>key===selected)[3]):[];
         const title=selected?issueDefinitions.find(([key])=>key===selected)[1]:"";
-        $("#qualityRecords").innerHTML=selected?`<h2 class="tool-section-title">${esc(title)} · ${fmt(issueRows.length)} 条</h2>`+issueRows.slice((page-1)*14,page*14).map(({angle,r})=>recCard(angle,r)).join(""):'<p class="note">点击上方任意数量，查看形成该计数的记录。</p>';
+        $("#qualityRecords").innerHTML=selected?`<h2 class="tool-section-title">${esc(title)} · ${fmt(issueRows.length)} 条</h2>`+issueRows.slice((page-1)*14,page*14).map(({angle,r})=>`<div>${recCard(angle,r)}<p><a class="text-button" href="#/evidence?${esc(new URLSearchParams({angle,id:r.id}).toString())}">核对原文、译文与来源依据 →</a></p></div>`).join(""):'<p class="note">点击上方任意数量，查看形成该计数的记录。</p>';
         if(selected&&!issueRows.length)$("#qualityRecords").innerHTML+='<div class="empty">当前范围没有该项问题。</div>';
         bindRecords($("#qualityRecords"),issueRows);$("#qualityPager").innerHTML=selected?pager(issueRows.length,page):"";bindPager($("#qualityPager"),(p)=>{page=p;detail();});
       }

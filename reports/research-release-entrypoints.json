@@ -1,0 +1,22 @@
+{
+  "name": "ZGCLab research release",
+  "manifest": "manifest-6421c8a18fb064ae7dc9.json",
+  "feature_routes": {
+    "assistant": "#/assistant?mode=chat",
+    "search": "#/assistant?mode=search",
+    "projects": "#/projects",
+    "changes": "#/changes",
+    "coverage": "#/coverage",
+    "collection_plan": "#/collection-plan"
+  },
+  "data": {
+    "real": 6989,
+    "simulation": 30000,
+    "default_simulation": false,
+    "source_version": "f064c896c123cbf4",
+    "research_version": "a8acd9d0b712fbe06a65"
+  },
+  "query_example": "请概括 Arkansas State 对阵 South Alabama 的比赛结果，并给出原文引用。",
+  "followup_example": "这条资料里双方比分是多少？请继续引用同一来源。",
+  "runtime": "Database retrieval on social; generated extracts require the Mac magpie relay and reverse SSH connection; passwords and tokens are memory only in the browser."
+}

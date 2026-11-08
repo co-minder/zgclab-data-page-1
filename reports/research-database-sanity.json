@@ -1,0 +1,27 @@
+{
+  "tested_at": "2026-11-08T14:45:05.810415+00:00",
+  "passed": 3,
+  "errors": [],
+  "source_version": "f064c896c123cbf4",
+  "dataset": "real",
+  "checks": [
+    {
+      "query": "",
+      "expected_records": 6989,
+      "actual_records": 6989,
+      "status": "PASS"
+    },
+    {
+      "query": "阿肯色州立大学",
+      "expected_records": 221,
+      "actual_records": 221,
+      "status": "PASS"
+    },
+    {
+      "query": "FBI",
+      "expected_records": 1688,
+      "actual_records": 1688,
+      "status": "PASS"
+    }
+  ]
+}

@@ -1,0 +1,1123 @@
+{
+  "audit_schema_version": 1,
+  "audited_at": "2026-11-08T14:43:18+00:00",
+  "status": "PASS_WITH_STATED_LIMITATIONS",
+  "execution": {
+    "ssh_host": "social",
+    "machine": "VM-0-11-ubuntu",
+    "project": "/home/ubuntu/zgclab-1-web",
+    "workspace_skill": "social-workspace",
+    "mount_health_check": "READY",
+    "mount_source": "cos{kqkoO}:ai-lab-archive-1-1410628711/work-disk-1",
+    "mount_fstype": "fuse.rclone",
+    "mount_directory_access": "ok",
+    "mount_data_access": "Health check only; no mounted delivery CSV, object or manifest was read.",
+    "project_location_basis": "Existing remote location explicitly authorized; no migration or Mac business copy.",
+    "committed": false,
+    "published": false
+  },
+  "scope": {
+    "records": 6989,
+    "institutions": 20,
+    "totals": {
+      "news": 3675,
+      "clue": 1468,
+      "social": 1846
+    },
+    "source_version": "f064c896c123cbf4",
+    "source_package": "20261011-current-reviewed",
+    "source_generated_at": "2026-11-05T15:10:46+00:00",
+    "source_snapshot_sha256": "6d239e051e8542259135bd0de71f75938b61916bda9f276023e5579cdf0ccca2",
+    "basis": "Independent comparison of full detail fields against list/meta snapshots; no online verification or recollection.",
+    "simulation_included": false,
+    "external_source_requests": 0,
+    "mounted_delivery_csv_compared": false
+  },
+  "original_files_unchanged": {
+    "confirmed": true,
+    "files_compared": 380,
+    "active_snapshot_files": 98,
+    "total_original_snapshot_bytes": 299971913,
+    "baseline_manifest": "/home/ubuntu/log/research-data-audit-baseline-20261108.json",
+    "baseline_manifest_sha256": "01a8c51aea97e73eb4cd5eabd465e258afdcd71cd55ceb127032fe01d631cfea",
+    "current_manifest_sha256": "01a8c51aea97e73eb4cd5eabd465e258afdcd71cd55ceb127032fe01d631cfea",
+    "mismatched_files": [],
+    "added_or_removed_original_snapshot_files": [],
+    "git_baseline_head": "eca32b0e63f4ac359a2d7fd12b6b82711bc563f2",
+    "git_diff_original_snapshot_files": [],
+    "statement": "No original meta/news/clue/social/detail snapshot, source CSV, raw record, content or source version was edited. Only research metadata, its builder/tests and this report changed."
+  },
+  "metadata_update": {
+    "previous_research_version": "ba3525ee7fd393cbb861",
+    "research_version": "a8acd9d0b712fbe06a65",
+    "previous_builder_version": "research-metadata-1",
+    "builder_version": "research-metadata-3",
+    "schema_version": 1,
+    "schema_changed": false,
+    "source_changed": false,
+    "artifact": "data/research.js",
+    "artifact_sha256": "78efd219508d19677fa539dc22cb3f42c9a8f6f31b04638310dcd191200daf01",
+    "artifact_bytes": 5698927,
+    "changes": [
+      "Narrow profile paths to structural segments; news/events/reports take precedence over about/profile prefixes.",
+      "Preserve microseconds when present; current recovered source dates remain unchanged.",
+      "Escape HTML-sensitive characters and Unicode separators in generated JS without changing decoded source strings.",
+      "Add fingerprints.original and fingerprints.translation for exact complete detail body strings, including whitespace and placeholders; additive schema 1."
+    ],
+    "doc_type_candidates_changed": 104,
+    "doc_type_movements": {
+      "profile -> news_article": 79,
+      "web_document -> news_article": 6,
+      "profile -> web_document": 3,
+      "profile -> press_release": 2,
+      "profile -> event": 12,
+      "web_document -> profile": 1,
+      "profile -> report": 1
+    },
+    "doc_type_change_samples": [
+      {
+        "id": "news-553",
+        "before": {
+          "candidate": "profile",
+          "rule": "url_profile"
+        },
+        "after": {
+          "candidate": "web_document",
+          "rule": "fallback_web"
+        }
+      },
+      {
+        "id": "news-780",
+        "before": {
+          "candidate": "profile",
+          "rule": "url_profile"
+        },
+        "after": {
+          "candidate": "press_release",
+          "rule": "url_press"
+        }
+      },
+      {
+        "id": "news-1219",
+        "before": {
+          "candidate": "profile",
+          "rule": "url_profile"
+        },
+        "after": {
+          "candidate": "news_article",
+          "rule": "url_news"
+        }
+      },
+      {
+        "id": "news-1504",
+        "before": {
+          "candidate": "profile",
+          "rule": "url_profile"
+        },
+        "after": {
+          "candidate": "news_article",
+          "rule": "url_news"
+        }
+      },
+      {
+        "id": "clue-377",
+        "before": {
+          "candidate": "profile",
+          "rule": "url_profile"
+        },
+        "after": {
+          "candidate": "event",
+          "rule": "url_event"
+        }
+      }
+    ],
+    "related_group_ids_unchanged": true
+  },
+  "publication_checks": {
+    "all_recovered_records_checked": 626,
+    "recovered_by_platform": {
+      "Facebook": 607,
+      "LinkedIn": 19
+    },
+    "misrecoveries_observed": 0,
+    "failures": [],
+    "all_raw_post_ids_match_content_id": true,
+    "all_raw_post_urls_match_content_url_and_source_url": true,
+    "all_top_level_text_matches_after_outer_whitespace_trim": true,
+    "facebook_time_timestamp_exact_agreement": 607,
+    "facebook_max_difference_seconds": 0.0,
+    "facebook_top_level_post_url_contains_post_id": 607,
+    "linkedin_millisecond_values_preserved_exactly": 19,
+    "source_fractional_precision": {
+      "Facebook:fraction_digits_3": 607,
+      "LinkedIn:fraction_digits_3": 19
+    },
+    "source_raw_parsers": {
+      "ast.literal_eval": 626
+    },
+    "comments_media_linked_article_times_used_for_recovery": false,
+    "original_missing": 1018,
+    "remaining_unresolved": 392,
+    "provided_originals_preserved": 5971,
+    "provided_publication_after_observation_count": 10,
+    "provided_after_observation_sample_ids": [
+      "news-35",
+      "news-28",
+      "news-29",
+      "news-33",
+      "news-34",
+      "news-36",
+      "news-37",
+      "clue-1"
+    ],
+    "provided_semantics": "Provided means parseable original field, not independently verified publication/event semantics. Future-to-observation values are retained, never auto-corrected.",
+    "recovered_verified_semantics": "Verified means matching top-level post date, ID and URL inside this snapshot; no live source authenticity check is claimed.",
+    "precision_note": "Facebook .000Z becomes seconds at the same instant and raw values remain; all LinkedIn millisecond strings remain exact. Date-only fixtures stay date-only; microseconds are retained.",
+    "linkedin_author_differs_from_catalog_account_count": 6,
+    "attribution_limitation": "Catalog organization/account is collection scope and may differ from actual post author; identity validation does not prove institutional authorship."
+  },
+  "publication_samples": {
+    "Facebook": [
+      {
+        "id": "social-1190",
+        "platform": "Facebook",
+        "ktid": 1000580,
+        "content_id": "1016039666625667",
+        "raw_post_id": "1016039666625667",
+        "identity_and_source_url_equal": true,
+        "source_url_query_and_fragment_removed": "https://www.facebook.com/crowdstrike/videos/963244008765051/",
+        "source_field": "raw_json.time",
+        "source_date": "2024-04-15T20:20:34.000Z",
+        "effective": "2024-04-15T20:20:34Z",
+        "instant_equal": true,
+        "raw_candidate_retained": true,
+        "collected_time": "2026-09-24T23:24:10.164880+00:00",
+        "top_level_text_equal_after_outer_whitespace_trim": true,
+        "top_level_source_text_sha256": "26955b0826441ff948da1f8b16cea17c01acdc63ac67de4cf03da8fb2f255b83",
+        "ignored_nested_media_dates": [
+          1713212398
+        ],
+        "ignored_nested_comment_dates": [],
+        "source_timestamp": 1713212434,
+        "time_timestamp_difference_seconds": 0.0,
+        "effective_precision_note": "Source .000 milliseconds remain in candidates.raw; removing zero fraction only changes formatting."
+      },
+      {
+        "id": "social-1743",
+        "platform": "Facebook",
+        "ktid": 1000580,
+        "content_id": "974694937426807",
+        "raw_post_id": "974694937426807",
+        "identity_and_source_url_equal": true,
+        "source_url_query_and_fragment_removed": "https://www.facebook.com/crowdstrike/posts/pfbid036nExoLeCrJ1UUhucobRvjy7PJ5kAiZk8NskNfgfo4wr1ZLHA1SJ3WGAcUHVRLoaKl",
+        "source_field": "raw_json.time",
+        "source_date": "2024-02-14T16:07:31.000Z",
+        "effective": "2024-02-14T16:07:31Z",
+        "instant_equal": true,
+        "raw_candidate_retained": true,
+        "collected_time": "2026-09-24T23:24:17.093893+00:00",
+        "top_level_text_equal_after_outer_whitespace_trim": true,
+        "top_level_source_text_sha256": "51ea4a2bc3180c8fe6425387e8cd2f8c8d007473a81f01cdc966cd7d7e97605e",
+        "ignored_nested_media_dates": [],
+        "ignored_nested_comment_dates": [],
+        "source_timestamp": 1707926851,
+        "time_timestamp_difference_seconds": 0.0,
+        "effective_precision_note": "Source .000 milliseconds remain in candidates.raw; removing zero fraction only changes formatting."
+      },
+      {
+        "id": "social-1682",
+        "platform": "Facebook",
+        "ktid": 1001140,
+        "content_id": "1526859336151906",
+        "raw_post_id": "1526859336151906",
+        "identity_and_source_url_equal": true,
+        "source_url_query_and_fragment_removed": "https://www.facebook.com/reel/1379801904247045/",
+        "source_field": "raw_json.time",
+        "source_date": "2026-07-17T02:53:03.000Z",
+        "effective": "2026-07-17T02:53:03Z",
+        "instant_equal": true,
+        "raw_candidate_retained": true,
+        "collected_time": "2026-09-17T17:52:53.816300+00:00",
+        "top_level_text_equal_after_outer_whitespace_trim": true,
+        "top_level_source_text_sha256": "d4bfa7a763227a3b139380eea68af4bd45c816f338725762c0a716b7f32bdf94",
+        "ignored_nested_media_dates": [
+          1784256692
+        ],
+        "ignored_nested_comment_dates": [],
+        "source_timestamp": 1784256783,
+        "time_timestamp_difference_seconds": 0.0,
+        "effective_precision_note": "Source .000 milliseconds remain in candidates.raw; removing zero fraction only changes formatting."
+      },
+      {
+        "id": "social-1640",
+        "platform": "Facebook",
+        "ktid": 1000110,
+        "content_id": "1513696304137264",
+        "raw_post_id": "1513696304137264",
+        "identity_and_source_url_equal": true,
+        "source_url_query_and_fragment_removed": "https://www.facebook.com/FBI/posts/pfbid02Vz3E1GnCRLmWZMefA5Hyse1YBBtsEsM68H8orbLZDaaoBKqu2ahzLAEQD1snGbCAl",
+        "source_field": "raw_json.time",
+        "source_date": "2026-09-24T22:01:28.000Z",
+        "effective": "2026-09-24T22:01:28Z",
+        "instant_equal": true,
+        "raw_candidate_retained": true,
+        "collected_time": "2026-09-24T23:23:13.877129+00:00",
+        "top_level_text_equal_after_outer_whitespace_trim": true,
+        "top_level_source_text_sha256": "2a3c9f0f394f7599288e80647857918a614d5669356088e226169d80a38d45e0",
+        "ignored_nested_media_dates": [],
+        "ignored_nested_comment_dates": [],
+        "source_timestamp": 1790287288,
+        "time_timestamp_difference_seconds": 0.0,
+        "effective_precision_note": "Source .000 milliseconds remain in candidates.raw; removing zero fraction only changes formatting."
+      }
+    ],
+    "LinkedIn": [
+      {
+        "id": "social-1812",
+        "platform": "LinkedIn",
+        "ktid": 1001210,
+        "content_id": "7500207043518291968",
+        "raw_post_id": "7500207043518291968",
+        "identity_and_source_url_equal": true,
+        "source_url_query_and_fragment_removed": "https://www.linkedin.com/posts/emily-gustafsson-wright-31a84956_making-costs-count-a-new-framework-for-better-activity-7500207043518291968-voDZ",
+        "source_field": "raw_json.datePublished",
+        "source_date": "2026-08-31T15:05:06.252Z",
+        "effective": "2026-08-31T15:05:06.252Z",
+        "instant_equal": true,
+        "raw_candidate_retained": true,
+        "collected_time": "2026-09-17T17:49:27.610120+00:00",
+        "top_level_text_equal_after_outer_whitespace_trim": true,
+        "top_level_source_text_sha256": "3730993895071bb7c3f207c470fd808453365739e9bf67ec1ea881eb4f08198d",
+        "ignored_nested_media_dates": [],
+        "ignored_nested_comment_dates": [
+          "2026-08-31T15:28:42.016Z",
+          "2026-08-31T15:18:13.198Z",
+          "2026-08-31T15:33:31.290Z"
+        ],
+        "source_milliseconds_preserved_exactly": true,
+        "raw_author_type": "person",
+        "author_url_matches_catalog_account": false
+      },
+      {
+        "id": "social-1819",
+        "platform": "LinkedIn",
+        "ktid": 1001210,
+        "content_id": "7504309906104311808",
+        "raw_post_id": "7504309906104311808",
+        "identity_and_source_url_equal": true,
+        "source_url_query_and_fragment_removed": "https://www.linkedin.com/posts/the-brookings-institution_the-911-terrorist-attacks-at-25-assessing-activity-7504309906104311808-99X8",
+        "source_field": "raw_json.datePublished",
+        "source_date": "2026-09-11T22:48:24.934Z",
+        "effective": "2026-09-11T22:48:24.934Z",
+        "instant_equal": true,
+        "raw_candidate_retained": true,
+        "collected_time": "2026-09-17T17:49:27.093214+00:00",
+        "top_level_text_equal_after_outer_whitespace_trim": true,
+        "top_level_source_text_sha256": "4f8f8b7c777a4563fd6164e6c021a5a9c4c14dd6744ed3ad4703cd66f3c42e33",
+        "ignored_nested_media_dates": [],
+        "ignored_nested_comment_dates": [
+          "2026-09-11T22:49:34.472Z"
+        ],
+        "source_milliseconds_preserved_exactly": true,
+        "raw_author_type": "company",
+        "author_url_matches_catalog_account": true
+      },
+      {
+        "id": "social-1822",
+        "platform": "LinkedIn",
+        "ktid": 1001210,
+        "content_id": "7505656551618060288",
+        "raw_post_id": "7505656551618060288",
+        "identity_and_source_url_equal": true,
+        "source_url_query_and_fragment_removed": "https://www.linkedin.com/posts/dafna-h-rand-84752262_dont-let-syrias-recovery-become-collateral-activity-7505656551618060288-XyOu",
+        "source_field": "raw_json.datePublished",
+        "source_date": "2026-09-15T15:59:30.243Z",
+        "effective": "2026-09-15T15:59:30.243Z",
+        "instant_equal": true,
+        "raw_candidate_retained": true,
+        "collected_time": "2026-09-17T17:49:27.181328+00:00",
+        "top_level_text_equal_after_outer_whitespace_trim": true,
+        "top_level_source_text_sha256": "f7d3e2f38f2fbd6f88dc3545a7905d9fba95dc0a7feb01d5df6ca8a6850788d1",
+        "ignored_nested_media_dates": [],
+        "ignored_nested_comment_dates": [],
+        "source_milliseconds_preserved_exactly": true,
+        "raw_author_type": "person",
+        "author_url_matches_catalog_account": false
+      },
+      {
+        "id": "social-1837",
+        "platform": "LinkedIn",
+        "ktid": 1000490,
+        "content_id": "7506396673997176832",
+        "raw_post_id": "7506396673997176832",
+        "identity_and_source_url_equal": true,
+        "source_url_query_and_fragment_removed": "https://www.linkedin.com/posts/csis_is-us-economic-diplomacy-up-to-speed-activity-7506396673997176832-EYzI",
+        "source_field": "raw_json.datePublished",
+        "source_date": "2026-09-17T17:00:29.168Z",
+        "effective": "2026-09-17T17:00:29.168Z",
+        "instant_equal": true,
+        "raw_candidate_retained": true,
+        "collected_time": "2026-09-17T17:49:30.360500+00:00",
+        "top_level_text_equal_after_outer_whitespace_trim": true,
+        "top_level_source_text_sha256": "4fea910c756220d07067b1359c5d4411c2cc8702304520a4cb38b91012326a45",
+        "ignored_nested_media_dates": [],
+        "ignored_nested_comment_dates": [],
+        "source_milliseconds_preserved_exactly": true,
+        "raw_author_type": "company",
+        "author_url_matches_catalog_account": true
+      }
+    ]
+  },
+  "translation_checks": {
+    "whole_snapshot_checked": 6989,
+    "placeholder_counts": {
+      "news": 29,
+      "clue": 288,
+      "social": 8
+    },
+    "placeholder_total": 325,
+    "missing": 0,
+    "available": 6664,
+    "samples": [
+      {
+        "id": "news-1041",
+        "angle": "news",
+        "translation_field": "content_cn",
+        "value": "无法翻译",
+        "status": "placeholder",
+        "original_chars": 4185
+      },
+      {
+        "id": "news-2263",
+        "angle": "news",
+        "translation_field": "content_cn",
+        "value": "无法翻译",
+        "status": "placeholder",
+        "original_chars": 3960
+      },
+      {
+        "id": "clue-100",
+        "angle": "clue",
+        "translation_field": "chinese_trans",
+        "value": "无法翻译",
+        "status": "placeholder",
+        "original_chars": 2047
+      },
+      {
+        "id": "clue-280",
+        "angle": "clue",
+        "translation_field": "chinese_trans",
+        "value": "无法翻译",
+        "status": "placeholder",
+        "original_chars": 2541
+      },
+      {
+        "id": "social-1176",
+        "angle": "social",
+        "translation_field": "chinese_translation",
+        "value": "无法翻译",
+        "status": "placeholder",
+        "original_chars": 1614
+      },
+      {
+        "id": "social-1181",
+        "angle": "social",
+        "translation_field": "chinese_translation",
+        "value": "无法翻译",
+        "status": "placeholder",
+        "original_chars": 208
+      }
+    ],
+    "claim_limit": "Available means nonempty non-placeholder text, not verified translation accuracy or paragraph alignment."
+  },
+  "official_version_groups": {
+    "groups_checked": 12,
+    "records_checked": 24,
+    "all_exact_source_urls_equal_within_group": true,
+    "all_distinct_body_hashes_checked": true,
+    "confirmed_remote_revision_groups": 0,
+    "groups": [
+      {
+        "group_id": "url-8c8cc266e6664865c413",
+        "source_url_query_and_fragment_removed": "https://www.astate.edu/academics/undergraduate-academics/rotc-and-military-science/files/da-form-3425-r.pdf",
+        "url_kind": "pdf",
+        "status": "candidate_different_versions",
+        "members": [
+          {
+            "id": "clue-1461",
+            "ktid": 1002550,
+            "original_chars": 732,
+            "snapshot_original_sha256": "1dc3404e9ca1c6e28eb94a3d51fd4012d2b41f7a8f3a1a2c7a82a3f1728b60db",
+            "publication_original": "",
+            "discovered_at": "2026-09-25 01:44:51.375221+00:00",
+            "source_hash_provided": false,
+            "source_path_field_present": true
+          },
+          {
+            "id": "clue-d63f26575f94b3a05b00-1420",
+            "ktid": 1002550,
+            "original_chars": 778,
+            "snapshot_original_sha256": "4303a6a4977027a52af133cc06f63b57d8bef24ae4982a66d658d80721f5f29a",
+            "publication_original": "",
+            "discovered_at": "2026-09-25 14:56:23.548715+00:00",
+            "source_hash_provided": false,
+            "source_path_field_present": true
+          }
+        ],
+        "bodies_differ": true,
+        "whitespace_normalized_bodies_equal": false,
+        "whitespace_normalized_similarity_ratio": 0.5619,
+        "confirmed_remote_revision": false
+      },
+      {
+        "group_id": "url-02f89c1c6813cb03b776",
+        "source_url_query_and_fragment_removed": "https://www.astate.edu/academics/undergraduate-academics/rotc-and-military-science/files/sal-worksheet.pdf",
+        "url_kind": "pdf",
+        "status": "candidate_different_versions",
+        "members": [
+          {
+            "id": "clue-1463",
+            "ktid": 1002550,
+            "original_chars": 1665,
+            "snapshot_original_sha256": "c077dfce520c507b205e474a517c5626b612df9ac38744e8a49be758c3aeaceb",
+            "publication_original": "",
+            "discovered_at": "2026-09-25 01:44:52.197222+00:00",
+            "source_hash_provided": false,
+            "source_path_field_present": true
+          },
+          {
+            "id": "clue-47bb391344a88c3564c9-1430",
+            "ktid": 1002550,
+            "original_chars": 1788,
+            "snapshot_original_sha256": "3b90719460bf943339d127fa5afcb5fbf968731749c1717f88382687dd4a0f42",
+            "publication_original": "",
+            "discovered_at": "2026-09-25 14:56:48.151715+00:00",
+            "source_hash_provided": false,
+            "source_path_field_present": true
+          }
+        ],
+        "bodies_differ": true,
+        "whitespace_normalized_bodies_equal": false,
+        "whitespace_normalized_similarity_ratio": 0.8945,
+        "confirmed_remote_revision": false
+      },
+      {
+        "group_id": "url-9403e24ff9843e389e64",
+        "source_url_query_and_fragment_removed": "https://www.astate.edu/colleges/beck-college-of-sciences-and-mathematics/environmental-sciences-and-molecular-biosciences/files/evs-documents/evs-ms-practicum-form-1-selection-of-ms-advisor.pdf",
+        "url_kind": "pdf",
+        "status": "candidate_different_versions",
+        "members": [
+          {
+            "id": "clue-1465",
+            "ktid": 1002550,
+            "original_chars": 2496,
+            "snapshot_original_sha256": "77cceaa4c7492e5a8c3a255e7789aa1dbe6be33f2bbcaab114b86466f27847e3",
+            "publication_original": "",
+            "discovered_at": "2026-09-25 01:45:35.079219+00:00",
+            "source_hash_provided": false,
+            "source_path_field_present": true
+          },
+          {
+            "id": "clue-34e2f14cc5003a1609d7-1454",
+            "ktid": 1002550,
+            "original_chars": 2216,
+            "snapshot_original_sha256": "248beff575e6d1dd82a4818dc32aa3f307b12b31825578870adbaab0504fd2fa",
+            "publication_original": "",
+            "discovered_at": "2026-09-25 15:00:33.868763+00:00",
+            "source_hash_provided": false,
+            "source_path_field_present": true
+          }
+        ],
+        "bodies_differ": true,
+        "whitespace_normalized_bodies_equal": false,
+        "whitespace_normalized_similarity_ratio": 0.9177,
+        "confirmed_remote_revision": false
+      },
+      {
+        "group_id": "url-cd1cdc399ce75d7efba3",
+        "source_url_query_and_fragment_removed": "https://www.astate.edu/colleges/beck-college-of-sciences-and-mathematics/environmental-sciences-and-molecular-biosciences/files/evs-documents/evs-ms-practicum-form-6-qualifying-examination-results.pdf",
+        "url_kind": "pdf",
+        "status": "candidate_different_versions",
+        "members": [
+          {
+            "id": "clue-63030a5aa97c1f3d14ae",
+            "ktid": 1002550,
+            "original_chars": 2727,
+            "snapshot_original_sha256": "f5eaeba540281ba5579acd982ae8b9f7333e6954e365b8951ee52ef370226f1e",
+            "publication_original": "",
+            "discovered_at": "2026-09-25 01:45:35.408219+00:00",
+            "source_hash_provided": false,
+            "source_path_field_present": true
+          },
+          {
+            "id": "clue-63030a5aa97c1f3d14ae-1298",
+            "ktid": 1002550,
+            "original_chars": 2190,
+            "snapshot_original_sha256": "489c5af788f3db7f415e3916bfe1fed15ae2157bf81ea937307b0842eeb80745",
+            "publication_original": "",
+            "discovered_at": "2026-09-25 15:00:52.879774+00:00",
+            "source_hash_provided": false,
+            "source_path_field_present": true
+          }
+        ],
+        "bodies_differ": true,
+        "whitespace_normalized_bodies_equal": false,
+        "whitespace_normalized_similarity_ratio": 0.9218,
+        "confirmed_remote_revision": false
+      },
+      {
+        "group_id": "url-07d7ece412ac2638e2bb",
+        "source_url_query_and_fragment_removed": "https://www.astate.edu/colleges/beck-college-of-sciences-and-mathematics/environmental-sciences-and-molecular-biosciences/files/evs-documents/evs-phd-form-8-dissertation-proposal-seminar-result.pdf",
+        "url_kind": "pdf",
+        "status": "candidate_different_versions",
+        "members": [
+          {
+            "id": "clue-1290",
+            "ktid": 1002550,
+            "original_chars": 2346,
+            "snapshot_original_sha256": "317f59c69057b5174109a59d98ffb148e3725363b50ac111971a181deaca19b2",
+            "publication_original": "",
+            "discovered_at": "2026-09-25 01:45:36.362219+00:00",
+            "source_hash_provided": false,
+            "source_path_field_present": true
+          },
+          {
+            "id": "clue-76326a2af2b19b6eea5a-632",
+            "ktid": 1002550,
+            "original_chars": 1987,
+            "snapshot_original_sha256": "f6f64ee46f4d31d2afaa2689ce61f990142c5456402e8fbc5940fff9daf25fdb",
+            "publication_original": "",
+            "discovered_at": "2026-09-25 15:01:39.419803+00:00",
+            "source_hash_provided": false,
+            "source_path_field_present": true
+          }
+        ],
+        "bodies_differ": true,
+        "whitespace_normalized_bodies_equal": false,
+        "whitespace_normalized_similarity_ratio": 0.9146,
+        "confirmed_remote_revision": false
+      },
+      {
+        "group_id": "url-897b406dc3be77f981fb",
+        "source_url_query_and_fragment_removed": "https://www.astate.edu/documents/astate-2025-accreditation-letter-epp.pdf",
+        "url_kind": "pdf",
+        "status": "candidate_different_versions",
+        "members": [
+          {
+            "id": "clue-1372",
+            "ktid": 1002550,
+            "original_chars": 1530,
+            "snapshot_original_sha256": "cc3a29e0a1ae6ec9e0a691cfbd6d63e0a1e693084ed14dbd78652575ddda902d",
+            "publication_original": "",
+            "discovered_at": "2026-09-25 01:45:39.899219+00:00",
+            "source_hash_provided": false,
+            "source_path_field_present": true
+          },
+          {
+            "id": "clue-2bce6a110026fcad980b-1034",
+            "ktid": 1002550,
+            "original_chars": 1699,
+            "snapshot_original_sha256": "522d350e27214e76bb71b995c86bf0718c7ed995a0bb4a90d8853e79d3111b09",
+            "publication_original": "",
+            "discovered_at": "2026-09-25 15:03:21.665819+00:00",
+            "source_hash_provided": false,
+            "source_path_field_present": true
+          }
+        ],
+        "bodies_differ": true,
+        "whitespace_normalized_bodies_equal": false,
+        "whitespace_normalized_similarity_ratio": 0.8148,
+        "confirmed_remote_revision": false
+      },
+      {
+        "group_id": "url-e976b14e049f36f6aea7",
+        "source_url_query_and_fragment_removed": "https://www.astate.edu/documents/cvs/jamie-pasmore-2023.pdf",
+        "url_kind": "pdf",
+        "status": "candidate_different_versions",
+        "members": [
+          {
+            "id": "clue-02707aa186203f4d389b-1115",
+            "ktid": 1002550,
+            "original_chars": 2912,
+            "snapshot_original_sha256": "7f714581ae3f63ad1ba34b358c509496f94c4b83ef10b186b3cef430fbbdf033",
+            "publication_original": "",
+            "discovered_at": "2026-09-25 15:09:22.169881+00:00",
+            "source_hash_provided": false,
+            "source_path_field_present": true
+          },
+          {
+            "id": "clue-1389",
+            "ktid": 1002550,
+            "original_chars": 3357,
+            "snapshot_original_sha256": "846ff3a15570be1c2db7d2329bac83b042971f807f3055ec6cab6dedd8a4dcaf",
+            "publication_original": "",
+            "discovered_at": "2026-09-25 01:45:47.349219+00:00",
+            "source_hash_provided": false,
+            "source_path_field_present": true
+          }
+        ],
+        "bodies_differ": true,
+        "whitespace_normalized_bodies_equal": false,
+        "whitespace_normalized_similarity_ratio": 0.9362,
+        "confirmed_remote_revision": false
+      },
+      {
+        "group_id": "url-c7a4c974fbd80d335c0e",
+        "source_url_query_and_fragment_removed": "https://www.astate.edu/documents/cvs/kimberly-vickrey-2015.pdf",
+        "url_kind": "pdf",
+        "status": "candidate_different_versions",
+        "members": [
+          {
+            "id": "clue-16a1f5bfafd53ac5d209",
+            "ktid": 1002550,
+            "original_chars": 1114,
+            "snapshot_original_sha256": "249dbfc63954727f656938fd07abaeedf69257ba95194f54e6cd2347a2a4f34f",
+            "publication_original": "",
+            "discovered_at": "2026-09-25 01:45:49.935219+00:00",
+            "source_hash_provided": false,
+            "source_path_field_present": true
+          },
+          {
+            "id": "clue-16a1f5bfafd53ac5d209-1340",
+            "ktid": 1002550,
+            "original_chars": 653,
+            "snapshot_original_sha256": "1a4f4b4037b528dabef62ae53e8dbb7ce61b349218e6b244dbf30b50c4e7769f",
+            "publication_original": "",
+            "discovered_at": "2026-09-25 15:11:32.238915+00:00",
+            "source_hash_provided": false,
+            "source_path_field_present": true
+          }
+        ],
+        "bodies_differ": true,
+        "whitespace_normalized_bodies_equal": false,
+        "whitespace_normalized_similarity_ratio": 0.8179,
+        "confirmed_remote_revision": false
+      },
+      {
+        "group_id": "url-01fb4f8590f976189fe0",
+        "source_url_query_and_fragment_removed": "https://www.astate.edu/documents/cvs/rachel-freeze-2025.pdf",
+        "url_kind": "pdf",
+        "status": "candidate_different_versions",
+        "members": [
+          {
+            "id": "clue-26387c0fd320ac314149",
+            "ktid": 1002550,
+            "original_chars": 2916,
+            "snapshot_original_sha256": "d78428a1709b7c90a73c2cbcd763181db0f5e1121ad9bb5494e33e498bda41d6",
+            "publication_original": "",
+            "discovered_at": "2026-09-25 01:45:53.212219+00:00",
+            "source_hash_provided": false,
+            "source_path_field_present": true
+          },
+          {
+            "id": "clue-26387c0fd320ac314149-885",
+            "ktid": 1002550,
+            "original_chars": 2311,
+            "snapshot_original_sha256": "6a43c4672b1c18208473011bf91639f519edd30352c3ce782152221f95725e2d",
+            "publication_original": "",
+            "discovered_at": "2026-09-25 15:14:55.645947+00:00",
+            "source_hash_provided": false,
+            "source_path_field_present": true
+          }
+        ],
+        "bodies_differ": true,
+        "whitespace_normalized_bodies_equal": false,
+        "whitespace_normalized_similarity_ratio": 0.6689,
+        "confirmed_remote_revision": false
+      },
+      {
+        "group_id": "url-6edce7f327116a43de16",
+        "source_url_query_and_fragment_removed": "https://www.astate.edu/documents/cvs/tracy-klotz-2013.pdf",
+        "url_kind": "pdf",
+        "status": "candidate_different_versions",
+        "members": [
+          {
+            "id": "clue-9ca2f9c9e2dd0ade4fe9",
+            "ktid": 1002550,
+            "original_chars": 593,
+            "snapshot_original_sha256": "ffb1d7de578f709ef4d76a9eb584308822bad50a6d5e48676b1bb6b963b344dc",
+            "publication_original": "",
+            "discovered_at": "2026-09-25 01:45:55.453218+00:00",
+            "source_hash_provided": false,
+            "source_path_field_present": true
+          },
+          {
+            "id": "clue-9ca2f9c9e2dd0ade4fe9-1255",
+            "ktid": 1002550,
+            "original_chars": 570,
+            "snapshot_original_sha256": "97741eb87e5a41dcfc7f42e3d7bde911a2de4bfe712efea3a8fa61dd64f7134d",
+            "publication_original": "",
+            "discovered_at": "2026-09-25 15:17:02.490977+00:00",
+            "source_hash_provided": false,
+            "source_path_field_present": true
+          }
+        ],
+        "bodies_differ": true,
+        "whitespace_normalized_bodies_equal": false,
+        "whitespace_normalized_similarity_ratio": 0.7926,
+        "confirmed_remote_revision": false
+      },
+      {
+        "group_id": "url-82f8f15a2401c99aad6e",
+        "source_url_query_and_fragment_removed": "https://www.rand.org/ar/publications/arts-culture.html",
+        "url_kind": "html",
+        "status": "candidate_different_versions",
+        "members": [
+          {
+            "id": "clue-c74084818c04a7462351",
+            "ktid": 1000480,
+            "original_chars": 1527,
+            "snapshot_original_sha256": "45216000f8ea4490b68204a06c91225f41212e00dbc55177471ff429ffd9fbb2",
+            "publication_original": "",
+            "discovered_at": "2026-09-25 01:40:08.947241+00:00",
+            "source_hash_provided": false,
+            "source_path_field_present": true
+          },
+          {
+            "id": "clue-c74084818c04a7462351-758",
+            "ktid": 1000480,
+            "original_chars": 3138,
+            "snapshot_original_sha256": "0c98387c66a71f8fe4151f38f8aa16765edea376432c8c5c9f90220abe3c7f0f",
+            "publication_original": "",
+            "discovered_at": "2026-09-25 14:44:45.339664+00:00",
+            "source_hash_provided": false,
+            "source_path_field_present": true
+          }
+        ],
+        "bodies_differ": true,
+        "whitespace_normalized_bodies_equal": false,
+        "whitespace_normalized_similarity_ratio": 0.6568,
+        "confirmed_remote_revision": false
+      },
+      {
+        "group_id": "url-741d32a5e5cc762cd8ec",
+        "source_url_query_and_fragment_removed": "https://www.rand.org/ar/publications/demographics.html",
+        "url_kind": "html",
+        "status": "candidate_different_versions",
+        "members": [
+          {
+            "id": "clue-45cfc1758027eb0afaf9",
+            "ktid": 1000480,
+            "original_chars": 2139,
+            "snapshot_original_sha256": "a4e62a08f24616a5e5cfee5d3ef965fb7bc1ae8dde27809989ef92e39c6b8bb7",
+            "publication_original": "2026-05-27 20:55:47.764000+00:00",
+            "discovered_at": "2026-09-16 15:59:19.046814+00:00",
+            "source_hash_provided": false,
+            "source_path_field_present": true
+          },
+          {
+            "id": "clue-45cfc1758027eb0afaf9-1062",
+            "ktid": 1000480,
+            "original_chars": 4115,
+            "snapshot_original_sha256": "09cde60e18295d4f3d9af00615f3aaf3d38ff0f1633d2ee0a2702c7728c5ac64",
+            "publication_original": "",
+            "discovered_at": "2026-09-25 14:44:48.671663+00:00",
+            "source_hash_provided": false,
+            "source_path_field_present": true
+          }
+        ],
+        "bodies_differ": true,
+        "whitespace_normalized_bodies_equal": false,
+        "whitespace_normalized_similarity_ratio": 0.6859,
+        "confirmed_remote_revision": false
+      }
+    ],
+    "claim_limit": "Different extracted bodies at one URL are candidates. HTML listings may be dynamic; PDF differences may be extraction differences. Remote revisions and chronological edit history were not verified."
+  },
+  "coverage_checks": {
+    "cells": 120,
+    "unique_institutions": 20,
+    "angle_cells": 60,
+    "social_platform_cells": 60,
+    "denominator_formula": "20 institutions * (3 angle totals + 3 social platform subtotals) = 120 cells",
+    "platforms": [
+      "X",
+      "Facebook",
+      "LinkedIn"
+    ],
+    "keys_unique_and_complete": true,
+    "angle_total_count": 6989,
+    "social_platform_total_count": 1846,
+    "naive_sum_of_all_cell_counts": 8835,
+    "overlap_warning": "Social platform cells subdivide social angle cells; adding all 120 counts double-counts social records.",
+    "zero_cells": 26,
+    "observed_cells": 94,
+    "all_cell_counts_and_latest_observation_fields_checked": true,
+    "publication_min_max_checked_separately": true,
+    "collection_window": null,
+    "monitoring_status": "not_connected",
+    "denominator_limit": "This matrix is not all expected accounts, URL entries, days or collection attempts. Zero observations do not prove absence or failure."
+  },
+  "safety_checks": {
+    "raw_objects_retained_in_report": false,
+    "full_bodies_retained_in_report": false,
+    "url_query_and_fragment_values_retained_in_report": false,
+    "raw_parser_uses_eval_or_exec": false,
+    "executable_python_expression_rejected": true,
+    "hostile_string_json_roundtrip": true,
+    "script_context_breakout_prevented": true,
+    "offline_browser_payload_executed": false,
+    "offline_browser_unexpected_active_elements": 0,
+    "raw_data_and_escaped_text_preserved": true,
+    "browser_page_errors": [],
+    "render_function_under_test": "research.js exported escapeHtml and final builder.encode assignment",
+    "ui_file_sha256_at_check": "dc4bee334274eab4c159c68534e6272c15f0fb03065c901c072600dbc5468cc3",
+    "scope_limit": "Isolated offline malicious-string fixture; not a complete audit of all application sinks or concurrent UI changes.",
+    "ui_file_sha256_at_fingerprint_integration_check": "47fba519d47da3d7f3c6447c588bd03c107d4b3a57c43a628096a98c28992afb"
+  },
+  "doc_type_checks": {
+    "rules_are_candidates": true,
+    "about_substring_no_longer_implies_profile": true,
+    "specific_news_event_and_press_examples_passed": true,
+    "rules_regression_tests_added": 2,
+    "candidate_counts": {
+      "news_article": 1725,
+      "web_document": 2575,
+      "report": 160,
+      "event": 222,
+      "press_release": 172,
+      "profile": 174,
+      "listing": 1,
+      "homepage": 1,
+      "report_pdf": 113,
+      "social_post": 1846
+    },
+    "residual_ambiguity_sample_ids": [
+      "news-229",
+      "news-734"
+    ],
+    "limitation": "A people section may contain news rather than a biography; URL/title candidates are not confirmed types. No event dates or entities are inferred."
+  },
+  "quality_counts": {
+    "total": 6989,
+    "publish_time_original_missing": 1018,
+    "publish_time_recovered": 626,
+    "publish_time_unresolved": 392,
+    "publish_time_unverified": 0,
+    "translation_available": 6664,
+    "translation_missing": 0,
+    "translation_placeholder": 325,
+    "source_url_missing": 0,
+    "source_hash_missing": 5143,
+    "original_path_missing": 5521
+  },
+  "checks": [
+    {
+      "name": "generate_research_only",
+      "command": [
+        "python3",
+        "build_research_data.py"
+      ],
+      "cwd": "/home/ubuntu/zgclab-1-web",
+      "started_at": "2026-11-08T14:27:24.328282+00:00",
+      "seconds": 7.909,
+      "returncode": 0,
+      "stdout": "{\n  \"status\": \"built\",\n  \"output\": \"/home/ubuntu/zgclab-1-web/data/research.js\",\n  \"source_version\": \"f064c896c123cbf4\",\n  \"research_version\": \"d01dd7b08af78916c9ff\",\n  \"bytes\": 4468545,\n  \"total\": 6989,\n  \"publish_time_original_missing\": 1018,\n  \"publish_time_recovered\": 626,\n  \"publish_time_unresolved\": 392,\n  \"publish_time_unverified\": 0,\n  \"translation_available\": 6664,\n  \"translation_missing\": 0,\n  \"translation_placeholder\": 325,\n  \"source_url_missing\": 0,\n  \"source_hash_missing\": 5143,\n  \"original_path_missing\": 5521,\n  \"coverage_cells\": 120,\n  \"version_groups\": 20,\n  \"exact_clue_duplicate_url_groups\": 12,\n  \"related_candidate_groups\": 89\n}\n",
+      "stderr": ""
+    },
+    {
+      "name": "research_unit_tests",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_research_data.py",
+        "-v"
+      ],
+      "cwd": "/home/ubuntu/zgclab-1-web",
+      "started_at": "2026-11-08T14:27:32.236959+00:00",
+      "seconds": 9.979,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "test_about_news_and_events_are_not_person_profiles (test_research_data.MetadataAuditRegressionTests.test_about_news_and_events_are_not_person_profiles) ... ok\ntest_date_precision_and_timezone_are_preserved_without_inventing_time (test_research_data.MetadataAuditRegressionTests.test_date_precision_and_timezone_are_preserved_without_inventing_time) ... ok\ntest_profiles_require_a_structural_path_segment (test_research_data.MetadataAuditRegressionTests.test_profiles_require_a_structural_path_segment) ... ok\ntest_untrusted_strings_roundtrip_without_breaking_script_context (test_research_data.MetadataAuditRegressionTests.test_untrusted_strings_roundtrip_without_breaking_script_context) ... ok\ntest_conflicting_dates_and_postdating_collection_are_not_recovered (test_research_data.PublicationTruthTests.test_conflicting_dates_and_postdating_collection_are_not_recovered) ... ok\ntest_linkedin_post_identity_in_url_is_required_and_comments_are_ignored (test_research_data.PublicationTruthTests.test_linkedin_post_identity_in_url_is_required_and_comments_are_ignored) ... ok\ntest_nested_comment_and_media_dates_never_fill_publication (test_research_data.PublicationTruthTests.test_nested_comment_and_media_dates_never_fill_publication) ... ok\ntest_parser_handles_wrapped_literals_and_rejects_executable_code (test_research_data.PublicationTruthTests.test_parser_handles_wrapped_literals_and_rejects_executable_code) ... ok\ntest_post_id_and_url_must_both_match (test_research_data.PublicationTruthTests.test_post_id_and_url_must_both_match) ... ok\ntest_provided_date_is_preserved_and_bad_provided_date_is_not_silently_replaced (test_research_data.PublicationTruthTests.test_provided_date_is_preserved_and_bad_provided_date_is_not_silently_replaced) ... ok\ntest_verified_post_retains_raw_candidates_without_mutating_fields (test_research_data.PublicationTruthTests.test_verified_post_retains_raw_candidates_without_mutating_fields) ... ok\ntest_all_626_recoveries_have_matching_top_level_post_evidence (test_research_data.SnapshotTruthTests.test_all_626_recoveries_have_matching_top_level_post_evidence) ... ok\ntest_artifact_is_deterministic_and_does_not_embed_full_bodies (test_research_data.SnapshotTruthTests.test_artifact_is_deterministic_and_does_not_embed_full_bodies) ... ok\ntest_clue_same_url_groups_retain_all_bodies_as_candidate_versions (test_research_data.SnapshotTruthTests.test_clue_same_url_groups_retain_all_bodies_as_candidate_versions) ... ok\ntest_coverage_counts_and_recent_observation_use_collection_not_publication (test_research_data.SnapshotTruthTests.test_coverage_counts_and_recent_observation_use_collection_not_publication) ... ok\ntest_exact_placeholder_counts_come_from_full_translations (test_research_data.SnapshotTruthTests.test_exact_placeholder_counts_come_from_full_translations) ... ok\ntest_related_groups_require_link_or_substantive_title_evidence (test_research_data.SnapshotTruthTests.test_related_groups_require_link_or_substantive_title_evidence) ... ok\ntest_snapshot_scope_ids_detail_references_and_source_version (test_research_data.SnapshotTruthTests.test_snapshot_scope_ids_detail_references_and_source_version) ... ok\ntest_source_paths_hashes_and_field_missingness_are_not_fabricated (test_research_data.SnapshotTruthTests.test_source_paths_hashes_and_field_missingness_are_not_fabricated) ... ok\n\n----------------------------------------------------------------------\nRan 19 tests in 9.599s\n\nOK\n"
+    },
+    {
+      "name": "research_check",
+      "command": [
+        "python3",
+        "build_research_data.py",
+        "--check"
+      ],
+      "cwd": "/home/ubuntu/zgclab-1-web",
+      "started_at": "2026-11-08T14:27:42.215742+00:00",
+      "seconds": 6.02,
+      "returncode": 0,
+      "stdout": "{\n  \"status\": \"verified\",\n  \"output\": \"/home/ubuntu/zgclab-1-web/data/research.js\",\n  \"source_version\": \"f064c896c123cbf4\",\n  \"research_version\": \"d01dd7b08af78916c9ff\",\n  \"bytes\": 4468545,\n  \"total\": 6989,\n  \"publish_time_original_missing\": 1018,\n  \"publish_time_recovered\": 626,\n  \"publish_time_unresolved\": 392,\n  \"publish_time_unverified\": 0,\n  \"translation_available\": 6664,\n  \"translation_missing\": 0,\n  \"translation_placeholder\": 325,\n  \"source_url_missing\": 0,\n  \"source_hash_missing\": 5143,\n  \"original_path_missing\": 5521,\n  \"coverage_cells\": 120,\n  \"version_groups\": 20,\n  \"exact_clue_duplicate_url_groups\": 12,\n  \"related_candidate_groups\": 89\n}\n",
+      "stderr": ""
+    },
+    {
+      "name": "javascript_syntax",
+      "command": [
+        "node",
+        "--check",
+        "data/research.js"
+      ],
+      "cwd": "/home/ubuntu/zgclab-1-web",
+      "started_at": "2026-11-08T14:27:48.236197+00:00",
+      "seconds": 0.454,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "generate_research_v3",
+      "command": [
+        "python3",
+        "build_research_data.py"
+      ],
+      "cwd": "/home/ubuntu/zgclab-1-web",
+      "started_at": "2026-11-08T14:41:56.470087+00:00",
+      "seconds": 8.484,
+      "returncode": 0,
+      "stdout": "{\n  \"status\": \"built\",\n  \"output\": \"/home/ubuntu/zgclab-1-web/data/research.js\",\n  \"source_version\": \"f064c896c123cbf4\",\n  \"research_version\": \"a8acd9d0b712fbe06a65\",\n  \"bytes\": 5698927,\n  \"total\": 6989,\n  \"publish_time_original_missing\": 1018,\n  \"publish_time_recovered\": 626,\n  \"publish_time_unresolved\": 392,\n  \"publish_time_unverified\": 0,\n  \"translation_available\": 6664,\n  \"translation_missing\": 0,\n  \"translation_placeholder\": 325,\n  \"source_url_missing\": 0,\n  \"source_hash_missing\": 5143,\n  \"original_path_missing\": 5521,\n  \"coverage_cells\": 120,\n  \"version_groups\": 20,\n  \"exact_clue_duplicate_url_groups\": 12,\n  \"related_candidate_groups\": 89\n}\n",
+      "stderr": ""
+    },
+    {
+      "name": "research_unit_tests_with_fingerprints",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_research_data.py",
+        "-v"
+      ],
+      "cwd": "/home/ubuntu/zgclab-1-web",
+      "started_at": "2026-11-08T14:42:04.954163+00:00",
+      "seconds": 9.781,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "test_about_news_and_events_are_not_person_profiles (test_research_data.MetadataAuditRegressionTests.test_about_news_and_events_are_not_person_profiles) ... ok\ntest_date_precision_and_timezone_are_preserved_without_inventing_time (test_research_data.MetadataAuditRegressionTests.test_date_precision_and_timezone_are_preserved_without_inventing_time) ... ok\ntest_profiles_require_a_structural_path_segment (test_research_data.MetadataAuditRegressionTests.test_profiles_require_a_structural_path_segment) ... ok\ntest_untrusted_strings_roundtrip_without_breaking_script_context (test_research_data.MetadataAuditRegressionTests.test_untrusted_strings_roundtrip_without_breaking_script_context) ... ok\ntest_conflicting_dates_and_postdating_collection_are_not_recovered (test_research_data.PublicationTruthTests.test_conflicting_dates_and_postdating_collection_are_not_recovered) ... ok\ntest_linkedin_post_identity_in_url_is_required_and_comments_are_ignored (test_research_data.PublicationTruthTests.test_linkedin_post_identity_in_url_is_required_and_comments_are_ignored) ... ok\ntest_nested_comment_and_media_dates_never_fill_publication (test_research_data.PublicationTruthTests.test_nested_comment_and_media_dates_never_fill_publication) ... ok\ntest_parser_handles_wrapped_literals_and_rejects_executable_code (test_research_data.PublicationTruthTests.test_parser_handles_wrapped_literals_and_rejects_executable_code) ... ok\ntest_post_id_and_url_must_both_match (test_research_data.PublicationTruthTests.test_post_id_and_url_must_both_match) ... ok\ntest_provided_date_is_preserved_and_bad_provided_date_is_not_silently_replaced (test_research_data.PublicationTruthTests.test_provided_date_is_preserved_and_bad_provided_date_is_not_silently_replaced) ... ok\ntest_verified_post_retains_raw_candidates_without_mutating_fields (test_research_data.PublicationTruthTests.test_verified_post_retains_raw_candidates_without_mutating_fields) ... ok\ntest_all_626_recoveries_have_matching_top_level_post_evidence (test_research_data.SnapshotTruthTests.test_all_626_recoveries_have_matching_top_level_post_evidence) ... ok\ntest_all_fulltext_fingerprints_match_exact_complete_detail_fields (test_research_data.SnapshotTruthTests.test_all_fulltext_fingerprints_match_exact_complete_detail_fields) ... ok\ntest_artifact_is_deterministic_and_does_not_embed_full_bodies (test_research_data.SnapshotTruthTests.test_artifact_is_deterministic_and_does_not_embed_full_bodies) ... ok\ntest_clue_same_url_groups_retain_all_bodies_as_candidate_versions (test_research_data.SnapshotTruthTests.test_clue_same_url_groups_retain_all_bodies_as_candidate_versions) ... ok\ntest_coverage_counts_and_recent_observation_use_collection_not_publication (test_research_data.SnapshotTruthTests.test_coverage_counts_and_recent_observation_use_collection_not_publication) ... ok\ntest_exact_placeholder_counts_come_from_full_translations (test_research_data.SnapshotTruthTests.test_exact_placeholder_counts_come_from_full_translations) ... ok\ntest_fulltext_hashes_preserve_whitespace_empty_and_placeholder_values (test_research_data.SnapshotTruthTests.test_fulltext_hashes_preserve_whitespace_empty_and_placeholder_values) ... ok\ntest_related_groups_require_link_or_substantive_title_evidence (test_research_data.SnapshotTruthTests.test_related_groups_require_link_or_substantive_title_evidence) ... ok\ntest_same_length_tail_only_body_and_translation_changes_reach_changes_view (test_research_data.SnapshotTruthTests.test_same_length_tail_only_body_and_translation_changes_reach_changes_view) ... ok\ntest_snapshot_scope_ids_detail_references_and_source_version (test_research_data.SnapshotTruthTests.test_snapshot_scope_ids_detail_references_and_source_version) ... ok\ntest_source_paths_hashes_and_field_missingness_are_not_fabricated (test_research_data.SnapshotTruthTests.test_source_paths_hashes_and_field_missingness_are_not_fabricated) ... ok\n\n----------------------------------------------------------------------\nRan 22 tests in 9.334s\n\nOK\n"
+    },
+    {
+      "name": "research_v3_check",
+      "command": [
+        "python3",
+        "build_research_data.py",
+        "--check"
+      ],
+      "cwd": "/home/ubuntu/zgclab-1-web",
+      "started_at": "2026-11-08T14:42:14.734958+00:00",
+      "seconds": 3.814,
+      "returncode": 0,
+      "stdout": "{\n  \"status\": \"verified\",\n  \"output\": \"/home/ubuntu/zgclab-1-web/data/research.js\",\n  \"source_version\": \"f064c896c123cbf4\",\n  \"research_version\": \"a8acd9d0b712fbe06a65\",\n  \"bytes\": 5698927,\n  \"total\": 6989,\n  \"publish_time_original_missing\": 1018,\n  \"publish_time_recovered\": 626,\n  \"publish_time_unresolved\": 392,\n  \"publish_time_unverified\": 0,\n  \"translation_available\": 6664,\n  \"translation_missing\": 0,\n  \"translation_placeholder\": 325,\n  \"source_url_missing\": 0,\n  \"source_hash_missing\": 5143,\n  \"original_path_missing\": 5521,\n  \"coverage_cells\": 120,\n  \"version_groups\": 20,\n  \"exact_clue_duplicate_url_groups\": 12,\n  \"related_candidate_groups\": 89\n}\n",
+      "stderr": ""
+    },
+    {
+      "name": "javascript_syntax",
+      "command": [
+        "node",
+        "--check",
+        "data/research.js"
+      ],
+      "cwd": "/home/ubuntu/zgclab-1-web",
+      "started_at": "2026-11-08T14:42:18.548596+00:00",
+      "seconds": 0.339,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "integration_notice": {
+    "records_key": "id",
+    "publication_fields": [
+      "original",
+      "effective",
+      "status",
+      "verified",
+      "basis"
+    ],
+    "translation_statuses": [
+      "available",
+      "placeholder",
+      "missing"
+    ],
+    "source_version_unchanged": "f064c896c123cbf4",
+    "research_version": "a8acd9d0b712fbe06a65",
+    "consumers": [
+      "main agent",
+      "UI agent",
+      "backend agent"
+    ],
+    "message": "Schema 1 additive fulltext fingerprints.original/translation are now populated for 6989/6989. Use research-metadata-3 / a8acd9d0b712fbe06a65 for final UI and backend ingest. Preserve source version and original query semantics; handle older index-only baselines as comparison capability changes."
+  },
+  "limitations": [
+    "Evidence boundary is the existing complete static snapshot; no mounted CSV or live sources were accessed.",
+    "Internal consistency does not independently prove platform authenticity, timezone accuracy beyond stated offsets or institutional authorship.",
+    "Original provided dates can describe future events or extraction choices; retained as provided, not verified.",
+    "Translation status does not certify accuracy, language or paragraph alignment.",
+    "Source hash algorithm remains unspecified; derived SHA-256 applies to UTF-8 snapshot body strings, not remote files.",
+    "Original paths are evidence fields only; corresponding manifest/object accessibility was not tested.",
+    "Version/related groups are review candidates; they establish no event, partnership, cause, remote revision or monitoring claim.",
+    "Coverage lacks a target source roster, cadence and collection window, so missed collection rates cannot be computed.",
+    "Concurrent UI/backend changes are outside module ownership; browser validation covers the inspected escaping function only."
+  ],
+  "prior_metadata_audits": [
+    {
+      "audited_at": "2026-11-08T14:32:55+00:00",
+      "research_version": "d01dd7b08af78916c9ff",
+      "builder_version": "research-metadata-2",
+      "artifact_sha256": "bf39f7f4c25501e188789dbb8caa9e88ff98f5da990ba3407436ab9538e61bd2",
+      "artifact_bytes": 4468545,
+      "tests": 19
+    }
+  ],
+  "fingerprint_update": {
+    "audited_at": "2026-11-08T14:43:18+00:00",
+    "previous_research_version": "d01dd7b08af78916c9ff",
+    "research_version": "a8acd9d0b712fbe06a65",
+    "builder_version": "research-metadata-3",
+    "schema_version": 1,
+    "additive_only": true,
+    "fields": [
+      "records[id].fingerprints.original",
+      "records[id].fingerprints.translation"
+    ],
+    "algorithm": "SHA-256",
+    "encoding": "UTF-8",
+    "original_body_fields": {
+      "news": "content",
+      "clue": "original_content",
+      "social": "original_content"
+    },
+    "translation_body_fields": {
+      "news": "content_cn",
+      "clue": "chinese_trans",
+      "social": "chinese_translation"
+    },
+    "scope": "Exact complete fields in stored detail snapshots. No truncation, whitespace trimming, newline normalization, titles or remote resource bytes.",
+    "original_body_hashes_independently_checked": 6989,
+    "translation_body_hashes_independently_checked": 6989,
+    "mismatches": [],
+    "placeholder_translation_hashes_included": 325,
+    "missing_value_policy": "Hash empty string when field is absent/null; status and availability remain separate.",
+    "source_object_hash_claimed": false,
+    "snapshot_body_version_hashes_equal_original_fingerprints": true,
+    "source_version_unchanged": "f064c896c123cbf4",
+    "original_snapshot_files_checked_unchanged": 380,
+    "ui_snapshot_for": {
+      "fullFingerprintCount": 6989,
+      "total": 6989,
+      "unchangedSnapshotChanges": 0
+    },
+    "same_length_tail_only_test": {
+      "fixture_id": "news-1762",
+      "unchanged_prefix_chars": 3000,
+      "original_body_change_kind": "content",
+      "translation_change_kind": "translation",
+      "list_record_unchanged": true
+    },
+    "test_count": 22,
+    "test_summary": "Ran 22 tests in 9.334s\n\nOK",
+    "artifact_gzip_bytes": 980036,
+    "baseline_transition_note": "A saved baseline originally built from index-only values cannot retrospectively prove historical full-body differences. UI must label or re-establish the fingerprint baseline instead of presenting the capability upgrade as source edits.",
+    "backend_notice": "Final ingest should use research-metadata-3 / a8acd9d0b712fbe06a65; v2 lacked complete-body fingerprints."
+  }
+}

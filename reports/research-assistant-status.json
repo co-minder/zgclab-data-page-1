@@ -1,0 +1,83 @@
+{
+  "report_kind": "final_built_assistant_status",
+  "passed": 1,
+  "failed": 0,
+  "manifest": "manifest-1db73446ae49c0cfd4b2.json",
+  "source_injected": false,
+  "model_requests": 0,
+  "ui_text": "研究服务已连接\n\n资料库：6,989 条真实记录\n\n模型可用：DeepSeek V4.1 Flash · ready\n\n索引 6,989 条 · 资料版本 f064c896c123cbf4\n\n模型状态来自 relay 健康检查；本次是否实际使用以结果为准。\n\n入库时间 2026-11-08T14:45:40+00:00\n\n服务快照生成 2026-11-05T15:10:46+00:00",
+  "snapshot": {
+    "schema_version": 2,
+    "source_version": "f064c896c123cbf4",
+    "source_package": "20261011-current-reviewed",
+    "source_generated_at": "2026-11-05T15:10:46+00:00",
+    "ingested_at": "2026-11-08T14:45:40+00:00",
+    "content_sha256": "f82dff3392d608e0a30f0011ca754eeb9a885dc9a47ba8f27a85b04ddbbaafda",
+    "dataset": "real",
+    "total": 6989,
+    "by_angle": {
+      "news": 3675,
+      "clue": 1468,
+      "social": 1846
+    },
+    "paragraphs": 348116,
+    "research_version": "a8acd9d0b712fbe06a65",
+    "date_scope_default": "published_at (original source field only)",
+    "field_map": {
+      "news": {
+        "original_title": "title_en",
+        "translated_title": "title_cn",
+        "original_body": "content",
+        "translated_body": "content_cn",
+        "source_url": "url",
+        "discovered_at": "founddate",
+        "collected_at": null,
+        "original_path": null,
+        "source_hash": null
+      },
+      "clue": {
+        "original_title": "clue_title",
+        "translated_title": null,
+        "original_body": "original_content",
+        "translated_body": "chinese_trans",
+        "source_url": "original_url",
+        "discovered_at": "discovery_time",
+        "collected_at": null,
+        "original_path": "report_path",
+        "source_hash": null
+      },
+      "social": {
+        "original_title": "title",
+        "translated_title": null,
+        "original_body": "original_content",
+        "translated_body": "chinese_translation",
+        "source_url": "content_url",
+        "discovered_at": null,
+        "collected_at": "collected_time",
+        "original_path": null,
+        "source_hash": "content_hash"
+      }
+    },
+    "quality": {
+      "publication": {
+        "missing": 392,
+        "provided": 5971,
+        "recovered": 626
+      },
+      "translation": {
+        "available": 6664,
+        "placeholder": 325
+      }
+    }
+  },
+  "llm": {
+    "available": true,
+    "state": "ready",
+    "model": "auto/deepseek-v4.1-flash",
+    "checked_at": 1794150172,
+    "health_scope": "relay_health"
+  },
+  "page_errors": [],
+  "tested_at": "2026-11-08T15:02:53.397943+00:00",
+  "evidence": "/home/ubuntu/log/zgclab-assistant-final-built/assistant-status-built.json"
+}

@@ -1,0 +1,461 @@
+{
+  "task": "explorer_filter_dialog_route_lifecycle",
+  "started_at": "2026-11-08T15:03:44.944527+00:00",
+  "preview": "http://127.0.0.1:8789",
+  "scope": "retained c9 encrypted package pinned only in this browser; latest remote explorer.js injected with add_script_tag(content=source); final rebuilt package not verified",
+  "package_manifest": "manifest-c9c301ebb07995098230.json",
+  "maximum_route_changes": 10,
+  "model_calls": 0,
+  "live_api_requests_sent": 0,
+  "checks": [
+    {
+      "name": "c9_unlock",
+      "pass": true
+    },
+    {
+      "name": "cycle_1_initial_dialog_open",
+      "pass": true,
+      "focus_source": "keyboard_open_filters_button",
+      "open": true,
+      "bodyLocked": true,
+      "focusInside": true
+    },
+    {
+      "name": "cycle_1_late_close_on_projects",
+      "pass": true,
+      "oldSignalAborted": true,
+      "oldDialogClosed": true,
+      "oldDialogDisconnected": true,
+      "focusUnchanged": true,
+      "focusId": "projectsSearch",
+      "bodyUnlocked": true,
+      "explorerAbsent": true
+    },
+    {
+      "name": "cycle_1_old_close_cannot_mutate_new_dialog",
+      "pass": true,
+      "newDialogOpen": true,
+      "newDialogConnected": true,
+      "bodyLocked": true,
+      "focusUnchanged": true,
+      "focusInsideNewDialog": true,
+      "oldTriggerFocusUnchanged": true,
+      "staleDialogCount": 1,
+      "newGeneration": "2"
+    },
+    {
+      "name": "cycle_1_escape_restores_current_focus",
+      "pass": true,
+      "closed": true,
+      "bodyUnlocked": true,
+      "focusReturnedToCurrentTrigger": true,
+      "focusConnected": true
+    },
+    {
+      "name": "cycle_1_keyboard_focus_not_stolen",
+      "pass": true,
+      "focusUnchanged": true,
+      "focusId": "exQ",
+      "bodyUnlocked": true,
+      "newDialogClosed": true
+    },
+    {
+      "name": "cycle_2_initial_dialog_open",
+      "pass": true,
+      "focus_source": "connected_global_search",
+      "open": true,
+      "bodyLocked": true,
+      "focusInside": true
+    },
+    {
+      "name": "cycle_2_late_close_on_projects",
+      "pass": true,
+      "oldSignalAborted": true,
+      "oldDialogClosed": true,
+      "oldDialogDisconnected": true,
+      "focusUnchanged": true,
+      "focusId": "projectsSearch",
+      "bodyUnlocked": true,
+      "explorerAbsent": true
+    },
+    {
+      "name": "cycle_2_old_close_cannot_mutate_new_dialog",
+      "pass": true,
+      "newDialogOpen": true,
+      "newDialogConnected": true,
+      "bodyLocked": true,
+      "focusUnchanged": true,
+      "focusInsideNewDialog": true,
+      "oldTriggerFocusUnchanged": true,
+      "staleDialogCount": 2,
+      "newGeneration": "3"
+    },
+    {
+      "name": "cycle_2_escape_restores_current_focus",
+      "pass": true,
+      "closed": true,
+      "bodyUnlocked": true,
+      "focusReturnedToCurrentTrigger": true,
+      "focusConnected": true
+    },
+    {
+      "name": "cycle_2_keyboard_focus_not_stolen",
+      "pass": true,
+      "focusUnchanged": true,
+      "focusId": "exQ",
+      "bodyUnlocked": true,
+      "newDialogClosed": true
+    },
+    {
+      "name": "cycle_3_initial_dialog_open",
+      "pass": true,
+      "focus_source": "keyboard_open_filters_button",
+      "open": true,
+      "bodyLocked": true,
+      "focusInside": true
+    },
+    {
+      "name": "cycle_3_late_close_on_projects",
+      "pass": true,
+      "oldSignalAborted": true,
+      "oldDialogClosed": true,
+      "oldDialogDisconnected": true,
+      "focusUnchanged": true,
+      "focusId": "projectsSearch",
+      "bodyUnlocked": true,
+      "explorerAbsent": true
+    },
+    {
+      "name": "cycle_3_old_close_cannot_mutate_new_dialog",
+      "pass": true,
+      "newDialogOpen": true,
+      "newDialogConnected": true,
+      "bodyLocked": true,
+      "focusUnchanged": true,
+      "focusInsideNewDialog": true,
+      "oldTriggerFocusUnchanged": true,
+      "staleDialogCount": 3,
+      "newGeneration": "4"
+    },
+    {
+      "name": "cycle_3_escape_restores_current_focus",
+      "pass": true,
+      "closed": true,
+      "bodyUnlocked": true,
+      "focusReturnedToCurrentTrigger": true,
+      "focusConnected": true
+    },
+    {
+      "name": "cycle_3_keyboard_focus_not_stolen",
+      "pass": true,
+      "focusUnchanged": true,
+      "focusId": "exQ",
+      "bodyUnlocked": true,
+      "newDialogClosed": true
+    },
+    {
+      "name": "aborted_route_debounce_timers_cancelled",
+      "pass": true,
+      "timers": [
+        {
+          "session": 1,
+          "id": 1,
+          "fired": false,
+          "cancelled": true
+        },
+        {
+          "session": 2,
+          "id": 2,
+          "fired": false,
+          "cancelled": true
+        },
+        {
+          "session": 3,
+          "id": 3,
+          "fired": false,
+          "cancelled": true
+        }
+      ]
+    },
+    {
+      "name": "route_change_budget",
+      "pass": true,
+      "explicit_route_changes": 7,
+      "observed_route_changes": 7
+    },
+    {
+      "name": "no_pageerror",
+      "pass": true,
+      "errors": []
+    },
+    {
+      "name": "no_live_api_or_model",
+      "pass": true,
+      "blocked_api_attempts": []
+    }
+  ],
+  "workspace": "READY",
+  "source_sha256": "42ff655d3572d936cc2298eb16412fbac8d5cdadd0dd570d325c47f1df006432",
+  "source_path": "/home/ubuntu/zgclab-1-web/explorer.js",
+  "injected_source": true,
+  "c9_packaged_explorer_sha256": "2f351f64fba02ae444e8ec88b40a8bda68d7518fa06e400df109444508d0a080",
+  "source_differs_from_c9_package": true,
+  "browser_observations": {
+    "routeChanges": [
+      "#/explore?angle=social&ids=1002550",
+      "#/projects",
+      "#/explore?angle=social&ids=1002550&version=f064c896c123cbf4",
+      "#/projects",
+      "#/explore?angle=social&ids=1002550&version=f064c896c123cbf4",
+      "#/projects",
+      "#/explore?angle=social&ids=1002550&version=f064c896c123cbf4"
+    ],
+    "timers": [
+      {
+        "session": 1,
+        "id": 1,
+        "fired": false,
+        "cancelled": true
+      },
+      {
+        "session": 2,
+        "id": 2,
+        "fired": false,
+        "cancelled": true
+      },
+      {
+        "session": 3,
+        "id": 3,
+        "fired": false,
+        "cancelled": true
+      }
+    ],
+    "events": [
+      {
+        "kind": "abort-observed",
+        "session": 1
+      },
+      {
+        "kind": "close-observed",
+        "session": 1,
+        "aborted": true,
+        "connected": false,
+        "open": false
+      },
+      {
+        "kind": "close-observed",
+        "session": 1,
+        "aborted": true,
+        "connected": false,
+        "open": false
+      },
+      {
+        "kind": "close-observed",
+        "session": 1,
+        "aborted": true,
+        "connected": false,
+        "open": false
+      },
+      {
+        "kind": "close-observed",
+        "session": 1,
+        "aborted": true,
+        "connected": false,
+        "open": false
+      },
+      {
+        "kind": "close-observed",
+        "session": 2,
+        "aborted": false,
+        "connected": true,
+        "open": false
+      },
+      {
+        "kind": "close-observed",
+        "session": 1,
+        "aborted": true,
+        "connected": false,
+        "open": false
+      },
+      {
+        "kind": "abort-observed",
+        "session": 2
+      },
+      {
+        "kind": "close-observed",
+        "session": 2,
+        "aborted": true,
+        "connected": false,
+        "open": false
+      },
+      {
+        "kind": "close-observed",
+        "session": 2,
+        "aborted": true,
+        "connected": false,
+        "open": false
+      },
+      {
+        "kind": "close-observed",
+        "session": 1,
+        "aborted": true,
+        "connected": false,
+        "open": false
+      },
+      {
+        "kind": "close-observed",
+        "session": 2,
+        "aborted": true,
+        "connected": false,
+        "open": false
+      },
+      {
+        "kind": "close-observed",
+        "session": 1,
+        "aborted": true,
+        "connected": false,
+        "open": false
+      },
+      {
+        "kind": "close-observed",
+        "session": 2,
+        "aborted": true,
+        "connected": false,
+        "open": false
+      },
+      {
+        "kind": "close-observed",
+        "session": 3,
+        "aborted": false,
+        "connected": true,
+        "open": false
+      },
+      {
+        "kind": "close-observed",
+        "session": 1,
+        "aborted": true,
+        "connected": false,
+        "open": false
+      },
+      {
+        "kind": "close-observed",
+        "session": 2,
+        "aborted": true,
+        "connected": false,
+        "open": false
+      },
+      {
+        "kind": "abort-observed",
+        "session": 3
+      },
+      {
+        "kind": "close-observed",
+        "session": 3,
+        "aborted": true,
+        "connected": false,
+        "open": false
+      },
+      {
+        "kind": "close-observed",
+        "session": 3,
+        "aborted": true,
+        "connected": false,
+        "open": false
+      },
+      {
+        "kind": "close-observed",
+        "session": 1,
+        "aborted": true,
+        "connected": false,
+        "open": false
+      },
+      {
+        "kind": "close-observed",
+        "session": 2,
+        "aborted": true,
+        "connected": false,
+        "open": false
+      },
+      {
+        "kind": "close-observed",
+        "session": 3,
+        "aborted": true,
+        "connected": false,
+        "open": false
+      },
+      {
+        "kind": "close-observed",
+        "session": 1,
+        "aborted": true,
+        "connected": false,
+        "open": false
+      },
+      {
+        "kind": "close-observed",
+        "session": 2,
+        "aborted": true,
+        "connected": false,
+        "open": false
+      },
+      {
+        "kind": "close-observed",
+        "session": 3,
+        "aborted": true,
+        "connected": false,
+        "open": false
+      },
+      {
+        "kind": "close-observed",
+        "session": 4,
+        "aborted": false,
+        "connected": true,
+        "open": false
+      },
+      {
+        "kind": "close-observed",
+        "session": 1,
+        "aborted": true,
+        "connected": false,
+        "open": false
+      },
+      {
+        "kind": "close-observed",
+        "session": 2,
+        "aborted": true,
+        "connected": false,
+        "open": false
+      },
+      {
+        "kind": "close-observed",
+        "session": 3,
+        "aborted": true,
+        "connected": false,
+        "open": false
+      }
+    ],
+    "sessionCount": 4,
+    "staleSignalsAborted": true,
+    "bodyUnlocked": true,
+    "currentDialogClosed": true
+  },
+  "root_pinning": [
+    {
+      "network_manifest_before_pinning": "manifest-1db73446ae49c0cfd4b2.json"
+    }
+  ],
+  "page_errors": [],
+  "api_requests_blocked": [],
+  "explicit_route_changes": 7,
+  "finished_at": "2026-11-08T15:03:52.800902+00:00",
+  "source_sha256_after": "42ff655d3572d936cc2298eb16412fbac8d5cdadd0dd570d325c47f1df006432",
+  "source_stable_during_test": true,
+  "pass": true,
+  "final_package_regression_pending": true,
+  "limitations": [
+    "Latest explorer source was injected over retained c9 assets in an isolated browser; no final build or Pages publish was performed.",
+    "Delayed close events were additionally dispatched on retained detached dialog objects to force the stale callback boundary.",
+    "One cycle used a connected global-search focus source with programmatic dialog activation to test stale focus restoration.",
+    "All /api/ traffic was intercepted locally by Playwright; no live or model API calls were sent."
+  ],
+  "workspace_final": "READY"
+}

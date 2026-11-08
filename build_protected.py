@@ -46,7 +46,7 @@ def main() -> None:
             salt = os.urandom(16)
             key = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=salt, iterations=ITERATIONS).derive(password.encode())
             aes = AESGCM(key)
-    paths = [HERE / name for name in ["index.html", "styles.css", "app.js", "core.js", "query.js", "explorer.js", "tools.js"]]
+    paths = [HERE / name for name in ["index.html", "styles.css", "app.js", "core.js", "query.js", "explorer.js", "tools.js", "service-config.js", "service-client.js", "projects.js", "projects.css", "research.js", "research.css", "assistant.js", "assistant.css"]]
     paths += sorted((HERE / "data").glob("*.js"))
     meta = json.loads((HERE / "data/meta.js").read_text().split("=", 1)[1].strip().removesuffix(";"))
     paths += sorted((HERE / "data/details" / meta["version"]).glob("*.js"))

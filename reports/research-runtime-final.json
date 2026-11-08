@@ -1,0 +1,89 @@
+{
+  "checked_at": "2026-11-08T15:17:21.948511+00:00",
+  "state": "ready",
+  "llm": {
+    "available": true,
+    "state": "ready",
+    "model": "auto/deepseek-v4.1-flash",
+    "checked_at": 1794151041,
+    "health_scope": "relay_health"
+  },
+  "snapshot": {
+    "schema_version": 2,
+    "source_version": "f064c896c123cbf4",
+    "source_package": "20261011-current-reviewed",
+    "source_generated_at": "2026-11-05T15:10:46+00:00",
+    "ingested_at": "2026-11-08T14:45:40+00:00",
+    "content_sha256": "f82dff3392d608e0a30f0011ca754eeb9a885dc9a47ba8f27a85b04ddbbaafda",
+    "dataset": "real",
+    "total": 6989,
+    "by_angle": {
+      "news": 3675,
+      "clue": 1468,
+      "social": 1846
+    },
+    "paragraphs": 348116,
+    "research_version": "a8acd9d0b712fbe06a65",
+    "date_scope_default": "published_at (original source field only)",
+    "field_map": {
+      "news": {
+        "original_title": "title_en",
+        "translated_title": "title_cn",
+        "original_body": "content",
+        "translated_body": "content_cn",
+        "source_url": "url",
+        "discovered_at": "founddate",
+        "collected_at": null,
+        "original_path": null,
+        "source_hash": null
+      },
+      "clue": {
+        "original_title": "clue_title",
+        "translated_title": null,
+        "original_body": "original_content",
+        "translated_body": "chinese_trans",
+        "source_url": "original_url",
+        "discovered_at": "discovery_time",
+        "collected_at": null,
+        "original_path": "report_path",
+        "source_hash": null
+      },
+      "social": {
+        "original_title": "title",
+        "translated_title": null,
+        "original_body": "original_content",
+        "translated_body": "chinese_translation",
+        "source_url": "content_url",
+        "discovered_at": null,
+        "collected_at": "collected_time",
+        "original_path": null,
+        "source_hash": "content_hash"
+      }
+    },
+    "quality": {
+      "publication": {
+        "missing": 392,
+        "provided": 5971,
+        "recovered": 626
+      },
+      "translation": {
+        "available": 6664,
+        "placeholder": 325
+      }
+    }
+  },
+  "listener": "social:127.0.0.1:8791",
+  "model_requests": 0,
+  "authenticated_snapshot_verified": true,
+  "citation_only_request": {
+    "state": "no_results",
+    "model": {
+      "id": "auto/deepseek-v4.1-flash",
+      "used": false,
+      "attempted": false,
+      "reason": "missing_topic"
+    },
+    "citation_count": 0,
+    "answer": "请补充要查询的主题、机构或具体资料。仅有引用或概括要求无法确定证据，现有信息不足以回答。"
+  }
+}

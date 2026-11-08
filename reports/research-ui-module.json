@@ -1,0 +1,261 @@
+{
+  "schema": 1,
+  "tested_at": "2026-11-08T14:49:51.882132+00:00",
+  "machine": "social",
+  "project": "/home/ubuntu/zgclab-1-web",
+  "source_version": "f064c896c123cbf4",
+  "research_version": "a8acd9d0b712fbe06a65",
+  "preview_manifest": "c9c301ebb07995098230",
+  "frozen_module": true,
+  "sha256": {
+    "research.js": "6399456f305988433078027a47fe4b20ddee5aeeea3f87ab3c28cadd95bfdf70",
+    "research.css": "2a735a3b99080464d6ba0d1980ec5cd4362d13089e1be5013ff23758914e8648",
+    "tests/research.test.cjs": "e78b4133e3616e0654fd58f14248ff926674dd0c15728a5bd5ab1097348f1125",
+    "tests/research.browser.py": "d9a2275913890a0ca219b4f15609ea76bd4fd481d202f7e9bd3e45435cab6bef",
+    "tests/research.preview.py": "571a824776c82c1aed77603e3dab586a462a7594697b23d38aba5d10d953f12e"
+  },
+  "checks": {
+    "node": {
+      "command": "node --test tests/research.test.cjs",
+      "passed": 23,
+      "failed": 0,
+      "skipped": 0,
+      "evidence": "Foreground Node TAP run on social; includes both full-body fingerprints, tail edits, safe imports, existing/merged limit boundaries and compact-storage budget."
+    },
+    "independent_security": {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -B tests/security_research.py ResearchMergePreservation -v",
+      "passed": 2,
+      "failed": 0,
+      "test_file_modified": false,
+      "scope": "Only the two independent research merge preservation regressions."
+    },
+    "module_browser": {
+      "command": "python3 -u tests/research.browser.py",
+      "passed": 17,
+      "errors": [],
+      "results": "/home/ubuntu/log/zgclab-research-ui/results.json",
+      "log": "/home/ubuntu/log/zgclab-research-ui-v3-acceptance.log",
+      "checks": [
+        {
+          "check": "actual app record-detail entry, Arkansas original/translation modes, hash, paragraph anchor and read marker",
+          "status": "PASS"
+        },
+        {
+          "check": "clue-1 full body, manifest and honest paragraph/PDF boundaries",
+          "status": "PASS"
+        },
+        {
+          "check": "recovered Facebook date shows original missing value, actual recovered value and identity basis",
+          "status": "PASS"
+        },
+        {
+          "check": "real 无法翻译 placeholder is explicitly labeled",
+          "status": "PASS"
+        },
+        {
+          "check": "related route, explainable candidates, local group create/save/remove/manual add and literal malicious name",
+          "status": "PASS"
+        },
+        {
+          "check": "related UI respects 300-group and 5000-member boundaries atomically, without partial additions",
+          "status": "PASS"
+        },
+        {
+          "check": "ten recommendations across four categories, independent navigation, local task status/notes and filtered CSV",
+          "status": "PASS",
+          "exported": 5
+        },
+        {
+          "check": "coverage uses all 120 cells, 325 placeholder translations, 626 recovered and 392 unresolved dates",
+          "status": "PASS"
+        },
+        {
+          "check": "first baseline and second unchanged snapshot stay at zero; compact baseline persists under 2 MiB; retrieval ready does not imply collection",
+          "status": "PASS"
+        },
+        {
+          "check": "full fingerprint capability upgrade resets comparison to zero and preserves previous baseline/subscription for review/export",
+          "status": "PASS"
+        },
+        {
+          "check": "manual latest-version check handles same/mismatched/disconnected service and offers reload with password notice without blocking local compare",
+          "status": "PASS"
+        },
+        {
+          "check": "changed/new snapshot, watchlist, subscription, CSV and mark current snapshot viewed",
+          "status": "PASS"
+        },
+        {
+          "check": "storage rejection stays honest on reopening, zero-change session baseline and simulation stays outside persistent payload",
+          "status": "PASS"
+        },
+        {
+          "check": "malformed stored baseline rebuilds locally without breaking the research route",
+          "status": "PASS"
+        },
+        {
+          "check": "empty original, hostile title, unsafe URL remain text with no executable DOM",
+          "status": "PASS"
+        },
+        {
+          "check": "aborted route does not write late detail response into new view",
+          "status": "PASS"
+        },
+        {
+          "check": "all five integrated routes fit desktop, tablet and phone without page overflow",
+          "status": "PASS"
+        }
+      ]
+    },
+    "encrypted_preview": {
+      "command": "ZGCLAB_RESEARCH_PREVIEW_ARTIFACTS=/home/ubuntu/log/zgclab-research-preview-c9 python3 -u tests/research.preview.py",
+      "passed": 12,
+      "errors": [],
+      "results": "/home/ubuntu/log/zgclab-research-preview-c9/results.json",
+      "log": "/home/ubuntu/log/zgclab-research-preview-c9-test.log",
+      "checks": [
+        {
+          "check": "encrypted preview loads exact unmodified Arkansas original, full provenance, modes and paragraph/citation route",
+          "status": "PASS"
+        },
+        {
+          "check": "CFR clue-1 exact full original length, manifest and no invented PDF pages",
+          "status": "PASS"
+        },
+        {
+          "check": "recovered publication date displays actual basis while original field stays missing",
+          "status": "PASS"
+        },
+        {
+          "check": "real explicit translation placeholder remains labeled",
+          "status": "PASS"
+        },
+        {
+          "check": "actual 120 observed cells, 1018 original missing, 626 recovered, 392 unresolved, 325 placeholders; service failure stays disconnected",
+          "status": "PASS"
+        },
+        {
+          "check": "first/second/acknowledged identical snapshot has zero changes and real compact baseline is persisted",
+          "status": "PASS",
+          "serialized_chars": 728765
+        },
+        {
+          "check": "manual latest-version check keeps local comparison usable and reports service snapshot availability honestly",
+          "status": "PASS",
+          "message": "检查于 2026/11/8 22:48:57：服务与当前页面资料版本一致，未发现新发布的资料版本。仅核对当前已加载快照；服务未提供持续采集或增量推送证据。"
+        },
+        {
+          "check": "actual encrypted preview upgrades old zero-fingerprint baseline to 6989 with zero false changes, preserves old baseline and watchlist subscription",
+          "status": "PASS"
+        },
+        {
+          "check": "related query-param route candidate explanations and manual group add/remove persist safely",
+          "status": "PASS"
+        },
+        {
+          "check": "independent future-collection navigation, ten recommendations, task status and export",
+          "status": "PASS"
+        },
+        {
+          "check": "all five encrypted-preview routes fit 390px phone width",
+          "status": "PASS"
+        },
+        {
+          "check": "research route navigation and version checks send no chat or search/model requests",
+          "status": "PASS",
+          "model_requests": 0
+        }
+      ]
+    }
+  },
+  "baseline": {
+    "records": 6989,
+    "full_fingerprints": 6989,
+    "compact_utf8_bytes": 728765,
+    "compact_utf16_estimate_bytes": 1457530,
+    "per_baseline_budget_bytes": 2097152,
+    "stores_fulltext": false,
+    "simulation_persistence": "session_only",
+    "save_success": "Only reports saved when api.saveWorkspace() returns true. Failure stays visible after reopening.",
+    "capability_upgrade": "Rebuilds current comparison at zero; preserves old baseline and subscription as a review/export copy. If archive budget is exhausted, old baseline remains exportable in the current session."
+  },
+  "data_assertions": {
+    "original_publish_missing": 1018,
+    "recovered_publish_dates": 626,
+    "unresolved_publish_dates": 392,
+    "translation_placeholders": 325,
+    "observed_coverage_cells": 120,
+    "actual_arkansas_original_unchanged": true,
+    "actual_clue_1_complete_original_chars": 1808,
+    "pdf_pages": "Only provided page-numbered parsed text; no inferred PDF pages."
+  },
+  "integration": {
+    "entry": "window.ZGCLAB_RESEARCH_UI(name, params, api)",
+    "routes": [
+      "#/evidence?angle=social&id=social-1",
+      "#/related?angle=clue&id=clue-1",
+      "#/changes",
+      "#/collection-plan",
+      "#/coverage"
+    ],
+    "import": "window.ZGCLAB_RESEARCH_UI.mergeBackup(parsed, workspace)",
+    "validator": "window.ZGCLAB_RESEARCH_UI.validateWorkspaceSupplement(parsed)",
+    "workspace_fields": [
+      "relations",
+      "researchChanges",
+      "collectionPlan"
+    ],
+    "limits": {
+      "relation_groups": 300,
+      "members_per_group": 5000,
+      "imported_tasks": 100,
+      "imported_change_states_per_scope": 5
+    },
+    "merge_semantics": "Validates existing and incoming owned fields before mutation. Invalid/over-limit imports reject atomically. Same-ID same-name groups union members; name conflicts get deterministic import copies. Local task edits, baseline and subscription win; conflicting imported copies remain reviewable and duplicate imports are idempotent."
+  },
+  "version_check": {
+    "trigger": "Manual 检查最新资料版本",
+    "endpoint": "serviceClient.status({signal}), with request(/api/changes,{signal}) fallback when status method is absent",
+    "comparison": [
+      "snapshot.source_version",
+      "snapshot.research_version"
+    ],
+    "same": "Shows no different published snapshot found.",
+    "different": "Warns service/browser datasets differ and offers reloading the published page; password is required after refresh. Does not claim that publication has already caught up.",
+    "unavailable": "Local snapshot comparison remains available.",
+    "model_requests_during_preview": 0,
+    "collector_semantics": "database/state ready means retrieval readiness; collection requires explicit task evidence."
+  },
+  "limitations": [
+    "Preview tests exercise already-published encrypted assets and never rebuild them.",
+    "Static snapshot history and browser-local conditions do not provide background collection or push notifications.",
+    "Source content_hash remains distinct from SHA-256 of delivered full original/translation strings."
+  ],
+  "scope": {
+    "changed_owned_modules_only": true,
+    "installed_dependencies": false,
+    "committed": false,
+    "published": false,
+    "parallel_build_performed": false
+  },
+  "followup_verifications": [
+    {
+      "id": "optional_backup_field_roundtrip",
+      "verified_at": "2026-11-08T15:14:22.009660+00:00",
+      "manifest": "6421c8a18fb064ae7dc9",
+      "research_js_sha256": "8400c9bce246214d7977c3cdeca9e689f8dafd6153b8e7f1d86586648fca14ab",
+      "module_rule_tests": {
+        "passed": 24,
+        "failed": 0
+      },
+      "independent_built_backup_retest": {
+        "report": "reports/research-acceptance-backup-final.json",
+        "passed": 7,
+        "failed": 0,
+        "new_model_requests": 0
+      },
+      "change": "Preserve omitted and explicitly empty validated optional fields during backup merge; conflict copies and atomic bounds stay enforced.",
+      "previous_module_evidence_preserved": true
+    }
+  ]
+}

@@ -39,7 +39,7 @@
     const facetMarkup = () => Object.entries(filters).map(([key,descriptor])=>`<section class="filter-field-panel" data-facet-panel="${key}" id="filter-panel-${key}" aria-label="${esc(descriptor.label)}选项" hidden><div class="filter-editor-heading"><h3>${esc(descriptor.label)}</h3><button type="button" class="text-button" data-facet-clear="${key}">清空此项</button></div><p class="filter-field-help">${esc(descriptor.help|| (descriptor.single?"选择一个条件，结果自动更新。":"可选择多个值，满足任意一项的记录都会保留。"))}</p><input type="search" data-facet-search="${key}" aria-label="搜索${esc(descriptor.label)}" placeholder="搜索${esc(descriptor.label)}" autocomplete="off"><div class="facet-choice-list" data-facet-options="${key}"></div><button type="button" class="text-button facet-more" data-facet-more="${key}" hidden>显示更多选项</button></section>`).join("");
     view.innerHTML = `
       <div class="explorer-workspace">
-      <div class="page-head explore-head"><h1>数据浏览</h1><div class="page-actions"><button class="btn" id="saveQuery">保存查询</button><button class="btn" id="copyQuery">复制链接</button><button class="btn" id="createBrief" disabled>生成简报</button><button class="btn primary" id="exportResults" disabled>导出 CSV</button></div></div>
+      <div class="page-head explore-head"><h1>数据浏览</h1><div class="page-actions"><button class="btn" id="saveQuery">保存查询</button><button class="btn" id="copyQuery">复制链接</button><button class="btn" id="addResultsProject" disabled>加入专题</button><button class="btn" id="askResults">模糊查询 / 提问</button><button class="btn" id="createBrief" disabled>生成简报</button><button class="btn primary" id="exportResults" disabled>导出 CSV</button></div></div>
       <section class="card explore-card">
         <div class="explore-scope-row">
         <div class="tabs" id="exTabs">${["all", "news", "clue", "social"].map((angle) => `<button class="tab ${state.angle === angle ? "active" : ""}" data-angle="${angle}"><span class="dot" style="background:var(--${angle === "all" ? "accent" : angle})"></span>${angle === "all" ? "全部数据" : META.angles[angle].name}<span class="cnt">${fmt(angle === "all" ? Object.values(META.totals).reduce((s,v) => s+v,0) : META.totals[angle])}</span></button>`).join("")}</div>
@@ -240,8 +240,13 @@
       if(state.version!==META.version)$("#exCoverage").textContent+=` 注意：分享链接的数据版本 ${state.version} 与当前版本 ${META.version} 不同，当前显示现有数据，不能视为原版本复现。`;
       if(state.version!==META.version)$("#exNotes").open=true;
     }
+    function invalidateResults() {
+      current=[];
+      for(const selector of ["#addResultsProject","#exportResults","#createBrief","#markResultsRead"])$(selector).disabled=true;
+    }
     async function refresh() {
       const id=++request;
+      invalidateResults();
       $("#exError").hidden=true;$("#exError").textContent="";$("#exportResults").disabled=true;$("#createBrief").disabled=true;$("#markResultsRead").disabled=true;$("#briefPanel").hidden=true;
       const problem=Q.validate(state);
       if(problem){$("#exError").hidden=false;$("#exError").textContent=problem;$("#filterDialogStatus").textContent=problem;$("#filterDialogStatus").classList.add("has-error");$("#showFilterResults").disabled=true;$("#exCount").textContent="筛选条件无效";$("#exBody").innerHTML='<tr><td colspan="5"><div class="empty">请调整条件后继续查询</div></td></tr>';$("#exCards").innerHTML='<div class="empty">请调整条件后继续查询</div>';$("#exPager").innerHTML="";$("#exAnalytics").innerHTML="";return;}
@@ -264,7 +269,7 @@
         $("#exCards").innerHTML=slice.length?slice.map(({angle,r})=>metricCard(angle,r)).join(""):'<div class="empty">没有匹配的记录，请调整日期或条件。</div>';
         bindRecords($("#exBody"),current);bindRecords($("#exCards"),current);
         $("#exPager").innerHTML=pager(current.length,state.page,null,state.size);bindPager($("#exPager"),(page)=>{state.page=page;refresh();});
-        $("#exportResults").disabled=!current.length;$("#createBrief").disabled=false;
+        $("#exportResults").disabled=!current.length;$("#createBrief").disabled=!current.length;$("#addResultsProject").disabled=!current.length;
         $("#markResultsRead").disabled=!current.length;
         coverage(all);populateFacets(loaded);analytics(current,all);
         history.replaceState(null,"",href());
@@ -277,7 +282,7 @@
       }
     }
     function changed() {state.sim=META.simulation?"1":"";state.page=1;sync();refresh();}
-    const delayed=()=>{clearTimeout(timer);timer=setTimeout(()=>{timer=null;if(alive())changed();},180);};
+    const delayed=()=>{request++;invalidateResults();delete $("#exCount").dataset.query;clearTimeout(timer);timer=setTimeout(()=>{timer=null;if(alive())changed();},180);};
     $("#exFilterDialog").addEventListener("change",(event)=>{
       const input=event.target;if(!input.matches("[data-facet-choice]"))return;
       const key=input.dataset.facetChoice,descriptor=filters[key];
@@ -299,8 +304,9 @@
       else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}
     });
     $("#exFilterDialog").addEventListener("click",(event)=>{if(event.target===$("#exFilterDialog")){const rect=event.target.getBoundingClientRect();if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)closeFilters();}});
-    $("#exFilterDialog").addEventListener("close",()=>{if(!$("#exFilterDialog").open){document.body.classList.remove("filter-window-open");if(dialogFocus?.isConnected)dialogFocus.focus({preventScroll:true});}});
-    api.signal.addEventListener("abort",()=>{document.body.classList.remove("filter-window-open");if($("#exFilterDialog")?.open)$("#exFilterDialog").close();},{once:true});
+    const filterDialog=$("#exFilterDialog");
+    filterDialog.addEventListener("close",(event)=>{if(api.signal.aborted||!alive()||event.currentTarget.open)return;document.body.classList.remove("filter-window-open");if(dialogFocus?.isConnected)dialogFocus.focus({preventScroll:true});});
+    api.signal.addEventListener("abort",()=>{clearTimeout(timer);request++;document.body.classList.remove("filter-window-open");if(filterDialog.open)filterDialog.close();},{once:true});
     view.querySelectorAll("[data-facet-clear]").forEach((button)=>button.onclick=()=>{const key=button.dataset.facetClear;state[key]=filters[key].single?"":[];changed();});
     view.querySelectorAll("[data-facet-search]").forEach((input)=>input.oninput=()=>{facetSearch.set(input.dataset.facetSearch,input.value);facetLimits.set(input.dataset.facetSearch,30);renderFacet(input.dataset.facetSearch);});
     view.querySelectorAll("[data-facet-more]").forEach((button)=>button.onclick=()=>{const key=button.dataset.facetMore;facetLimits.set(key,(facetLimits.get(key)||30)+60);renderFacet(key);});
@@ -343,6 +349,8 @@
       changed();
     });
     $("#copyQuery").onclick=()=>copyText(href(),"完整查询链接已复制");
+    $("#addResultsProject").onclick=()=>{if(current.length&&!$("#addResultsProject").disabled)window.ZGCLAB_PROJECTS.addEntries(current,api);};
+    $("#askResults").onclick=()=>{location.hash="#/assistant?"+Q.serialize(state);};
     $("#saveQuery").onclick=()=>{
       const hash="/explore?"+Q.serialize(state);
       if(workspace.queries.some((item)=>item.hash===hash)){showToast("当前查询已经保存");return;}

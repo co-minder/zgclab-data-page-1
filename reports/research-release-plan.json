@@ -1,0 +1,38 @@
+{
+  "stage": "prepared_for_authorized_release",
+  "page_url": "https://co-minder.github.io/zgclab-data-page-1/",
+  "repository": "https://github.com/co-minder/zgclab-data-page-1",
+  "source_directory": "social:/home/ubuntu/zgclab-1-web",
+  "archive_destination": "cos:ai-lab-archive-1-1410628711/work-disk-1/zgclab-1/outputs/web-research-release-20261108/",
+  "prepared_at": "2026-11-08T15:08:52.619231+00:00",
+  "preserve_unrelated": [
+    "analysis/",
+    "reports/real-data-capabilities-20261105.json",
+    "现有真实数据支持的查询与业务服务-20261105.md",
+    "unreferenced docs/encrypted assets and old manifests"
+  ],
+  "archive_scope": [
+    "final committed code and active deployment",
+    "sanitized acceptance reports and selected browser evidence",
+    "SHA-256 and Git revision receipt"
+  ],
+  "runtime_state": "SQLite stays on social local disk; ignored runtime passwords, provider credentials, caches and running database are excluded from release archives",
+  "final_manifest": "manifest-6421c8a18fb064ae7dc9.json",
+  "final_page_acceptance": {
+    "resolved_checks": 60,
+    "failed": 0,
+    "comprehensive_evidence": "reports/research-acceptance-1db-comprehensive.json",
+    "strict_backup_retest": "reports/research-acceptance-backup-final.json"
+  },
+  "publication_sequence": [
+    "Commit intended source, active encrypted deployment and sanitized evidence",
+    "Push the already-authorized website release to main",
+    "Verify GitHub Pages serves the exact final manifest",
+    "Run published UI/account/password checks and two real grounded dialogue turns",
+    "Commit public acceptance evidence",
+    "Archive committed release and evidence to the new COS output directory and verify remote SHA-256"
+  ],
+  "runtime_dependency_note": "Server database and static browsing remain available when Mac sleeps; model generation needs Mac magpie, restricted relay and reverse SSH online. Changes compare loaded snapshots and do not claim continuous collection.",
+  "backup_persistence_note": "Topics, notes, groups, subscriptions, collection-plan progress and saved conversations are local to the browser; export/import is the supported transfer mechanism.",
+  "model_answer_note": "Exact counts use SQL without model calls. Generated answers select source-verbatim extracts with validated paragraph citations."
+}

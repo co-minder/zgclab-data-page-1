@@ -1,0 +1,2022 @@
+{
+  "report_schema_version": 1,
+  "generated_at": "2026-11-08T14:50:30+00:00",
+  "status": "passed",
+  "execution": {
+    "host": "social",
+    "project": "/home/ubuntu/zgclab-1-web",
+    "api_bind": "127.0.0.1:8791",
+    "tmux_session": "research-api",
+    "public_frontend_verification": "separate_main_agent_scope",
+    "new_model_calls_during_report_generation": 0
+  },
+  "snapshot": {
+    "schema_version": 2,
+    "source_version": "f064c896c123cbf4",
+    "research_version": "a8acd9d0b712fbe06a65",
+    "source_package": "20261011-current-reviewed",
+    "source_generated_at": "2026-11-05T15:10:46+00:00",
+    "ingested_at": "2026-11-08T14:45:40+00:00",
+    "content_sha256": "f82dff3392d608e0a30f0011ca754eeb9a885dc9a47ba8f27a85b04ddbbaafda",
+    "dataset": "real",
+    "total": 6989,
+    "paragraphs": 348116,
+    "quality": {
+      "publication": {
+        "missing": 392,
+        "provided": 5971,
+        "recovered": 626
+      },
+      "translation": {
+        "available": 6664,
+        "placeholder": 325
+      }
+    }
+  },
+  "counts": {
+    "total": 6989,
+    "by_angle": {
+      "news": 3675,
+      "clue": 1468,
+      "social": 1846
+    },
+    "arkansas_state": {
+      "ktid": 1002550,
+      "total": 221,
+      "by_angle": {
+        "news": 100,
+        "clue": 120,
+        "social": 1
+      }
+    },
+    "simulation_included": false
+  },
+  "last_final_status": {
+    "checked_at": "2026-11-08T14:50:30+00:00",
+    "http_status": 200,
+    "origin": "https://co-minder.github.io",
+    "authentication": "minimal_public_status",
+    "response": {
+      "service": "zgclab-database",
+      "state": "ready",
+      "authentication_required": true,
+      "session_ttl": 900,
+      "dataset": "real",
+      "limits": {
+        "max_body_bytes": 65536,
+        "message_characters": 1200,
+        "history_characters": 12000,
+        "history_messages": 8,
+        "chat_timeout_seconds": 95.0
+      },
+      "llm": {
+        "available": true,
+        "state": "ready",
+        "model": "auto/deepseek-v4.1-flash",
+        "checked_at": 1794149423,
+        "health_scope": "relay_health"
+      }
+    },
+    "health_is_not_completion_proof": true
+  },
+  "service_tests": {
+    "command": "python3 -m unittest discover -s tests -p 'test_service*.py' -v",
+    "result": "passed",
+    "run": 24,
+    "passed": 24,
+    "failed": 0,
+    "skipped": 0,
+    "duration_seconds": 7.377,
+    "evidence": "Final full suite executed on the final schema-2 database during this implementation session; report generation did not rerun tests.",
+    "test_file_sha256": "a5395021c6ef50b571b331276f356f4b9de4efdcecdbf82b7e1c52ffd267871e",
+    "checks": [
+      {
+        "id": "ServiceFixture.test_counts_and_source_preservation",
+        "result": "passed"
+      },
+      {
+        "id": "ServiceFixture.test_beijing_day_and_explicit_recovered_date_scope",
+        "result": "passed"
+      },
+      {
+        "id": "ServiceFixture.test_bilingual_concepts_and_no_silent_relaxation",
+        "result": "passed"
+      },
+      {
+        "id": "ServiceFixture.test_semantic_is_real_model_call_and_false_precedence",
+        "result": "passed"
+      },
+      {
+        "id": "ServiceFixture.test_model_plan_does_not_inject_scope_or_stopwords",
+        "result": "passed"
+      },
+      {
+        "id": "ServiceFixture.test_db_answers_never_spend_tokens_including_followup",
+        "result": "passed"
+      },
+      {
+        "id": "ServiceFixture.test_third_turn_inherits_scope_and_explicit_override_wins",
+        "result": "passed"
+      },
+      {
+        "id": "ServiceFixture.test_true_quote_cannot_ground_unrelated_claim",
+        "result": "passed"
+      },
+      {
+        "id": "ServiceFixture.test_grounded_answer_and_placeholder_exclusion",
+        "result": "passed"
+      },
+      {
+        "id": "ServiceFixture.test_malicious_or_ungrounded_answers_are_fallbacks",
+        "result": "passed"
+      },
+      {
+        "id": "ServiceFixture.test_chat_expansion_false_disables_history_and_planning",
+        "result": "passed"
+      },
+      {
+        "id": "ServiceFixture.test_missing_model_and_missing_results",
+        "result": "passed"
+      },
+      {
+        "id": "ServiceFixture.test_sql_injection_and_input_limits",
+        "result": "passed"
+      },
+      {
+        "id": "ServiceFixture.test_auth_expiry_origin_rotation_and_tamper",
+        "result": "passed"
+      },
+      {
+        "id": "ServiceFixture.test_model_concurrency_and_mismatched_model",
+        "result": "passed"
+      },
+      {
+        "id": "ServiceFixture.test_snapshot_replacement_requires_restart",
+        "result": "passed"
+      },
+      {
+        "id": "HTTPService.test_http_auth_cors_and_preflight",
+        "result": "passed"
+      },
+      {
+        "id": "HTTPService.test_http_utf8_body_history_and_invalid_json",
+        "result": "passed"
+      },
+      {
+        "id": "HTTPService.test_http_search_chat_quota_and_global_model_quota",
+        "result": "passed"
+      },
+      {
+        "id": "HTTPService.test_correct_password_succeeds_after_shared_peer_failures",
+        "result": "passed"
+      },
+      {
+        "id": "HTTPService.test_http_concurrency_bound",
+        "result": "passed"
+      },
+      {
+        "id": "RealSnapshot.test_real_counts_three_tables_and_arkansas",
+        "result": "passed"
+      },
+      {
+        "id": "RealSnapshot.test_real_alias_bilingual_fuzzy_and_citation_grounding",
+        "result": "passed"
+      },
+      {
+        "id": "RealSnapshot.test_research_metadata_and_complete_fields",
+        "result": "passed"
+      }
+    ]
+  },
+  "independent_security_tests": {
+    "command": "python3 -B tests/security_research.py -v",
+    "result": "passed",
+    "run": 18,
+    "passed": 18,
+    "failed": 0,
+    "duration_seconds": 3.451,
+    "evidence": "Last reviewer suite run in this session; covers service, proxy and frontend changes owned by their respective agents."
+  },
+  "live_http_verification": {
+    "result": "passed",
+    "model_id": "auto/deepseek-v4.1-flash",
+    "authentication": "ephemeral_random_fixture_credential",
+    "actual_pages_credential_used": false,
+    "source_log_sha256": "27ddf01d4ec8094295def4474fbf1f332acd73c8b4eabd785ac34345334dea23",
+    "source_log_modified_at": "2026-11-08T14:47:35+00:00",
+    "cases": [
+      {
+        "name": "arkansas_match",
+        "transport": "loopback_http",
+        "question": "ArkansasState 比赛",
+        "effective_query": "ArkansasState 比赛",
+        "duration_seconds": 9.53,
+        "state": "answered",
+        "model": {
+          "id": "auto/deepseek-v4.1-flash",
+          "used": true,
+          "attempted": true,
+          "reason": null
+        },
+        "scope": {
+          "institution": [
+            1002550
+          ],
+          "angle": [
+            "social"
+          ]
+        },
+        "terms": [
+          [
+            "比赛",
+            "game",
+            "match",
+            "matchup",
+            "football",
+            "soccer",
+            "contest"
+          ]
+        ],
+        "relaxed": false,
+        "model_plan": {
+          "attempted": true,
+          "used": true,
+          "reason": null,
+          "rewritten_query": "Arkansas State University 在社交角度下的比赛相关信息有哪些？",
+          "applied_groups": [
+            {
+              "anchor": "比赛",
+              "terms": [
+                "contest"
+              ]
+            }
+          ]
+        },
+        "coverage": {
+          "dataset": "real",
+          "source_version": "f064c896c123cbf4",
+          "database_total": 6989,
+          "scoped_records": 1,
+          "matched_records": 1,
+          "returned_records": 1,
+          "returned_paragraphs": 2,
+          "exhaustive": true
+        },
+        "citations": [
+          {
+            "citation_id": "C1",
+            "record_id": "social-1",
+            "angle": "social",
+            "field": "translation",
+            "source_field": "chinese_translation",
+            "paragraph": 3,
+            "paragraph_scheme": "service_field_chunks_v1",
+            "evidence_eligible": true,
+            "quote_count": 1,
+            "all_quotes_exact_substrings": true
+          }
+        ]
+      },
+      {
+        "name": "bilingual_semantic",
+        "transport": "loopback_http",
+        "question": "人工智能安全",
+        "effective_query": "人工智能安全",
+        "duration_seconds": 11.71,
+        "state": "retrieval",
+        "model": {
+          "id": "auto/deepseek-v4.1-flash",
+          "used": true,
+          "attempted": true,
+          "reason": null
+        },
+        "scope": {
+          "angle": [
+            "clue"
+          ]
+        },
+        "terms": [
+          [
+            "人工智能",
+            "AI",
+            "artificial intelligence",
+            "机器学习",
+            "machine learning"
+          ],
+          [
+            "安全",
+            "safety",
+            "security",
+            "safe"
+          ]
+        ],
+        "relaxed": false,
+        "model_plan": {
+          "attempted": true,
+          "used": true,
+          "reason": null,
+          "rewritten_query": "人工智能安全有哪些相关线索？",
+          "applied_groups": [
+            {
+              "anchor": "人工智能",
+              "terms": []
+            },
+            {
+              "anchor": "安全",
+              "terms": []
+            }
+          ]
+        },
+        "coverage": {
+          "dataset": "real",
+          "source_version": "f064c896c123cbf4",
+          "database_total": 6989,
+          "scoped_records": 1468,
+          "matched_records": 196,
+          "returned_records": 9,
+          "returned_paragraphs": 12,
+          "exhaustive": false
+        },
+        "citations": [
+          {
+            "citation_id": "C1",
+            "record_id": "clue-1360",
+            "angle": "clue",
+            "field": "translation",
+            "source_field": "chinese_trans",
+            "paragraph": 84,
+            "paragraph_scheme": "service_field_chunks_v1",
+            "evidence_eligible": true,
+            "quote_count": 0,
+            "all_quotes_exact_substrings": null
+          },
+          {
+            "citation_id": "C2",
+            "record_id": "clue-1121",
+            "angle": "clue",
+            "field": "translation",
+            "source_field": "chinese_trans",
+            "paragraph": 78,
+            "paragraph_scheme": "service_field_chunks_v1",
+            "evidence_eligible": true,
+            "quote_count": 0,
+            "all_quotes_exact_substrings": null
+          },
+          {
+            "citation_id": "C3",
+            "record_id": "clue-1199",
+            "angle": "clue",
+            "field": "translation",
+            "source_field": "chinese_trans",
+            "paragraph": 455,
+            "paragraph_scheme": "service_field_chunks_v1",
+            "evidence_eligible": true,
+            "quote_count": 0,
+            "all_quotes_exact_substrings": null
+          },
+          {
+            "citation_id": "C4",
+            "record_id": "clue-407",
+            "angle": "clue",
+            "field": "translation",
+            "source_field": "chinese_trans",
+            "paragraph": 17,
+            "paragraph_scheme": "service_field_chunks_v1",
+            "evidence_eligible": true,
+            "quote_count": 0,
+            "all_quotes_exact_substrings": null
+          },
+          {
+            "citation_id": "C5",
+            "record_id": "clue-351",
+            "angle": "clue",
+            "field": "translation",
+            "source_field": "chinese_trans",
+            "paragraph": 21,
+            "paragraph_scheme": "service_field_chunks_v1",
+            "evidence_eligible": true,
+            "quote_count": 0,
+            "all_quotes_exact_substrings": null
+          },
+          {
+            "citation_id": "C6",
+            "record_id": "clue-351",
+            "angle": "clue",
+            "field": "translation",
+            "source_field": "chinese_trans",
+            "paragraph": 32,
+            "paragraph_scheme": "service_field_chunks_v1",
+            "evidence_eligible": true,
+            "quote_count": 0,
+            "all_quotes_exact_substrings": null
+          },
+          {
+            "citation_id": "C7",
+            "record_id": "clue-407",
+            "angle": "clue",
+            "field": "translation",
+            "source_field": "chinese_trans",
+            "paragraph": 25,
+            "paragraph_scheme": "service_field_chunks_v1",
+            "evidence_eligible": true,
+            "quote_count": 0,
+            "all_quotes_exact_substrings": null
+          },
+          {
+            "citation_id": "C8",
+            "record_id": "clue-1407",
+            "angle": "clue",
+            "field": "translation",
+            "source_field": "chinese_trans",
+            "paragraph": 262,
+            "paragraph_scheme": "service_field_chunks_v1",
+            "evidence_eligible": true,
+            "quote_count": 0,
+            "all_quotes_exact_substrings": null
+          },
+          {
+            "citation_id": "C9",
+            "record_id": "clue-541",
+            "angle": "clue",
+            "field": "translation",
+            "source_field": "chinese_trans",
+            "paragraph": 27,
+            "paragraph_scheme": "service_field_chunks_v1",
+            "evidence_eligible": true,
+            "quote_count": 0,
+            "all_quotes_exact_substrings": null
+          },
+          {
+            "citation_id": "C10",
+            "record_id": "clue-541",
+            "angle": "clue",
+            "field": "translation",
+            "source_field": "chinese_trans",
+            "paragraph": 32,
+            "paragraph_scheme": "service_field_chunks_v1",
+            "evidence_eligible": true,
+            "quote_count": 0,
+            "all_quotes_exact_substrings": null
+          },
+          {
+            "citation_id": "C11",
+            "record_id": "clue-170",
+            "angle": "clue",
+            "field": "translation",
+            "source_field": "chinese_trans",
+            "paragraph": 35,
+            "paragraph_scheme": "service_field_chunks_v1",
+            "evidence_eligible": true,
+            "quote_count": 0,
+            "all_quotes_exact_substrings": null
+          },
+          {
+            "citation_id": "C12",
+            "record_id": "clue-1353",
+            "angle": "clue",
+            "field": "translation",
+            "source_field": "chinese_trans",
+            "paragraph": 29,
+            "paragraph_scheme": "service_field_chunks_v1",
+            "evidence_eligible": true,
+            "quote_count": 0,
+            "all_quotes_exact_substrings": null
+          }
+        ]
+      },
+      {
+        "name": "bilingual_chat",
+        "transport": "loopback_http",
+        "question": "人工智能安全",
+        "effective_query": "人工智能安全",
+        "duration_seconds": 27.79,
+        "state": "answered",
+        "model": {
+          "id": "auto/deepseek-v4.1-flash",
+          "used": true,
+          "attempted": true,
+          "reason": null
+        },
+        "scope": {
+          "angle": [
+            "clue"
+          ]
+        },
+        "terms": [
+          [
+            "人工智能",
+            "AI",
+            "artificial intelligence",
+            "机器学习",
+            "machine learning"
+          ],
+          [
+            "安全",
+            "safety",
+            "security",
+            "safe"
+          ]
+        ],
+        "relaxed": false,
+        "model_plan": {
+          "attempted": true,
+          "used": true,
+          "reason": null,
+          "rewritten_query": "人工智能安全的核心概念、主要风险与治理线索有哪些？",
+          "applied_groups": [
+            {
+              "anchor": "人工智能",
+              "terms": []
+            },
+            {
+              "anchor": "安全",
+              "terms": []
+            }
+          ]
+        },
+        "coverage": {
+          "dataset": "real",
+          "source_version": "f064c896c123cbf4",
+          "database_total": 6989,
+          "scoped_records": 1468,
+          "matched_records": 196,
+          "returned_records": 9,
+          "returned_paragraphs": 12,
+          "exhaustive": false
+        },
+        "citations": [
+          {
+            "citation_id": "C3",
+            "record_id": "clue-1199",
+            "angle": "clue",
+            "field": "translation",
+            "source_field": "chinese_trans",
+            "paragraph": 455,
+            "paragraph_scheme": "service_field_chunks_v1",
+            "evidence_eligible": true,
+            "quote_count": 1,
+            "all_quotes_exact_substrings": true
+          },
+          {
+            "citation_id": "C4",
+            "record_id": "clue-407",
+            "angle": "clue",
+            "field": "translation",
+            "source_field": "chinese_trans",
+            "paragraph": 17,
+            "paragraph_scheme": "service_field_chunks_v1",
+            "evidence_eligible": true,
+            "quote_count": 1,
+            "all_quotes_exact_substrings": true
+          },
+          {
+            "citation_id": "C5",
+            "record_id": "clue-351",
+            "angle": "clue",
+            "field": "translation",
+            "source_field": "chinese_trans",
+            "paragraph": 21,
+            "paragraph_scheme": "service_field_chunks_v1",
+            "evidence_eligible": true,
+            "quote_count": 1,
+            "all_quotes_exact_substrings": true
+          },
+          {
+            "citation_id": "C6",
+            "record_id": "clue-351",
+            "angle": "clue",
+            "field": "translation",
+            "source_field": "chinese_trans",
+            "paragraph": 32,
+            "paragraph_scheme": "service_field_chunks_v1",
+            "evidence_eligible": true,
+            "quote_count": 1,
+            "all_quotes_exact_substrings": true
+          },
+          {
+            "citation_id": "C7",
+            "record_id": "clue-407",
+            "angle": "clue",
+            "field": "translation",
+            "source_field": "chinese_trans",
+            "paragraph": 25,
+            "paragraph_scheme": "service_field_chunks_v1",
+            "evidence_eligible": true,
+            "quote_count": 1,
+            "all_quotes_exact_substrings": true
+          }
+        ]
+      },
+      {
+        "name": "followup_counts",
+        "transport": "loopback_http",
+        "question": "那新闻有多少条",
+        "effective_query": "阿肯色州立大学 比赛 那新闻有多少条",
+        "duration_seconds": 0.05,
+        "state": "database_answer",
+        "model": {
+          "id": "auto/deepseek-v4.1-flash",
+          "used": false,
+          "attempted": false,
+          "reason": "exact_database_aggregate"
+        },
+        "scope": {
+          "institution": [
+            1002550
+          ],
+          "angle": [
+            "news"
+          ]
+        },
+        "terms": [
+          [
+            "比赛",
+            "game",
+            "match",
+            "matchup",
+            "football",
+            "soccer"
+          ]
+        ],
+        "relaxed": false,
+        "model_plan": {
+          "attempted": false,
+          "used": false,
+          "reason": "exact_database_aggregate",
+          "rewritten_query": null,
+          "applied_groups": []
+        },
+        "coverage": {
+          "dataset": "real",
+          "source_version": "f064c896c123cbf4",
+          "database_total": 6989,
+          "scoped_records": 100,
+          "matched_records": 9,
+          "returned_records": 8,
+          "returned_paragraphs": 12,
+          "exhaustive": false
+        },
+        "citations": [],
+        "aggregate_reference_ids": [
+          "A1"
+        ],
+        "aggregate_evidence": {
+          "source": "exact_parameterized_sql",
+          "matched_records": 9,
+          "scoped_records": 100,
+          "inherited_institution": 1002550,
+          "angle": "news"
+        }
+      }
+    ]
+  },
+  "answer_boundaries": {
+    "mode": "verbatim_extracts",
+    "answered": "The selected DeepSeek model returned source excerpts. Every accepted claim and its quote must be identical continuous substrings of all cited snippets. This is source-text correspondence, not independent fact verification or an unrestricted generated synthesis.",
+    "rejected_output": "Unknown citations, unrelated claims, paraphrases, mismatched quotes, unsafe content and unsupported numerical claims fall back to retrieval_only with model.used=false.",
+    "database_answer": "Counts use exact parameterized SQLite aggregates under the returned scope, independent of top-k; no model planning or answer generation is used for numerical questions.",
+    "search": "semantic=true uses bounded model aliases in real FTS queries, with original concepts joined by AND and structured scope locked. expand=false disables model and local synonym/fuzzy/history expansion. Relaxation is off by default.",
+    "dates": "Asia/Shanghai calendar-day filtering. published_at means original dates; published_effective_at explicitly includes verified recoveries. Original values and recovery basis remain available.",
+    "citations": "paragraph_scheme=service_field_chunks_v1; these are service chunks across source fields, not evidence-page paragraph numbers.",
+    "translation": "Placeholder translations are preserved in storage but excluded from model evidence.",
+    "coverage": "All results and counts concern the stored real snapshot, not the entire web.",
+    "runtime_dependency": "The AI agent and magpie run on the Mac. The server uses a keyless loopback endpoint forwarded by reverse SSH to a restricted relay on the Mac. Mac sleep, relay termination or tunnel loss can interrupt model calls; database retrieval and exact aggregate answers remain available."
+  },
+  "redaction": {
+    "strategy": "Explicit allowlist extraction; no response bodies, source snippets, full prompts, authentication credentials, HMAC sessions or raw runtime files are included.",
+    "runtime_files_copied": false,
+    "original_content_exported": false
+  },
+  "followup_verifications": [
+    {
+      "id": "natural_question_and_same_source_followup_fix",
+      "recorded_at": "2026-11-08T15:04:11+00:00",
+      "status": "passed",
+      "source_version": "f064c896c123cbf4",
+      "research_version": "a8acd9d0b712fbe06a65",
+      "database_schema_version": 2,
+      "database_sha256": "f82dff3392d608e0a30f0011ca754eeb9a885dc9a47ba8f27a85b04ddbbaafda",
+      "frontend_final_version_reported_by_main": "1db73446ae49c0cfd4b2",
+      "service_source_sha256": "5015d4302f72dbf699dc3739a9a4f3000e8b1d334767170c7f13bedd81e2e870",
+      "service_source_hash_definition": "SHA-256 over lexically sorted service/*.py followed by tests/test_service.py, concatenating relative UTF-8 filename, NUL, exact bytes, NUL per file; calculated by service.verify_natural.source_hash.",
+      "service_tests": {
+        "command": "python3 -m unittest discover -s tests -p 'test_service*.py' -v",
+        "result": "passed",
+        "run": 30,
+        "passed": 30,
+        "failed": 0,
+        "skipped": 0,
+        "duration_seconds": 6.778,
+        "test_file_sha256": "bee9dfbd034334de305b52bfe2282f84934ddad5bcd5932bdcfc232d5e5c645e",
+        "evidence": "The complete 30-test suite passed after the natural-language fix in this session; report update did not rerun tests.",
+        "checks": [
+          {
+            "id": "ServiceFixture.test_counts_and_source_preservation",
+            "result": "passed"
+          },
+          {
+            "id": "ServiceFixture.test_beijing_day_and_explicit_recovered_date_scope",
+            "result": "passed"
+          },
+          {
+            "id": "ServiceFixture.test_bilingual_concepts_and_no_silent_relaxation",
+            "result": "passed"
+          },
+          {
+            "id": "ServiceFixture.test_semantic_is_real_model_call_and_false_precedence",
+            "result": "passed"
+          },
+          {
+            "id": "ServiceFixture.test_model_plan_does_not_inject_scope_or_stopwords",
+            "result": "passed"
+          },
+          {
+            "id": "ServiceFixture.test_natural_question_retains_subjects_not_answer_instructions",
+            "result": "passed"
+          },
+          {
+            "id": "ServiceFixture.test_citation_grammar_does_not_drop_unknowns_or_strict_constraints",
+            "result": "passed"
+          },
+          {
+            "id": "ServiceFixture.test_natural_followup_pins_unique_user_source_and_keeps_scope",
+            "result": "passed"
+          },
+          {
+            "id": "ServiceFixture.test_same_source_ambiguity_never_uses_assistant_as_evidence",
+            "result": "passed"
+          },
+          {
+            "id": "ServiceFixture.test_db_answers_never_spend_tokens_including_followup",
+            "result": "passed"
+          },
+          {
+            "id": "ServiceFixture.test_third_turn_inherits_scope_and_explicit_override_wins",
+            "result": "passed"
+          },
+          {
+            "id": "ServiceFixture.test_true_quote_cannot_ground_unrelated_claim",
+            "result": "passed"
+          },
+          {
+            "id": "ServiceFixture.test_grounded_answer_and_placeholder_exclusion",
+            "result": "passed"
+          },
+          {
+            "id": "ServiceFixture.test_malicious_or_ungrounded_answers_are_fallbacks",
+            "result": "passed"
+          },
+          {
+            "id": "ServiceFixture.test_chat_expansion_false_disables_history_and_planning",
+            "result": "passed"
+          },
+          {
+            "id": "ServiceFixture.test_missing_model_and_missing_results",
+            "result": "passed"
+          },
+          {
+            "id": "ServiceFixture.test_sql_injection_and_input_limits",
+            "result": "passed"
+          },
+          {
+            "id": "ServiceFixture.test_auth_expiry_origin_rotation_and_tamper",
+            "result": "passed"
+          },
+          {
+            "id": "ServiceFixture.test_model_concurrency_and_mismatched_model",
+            "result": "passed"
+          },
+          {
+            "id": "ServiceFixture.test_snapshot_replacement_requires_restart",
+            "result": "passed"
+          },
+          {
+            "id": "HTTPService.test_http_auth_cors_and_preflight",
+            "result": "passed"
+          },
+          {
+            "id": "HTTPService.test_http_original_natural_question_and_same_source_followup",
+            "result": "passed"
+          },
+          {
+            "id": "HTTPService.test_http_utf8_body_history_and_invalid_json",
+            "result": "passed"
+          },
+          {
+            "id": "HTTPService.test_http_search_chat_quota_and_global_model_quota",
+            "result": "passed"
+          },
+          {
+            "id": "HTTPService.test_correct_password_succeeds_after_shared_peer_failures",
+            "result": "passed"
+          },
+          {
+            "id": "HTTPService.test_http_concurrency_bound",
+            "result": "passed"
+          },
+          {
+            "id": "RealSnapshot.test_real_counts_three_tables_and_arkansas",
+            "result": "passed"
+          },
+          {
+            "id": "RealSnapshot.test_real_alias_bilingual_fuzzy_and_citation_grounding",
+            "result": "passed"
+          },
+          {
+            "id": "RealSnapshot.test_original_acceptance_natural_question_without_model",
+            "result": "passed"
+          },
+          {
+            "id": "RealSnapshot.test_research_metadata_and_complete_fields",
+            "result": "passed"
+          }
+        ]
+      },
+      "independent_security_tests": {
+        "command": "python3 -B tests/security_research.py -v",
+        "result": "passed",
+        "run": 18,
+        "passed": 18,
+        "failed": 0,
+        "duration_seconds": 2.87,
+        "evidence": "Independent reviewer security suite passed after the natural-language fix; report update did not rerun it."
+      },
+      "live_http_verification": {
+        "result": "passed",
+        "model_id": "auto/deepseek-v4.1-flash",
+        "model_completion_requests": 4,
+        "maximum_model_completion_requests": 4,
+        "authentication": "ephemeral_random_fixture_credential",
+        "actual_pages_credential_used": false,
+        "source_log_sha256": "f7b1e8951cf112f647934afdc292ec043916e1b65f9a49c6171f1d18d2ab63ea",
+        "source_log_modified_at": "2026-11-08T15:01:31+00:00",
+        "cases": [
+          {
+            "name": "acceptance_original_natural",
+            "question": "请概括 Arkansas State 对阵 South Alabama 的比赛结果，并给出原文引用。",
+            "transport": "loopback_http",
+            "duration_seconds": 17.395,
+            "state": "answered",
+            "answer_format": "verbatim_extracts",
+            "passed": true,
+            "model": {
+              "id": "auto/deepseek-v4.1-flash",
+              "used": true,
+              "attempted": true,
+              "reason": null
+            },
+            "plan": {
+              "effective_query": "请概括 Arkansas State 对阵 South Alabama 的比赛结果，并给出原文引用。",
+              "filters": {
+                "institution": [
+                  1002550
+                ],
+                "angle": [
+                  "social"
+                ],
+                "date_field": "published_at"
+              },
+              "locked_scope": {
+                "institution": [
+                  1002550
+                ],
+                "angle": [
+                  "social"
+                ],
+                "date_field": "published_at"
+              },
+              "terms": [
+                [
+                  "比赛",
+                  "game",
+                  "match",
+                  "matchup",
+                  "football",
+                  "soccer"
+                ],
+                [
+                  "结果",
+                  "比分",
+                  "outcome",
+                  "result",
+                  "score",
+                  "setback",
+                  "win",
+                  "loss"
+                ],
+                [
+                  "south"
+                ],
+                [
+                  "alabama"
+                ]
+              ],
+              "strategy": "fts5_and",
+              "relaxed": false,
+              "request_intent": {
+                "enabled": true,
+                "normalized_query": "Arkansas State   South Alabama 的比赛结果",
+                "removed_request_phrases": [
+                  {
+                    "text": "请概括 ",
+                    "reason": "answer_directive"
+                  },
+                  {
+                    "text": "对阵",
+                    "reason": "entity_relation"
+                  },
+                  {
+                    "text": "并给出原文引用",
+                    "reason": "citation_instruction"
+                  }
+                ],
+                "citation_requested": true,
+                "same_source_requested": false,
+                "referential": false,
+                "requested_attributes": [
+                  "outcome"
+                ]
+              },
+              "conversation": {
+                "history_used": false,
+                "same_source_requested": false,
+                "scope_basis": "bounded_user_history_and_current_filters",
+                "source_record_ids": null,
+                "source_basis": null,
+                "request_intent": {
+                  "enabled": true,
+                  "normalized_query": "Arkansas State   South Alabama 的比赛结果",
+                  "removed_request_phrases": [
+                    {
+                      "text": "请概括 ",
+                      "reason": "answer_directive"
+                    },
+                    {
+                      "text": "对阵",
+                      "reason": "entity_relation"
+                    },
+                    {
+                      "text": "并给出原文引用",
+                      "reason": "citation_instruction"
+                    }
+                  ],
+                  "citation_requested": true,
+                  "same_source_requested": false,
+                  "referential": false,
+                  "requested_attributes": [
+                    "outcome"
+                  ]
+                }
+              },
+              "model": {
+                "attempted": true,
+                "used": true,
+                "reason": null,
+                "rewritten_query": "Arkansas State 对阵 South Alabama 的比赛结果是什么？",
+                "applied_groups": [
+                  {
+                    "anchor": "比赛",
+                    "terms": []
+                  },
+                  {
+                    "anchor": "结果",
+                    "terms": []
+                  },
+                  {
+                    "anchor": "south",
+                    "terms": []
+                  },
+                  {
+                    "anchor": "alabama",
+                    "terms": []
+                  }
+                ]
+              }
+            },
+            "coverage": {
+              "dataset": "real",
+              "source_version": "f064c896c123cbf4",
+              "database_total": 6989,
+              "scoped_records": 1,
+              "matched_records": 1,
+              "returned_records": 1,
+              "returned_paragraphs": 1,
+              "exhaustive": true
+            },
+            "citations": [
+              {
+                "citation_id": "C1",
+                "record_id": "social-1",
+                "angle": "social",
+                "field": "original_text",
+                "source_field": "original_content",
+                "paragraph": 2,
+                "paragraph_scheme": "service_field_chunks_v1",
+                "quote_count": 1,
+                "all_quotes_exact_substrings": true
+              }
+            ],
+            "evidence_summary": "Verbatim original-content citation of the stored social-1 match result; full answer, snippet and quotes intentionally omitted."
+          },
+          {
+            "name": "acceptance_same_source_followup",
+            "question": "这条资料里双方比分是怎样的？请继续引用同一来源。",
+            "transport": "loopback_http",
+            "duration_seconds": 24.168,
+            "state": "answered",
+            "answer_format": "verbatim_extracts",
+            "passed": true,
+            "model": {
+              "id": "auto/deepseek-v4.1-flash",
+              "used": true,
+              "attempted": true,
+              "reason": null
+            },
+            "plan": {
+              "effective_query": "比赛 结果 south alabama 结果 比分",
+              "filters": {
+                "institution": [
+                  1002550
+                ],
+                "angle": [
+                  "social"
+                ],
+                "date_field": "published_at",
+                "record_ids": [
+                  "social-1"
+                ]
+              },
+              "locked_scope": {
+                "institution": [
+                  1002550
+                ],
+                "angle": [
+                  "social"
+                ],
+                "date_field": "published_at",
+                "record_ids": [
+                  "social-1"
+                ]
+              },
+              "terms": [
+                [
+                  "比赛",
+                  "game",
+                  "match",
+                  "matchup",
+                  "football",
+                  "soccer"
+                ],
+                [
+                  "结果",
+                  "比分",
+                  "outcome",
+                  "result",
+                  "score",
+                  "setback",
+                  "win",
+                  "loss"
+                ],
+                [
+                  "south"
+                ],
+                [
+                  "alabama"
+                ]
+              ],
+              "strategy": "fts5_and",
+              "relaxed": false,
+              "request_intent": {
+                "enabled": true,
+                "normalized_query": "比赛 结果 south alabama 结果 比分",
+                "removed_request_phrases": [],
+                "citation_requested": false,
+                "same_source_requested": false,
+                "referential": false,
+                "requested_attributes": [
+                  "score",
+                  "outcome"
+                ]
+              },
+              "conversation": {
+                "history_used": true,
+                "same_source_requested": true,
+                "scope_basis": "bounded_user_history_and_current_filters",
+                "source_record_ids": [
+                  "social-1"
+                ],
+                "source_basis": "unique_previous_user_query_match",
+                "request_intent": {
+                  "enabled": true,
+                  "normalized_query": "比分",
+                  "removed_request_phrases": [
+                    {
+                      "text": "这条资料里",
+                      "reason": "conversation_reference"
+                    },
+                    {
+                      "text": "是怎样的",
+                      "reason": "question_grammar"
+                    },
+                    {
+                      "text": "请继续引用同一来源",
+                      "reason": "citation_instruction"
+                    }
+                  ],
+                  "citation_requested": true,
+                  "same_source_requested": true,
+                  "referential": true,
+                  "requested_attributes": [
+                    "score"
+                  ]
+                }
+              },
+              "model": {
+                "attempted": true,
+                "used": false,
+                "reason": "invalid_model_response",
+                "rewritten_query": null,
+                "applied_groups": []
+              }
+            },
+            "coverage": {
+              "dataset": "real",
+              "source_version": "f064c896c123cbf4",
+              "database_total": 6989,
+              "scoped_records": 1,
+              "matched_records": 1,
+              "returned_records": 1,
+              "returned_paragraphs": 1,
+              "exhaustive": true
+            },
+            "citations": [
+              {
+                "citation_id": "C1",
+                "record_id": "social-1",
+                "angle": "social",
+                "field": "original_text",
+                "source_field": "original_content",
+                "paragraph": 2,
+                "paragraph_scheme": "service_field_chunks_v1",
+                "quote_count": 1,
+                "all_quotes_exact_substrings": true
+              }
+            ],
+            "evidence_summary": "Verbatim original-content citation of the stored social-1 match result; full answer, snippet and quotes intentionally omitted."
+          }
+        ],
+        "planner_failure_is_separate_from_answer_success": "The second-turn model planner returned invalid_model_response and was not used. Local history reconstruction retained the unique source, and a separate answer-generation completion returned accepted verbatim evidence. Neither a failed plan nor a fallback was counted as model answer success."
+      },
+      "change_boundaries": [
+        "Generic request grammar separates answer/citation instructions and referential language from subject concepts; the original Chinese QA question is preserved, not replaced by a keyword question.",
+        "Unknown entities stay mandatory AND concepts; no OR relaxation was enabled.",
+        "expand=false still disables request/history rewriting, model expansion, local synonyms and fuzziness.",
+        "Same-source followups pin only a unique result of an earlier substantive user query under the current locked scope; assistant history is not evidence. Missing or ambiguous sources produce no evidence.",
+        "Verbatim claim/quote/citation validation and the four API states remain unchanged.",
+        "Only service-owned files and tests/test_service.py changed in the fix. No database or frontend rebuild, commit or push was performed."
+      ],
+      "service_restart": {
+        "owned_tmux_session": "research-api",
+        "bind": "127.0.0.1:8791",
+        "last_observed_http_status": 200,
+        "last_observed_state": "ready",
+        "restart_during_report_update": false
+      },
+      "redaction": {
+        "strategy": "Explicit allowlist extraction; no credentials, authentication session material, prompts, history payloads, answer bodies, source snippets or quote bodies copied.",
+        "runtime_log_copied": false,
+        "new_model_calls_during_report_update": 0
+      }
+    },
+    {
+      "id": "independent_intent_findings_I01_I02_I03_fix",
+      "recorded_at": "2026-11-08T15:15:38+00:00",
+      "status": "passed_backend_regressions_awaiting_independent_reviewer",
+      "source_version": "f064c896c123cbf4",
+      "research_version": "a8acd9d0b712fbe06a65",
+      "database_schema_version": 2,
+      "database_sha256": "f82dff3392d608e0a30f0011ca754eeb9a885dc9a47ba8f27a85b04ddbbaafda",
+      "frontend_final_version_reported_by_main": "642",
+      "frontend_version_note": "Main agent supplied the identifier 642; this backend report does not infer or verify a longer frontend build hash.",
+      "service_source_sha256": "b3159840756bca4cac591d851e09bf7f10a8648b33739f27c84ecf4b1b0e9be8",
+      "service_source_hash_definition": "SHA-256 over lexically sorted service/*.py followed by tests/test_service.py, concatenating relative UTF-8 filename, NUL, exact bytes, NUL per file; calculated by service.verify_natural.source_hash.",
+      "file_sha256": {
+        "service/chat.py": "98e632c9317fde014aaea909e007ab5b3f233980bdc96e89b4234ae3477e1bcc",
+        "service/planner.py": "64aafee9c09bbbef0f8c319ae8f9be263c116f1549f1a56be8237d0c22f46361",
+        "service/intent.py": "280ec230a2964a2e11f2ec5e32254000b26053ce8c734dca09db308780ae26c5",
+        "tests/test_service.py": "92900b751e4832501602bea51372edf7546f2f224565f5d1091b7ba8c8a44b2a",
+        "tests/security_intent.py": "9ae127fb60c5845280a658116407d682d9628b73341329908c9b25036d86974c",
+        "tests/security_research.py": "42452b5ca15f03a9c780c9c9ef056886c12b366d2216b6d7df5c67344e190e82"
+      },
+      "findings": [
+        {
+          "id": "I01",
+          "result": "fixed_in_backend",
+          "change": "Model aliases may widen a concept only if present in its original local group or independently curated equivalence vocabulary. Unverified aliases reject the model plan with unverified_model_alias; unknown identifiers and original AND constraints remain required.",
+          "verification": "Unknown Latin identifiers and Chinese proper-name fixtures cannot acquire generic safety/AI/research aliases. Verified artificial-intelligence and safety bilingual equivalents are actually used in retrieval."
+        },
+        {
+          "id": "I02",
+          "result": "fixed_in_backend",
+          "change": "Content-free citation requests and unresolved source references return no_results with clarification and no answer-generation call. Structured-scope first-record browsing is not used as presumed chat evidence.",
+          "verification": "Original reviewer Chinese cases plus English citation-only and HTTP cases return no citations and make zero model requests. Explicit empty-query search browsing remains available."
+        },
+        {
+          "id": "I03",
+          "result": "fixed_in_backend",
+          "change": "Score/outcome attributes take precedence over a generic source noun. Only explicit record-quantity phrases override that intent; missing or ambiguous source handling precedes aggregate answers. Record counts bypass model planning based on the original message.",
+          "verification": "The exact 多少 score followup cites social-1 under the established source constraint in deterministic fixtures; ambiguous/assistant-only source fixtures return no evidence. Genuine database and per-angle quantity questions remain database_answer with zero model calls."
+        }
+      ],
+      "test_suites": [
+        {
+          "name": "service",
+          "command": "python3 -m unittest discover -s tests -p 'test_service*.py' -v",
+          "run": 35,
+          "passed": 35,
+          "failed": 0,
+          "skipped": 0,
+          "duration_seconds": 7.535,
+          "checks": [
+            {
+              "id": "ServiceFixture.test_counts_and_source_preservation",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_beijing_day_and_explicit_recovered_date_scope",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_bilingual_concepts_and_no_silent_relaxation",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_semantic_is_real_model_call_and_false_precedence",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_model_plan_does_not_inject_scope_or_stopwords",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_natural_question_retains_subjects_not_answer_instructions",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_citation_grammar_does_not_drop_unknowns_or_strict_constraints",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_natural_followup_pins_unique_user_source_and_keeps_scope",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_same_source_ambiguity_never_uses_assistant_as_evidence",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_unverified_model_alias_cannot_erase_unknown_entity",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_verified_bilingual_model_aliases_are_actually_used",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_content_free_and_unresolved_reference_never_generate",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_source_score_priority_and_record_count_followups",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_db_answers_never_spend_tokens_including_followup",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_third_turn_inherits_scope_and_explicit_override_wins",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_true_quote_cannot_ground_unrelated_claim",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_grounded_answer_and_placeholder_exclusion",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_malicious_or_ungrounded_answers_are_fallbacks",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_chat_expansion_false_disables_history_and_planning",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_missing_model_and_missing_results",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_sql_injection_and_input_limits",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_auth_expiry_origin_rotation_and_tamper",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_model_concurrency_and_mismatched_model",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_snapshot_replacement_requires_restart",
+              "result": "passed"
+            },
+            {
+              "id": "HTTPService.test_http_auth_cors_and_preflight",
+              "result": "passed"
+            },
+            {
+              "id": "HTTPService.test_http_original_natural_question_and_same_source_followup",
+              "result": "passed"
+            },
+            {
+              "id": "HTTPService.test_http_content_free_and_unknown_semantic_alias_boundaries",
+              "result": "passed"
+            },
+            {
+              "id": "HTTPService.test_http_utf8_body_history_and_invalid_json",
+              "result": "passed"
+            },
+            {
+              "id": "HTTPService.test_http_search_chat_quota_and_global_model_quota",
+              "result": "passed"
+            },
+            {
+              "id": "HTTPService.test_correct_password_succeeds_after_shared_peer_failures",
+              "result": "passed"
+            },
+            {
+              "id": "HTTPService.test_http_concurrency_bound",
+              "result": "passed"
+            },
+            {
+              "id": "RealSnapshot.test_real_counts_three_tables_and_arkansas",
+              "result": "passed"
+            },
+            {
+              "id": "RealSnapshot.test_real_alias_bilingual_fuzzy_and_citation_grounding",
+              "result": "passed"
+            },
+            {
+              "id": "RealSnapshot.test_original_acceptance_natural_question_without_model",
+              "result": "passed"
+            },
+            {
+              "id": "RealSnapshot.test_research_metadata_and_complete_fields",
+              "result": "passed"
+            }
+          ]
+        },
+        {
+          "name": "independent_intent",
+          "command": "python3 -B tests/security_intent.py -v",
+          "run": 14,
+          "passed": 14,
+          "failed": 0,
+          "skipped": 0,
+          "duration_seconds": 0.105,
+          "reviewer_file_modified": false,
+          "checks": [
+            {
+              "id": "IntentBoundaryFixtures.test_original_chinese_question_keeps_scope_and_all_subject_concepts",
+              "result": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_unknown_additional_subject_is_not_removed_or_relaxed",
+              "result": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_unknown_topic_cannot_be_replaced_by_generic_model_alias",
+              "result": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_unknown_anchor_generic_replacement_is_rejected_by_planner_validation",
+              "result": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_foreign_institution_sql_or_extra_filters_cannot_change_locked_scope",
+              "result": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_empty_model_groups_do_not_clear_unknown_local_concepts",
+              "result": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_citation_only_request_cannot_select_arbitrary_scope_record",
+              "result": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_reference_without_user_source_cannot_select_arbitrary_scope_record",
+              "result": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_same_source_ambiguity_does_not_accept_assistant_record_id",
+              "result": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_score_of_this_source_is_not_a_database_record_count",
+              "result": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_unique_source_scope_remains_fixed_across_planner_generation",
+              "result": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_expansion_false_disables_cleanup_history_planner_and_relaxation",
+              "result": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_genuine_record_count_does_not_call_model",
+              "result": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_citation_cleaner_preserves_negative_and_unknown_clause",
+              "result": "passed"
+            }
+          ]
+        },
+        {
+          "name": "independent_security",
+          "command": "python3 -B tests/security_research.py -v",
+          "run": 18,
+          "passed": 18,
+          "failed": 0,
+          "skipped": 0,
+          "duration_seconds": 3.242,
+          "reviewer_file_modified": false,
+          "checks": [
+            {
+              "id": "BrowserClientSecurity.test_clear_cannot_restore_credentials_from_pending_response_body",
+              "result": "passed"
+            },
+            {
+              "id": "BrowserClientSecurity.test_login_timeout_remains_active_until_response_body_is_parsed",
+              "result": "passed"
+            },
+            {
+              "id": "WorkspaceImportSecurity.test_research_supplement_is_restored",
+              "result": "passed"
+            },
+            {
+              "id": "WorkspaceImportSecurity.test_invalid_project_cannot_partially_import_favorites",
+              "result": "passed"
+            },
+            {
+              "id": "WorkspaceImportSecurity.test_storage_failure_is_not_reported_as_successful_restore",
+              "result": "passed"
+            },
+            {
+              "id": "WorkspaceImportSecurity.test_switching_routes_during_backup_read_preserves_active_view_edits",
+              "result": "passed"
+            },
+            {
+              "id": "FrontendHistorySecurity.test_retrieval_only_turn_retains_the_users_institution_and_topic",
+              "result": "passed"
+            },
+            {
+              "id": "FrontendHistorySecurity.test_history_stays_within_backend_message_and_character_limits",
+              "result": "passed"
+            },
+            {
+              "id": "ResearchMergePreservation.test_merging_a_backup_never_drops_existing_groups_over_import_limit",
+              "result": "passed"
+            },
+            {
+              "id": "ResearchMergePreservation.test_merging_a_backup_never_drops_existing_members_over_import_limit",
+              "result": "passed"
+            },
+            {
+              "id": "AnswerEvidenceSecurity.test_a_literal_C1_extract_remains_usable",
+              "result": "passed"
+            },
+            {
+              "id": "AnswerEvidenceSecurity.test_a_real_C1_quote_does_not_validate_an_unrelated_claim",
+              "result": "passed"
+            },
+            {
+              "id": "AnswerEvidenceSecurity.test_third_turn_retains_institution_inherited_by_second_turn",
+              "result": "passed"
+            },
+            {
+              "id": "LoginAvailabilitySecurity.test_bad_passwords_from_shared_proxy_peer_do_not_block_correct_login",
+              "result": "passed"
+            },
+            {
+              "id": "ProxyOriginSecurity.test_duplicate_origins_never_reach_backend",
+              "result": "passed"
+            },
+            {
+              "id": "ProxyOriginSecurity.test_exact_same_origin_get_can_infer_origin",
+              "result": "passed"
+            },
+            {
+              "id": "ProxyOriginSecurity.test_untrusted_referer_cannot_infer_allowed_origin",
+              "result": "passed"
+            },
+            {
+              "id": "ProxyOriginSecurity.test_cross_site_metadata_cannot_infer_allowed_origin",
+              "result": "passed"
+            }
+          ]
+        }
+      ],
+      "test_evidence_note": "These suites passed in the immediately preceding implementation run. This report update does not rerun tests or claim that the reviewer has independently rerun the frozen revision.",
+      "zero_real_model_validation": {
+        "real_model_calls_in_this_fix": 0,
+        "real_model_calls_during_report_update": 0,
+        "fixture_model": "Deterministic in-process outputs and local mock OpenAI HTTP responses only.",
+        "real_database_checks": [
+          {
+            "question": "请概括 Arkansas State 对阵 South Alabama 的比赛结果，并给出原文引用。",
+            "mode": "local_retrieval_only",
+            "matched_records": 1,
+            "record_ids": [
+              "social-1"
+            ],
+            "relaxed": false
+          },
+          {
+            "question": "这条资料里双方比分是怎样的？请继续引用同一来源。",
+            "mode": "local_user_history_reconstruction_and_retrieval_only",
+            "matched_records": 1,
+            "record_ids": [
+              "social-1"
+            ],
+            "source_basis": "unique_previous_user_query_match",
+            "classified_as_record_count": false
+          },
+          {
+            "question": "这条资料里双方比分是多少？请继续引用同一来源。",
+            "mode": "local_user_history_reconstruction_and_retrieval_only",
+            "matched_records": 1,
+            "record_ids": [
+              "social-1"
+            ],
+            "source_basis": "unique_previous_user_query_match",
+            "classified_as_record_count": false
+          }
+        ],
+        "prior_live_evidence_boundary": "Previous real-model answers remain preserved evidence of their earlier source revision. This append records deterministic and local retrieval verification for the new source hash and does not relabel the prior calls as new live-model verification."
+      },
+      "runtime": {
+        "host": "social",
+        "project": "/home/ubuntu/zgclab-1-web",
+        "tmux_session": "research-api",
+        "bind": "127.0.0.1:8791",
+        "log_path": ".runtime/service.log",
+        "latest_status_observed_during_fix": {
+          "http_status": 200,
+          "state": "ready",
+          "origin": "http://127.0.0.1:8789"
+        },
+        "owned_api_restarts_in_fix": 1,
+        "restarts_during_report_update": 0,
+        "previous_live_evidence_log_paths": [
+          ".runtime/service-natural-qa.log",
+          ".runtime/service-live-http.log"
+        ]
+      },
+      "change_boundaries": {
+        "backend_and_owned_tests_only": true,
+        "reviewer_tests_modified": false,
+        "frontend_modified": false,
+        "data_modified": false,
+        "database_rebuilt": false,
+        "commit_or_push": false,
+        "code_frozen": true
+      },
+      "redaction": {
+        "runtime_files_copied": false,
+        "credential_or_session_material_included": false,
+        "prompt_or_history_payloads_included": false,
+        "answer_or_source_body_included": false
+      }
+    },
+    {
+      "id": "english_source_reference_I04_regex_boundary_fix",
+      "recorded_at": "2026-11-08T15:21:29+00:00",
+      "status": "passed_backend_and_original_reviewer_tests_awaiting_independent_rerun",
+      "source_version": "f064c896c123cbf4",
+      "research_version": "a8acd9d0b712fbe06a65",
+      "database_schema_version": 2,
+      "database_sha256": "f82dff3392d608e0a30f0011ca754eeb9a885dc9a47ba8f27a85b04ddbbaafda",
+      "frontend_final_version": "6421c8a18fb064ae7dc9",
+      "frontend_version_basis": "Existing independent reviewer report; frontend files were not modified or rebuilt in this backend fix.",
+      "service_source_sha256": "cf40ebf6bd9d8052b40764e712d0501e4293c3ec3dd1151cacb64c4417b4a15a",
+      "service_source_hash_definition": "SHA-256 over lexically sorted service/*.py followed by tests/test_service.py, concatenating relative UTF-8 filename, NUL, exact bytes, NUL per file; service.verify_natural.source_hash.",
+      "finding": {
+        "id": "I04",
+        "change": "Replaced exactly two literal U+0008 backspace bytes with raw-regex word-boundary escape bytes in the existing English this/that source-reference expression. No other functional logic was changed.",
+        "functional_file": "service/intent.py",
+        "functional_file_sha256": "fd2956503dcde06f5d4c96a27ab3b7f26a4a57454009242bcea9db2796b91b64",
+        "control_character_scan": "All service/*.py files contain no control bytes other than TAB/LF/CR; covered by the owned regression test.",
+        "coverage": "Original this-record/that-document detection, ambiguous-source rejection, unique-source locking and curated alias matrix; added own English missing/assistant-only/ambiguous/unique source and lexical-boundary regressions."
+      },
+      "test_suites": [
+        {
+          "name": "service",
+          "file": "tests/test_service.py",
+          "command": "python3 -m unittest discover -s tests -p 'test_service*.py' -v",
+          "run": 38,
+          "passed": 38,
+          "failed": 0,
+          "skipped": 0,
+          "duration_seconds": 12.38,
+          "checks": [
+            {
+              "id": "ServiceFixture.test_counts_and_source_preservation",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_beijing_day_and_explicit_recovered_date_scope",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_bilingual_concepts_and_no_silent_relaxation",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_semantic_is_real_model_call_and_false_precedence",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_model_plan_does_not_inject_scope_or_stopwords",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_natural_question_retains_subjects_not_answer_instructions",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_citation_grammar_does_not_drop_unknowns_or_strict_constraints",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_natural_followup_pins_unique_user_source_and_keeps_scope",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_same_source_ambiguity_never_uses_assistant_as_evidence",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_unverified_model_alias_cannot_erase_unknown_entity",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_verified_bilingual_model_aliases_are_actually_used",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_content_free_and_unresolved_reference_never_generate",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_source_score_priority_and_record_count_followups",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_english_reference_word_boundaries_and_no_source_controls",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_english_reference_ambiguous_or_missing_never_calls_model",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_english_this_that_source_is_locked_to_unique_user_evidence",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_db_answers_never_spend_tokens_including_followup",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_third_turn_inherits_scope_and_explicit_override_wins",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_true_quote_cannot_ground_unrelated_claim",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_grounded_answer_and_placeholder_exclusion",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_malicious_or_ungrounded_answers_are_fallbacks",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_chat_expansion_false_disables_history_and_planning",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_missing_model_and_missing_results",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_sql_injection_and_input_limits",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_auth_expiry_origin_rotation_and_tamper",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_model_concurrency_and_mismatched_model",
+              "result": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_snapshot_replacement_requires_restart",
+              "result": "passed"
+            },
+            {
+              "id": "HTTPService.test_http_auth_cors_and_preflight",
+              "result": "passed"
+            },
+            {
+              "id": "HTTPService.test_http_original_natural_question_and_same_source_followup",
+              "result": "passed"
+            },
+            {
+              "id": "HTTPService.test_http_content_free_and_unknown_semantic_alias_boundaries",
+              "result": "passed"
+            },
+            {
+              "id": "HTTPService.test_http_utf8_body_history_and_invalid_json",
+              "result": "passed"
+            },
+            {
+              "id": "HTTPService.test_http_search_chat_quota_and_global_model_quota",
+              "result": "passed"
+            },
+            {
+              "id": "HTTPService.test_correct_password_succeeds_after_shared_peer_failures",
+              "result": "passed"
+            },
+            {
+              "id": "HTTPService.test_http_concurrency_bound",
+              "result": "passed"
+            },
+            {
+              "id": "RealSnapshot.test_real_counts_three_tables_and_arkansas",
+              "result": "passed"
+            },
+            {
+              "id": "RealSnapshot.test_real_alias_bilingual_fuzzy_and_citation_grounding",
+              "result": "passed"
+            },
+            {
+              "id": "RealSnapshot.test_original_acceptance_natural_question_without_model",
+              "result": "passed"
+            },
+            {
+              "id": "RealSnapshot.test_research_metadata_and_complete_fields",
+              "result": "passed"
+            }
+          ],
+          "file_sha256": "d48940cbd0fa4b4790cc3e3daffb9249213d2670042111fd5a17a268ff8a8ecb",
+          "reviewer_file_modified": null
+        },
+        {
+          "name": "independent_reference",
+          "file": "tests/security_reference.py",
+          "command": "python3 -B tests/security_reference.py -v",
+          "run": 4,
+          "passed": 4,
+          "failed": 0,
+          "skipped": 0,
+          "duration_seconds": 0.063,
+          "checks": [
+            {
+              "id": "EnglishReferenceFixtures.test_english_this_and_that_are_source_references",
+              "result": "passed"
+            },
+            {
+              "id": "EnglishReferenceFixtures.test_ambiguous_english_reference_never_selects_a_scope_first_record",
+              "result": "passed"
+            },
+            {
+              "id": "EnglishReferenceFixtures.test_unique_english_source_is_locked_before_model_calls",
+              "result": "passed"
+            },
+            {
+              "id": "CuratedAliasFixtures.test_curated_aliases_allow_equivalents_and_reject_generic_substitutions",
+              "result": "passed"
+            }
+          ],
+          "file_sha256": "1f94e938008c85f465ffb42ecda23207247a20bddfcbbeb59e2266d5e827bb4b",
+          "reviewer_file_modified": false
+        },
+        {
+          "name": "independent_intent",
+          "file": "tests/security_intent.py",
+          "command": "python3 -B tests/security_intent.py -v",
+          "run": 14,
+          "passed": 14,
+          "failed": 0,
+          "skipped": 0,
+          "duration_seconds": 0.148,
+          "checks": [
+            {
+              "id": "IntentBoundaryFixtures.test_original_chinese_question_keeps_scope_and_all_subject_concepts",
+              "result": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_unknown_additional_subject_is_not_removed_or_relaxed",
+              "result": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_unknown_topic_cannot_be_replaced_by_generic_model_alias",
+              "result": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_unknown_anchor_generic_replacement_is_rejected_by_planner_validation",
+              "result": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_foreign_institution_sql_or_extra_filters_cannot_change_locked_scope",
+              "result": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_empty_model_groups_do_not_clear_unknown_local_concepts",
+              "result": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_citation_only_request_cannot_select_arbitrary_scope_record",
+              "result": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_reference_without_user_source_cannot_select_arbitrary_scope_record",
+              "result": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_same_source_ambiguity_does_not_accept_assistant_record_id",
+              "result": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_score_of_this_source_is_not_a_database_record_count",
+              "result": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_unique_source_scope_remains_fixed_across_planner_generation",
+              "result": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_expansion_false_disables_cleanup_history_planner_and_relaxation",
+              "result": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_genuine_record_count_does_not_call_model",
+              "result": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_citation_cleaner_preserves_negative_and_unknown_clause",
+              "result": "passed"
+            }
+          ],
+          "file_sha256": "9ae127fb60c5845280a658116407d682d9628b73341329908c9b25036d86974c",
+          "reviewer_file_modified": false
+        },
+        {
+          "name": "independent_security",
+          "file": "tests/security_research.py",
+          "command": "python3 -B tests/security_research.py -v",
+          "run": 18,
+          "passed": 18,
+          "failed": 0,
+          "skipped": 0,
+          "duration_seconds": 4.535,
+          "checks": [
+            {
+              "id": "BrowserClientSecurity.test_clear_cannot_restore_credentials_from_pending_response_body",
+              "result": "passed"
+            },
+            {
+              "id": "BrowserClientSecurity.test_login_timeout_remains_active_until_response_body_is_parsed",
+              "result": "passed"
+            },
+            {
+              "id": "WorkspaceImportSecurity.test_research_supplement_is_restored",
+              "result": "passed"
+            },
+            {
+              "id": "WorkspaceImportSecurity.test_invalid_project_cannot_partially_import_favorites",
+              "result": "passed"
+            },
+            {
+              "id": "WorkspaceImportSecurity.test_storage_failure_is_not_reported_as_successful_restore",
+              "result": "passed"
+            },
+            {
+              "id": "WorkspaceImportSecurity.test_switching_routes_during_backup_read_preserves_active_view_edits",
+              "result": "passed"
+            },
+            {
+              "id": "FrontendHistorySecurity.test_retrieval_only_turn_retains_the_users_institution_and_topic",
+              "result": "passed"
+            },
+            {
+              "id": "FrontendHistorySecurity.test_history_stays_within_backend_message_and_character_limits",
+              "result": "passed"
+            },
+            {
+              "id": "ResearchMergePreservation.test_merging_a_backup_never_drops_existing_groups_over_import_limit",
+              "result": "passed"
+            },
+            {
+              "id": "ResearchMergePreservation.test_merging_a_backup_never_drops_existing_members_over_import_limit",
+              "result": "passed"
+            },
+            {
+              "id": "AnswerEvidenceSecurity.test_a_literal_C1_extract_remains_usable",
+              "result": "passed"
+            },
+            {
+              "id": "AnswerEvidenceSecurity.test_a_real_C1_quote_does_not_validate_an_unrelated_claim",
+              "result": "passed"
+            },
+            {
+              "id": "AnswerEvidenceSecurity.test_third_turn_retains_institution_inherited_by_second_turn",
+              "result": "passed"
+            },
+            {
+              "id": "LoginAvailabilitySecurity.test_bad_passwords_from_shared_proxy_peer_do_not_block_correct_login",
+              "result": "passed"
+            },
+            {
+              "id": "ProxyOriginSecurity.test_duplicate_origins_never_reach_backend",
+              "result": "passed"
+            },
+            {
+              "id": "ProxyOriginSecurity.test_exact_same_origin_get_can_infer_origin",
+              "result": "passed"
+            },
+            {
+              "id": "ProxyOriginSecurity.test_untrusted_referer_cannot_infer_allowed_origin",
+              "result": "passed"
+            },
+            {
+              "id": "ProxyOriginSecurity.test_cross_site_metadata_cannot_infer_allowed_origin",
+              "result": "passed"
+            }
+          ],
+          "file_sha256": "42452b5ca15f03a9c780c9c9ef056886c12b366d2216b6d7df5c67344e190e82",
+          "reviewer_file_modified": false
+        }
+      ],
+      "test_evidence_note": "Exact suite results from the immediately preceding run; this report update did not rerun tests.",
+      "runtime": {
+        "host": "social",
+        "project": "/home/ubuntu/zgclab-1-web",
+        "tmux_session": "research-api",
+        "bind": "127.0.0.1:8791",
+        "log_path": ".runtime/service.log",
+        "http_status_after_restart": 200,
+        "state_after_restart": "ready",
+        "origin_checked": "http://127.0.0.1:8789",
+        "owned_api_restarts_in_fix": 1
+      },
+      "real_model_calls_in_fix": 0,
+      "real_model_calls_during_report_update": 0,
+      "real_model_evidence_boundary": "All this-revision model outputs were deterministic fixtures/mock HTTP. Earlier real model evidence remains prior-revision evidence; final real UI two-turn acceptance is owned by QA.",
+      "change_boundaries": {
+        "reviewer_tests_modified": false,
+        "frontend_modified": false,
+        "data_modified": false,
+        "database_rebuilt": false,
+        "commit_or_push": false,
+        "code_frozen": true
+      },
+      "redaction": {
+        "credentials_or_session_material_included": false,
+        "runtime_files_copied": false,
+        "prompts_history_or_source_bodies_included": false
+      }
+    }
+  ],
+  "latest_verified_service_source_sha256": "cf40ebf6bd9d8052b40764e712d0501e4293c3ec3dd1151cacb64c4417b4a15a",
+  "latest_verification_id": "english_source_reference_I04_regex_boundary_fix",
+  "latest_backend_verification_summary": {
+    "service_passed": 38,
+    "independent_reference_passed": 4,
+    "independent_intent_passed": 14,
+    "independent_security_passed": 18,
+    "real_model_calls": 0,
+    "independent_reviewer_rerun": "pending_main_coordination"
+  }
+}

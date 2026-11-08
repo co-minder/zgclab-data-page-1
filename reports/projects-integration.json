@@ -1,0 +1,186 @@
+{
+  "schemaVersion": 1,
+  "status": "passed",
+  "host": "social",
+  "project": "/home/ubuntu/zgclab-1-web",
+  "scope": "24 actual encrypted website checks for app/explorer/projects and total workspace backup; no fixture or injected application code",
+  "recordedAt": "2026-11-08T14:49:00.503688+00:00",
+  "target": "http://127.0.0.1:8789/",
+  "manifestVersion": "c9c301ebb07995098230",
+  "manifestVerifiedBeforeAndAfter": true,
+  "passedCount": 24,
+  "failureCount": 0,
+  "pageErrors": [],
+  "command": "ZGCLAB_TEST_URL=http://127.0.0.1:8789/ ZGCLAB_PROJECTS_INTEGRATION_ARTIFACTS=/home/ubuntu/log/zgclab-projects-integration-20261108-final python3 -u tests/projects.integration.py",
+  "tmuxSession": "zgclab-projects-integration-20261108-final",
+  "exitCode": 0,
+  "log": "/home/ubuntu/log/zgclab-projects-integration-20261108-final.log",
+  "rawResults": "/home/ubuntu/log/zgclab-projects-integration-20261108-final/results.json",
+  "executedAt": "2026-11-08T14:48:24.016426+00:00",
+  "passed": [
+    {
+      "check": "actual encrypted site unlocks and loads projects module",
+      "evidence": {
+        "manifestVersion": "c9c301ebb07995098230",
+        "target": "http://127.0.0.1:8789/"
+      }
+    },
+    {
+      "check": "bulk add is disabled while initial real data request is pending",
+      "evidence": null
+    },
+    {
+      "check": "detail close(false) opens add dialog with live route signal",
+      "evidence": null
+    },
+    {
+      "check": "detail scroll lock and key handler are removed before project dialog",
+      "evidence": null
+    },
+    {
+      "check": "detail joins actual selected record and preserves favorite/query/read state",
+      "evidence": null
+    },
+    {
+      "check": "bulk add cannot reuse old news results while clue data is pending",
+      "evidence": {
+        "stalePreview": null,
+        "previousFirstTitle": "印度研究人员在授权测试中发现OpenAI社区论坛漏洞"
+      }
+    },
+    {
+      "check": "batch dialog receives all 50 filtered matches across pagination",
+      "evidence": null
+    },
+    {
+      "check": "batch commits 50 clue materials plus the detail news material",
+      "evidence": null
+    },
+    {
+      "check": "repeated real-site batch does not duplicate project materials",
+      "evidence": null
+    },
+    {
+      "check": "bulk add is disabled for invalid date bounds",
+      "evidence": null
+    },
+    {
+      "check": "bulk add is disabled for completed empty results",
+      "evidence": null
+    },
+    {
+      "check": "integrated report contains all 51 selected records with source/version references",
+      "evidence": null
+    },
+    {
+      "check": "real integrated Markdown/CSV downloads include report and all materials",
+      "evidence": null
+    },
+    {
+      "check": "stored project note renders literally in integrated DOM",
+      "evidence": null
+    },
+    {
+      "check": "integrated project page fits 390px viewport",
+      "evidence": null
+    },
+    {
+      "check": "total workspace backup includes projects, annotations, report and pre-existing fields",
+      "evidence": null
+    },
+    {
+      "check": "total backup re-import merges without duplicating project or materials",
+      "evidence": null
+    },
+    {
+      "check": "legacy total backup without projects imports and retains existing projects/favorites/read",
+      "evidence": null
+    },
+    {
+      "check": "invalid projects reject whole total backup atomically",
+      "evidence": null
+    },
+    {
+      "check": "atomic rejection preserves in-memory workspace as well as localStorage",
+      "evidence": null
+    },
+    {
+      "check": "real route change cancels detail-origin add without persistence",
+      "evidence": null
+    },
+    {
+      "check": "fresh real-site profile restores project report, notes and favorites from total backup",
+      "evidence": {
+        "equalFields": {
+          "projects": true,
+          "favorites": true,
+          "queries": true,
+          "read": true,
+          "watchlist": true
+        },
+        "differences": {}
+      }
+    },
+    {
+      "check": "restored workspace survives full refresh and password unlock",
+      "evidence": null
+    },
+    {
+      "check": "actual app integration reports no uncaught page errors",
+      "evidence": []
+    }
+  ],
+  "failures": [],
+  "screenshots": {
+    "desktop": {
+      "file": "reports/projects-integration-desktop.png",
+      "source": "/home/ubuntu/log/zgclab-projects-integration-20261108-final/projects-integrated-desktop.png",
+      "sha256": "1c159fc06bcc08bcc0adf468f64964bd2c719d33ad4213e1b5ae9bd24d267212",
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "fullPage": true
+    },
+    "mobile": {
+      "file": "reports/projects-integration-mobile.png",
+      "source": "/home/ubuntu/log/zgclab-projects-integration-20261108-final/projects-integrated-mobile.png",
+      "sha256": "48e720743b7ce6c2324c0eabe13dd3ed167d2ba2fada84c1eeca908c3a830ba2",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "fullPage": true
+    }
+  },
+  "resolvedPriorFailure": {
+    "problem": "Total backup fresh-profile restore omitted queries[].version",
+    "earlierManifest": "50c023898f5adde7a359",
+    "earlierResult": "23 passed, 1 failed",
+    "oldReportPreserved": "reports/projects-module.json",
+    "oldEvidencePreserved": "/home/ubuntu/log/zgclab-projects-integration-20261108-c/results.json",
+    "verification": "Original exact project/favorite/query comparison now passes; optional valid saved query version is retained."
+  },
+  "previousIndependentTests": {
+    "nodePassed": 8,
+    "browserPassed": 14,
+    "rerunThisTurn": false,
+    "report": "reports/projects-module.json"
+  },
+  "limits": [
+    "This validates the projects integration flows; no service chat or LLM response claims.",
+    "Desktop and mobile screenshots show 20 visible materials and the report after them; section navigation remains a possible UX improvement."
+  ],
+  "filesSha256": {
+    "tests/projects.integration.py": "c26d8e5fc832cffadb5d71d406031acc193058ae66a5f35d53ec9cb33bb78a1d",
+    "projects.js": "3f2cb79027ba5c3abaecaae34e04dd4f6654195f9acf0254a266649ec34b6219",
+    "projects.css": "6f4cb89e58ce9be866ce533c11d778e85b8ead7084fede01ec6db8b39379f1fd"
+  },
+  "operations": {
+    "rebuilt": false,
+    "productCodeModifiedThisRun": false,
+    "committed": false,
+    "published": false,
+    "dependenciesInstalled": false
+  }
+}

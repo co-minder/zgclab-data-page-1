@@ -1,0 +1,2278 @@
+{
+  "schema_version": 1,
+  "report_kind": "independent_research_security_review",
+  "recorded_at_utc": "2026-11-08T14:52:41+00:00",
+  "machine": "social",
+  "project_directory": "/home/ubuntu/zgclab-1-web",
+  "result": "18_security_regressions_passed; final_API_versions_consistent; published_build_has_later_source_delta",
+  "build": {
+    "requested_build_id": "c9c301ebb07995098230",
+    "manifest": "docs/manifest-c9c301ebb07995098230.json",
+    "manifest_sha256": "17dd6b85df69726d3ea17a54f9b2459132b0e1eb4ae9e84510f55604c12a71f3",
+    "encrypted_asset_count": 418,
+    "git_head_at_recording": "eca32b0e63f4ac359a2d7fd12b6b82711bc563f2",
+    "head_note": "Pre-release HEAD; exact working-tree SHA-256 records identify reviewed files. No release commit is claimed.",
+    "reviewed_asset_checks": [
+      {
+        "source": "index.html",
+        "source_sha256": "8ae9411494e4b9189d364c96ab66e5594370b1c6fb2b6320e9750c064bddf2a2",
+        "published_plaintext_sha256": "8ae9411494e4b9189d364c96ab66e5594370b1c6fb2b6320e9750c064bddf2a2",
+        "encrypted_asset": "encrypted/5eb018cab80cffd6c521097f69337cde80f424f005a6b1ff5665202555101b1e.bin",
+        "encrypted_sha256": "5eb018cab80cffd6c521097f69337cde80f424f005a6b1ff5665202555101b1e",
+        "ciphertext_filename_verified": true,
+        "matches_current_source": true
+      },
+      {
+        "source": "app.js",
+        "source_sha256": "32020367e78eaa53f81f8c9c5515cde7d44194e21df25bd2657b38799a3294b0",
+        "published_plaintext_sha256": "32020367e78eaa53f81f8c9c5515cde7d44194e21df25bd2657b38799a3294b0",
+        "encrypted_asset": "encrypted/8f00e10b2edc7a0a4b125665cc528db50048594640c2f293bbfe1f90c697fc03.bin",
+        "encrypted_sha256": "8f00e10b2edc7a0a4b125665cc528db50048594640c2f293bbfe1f90c697fc03",
+        "ciphertext_filename_verified": true,
+        "matches_current_source": true
+      },
+      {
+        "source": "core.js",
+        "source_sha256": "8c4ae9d4b1d0db53525e2691df6167c1f3b6a15f680dd27e5d7e88a7af5da9eb",
+        "published_plaintext_sha256": "8c4ae9d4b1d0db53525e2691df6167c1f3b6a15f680dd27e5d7e88a7af5da9eb",
+        "encrypted_asset": "encrypted/f7c4b3b12f0e6188cc26e3833f1f1ed31486ac2fa24d17febb466be8b7204cd9.bin",
+        "encrypted_sha256": "f7c4b3b12f0e6188cc26e3833f1f1ed31486ac2fa24d17febb466be8b7204cd9",
+        "ciphertext_filename_verified": true,
+        "matches_current_source": true
+      },
+      {
+        "source": "query.js",
+        "source_sha256": "48c0567f1b3250d1d629933d81645fffb573b6fa254c9594ee2c6f54dd41c7d3",
+        "published_plaintext_sha256": "48c0567f1b3250d1d629933d81645fffb573b6fa254c9594ee2c6f54dd41c7d3",
+        "encrypted_asset": "encrypted/81b3ff7c0c192855eaf079665fc57191652b1b54fd16b5368e0066f612ecbbed.bin",
+        "encrypted_sha256": "81b3ff7c0c192855eaf079665fc57191652b1b54fd16b5368e0066f612ecbbed",
+        "ciphertext_filename_verified": true,
+        "matches_current_source": true
+      },
+      {
+        "source": "explorer.js",
+        "source_sha256": "2f351f64fba02ae444e8ec88b40a8bda68d7518fa06e400df109444508d0a080",
+        "published_plaintext_sha256": "2f351f64fba02ae444e8ec88b40a8bda68d7518fa06e400df109444508d0a080",
+        "encrypted_asset": "encrypted/8aee24fbcb9e3f69cfca71ff8a5cb0838505e4ea6307eff48f4d7e328b7e4227.bin",
+        "encrypted_sha256": "8aee24fbcb9e3f69cfca71ff8a5cb0838505e4ea6307eff48f4d7e328b7e4227",
+        "ciphertext_filename_verified": true,
+        "matches_current_source": true
+      },
+      {
+        "source": "tools.js",
+        "source_sha256": "db9552977c813c40e360c88e06ffe335bfc273a27f2b43413ca3e4e31100cce4",
+        "published_plaintext_sha256": "db9552977c813c40e360c88e06ffe335bfc273a27f2b43413ca3e4e31100cce4",
+        "encrypted_asset": "encrypted/cdf0757a4f4ff2cb0c7fa5f169623da6d857f53a743e89adf639d265d67a448b.bin",
+        "encrypted_sha256": "cdf0757a4f4ff2cb0c7fa5f169623da6d857f53a743e89adf639d265d67a448b",
+        "ciphertext_filename_verified": true,
+        "matches_current_source": true
+      },
+      {
+        "source": "service-config.js",
+        "source_sha256": "8621aab6b8f2799613c50ae155084a7668205606c977e84f590a6de42e44015e",
+        "published_plaintext_sha256": "8621aab6b8f2799613c50ae155084a7668205606c977e84f590a6de42e44015e",
+        "encrypted_asset": "encrypted/5b47fbbfd797fc2f8dd3f1ed357d54b7a7ef16834826412114ab87006d3409a7.bin",
+        "encrypted_sha256": "5b47fbbfd797fc2f8dd3f1ed357d54b7a7ef16834826412114ab87006d3409a7",
+        "ciphertext_filename_verified": true,
+        "matches_current_source": true
+      },
+      {
+        "source": "service-client.js",
+        "source_sha256": "201a607659ca1a7b2337e4b59871c3bfec4f6292240123fcff25aa78e61ffa7a",
+        "published_plaintext_sha256": "201a607659ca1a7b2337e4b59871c3bfec4f6292240123fcff25aa78e61ffa7a",
+        "encrypted_asset": "encrypted/f85757bfa41d52e9d780408ba679d2f69b7d5481392ce5f7dd71e0af6ff9ed73.bin",
+        "encrypted_sha256": "f85757bfa41d52e9d780408ba679d2f69b7d5481392ce5f7dd71e0af6ff9ed73",
+        "ciphertext_filename_verified": true,
+        "matches_current_source": true
+      },
+      {
+        "source": "projects.js",
+        "source_sha256": "3f2cb79027ba5c3abaecaae34e04dd4f6654195f9acf0254a266649ec34b6219",
+        "published_plaintext_sha256": "3f2cb79027ba5c3abaecaae34e04dd4f6654195f9acf0254a266649ec34b6219",
+        "encrypted_asset": "encrypted/aff2a7cc6e68120e6fc23a06796e4fbe82e75379180c74da8656d46989ee8303.bin",
+        "encrypted_sha256": "aff2a7cc6e68120e6fc23a06796e4fbe82e75379180c74da8656d46989ee8303",
+        "ciphertext_filename_verified": true,
+        "matches_current_source": true
+      },
+      {
+        "source": "research.js",
+        "source_sha256": "6399456f305988433078027a47fe4b20ddee5aeeea3f87ab3c28cadd95bfdf70",
+        "published_plaintext_sha256": "6399456f305988433078027a47fe4b20ddee5aeeea3f87ab3c28cadd95bfdf70",
+        "encrypted_asset": "encrypted/d06fdcf01e5cb57e746dc5f732ea8cb95ec965981f0d33740df491a362bdeccf.bin",
+        "encrypted_sha256": "d06fdcf01e5cb57e746dc5f732ea8cb95ec965981f0d33740df491a362bdeccf",
+        "ciphertext_filename_verified": true,
+        "matches_current_source": true
+      },
+      {
+        "source": "assistant.js",
+        "source_sha256": "158799d7671514a9e128a4bf52e01fb99af06a73211b62e027b4f4cbb41e0ee9",
+        "published_plaintext_sha256": "7b12f391b0d6189fc3ceb29cc73afee9104f3fa296e049015595d83d5c0a7960",
+        "encrypted_asset": "encrypted/5e8f30219f086de09fbf0efb93a83d77e26b4906d9afaec259ab76044c2269cd.bin",
+        "encrypted_sha256": "5e8f30219f086de09fbf0efb93a83d77e26b4906d9afaec259ab76044c2269cd",
+        "ciphertext_filename_verified": true,
+        "matches_current_source": false
+      },
+      {
+        "source": "styles.css",
+        "source_sha256": "4f6c7068ab27c1fb4ef507a82d9b74399965e395c6ca4ea2ff29aed136ff15d8",
+        "published_plaintext_sha256": "4f6c7068ab27c1fb4ef507a82d9b74399965e395c6ca4ea2ff29aed136ff15d8",
+        "encrypted_asset": "encrypted/4a08825904f800241884b3350bfcb957f3f0bc851a92dd6020f711c646cbb983.bin",
+        "encrypted_sha256": "4a08825904f800241884b3350bfcb957f3f0bc851a92dd6020f711c646cbb983",
+        "ciphertext_filename_verified": true,
+        "matches_current_source": true
+      },
+      {
+        "source": "projects.css",
+        "source_sha256": "6f4cb89e58ce9be866ce533c11d778e85b8ead7084fede01ec6db8b39379f1fd",
+        "published_plaintext_sha256": "6f4cb89e58ce9be866ce533c11d778e85b8ead7084fede01ec6db8b39379f1fd",
+        "encrypted_asset": "encrypted/311ded5198ff9ff7fb65d1cb7a3bbbbb49ac4f6db9e5174b8d006cee0f9a54cd.bin",
+        "encrypted_sha256": "311ded5198ff9ff7fb65d1cb7a3bbbbb49ac4f6db9e5174b8d006cee0f9a54cd",
+        "ciphertext_filename_verified": true,
+        "matches_current_source": true
+      },
+      {
+        "source": "research.css",
+        "source_sha256": "2a735a3b99080464d6ba0d1980ec5cd4362d13089e1be5013ff23758914e8648",
+        "published_plaintext_sha256": "2a735a3b99080464d6ba0d1980ec5cd4362d13089e1be5013ff23758914e8648",
+        "encrypted_asset": "encrypted/2aa996e00cbf6e95a803c48a06a30c7a9562f2a0a9eaf18ee554ad78a0e856ec.bin",
+        "encrypted_sha256": "2aa996e00cbf6e95a803c48a06a30c7a9562f2a0a9eaf18ee554ad78a0e856ec",
+        "ciphertext_filename_verified": true,
+        "matches_current_source": true
+      },
+      {
+        "source": "assistant.css",
+        "source_sha256": "8915038be9ab6e4161389e978bbd8fd183536325435466dcc64d2e751a251fdc",
+        "published_plaintext_sha256": "8915038be9ab6e4161389e978bbd8fd183536325435466dcc64d2e751a251fdc",
+        "encrypted_asset": "encrypted/09c5ca71f4a56fdde0ebec4bbaac5ed64d8ecdca71951d4ea67ee2cbb4d2a607.bin",
+        "encrypted_sha256": "09c5ca71f4a56fdde0ebec4bbaac5ed64d8ecdca71951d4ea67ee2cbb4d2a607",
+        "ciphertext_filename_verified": true,
+        "matches_current_source": true
+      },
+      {
+        "source": "data/meta.js",
+        "source_sha256": "f60f741e00af35aaa21d725ca1dd2890277ec774d1fe0fb36376a963b932c9de",
+        "published_plaintext_sha256": "f60f741e00af35aaa21d725ca1dd2890277ec774d1fe0fb36376a963b932c9de",
+        "encrypted_asset": "encrypted/ff3f4a93193af85f5d5203ec9d1b3dc9b37977e487242e93f9de72a8469002fb.bin",
+        "encrypted_sha256": "ff3f4a93193af85f5d5203ec9d1b3dc9b37977e487242e93f9de72a8469002fb",
+        "ciphertext_filename_verified": true,
+        "matches_current_source": true
+      },
+      {
+        "source": "data/research.js",
+        "source_sha256": "78efd219508d19677fa539dc22cb3f42c9a8f6f31b04638310dcd191200daf01",
+        "published_plaintext_sha256": "78efd219508d19677fa539dc22cb3f42c9a8f6f31b04638310dcd191200daf01",
+        "encrypted_asset": "encrypted/1194adcc79b069d87538517ecb9a51550f8d714467ac8a957c05d39b7732b687.bin",
+        "encrypted_sha256": "1194adcc79b069d87538517ecb9a51550f8d714467ac8a957c05d39b7732b687",
+        "ciphertext_filename_verified": true,
+        "matches_current_source": true
+      }
+    ],
+    "all_ciphertext_filenames_verified": true,
+    "source_mismatches": [
+      {
+        "source": "assistant.js",
+        "source_sha256": "158799d7671514a9e128a4bf52e01fb99af06a73211b62e027b4f4cbb41e0ee9",
+        "published_plaintext_sha256": "7b12f391b0d6189fc3ceb29cc73afee9104f3fa296e049015595d83d5c0a7960",
+        "encrypted_asset": "encrypted/5e8f30219f086de09fbf0efb93a83d77e26b4906d9afaec259ab76044c2269cd.bin",
+        "encrypted_sha256": "5e8f30219f086de09fbf0efb93a83d77e26b4906d9afaec259ab76044c2269cd",
+        "ciphertext_filename_verified": true,
+        "matches_current_source": false
+      }
+    ],
+    "current_local_entry_manifest": "manifest-c9c301ebb07995098230.json",
+    "public_entry": {
+      "endpoint": "https://bringing-themes-mae-dating.trycloudflare.com/",
+      "http_status": 200,
+      "manifest": "manifest-c9c301ebb07995098230.json"
+    },
+    "docs_index_sha256": "9d3414e89e654c2ded57ad4438e7aec1a5b260e16d703f2e8d2776746351f75a",
+    "docs_access_sha256": "8f5dbea85e1710676889153dd0b77ebca4cf172767686a84abef016f286de428",
+    "access_loader_matches_source": true
+  },
+  "source_files": {
+    "index.html": {
+      "sha256": "8ae9411494e4b9189d364c96ab66e5594370b1c6fb2b6320e9750c064bddf2a2",
+      "bytes": 7675
+    },
+    "access.js": {
+      "sha256": "8f5dbea85e1710676889153dd0b77ebca4cf172767686a84abef016f286de428",
+      "bytes": 6672
+    },
+    "access.html": {
+      "sha256": "76723823160179c627b7a80754b1aa94e6cbc59f0806427020776819fe884597",
+      "bytes": 2325
+    },
+    "access.css": {
+      "sha256": "a979784e9684dba572029684b7d6a29bd6c8eac55fa4f3a60c314fadd0e91be9",
+      "bytes": 3775
+    },
+    "app.js": {
+      "sha256": "32020367e78eaa53f81f8c9c5515cde7d44194e21df25bd2657b38799a3294b0",
+      "bytes": 93557
+    },
+    "assistant.js": {
+      "sha256": "158799d7671514a9e128a4bf52e01fb99af06a73211b62e027b4f4cbb41e0ee9",
+      "bytes": 94332
+    },
+    "assistant.css": {
+      "sha256": "8915038be9ab6e4161389e978bbd8fd183536325435466dcc64d2e751a251fdc",
+      "bytes": 13501
+    },
+    "research.js": {
+      "sha256": "6399456f305988433078027a47fe4b20ddee5aeeea3f87ab3c28cadd95bfdf70",
+      "bytes": 95720
+    },
+    "research.css": {
+      "sha256": "2a735a3b99080464d6ba0d1980ec5cd4362d13089e1be5013ff23758914e8648",
+      "bytes": 8623
+    },
+    "projects.js": {
+      "sha256": "3f2cb79027ba5c3abaecaae34e04dd4f6654195f9acf0254a266649ec34b6219",
+      "bytes": 49616
+    },
+    "projects.css": {
+      "sha256": "6f4cb89e58ce9be866ce533c11d778e85b8ead7084fede01ec6db8b39379f1fd",
+      "bytes": 8078
+    },
+    "serve.py": {
+      "sha256": "05129fb2a0509e84578df3a086ad0332d249f89262bb4e977b295b2b99e67e56",
+      "bytes": 10442
+    },
+    "service-client.js": {
+      "sha256": "201a607659ca1a7b2337e4b59871c3bfec4f6292240123fcff25aa78e61ffa7a",
+      "bytes": 5817
+    },
+    "service-config.js": {
+      "sha256": "8621aab6b8f2799613c50ae155084a7668205606c977e84f590a6de42e44015e",
+      "bytes": 263
+    },
+    "build_protected.py": {
+      "sha256": "783456b3f8064a43c17d27dd2e3dd146cded3ae82e42cdc61b77ffe773815534",
+      "bytes": 4545
+    },
+    "build_research_data.py": {
+      "sha256": "290cbc404060abdd2dfe2b0b84fee41ab1f05168c31721c5d30aac560d299ae1",
+      "bytes": 35130
+    },
+    "core.js": {
+      "sha256": "8c4ae9d4b1d0db53525e2691df6167c1f3b6a15f680dd27e5d7e88a7af5da9eb",
+      "bytes": 3305
+    },
+    "query.js": {
+      "sha256": "48c0567f1b3250d1d629933d81645fffb573b6fa254c9594ee2c6f54dd41c7d3",
+      "bytes": 20352
+    },
+    "explorer.js": {
+      "sha256": "2f351f64fba02ae444e8ec88b40a8bda68d7518fa06e400df109444508d0a080",
+      "bytes": 45681
+    },
+    "tools.js": {
+      "sha256": "db9552977c813c40e360c88e06ffe335bfc273a27f2b43413ca3e4e31100cce4",
+      "bytes": 20117
+    },
+    "styles.css": {
+      "sha256": "4f6c7068ab27c1fb4ef507a82d9b74399965e395c6ca4ea2ff29aed136ff15d8",
+      "bytes": 50809
+    },
+    "tests/security_research.py": {
+      "sha256": "42452b5ca15f03a9c780c9c9ef056886c12b366d2216b6d7df5c67344e190e82",
+      "bytes": 18032
+    },
+    "data/meta.js": {
+      "sha256": "f60f741e00af35aaa21d725ca1dd2890277ec774d1fe0fb36376a963b932c9de",
+      "bytes": 15443
+    },
+    "data/research.js": {
+      "sha256": "78efd219508d19677fa539dc22cb3f42c9a8f6f31b04638310dcd191200daf01",
+      "bytes": 5698927
+    },
+    "service/__init__.py": {
+      "sha256": "c428819bcb10bdf2fd0e8685dd00f8fa51709a0890b93661cd6e45b512ea82ca",
+      "bytes": 97
+    },
+    "service/app.py": {
+      "sha256": "3cd7ed803eb1b6554869136f9ce35739564e5b831c5bf983944b6eb03a82c1ca",
+      "bytes": 14728
+    },
+    "service/auth.py": {
+      "sha256": "bb9b258ec2806bd67a95458819f5ed926517ebaf0c1ed030a1157098d57ae3a2",
+      "bytes": 3878
+    },
+    "service/chat.py": {
+      "sha256": "412f5c6c2a77a56d12e50de7a82a9a213901a28df951a41655be35ccf02f7a91",
+      "bytes": 14975
+    },
+    "service/config.py": {
+      "sha256": "2287232d0b89ff0cacc6cebc3aa95d2799018bf949c232a0b32887764eb31e1b",
+      "bytes": 2716
+    },
+    "service/ingest.py": {
+      "sha256": "245035561f367366679af3a32a9c55da6bd2e7fee35b4b19517047b55435ddcf",
+      "bytes": 12878
+    },
+    "service/limits.py": {
+      "sha256": "7abce0d6e226a2e2727a8f092028c52077784674612248af4c98bc91073a64af",
+      "bytes": 1059
+    },
+    "service/llm.py": {
+      "sha256": "b1fe6e880e44433b10a2798768e6d4f097fbd654d998d10baf9315a0639f0874",
+      "bytes": 7298
+    },
+    "service/planner.py": {
+      "sha256": "df6c22b5bf8cd96af26e1e9d9fdf8d88b23716c658cc9fda061ad025dfabff51",
+      "bytes": 7431
+    },
+    "service/retrieval.py": {
+      "sha256": "f83e76dd8c381f05b5edbf4a8256e5c934c49ffee9acd055aa4aa883fd92b901",
+      "bytes": 25883
+    },
+    "service/text.py": {
+      "sha256": "0cde4d0275975c8ed981e21dc006082ebab7cbabae5c289526e9aca5805da9d2",
+      "bytes": 1878
+    },
+    "service/verify_live.py": {
+      "sha256": "2b305eb1c890cd905a124c564c1023ec13ef437a413d0dfeb756638e42b2738d",
+      "bytes": 3708
+    }
+  },
+  "regression_evidence": {
+    "test_file": "tests/security_research.py",
+    "test_sha256": "42452b5ca15f03a9c780c9c9ef056886c12b366d2216b6d7df5c67344e190e82",
+    "test_file_unchanged_for_this_report": true,
+    "full_run": {
+      "provenance": "Observed successful full run earlier in this same review session; not repeated in full for this report",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -B tests/security_research.py -v",
+      "exit_code": 0,
+      "tests_run": 18,
+      "passed": 18,
+      "failures": 0,
+      "errors": 0,
+      "duration_seconds": 3.707,
+      "result_excerpt": "Ran 18 tests in 3.707s\n\nOK",
+      "cases": [
+        {
+          "id": "AnswerEvidenceSecurity.test_a_literal_C1_extract_remains_usable",
+          "status": "passed"
+        },
+        {
+          "id": "AnswerEvidenceSecurity.test_a_real_C1_quote_does_not_validate_an_unrelated_claim",
+          "status": "passed"
+        },
+        {
+          "id": "AnswerEvidenceSecurity.test_third_turn_retains_institution_inherited_by_second_turn",
+          "status": "passed"
+        },
+        {
+          "id": "BrowserClientSecurity.test_clear_cannot_restore_credentials_from_pending_response_body",
+          "status": "passed"
+        },
+        {
+          "id": "BrowserClientSecurity.test_login_timeout_remains_active_until_response_body_is_parsed",
+          "status": "passed"
+        },
+        {
+          "id": "FrontendHistorySecurity.test_history_stays_within_backend_message_and_character_limits",
+          "status": "passed"
+        },
+        {
+          "id": "FrontendHistorySecurity.test_retrieval_only_turn_retains_the_users_institution_and_topic",
+          "status": "passed"
+        },
+        {
+          "id": "LoginAvailabilitySecurity.test_bad_passwords_from_shared_proxy_peer_do_not_block_correct_login",
+          "status": "passed"
+        },
+        {
+          "id": "ProxyOriginSecurity.test_cross_site_metadata_cannot_infer_allowed_origin",
+          "status": "passed"
+        },
+        {
+          "id": "ProxyOriginSecurity.test_duplicate_origins_never_reach_backend",
+          "status": "passed"
+        },
+        {
+          "id": "ProxyOriginSecurity.test_exact_same_origin_get_can_infer_origin",
+          "status": "passed"
+        },
+        {
+          "id": "ProxyOriginSecurity.test_untrusted_referer_cannot_infer_allowed_origin",
+          "status": "passed"
+        },
+        {
+          "id": "ResearchMergePreservation.test_merging_a_backup_never_drops_existing_groups_over_import_limit",
+          "status": "passed"
+        },
+        {
+          "id": "ResearchMergePreservation.test_merging_a_backup_never_drops_existing_members_over_import_limit",
+          "status": "passed"
+        },
+        {
+          "id": "WorkspaceImportSecurity.test_invalid_project_cannot_partially_import_favorites",
+          "status": "passed"
+        },
+        {
+          "id": "WorkspaceImportSecurity.test_research_supplement_is_restored",
+          "status": "passed"
+        },
+        {
+          "id": "WorkspaceImportSecurity.test_storage_failure_is_not_reported_as_successful_restore",
+          "status": "passed"
+        },
+        {
+          "id": "WorkspaceImportSecurity.test_switching_routes_during_backup_read_preserves_active_view_edits",
+          "status": "passed"
+        }
+      ]
+    },
+    "targeted_final_source_run": {
+      "reason": "Research merge and backend defensive updates after the full run: retested previously reported affected concerns",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -B tests/security_research.py ResearchMergePreservation AnswerEvidenceSecurity LoginAvailabilitySecurity -v",
+      "exit_code": 0,
+      "passed": 6,
+      "failures": 0,
+      "errors": 0,
+      "duration_seconds": 0.857,
+      "cases": [
+        "AnswerEvidenceSecurity.test_a_literal_C1_extract_remains_usable",
+        "AnswerEvidenceSecurity.test_a_real_C1_quote_does_not_validate_an_unrelated_claim",
+        "AnswerEvidenceSecurity.test_third_turn_retains_institution_inherited_by_second_turn",
+        "LoginAvailabilitySecurity.test_bad_passwords_from_shared_proxy_peer_do_not_block_correct_login",
+        "ResearchMergePreservation.test_merging_a_backup_never_drops_existing_groups_over_import_limit",
+        "ResearchMergePreservation.test_merging_a_backup_never_drops_existing_members_over_import_limit"
+      ]
+    },
+    "assistant_post_build_source_run": {
+      "reason": "Status UI refactor changed assistant.js after requested build; history security behavior was retested",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -B tests/security_research.py FrontendHistorySecurity -v",
+      "exit_code": 0,
+      "passed": 2,
+      "failures": 0,
+      "errors": 0,
+      "duration_seconds": 0.201,
+      "cases": [
+        "FrontendHistorySecurity.test_history_stays_within_backend_message_and_character_limits",
+        "FrontendHistorySecurity.test_retrieval_only_turn_retains_the_users_institution_and_topic"
+      ]
+    },
+    "method": "Node VMs execute actual client/import/history functions located in source, with deterministic fixture inputs and storage failures; HTTP/proxy/login fixtures run on random loopback ports. The 18-test suite makes no real model calls.",
+    "socket_behavior": {
+      "header_read_timeout_seconds": 12.0,
+      "configured_public_slots": 48,
+      "fixture_reduced_slots": 1,
+      "excess_connection_closed": true,
+      "production_load_test_performed": false
+    }
+  },
+  "real_model_grounding": {
+    "provenance": "one authorized independent real model request observed earlier in this review session; not repeated for report creation",
+    "endpoint": "http://127.0.0.1:8791/api/chat",
+    "question": "FBI 网络安全",
+    "filters": {
+      "institution": [
+        1000110
+      ],
+      "angle": [
+        "news"
+      ]
+    },
+    "http_status": 200,
+    "elapsed_seconds": 27.19,
+    "state": "answered",
+    "answer_format": "verbatim_extracts",
+    "model": {
+      "id": "auto/deepseek-v4.1-flash",
+      "used": true,
+      "attempted": true
+    },
+    "usage": {
+      "prompt_tokens": 4489,
+      "completion_tokens": 2994,
+      "total_tokens": 7483
+    },
+    "source_version": "f064c896c123cbf4",
+    "research_version_at_preflight": "d01dd7b08af78916c9ff",
+    "final_rebuilt_research_version": "a8acd9d0b712fbe06a65",
+    "strategy": "fts5_and",
+    "scoped_records": 1446,
+    "matched_records": 140,
+    "grounding_pass": true,
+    "citations": [
+      {
+        "citation_id": "C1",
+        "record_id": "news-169",
+        "angle": "news",
+        "source_field": "content",
+        "quote_characters": 82
+      },
+      {
+        "citation_id": "C6",
+        "record_id": "news-782",
+        "angle": "news",
+        "source_field": "content_cn",
+        "quote_characters": 72
+      },
+      {
+        "citation_id": "C8",
+        "record_id": "news-2576",
+        "angle": "news",
+        "source_field": "content_cn",
+        "quote_characters": 99
+      }
+    ],
+    "all_snippets_in_complete_source_fields": true,
+    "all_quotes_in_snippets": true,
+    "all_answer_extracts_equal_cited_quotes": true,
+    "all_institution_and_source_url_associations_match": true,
+    "explicit_verbatim_factcheck_and_sample_limits": true,
+    "full_answer_or_credentials_saved": false,
+    "scope": "Exact sample extracts, not free-form summary, inference, source truth certification or a full-corpus conclusion."
+  },
+  "final_version_consistency": {
+    "checked_at_utc": "2026-11-08T14:52:41+00:00",
+    "source_version": "f064c896c123cbf4",
+    "research_source_version": "f064c896c123cbf4",
+    "research_version": "a8acd9d0b712fbe06a65",
+    "database_source_version": "f064c896c123cbf4",
+    "database_research_version": "a8acd9d0b712fbe06a65",
+    "real_total": 6989,
+    "previous_d01_to_a8_version_mismatch_resolved": true,
+    "public_api_status_verified": true,
+    "all_source_and_research_versions_consistent": true,
+    "apis": [
+      {
+        "endpoint": "http://127.0.0.1:8791/api/status",
+        "http_status": 200,
+        "state": "ready",
+        "database": "ready",
+        "source_version": "f064c896c123cbf4",
+        "research_version": "a8acd9d0b712fbe06a65",
+        "total": 6989,
+        "source_consistent": true,
+        "research_consistent": true,
+        "cors_origin": "https://co-minder.github.io",
+        "cache_control": "no-store",
+        "model_id": "auto/deepseek-v4.1-flash",
+        "model_state": "ready",
+        "health_scope": "relay_health"
+      },
+      {
+        "endpoint": "http://127.0.0.1:8788/api/status",
+        "http_status": 200,
+        "state": "ready",
+        "database": "ready",
+        "source_version": "f064c896c123cbf4",
+        "research_version": "a8acd9d0b712fbe06a65",
+        "total": 6989,
+        "source_consistent": true,
+        "research_consistent": true,
+        "cors_origin": "https://co-minder.github.io",
+        "cache_control": "no-store",
+        "model_id": "auto/deepseek-v4.1-flash",
+        "model_state": "ready",
+        "health_scope": "relay_health"
+      },
+      {
+        "endpoint": "https://bringing-themes-mae-dating.trycloudflare.com/api/status",
+        "http_status": 200,
+        "state": "ready",
+        "database": "ready",
+        "source_version": "f064c896c123cbf4",
+        "research_version": "a8acd9d0b712fbe06a65",
+        "total": 6989,
+        "source_consistent": true,
+        "research_consistent": true,
+        "cors_origin": "https://co-minder.github.io",
+        "cache_control": "no-store",
+        "model_id": "auto/deepseek-v4.1-flash",
+        "model_state": "ready",
+        "health_scope": "relay_health"
+      }
+    ],
+    "new_model_calls_during_status_checks": 0
+  },
+  "previously_reported_findings": [
+    {
+      "id": "S01",
+      "area": "serve.py",
+      "finding": "Unbounded public connections/header reads",
+      "fix": "12-second header-read timeout and 48 connection slots",
+      "evidence": "isolated socket behavior, timeout 12.0; excess connection closed"
+    },
+    {
+      "id": "S02",
+      "area": "serve.py",
+      "finding": "Duplicate security-header collapse and same-origin inference risk",
+      "fix": "Reject duplicates; infer only GET with absent Origin, exact allowed Referer/Host and same-origin fetch metadata",
+      "evidence": "ProxyOriginSecurity"
+    },
+    {
+      "id": "S03",
+      "area": "service-client.js",
+      "finding": "Login body timeout gap and credential restoration after clear",
+      "fix": "Timer covers body parse; auth epoch checked before credential commit",
+      "evidence": "BrowserClientSecurity"
+    },
+    {
+      "id": "S04",
+      "area": "app.js",
+      "finding": "Non-atomic validation, false storage-success notice and stale workspace after navigation during import",
+      "fix": "Draft validation, persistence warning, captured route/abort checks after read and before commit",
+      "evidence": "WorkspaceImportSecurity"
+    },
+    {
+      "id": "S05",
+      "area": "research.js",
+      "finding": "Silent truncation of existing groups/members on backup merge",
+      "fix": "Validate current workspace before normalization; reject atomically and enforce creation/addition caps",
+      "evidence": "ResearchMergePreservation"
+    },
+    {
+      "id": "S06",
+      "area": "assistant.js",
+      "finding": "Fallback dropped original user question from follow-up history",
+      "fix": "Preserve valid user turns and trim whole turns within 8 messages / 12000 characters",
+      "evidence": "FrontendHistorySecurity"
+    },
+    {
+      "id": "S07",
+      "area": "service/chat.py",
+      "finding": "Unrelated invented claim accepted with a real C1 quote",
+      "fix": "Exact extract text equals quote and occurs in cited snippet; explicit sample/extract/factual limits",
+      "evidence": "AnswerEvidenceSecurity positive/negative cases and one real grounding"
+    },
+    {
+      "id": "S08",
+      "area": "service/chat.py",
+      "finding": "Third turn lost inherited institution scope",
+      "fix": "Reconstruct structured context from bounded user turns",
+      "evidence": "AnswerEvidenceSecurity"
+    },
+    {
+      "id": "S09",
+      "area": "service/app.py + service/auth.py",
+      "finding": "Proxy peer failed-logins blocked subsequent correct password",
+      "fix": "Verify correct passwords independently from invalid-attempt throttles; bounded validation concurrency",
+      "evidence": "LoginAvailabilitySecurity real fixture HTTP: wrong attempts 401/429 followed by correct 200"
+    }
+  ],
+  "remaining_previously_reported_high_or_medium_security_findings": [],
+  "release_follow_up": [
+    {
+      "id": "BUILD-DELTA",
+      "severity": "release_integration",
+      "file": "assistant.js",
+      "published_sha256": "7b12f391b0d6189fc3ceb29cc73afee9104f3fa296e049015595d83d5c0a7960",
+      "current_sha256": "158799d7671514a9e128a4bf52e01fb99af06a73211b62e027b4f4cbb41e0ee9",
+      "detail": "assistant.js status-display refactor occurred after c9. The published c9 assistant includes all originally verified security fixes. Rebuild if the newer status UI is intended for release; report does not claim it is already in c9."
+    }
+  ],
+  "limitations": [
+    "answer_format=verbatim_extracts means model-selected source samples; it does not provide free-form summaries or validated inference. Exact quoting does not establish source truth, relevance of every excerpt, causation, representativeness or full-corpus conclusions.",
+    "Only one real model grounding request was made. Its three excerpts were compared against complete delivered fields, stable IDs, source URLs and institution associations. This is not an exhaustive hallucination evaluation.",
+    "The one real request ran before research metadata rebuilt from d01dd7b08af78916c9ff to a8acd9d0b712fbe06a65. Source data version f064c896c123cbf4 is unchanged; final version/status checks were performed separately without another real model call.",
+    "Authenticated final public HTTPS status and entry/manifest were checked. The real model grounding request used loopback 8791, not a second end-to-end public HTTPS model request.",
+    "The JS fixtures extract helper locations from source and execute their behavior; these checks are not complete browser acceptance or XSS certification.",
+    "No broad API fuzzing, production saturation, exhaustive prompt-injection evaluation or cost forecast is claimed. Relay health alone does not guarantee next upstream-model success.",
+    "GitHub commit, GitHub Pages deployment, final rebuild and final browser acceptance remain the main agent responsibilities, not completion claims in this report."
+  ],
+  "execution_and_changes": {
+    "agent_local_project_access_via_SSH": true,
+    "functional_files_changed_by_reviewer": [],
+    "owned_test_file": "tests/security_research.py",
+    "new_report": "reports/research-security.json",
+    "report_creation_made_no_real_model_calls": true
+  },
+  "mount_check": {
+    "state": "READY",
+    "source": "cos{kqkoO}:ai-lab-archive-1-1410628711/work-disk-1",
+    "fstype": "fuse.rclone",
+    "directory_readable": true
+  },
+  "credential_handling": {
+    "password_or_token_printed": false,
+    "password_or_token_recorded_in_report": false,
+    "used_only_in_memory": true
+  },
+  "review_revisions": [
+    {
+      "revision_id": "natural-intent-independent-review-1",
+      "recorded_at_utc": "2026-11-08T15:08:20+00:00",
+      "previous_report_sha256": "5921290b69f2dbcec8e0bdf7f48bc977872b6a389bbf68fb75a9c5eb9618bd02",
+      "previous_fields_retained": true,
+      "result": "changes_requested_due_to_independent_negative_fixtures",
+      "reviewed_build": {
+        "id": "1db73446ae49c0cfd4b2",
+        "manifest": "docs/manifest-1db73446ae49c0cfd4b2.json",
+        "manifest_sha256": "a1317ff3d9192c5b39cc5f22b7c3551d7cc6bf912e20b7a9f1156c6c1d2f83bc",
+        "reviewed_decrypted_assets": [
+          {
+            "source": "app.js",
+            "published_plaintext_sha256": "32020367e78eaa53f81f8c9c5515cde7d44194e21df25bd2657b38799a3294b0",
+            "source_sha256": "32020367e78eaa53f81f8c9c5515cde7d44194e21df25bd2657b38799a3294b0",
+            "matches_source_at_check": true
+          },
+          {
+            "source": "assistant.js",
+            "published_plaintext_sha256": "158799d7671514a9e128a4bf52e01fb99af06a73211b62e027b4f4cbb41e0ee9",
+            "source_sha256": "158799d7671514a9e128a4bf52e01fb99af06a73211b62e027b4f4cbb41e0ee9",
+            "matches_source_at_check": true
+          },
+          {
+            "source": "explorer.js",
+            "published_plaintext_sha256": "42ff655d3572d936cc2298eb16412fbac8d5cdadd0dd570d325c47f1df006432",
+            "source_sha256": "42ff655d3572d936cc2298eb16412fbac8d5cdadd0dd570d325c47f1df006432",
+            "matches_source_at_check": true
+          },
+          {
+            "source": "projects.js",
+            "published_plaintext_sha256": "8dc4c5fddc416b6153a777bd709707c4163347d5200c6d7eff529950ea0d0110",
+            "source_sha256": "8dc4c5fddc416b6153a777bd709707c4163347d5200c6d7eff529950ea0d0110",
+            "matches_source_at_check": true
+          },
+          {
+            "source": "research.js",
+            "published_plaintext_sha256": "6399456f305988433078027a47fe4b20ddee5aeeea3f87ab3c28cadd95bfdf70",
+            "source_sha256": "6399456f305988433078027a47fe4b20ddee5aeeea3f87ab3c28cadd95bfdf70",
+            "matches_source_at_check": true
+          },
+          {
+            "source": "service-client.js",
+            "published_plaintext_sha256": "201a607659ca1a7b2337e4b59871c3bfec4f6292240123fcff25aa78e61ffa7a",
+            "source_sha256": "201a607659ca1a7b2337e4b59871c3bfec4f6292240123fcff25aa78e61ffa7a",
+            "matches_source_at_check": true
+          },
+          {
+            "source": "service-config.js",
+            "published_plaintext_sha256": "8621aab6b8f2799613c50ae155084a7668205606c977e84f590a6de42e44015e",
+            "source_sha256": "8621aab6b8f2799613c50ae155084a7668205606c977e84f590a6de42e44015e",
+            "matches_source_at_check": true
+          },
+          {
+            "source": "data/meta.js",
+            "published_plaintext_sha256": "f60f741e00af35aaa21d725ca1dd2890277ec774d1fe0fb36376a963b932c9de",
+            "source_sha256": "f60f741e00af35aaa21d725ca1dd2890277ec774d1fe0fb36376a963b932c9de",
+            "matches_source_at_check": true
+          },
+          {
+            "source": "data/research.js",
+            "published_plaintext_sha256": "78efd219508d19677fa539dc22cb3f42c9a8f6f31b04638310dcd191200daf01",
+            "source_sha256": "78efd219508d19677fa539dc22cb3f42c9a8f6f31b04638310dcd191200daf01",
+            "matches_source_at_check": true
+          }
+        ],
+        "all_9_assets_matched_source_at_decryption_check": true,
+        "public_entry_manifest": "manifest-1db73446ae49c0cfd4b2.json",
+        "public_entry_http_status": 200,
+        "prior_c9_assistant_delta_resolved": true
+      },
+      "source_files_at_capture": {
+        "index.html": {
+          "sha256": "8ae9411494e4b9189d364c96ab66e5594370b1c6fb2b6320e9750c064bddf2a2",
+          "bytes": 7675
+        },
+        "access.js": {
+          "sha256": "8f5dbea85e1710676889153dd0b77ebca4cf172767686a84abef016f286de428",
+          "bytes": 6672
+        },
+        "access.html": {
+          "sha256": "76723823160179c627b7a80754b1aa94e6cbc59f0806427020776819fe884597",
+          "bytes": 2325
+        },
+        "access.css": {
+          "sha256": "a979784e9684dba572029684b7d6a29bd6c8eac55fa4f3a60c314fadd0e91be9",
+          "bytes": 3775
+        },
+        "app.js": {
+          "sha256": "32020367e78eaa53f81f8c9c5515cde7d44194e21df25bd2657b38799a3294b0",
+          "bytes": 93557
+        },
+        "assistant.js": {
+          "sha256": "158799d7671514a9e128a4bf52e01fb99af06a73211b62e027b4f4cbb41e0ee9",
+          "bytes": 94332
+        },
+        "assistant.css": {
+          "sha256": "8915038be9ab6e4161389e978bbd8fd183536325435466dcc64d2e751a251fdc",
+          "bytes": 13501
+        },
+        "research.js": {
+          "sha256": "6399456f305988433078027a47fe4b20ddee5aeeea3f87ab3c28cadd95bfdf70",
+          "bytes": 95720
+        },
+        "research.css": {
+          "sha256": "2a735a3b99080464d6ba0d1980ec5cd4362d13089e1be5013ff23758914e8648",
+          "bytes": 8623
+        },
+        "projects.js": {
+          "sha256": "8dc4c5fddc416b6153a777bd709707c4163347d5200c6d7eff529950ea0d0110",
+          "bytes": 51959
+        },
+        "projects.css": {
+          "sha256": "6f4cb89e58ce9be866ce533c11d778e85b8ead7084fede01ec6db8b39379f1fd",
+          "bytes": 8078
+        },
+        "serve.py": {
+          "sha256": "05129fb2a0509e84578df3a086ad0332d249f89262bb4e977b295b2b99e67e56",
+          "bytes": 10442
+        },
+        "service-client.js": {
+          "sha256": "201a607659ca1a7b2337e4b59871c3bfec4f6292240123fcff25aa78e61ffa7a",
+          "bytes": 5817
+        },
+        "service-config.js": {
+          "sha256": "8621aab6b8f2799613c50ae155084a7668205606c977e84f590a6de42e44015e",
+          "bytes": 263
+        },
+        "build_protected.py": {
+          "sha256": "783456b3f8064a43c17d27dd2e3dd146cded3ae82e42cdc61b77ffe773815534",
+          "bytes": 4545
+        },
+        "build_research_data.py": {
+          "sha256": "290cbc404060abdd2dfe2b0b84fee41ab1f05168c31721c5d30aac560d299ae1",
+          "bytes": 35130
+        },
+        "core.js": {
+          "sha256": "8c4ae9d4b1d0db53525e2691df6167c1f3b6a15f680dd27e5d7e88a7af5da9eb",
+          "bytes": 3305
+        },
+        "query.js": {
+          "sha256": "48c0567f1b3250d1d629933d81645fffb573b6fa254c9594ee2c6f54dd41c7d3",
+          "bytes": 20352
+        },
+        "explorer.js": {
+          "sha256": "42ff655d3572d936cc2298eb16412fbac8d5cdadd0dd570d325c47f1df006432",
+          "bytes": 45769
+        },
+        "tools.js": {
+          "sha256": "db9552977c813c40e360c88e06ffe335bfc273a27f2b43413ca3e4e31100cce4",
+          "bytes": 20117
+        },
+        "styles.css": {
+          "sha256": "4f6c7068ab27c1fb4ef507a82d9b74399965e395c6ca4ea2ff29aed136ff15d8",
+          "bytes": 50809
+        },
+        "tests/security_research.py": {
+          "sha256": "42452b5ca15f03a9c780c9c9ef056886c12b366d2216b6d7df5c67344e190e82",
+          "bytes": 18032
+        },
+        "data/meta.js": {
+          "sha256": "f60f741e00af35aaa21d725ca1dd2890277ec774d1fe0fb36376a963b932c9de",
+          "bytes": 15443
+        },
+        "data/research.js": {
+          "sha256": "78efd219508d19677fa539dc22cb3f42c9a8f6f31b04638310dcd191200daf01",
+          "bytes": 5698927
+        },
+        "service/__init__.py": {
+          "sha256": "c428819bcb10bdf2fd0e8685dd00f8fa51709a0890b93661cd6e45b512ea82ca",
+          "bytes": 97
+        },
+        "service/app.py": {
+          "sha256": "3cd7ed803eb1b6554869136f9ce35739564e5b831c5bf983944b6eb03a82c1ca",
+          "bytes": 14728
+        },
+        "service/auth.py": {
+          "sha256": "bb9b258ec2806bd67a95458819f5ed926517ebaf0c1ed030a1157098d57ae3a2",
+          "bytes": 3878
+        },
+        "service/chat.py": {
+          "sha256": "22e303ba74e0134a51af3dac9a8598aaeaddc89fc4df97d7425994b3a455fb7b",
+          "bytes": 17188
+        },
+        "service/config.py": {
+          "sha256": "2287232d0b89ff0cacc6cebc3aa95d2799018bf949c232a0b32887764eb31e1b",
+          "bytes": 2716
+        },
+        "service/ingest.py": {
+          "sha256": "245035561f367366679af3a32a9c55da6bd2e7fee35b4b19517047b55435ddcf",
+          "bytes": 12878
+        },
+        "service/limits.py": {
+          "sha256": "7abce0d6e226a2e2727a8f092028c52077784674612248af4c98bc91073a64af",
+          "bytes": 1059
+        },
+        "service/llm.py": {
+          "sha256": "b1fe6e880e44433b10a2798768e6d4f097fbd654d998d10baf9315a0639f0874",
+          "bytes": 7298
+        },
+        "service/planner.py": {
+          "sha256": "cb8b08202d88c627103b90bc9476c7d31152ad3940f5e8c948df4d31290de6d4",
+          "bytes": 8578
+        },
+        "service/retrieval.py": {
+          "sha256": "c11913318dbf8959bfd1427e4f5f9d981e6ce888c56d330114b9e404dd083a65",
+          "bytes": 26482
+        },
+        "service/text.py": {
+          "sha256": "0cde4d0275975c8ed981e21dc006082ebab7cbabae5c289526e9aca5805da9d2",
+          "bytes": 1878
+        },
+        "service/verify_live.py": {
+          "sha256": "2b305eb1c890cd905a124c564c1023ec13ef437a413d0dfeb756638e42b2738d",
+          "bytes": 3708
+        },
+        "tests/test_service.py": {
+          "sha256": "bee9dfbd034334de305b52bfe2282f84934ddad5bcd5932bdcfc232d5e5c645e",
+          "bytes": 38611
+        },
+        "tests/security_intent.py": {
+          "sha256": "9ae127fb60c5845280a658116407d682d9628b73341329908c9b25036d86974c",
+          "bytes": 10701
+        },
+        "service/verify_natural.py": {
+          "sha256": "8ecb786eebbd8248439b9a4a28421f8380ed2370727f851a8d8f08078a1c9bf1",
+          "bytes": 4992
+        },
+        "service/intent.py": {
+          "sha256": "7cc06d7a50f2f915d0ddeffa712ad3ee51da8093d91eb5e8e1d94a5dbcdb1d74",
+          "bytes": 4151
+        }
+      },
+      "service_hash_manifest": {
+        "algorithm": "SHA256 of lexicographically sorted sha256sum lines for service/*.py",
+        "sha256": "70c9b9e52811a9af60a2de1605cebae5bb51f72b3ea699c3c120f10608cb5fc0"
+      },
+      "tested_changed_service_files": {
+        "service/chat.py": "22e303ba74e0134a51af3dac9a8598aaeaddc89fc4df97d7425994b3a455fb7b",
+        "service/planner.py": "cb8b08202d88c627103b90bc9476c7d31152ad3940f5e8c948df4d31290de6d4",
+        "service/retrieval.py": "c11913318dbf8959bfd1427e4f5f9d981e6ce888c56d330114b9e404dd083a65",
+        "service/intent.py": "7cc06d7a50f2f915d0ddeffa712ad3ee51da8093d91eb5e8e1d94a5dbcdb1d74"
+      },
+      "source_drift_since_test": [],
+      "regressions": {
+        "unchanged_security18": {
+          "file": "tests/security_research.py",
+          "sha256": "42452b5ca15f03a9c780c9c9ef056886c12b366d2216b6d7df5c67344e190e82",
+          "command": "PYTHONDONTWRITEBYTECODE=1 python3 -B tests/security_research.py -v",
+          "tests_run": 18,
+          "passed": 18,
+          "failures": 0,
+          "errors": 0,
+          "exit_code": 0,
+          "duration_seconds": 3.066
+        },
+        "existing_targeted_backend_tests": {
+          "file": "tests/test_service.py",
+          "file_not_modified_by_reviewer": true,
+          "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=tests:. python3 -B -m unittest -v test_service.ServiceFixture.test_model_plan_does_not_inject_scope_or_stopwords test_service.ServiceFixture.test_natural_question_retains_subjects_not_answer_instructions test_service.ServiceFixture.test_citation_grammar_does_not_drop_unknowns_or_strict_constraints test_service.ServiceFixture.test_natural_followup_pins_unique_user_source_and_keeps_scope test_service.ServiceFixture.test_same_source_ambiguity_never_uses_assistant_as_evidence test_service.ServiceFixture.test_bilingual_concepts_and_no_silent_relaxation test_service.ServiceFixture.test_chat_expansion_false_disables_history_and_planning test_service.ServiceFixture.test_missing_model_and_missing_results test_service.ServiceFixture.test_malicious_or_ungrounded_answers_are_fallbacks test_service.ServiceFixture.test_third_turn_inherits_scope_and_explicit_override_wins test_service.HTTPService.test_http_original_natural_question_and_same_source_followup test_service.RealSnapshot.test_original_acceptance_natural_question_without_model",
+          "cases": [
+            {
+              "id": "ServiceFixture.test_model_plan_does_not_inject_scope_or_stopwords",
+              "status": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_natural_question_retains_subjects_not_answer_instructions",
+              "status": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_citation_grammar_does_not_drop_unknowns_or_strict_constraints",
+              "status": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_natural_followup_pins_unique_user_source_and_keeps_scope",
+              "status": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_same_source_ambiguity_never_uses_assistant_as_evidence",
+              "status": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_bilingual_concepts_and_no_silent_relaxation",
+              "status": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_chat_expansion_false_disables_history_and_planning",
+              "status": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_missing_model_and_missing_results",
+              "status": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_malicious_or_ungrounded_answers_are_fallbacks",
+              "status": "passed"
+            },
+            {
+              "id": "ServiceFixture.test_third_turn_inherits_scope_and_explicit_override_wins",
+              "status": "passed"
+            },
+            {
+              "id": "HTTPService.test_http_original_natural_question_and_same_source_followup",
+              "status": "passed"
+            },
+            {
+              "id": "RealSnapshot.test_original_acceptance_natural_question_without_model",
+              "status": "passed"
+            }
+          ],
+          "tests_run": 12,
+          "passed": 12,
+          "failures": 0,
+          "errors": 0,
+          "exit_code": 0,
+          "duration_seconds": 2.038
+        },
+        "independent_negative_fixtures": {
+          "file": "tests/security_intent.py",
+          "sha256": "9ae127fb60c5845280a658116407d682d9628b73341329908c9b25036d86974c",
+          "command": "PYTHONDONTWRITEBYTECODE=1 python3 -B tests/security_intent.py -v",
+          "tests_run": 14,
+          "passed_test_methods": 8,
+          "failed_test_methods": 6,
+          "unittest_failure_entries_including_subtests": 7,
+          "errors": 0,
+          "exit_code": 1,
+          "duration_seconds": 0.079,
+          "cases": [
+            {
+              "id": "IntentBoundaryFixtures.test_citation_cleaner_preserves_negative_and_unknown_clause",
+              "status": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_citation_only_request_cannot_select_arbitrary_scope_record",
+              "status": "failed",
+              "failure_entries": 1,
+              "finding": "I02"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_empty_model_groups_do_not_clear_unknown_local_concepts",
+              "status": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_expansion_false_disables_cleanup_history_planner_and_relaxation",
+              "status": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_foreign_institution_sql_or_extra_filters_cannot_change_locked_scope",
+              "status": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_genuine_record_count_does_not_call_model",
+              "status": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_original_chinese_question_keeps_scope_and_all_subject_concepts",
+              "status": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_reference_without_user_source_cannot_select_arbitrary_scope_record",
+              "status": "failed",
+              "failure_entries": 2,
+              "finding": "I02"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_same_source_ambiguity_does_not_accept_assistant_record_id",
+              "status": "failed",
+              "failure_entries": 1,
+              "finding": "I03"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_score_of_this_source_is_not_a_database_record_count",
+              "status": "failed",
+              "failure_entries": 1,
+              "finding": "I03"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_unique_source_scope_remains_fixed_across_planner_generation",
+              "status": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_unknown_additional_subject_is_not_removed_or_relaxed",
+              "status": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_unknown_anchor_generic_replacement_is_rejected_by_planner_validation",
+              "status": "failed",
+              "failure_entries": 1,
+              "finding": "I01"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_unknown_topic_cannot_be_replaced_by_generic_model_alias",
+              "status": "failed",
+              "failure_entries": 1,
+              "finding": "I01"
+            }
+          ],
+          "model": "in-process deterministic fixed outputs only; no provider/relay traffic",
+          "fixture_source": "synthetic test_service.fixture; AI safety documents are unrelated-topic decoys"
+        },
+        "separate_ambiguity_probe": {
+          "followup": "这条资料里双方比分是怎样的？请继续引用同一来源。",
+          "non_count_wording": true,
+          "ambiguous_prior_user_query": "no_results; record_ids=[]; zero model calls",
+          "assistant_only_history": "no_results; record_ids=[]; zero model calls",
+          "note": "This guard passes with 怎样 wording; 多少 wording is separately blocked by I03."
+        }
+      },
+      "open_findings": [
+        {
+          "id": "I01",
+          "severity": "high",
+          "status": "open_on_tested_service_revision",
+          "paths": [
+            {
+              "path": "service/planner.py",
+              "line": 130
+            },
+            {
+              "path": "service/planner.py",
+              "line": 140
+            }
+          ],
+          "problem": "Model-proposed aliases are validated for syntax/scope but not equivalence; an unknown concept can be ORed with an unrelated generic term.",
+          "fixture": {
+            "query": "qazxunknownplanet47399",
+            "locked_scope": {
+              "institution": [
+                1000490
+              ],
+              "angle": [
+                "news"
+              ]
+            },
+            "model_groups": [
+              {
+                "anchor": "qazxunknownplanet47399",
+                "terms": [
+                  "safety"
+                ]
+              }
+            ],
+            "observed_terms": [
+              [
+                "qazxunknownplanet47399",
+                "safety"
+              ]
+            ],
+            "observed_matched_records": 4,
+            "observed_record_ids": [
+              "news-2",
+              "news-3",
+              "news-1",
+              "news-6"
+            ],
+            "model_used": true
+          },
+          "fix": "Constrain added aliases to independently validated equivalence or a trusted alias vocabulary; reject an unverifiable replacement instead of converting an unknown entity/topic into broad OR matches."
+        },
+        {
+          "id": "I02",
+          "severity": "medium",
+          "status": "open_on_tested_service_revision",
+          "paths": [
+            {
+              "path": "service/chat.py",
+              "line": 147
+            },
+            {
+              "path": "service/chat.py",
+              "line": 166
+            },
+            {
+              "path": "service/retrieval.py",
+              "line": 370
+            }
+          ],
+          "problem": "A content-free reference/citation request with no user history becomes structured-scope browsing and supplies an arbitrary first record to answer generation.",
+          "fixture": {
+            "messages": [
+              "请给出原文引用。",
+              "请概括这条资料，并给出原文引用。",
+              "这条资料讲了什么？"
+            ],
+            "locked_scope": {
+              "institution": [
+                1000490
+              ],
+              "angle": [
+                "news"
+              ]
+            },
+            "terms": [],
+            "observed_state": "answered",
+            "observed_citation_record_id": "news-4",
+            "generation_calls_per_message": 1
+          },
+          "fix": "For non-count chat, reject or clarify a request with no substantive concepts and no uniquely established user source before selecting evidence or calling generation; do not use a scope first record as a presumed referent."
+        },
+        {
+          "id": "I03",
+          "severity": "medium",
+          "status": "open_on_tested_service_revision",
+          "paths": [
+            {
+              "path": "service/planner.py",
+              "line": 19
+            },
+            {
+              "path": "service/planner.py",
+              "line": 20
+            },
+            {
+              "path": "service/chat.py",
+              "line": 155
+            }
+          ],
+          "problem": "A source score question containing the noun 资料 is classified as a database-record count; the count path also precedes empty/ambiguous source handling.",
+          "fixture": {
+            "message": "这条资料里双方比分是多少？请继续引用同一来源。",
+            "prior_user_question": "请概括 Arkansas State 对阵 South Alabama 的比赛结果，并给出原文引用。",
+            "locked_scope": {
+              "institution": [
+                1002550
+              ],
+              "angle": [
+                "social"
+              ]
+            },
+            "is_count_query": true,
+            "observed_state": "database_answer",
+            "observed_record_count": 1,
+            "observed_paragraph_citations": 0
+          },
+          "fix": "Require explicit database-record quantity intent for the count route; a referential source noun alone must not override a score/measurement attribute. Handle missing/ambiguous source before claiming a database answer."
+        }
+      ],
+      "final_api_status_check": {
+        "public_endpoint": "https://bringing-themes-mae-dating.trycloudflare.com/api/status",
+        "http_status": 200,
+        "cors_origin": "https://co-minder.github.io",
+        "source_version": "f064c896c123cbf4",
+        "research_version": "a8acd9d0b712fbe06a65",
+        "total": 6989,
+        "source_and_research_match_disk": true,
+        "health_scope": "relay_health",
+        "request_did_not_call_real_model": true
+      },
+      "preserved_real_grounding_reference": {
+        "location": "real_model_grounding at report root",
+        "additional_real_model_calls_in_this_revision": 0,
+        "older_single_grounding_remains_prior_revision_evidence_only": true
+      },
+      "limitations": [
+        "Existing 18 and selected 12 green tests do not cover the newly reproduced planner/topic/no-reference/score failures.",
+        "The real natural-language two-turn model acceptance run was performed by the backend/QA agent; this independent revision uses deterministic fixtures and does not claim another real model pass.",
+        "The final build matches source for checked frontend assets; the service negative findings are not resolved merely by the static build update."
+      ],
+      "reviewer_changes": {
+        "functional_files": [],
+        "QA_main_test_files": [],
+        "new_independent_test": "tests/security_intent.py",
+        "report_update": "append revision; retained original fields and prior real grounding evidence"
+      }
+    },
+    {
+      "revision_id": "optional-backup-and-final-intent-independent-review-2",
+      "recorded_at_utc": "2026-11-08T15:18:35+00:00",
+      "previous_report_sha256": "402a846ee268f9cf8173211e88ea0e71c62527d47e066fab432a43941ffa6ea4",
+      "previous_revision_details_preserved": true,
+      "result": "I01_I02_I03_original_fixtures_pass; new_English_reference_I04_open",
+      "source_files_at_capture": {
+        "index.html": {
+          "sha256": "8ae9411494e4b9189d364c96ab66e5594370b1c6fb2b6320e9750c064bddf2a2",
+          "bytes": 7675
+        },
+        "access.js": {
+          "sha256": "8f5dbea85e1710676889153dd0b77ebca4cf172767686a84abef016f286de428",
+          "bytes": 6672
+        },
+        "access.html": {
+          "sha256": "76723823160179c627b7a80754b1aa94e6cbc59f0806427020776819fe884597",
+          "bytes": 2325
+        },
+        "access.css": {
+          "sha256": "a979784e9684dba572029684b7d6a29bd6c8eac55fa4f3a60c314fadd0e91be9",
+          "bytes": 3775
+        },
+        "app.js": {
+          "sha256": "32020367e78eaa53f81f8c9c5515cde7d44194e21df25bd2657b38799a3294b0",
+          "bytes": 93557
+        },
+        "assistant.js": {
+          "sha256": "158799d7671514a9e128a4bf52e01fb99af06a73211b62e027b4f4cbb41e0ee9",
+          "bytes": 94332
+        },
+        "assistant.css": {
+          "sha256": "8915038be9ab6e4161389e978bbd8fd183536325435466dcc64d2e751a251fdc",
+          "bytes": 13501
+        },
+        "research.js": {
+          "sha256": "8400c9bce246214d7977c3cdeca9e689f8dafd6153b8e7f1d86586648fca14ab",
+          "bytes": 96517
+        },
+        "research.css": {
+          "sha256": "2a735a3b99080464d6ba0d1980ec5cd4362d13089e1be5013ff23758914e8648",
+          "bytes": 8623
+        },
+        "projects.js": {
+          "sha256": "8dc4c5fddc416b6153a777bd709707c4163347d5200c6d7eff529950ea0d0110",
+          "bytes": 51959
+        },
+        "projects.css": {
+          "sha256": "6f4cb89e58ce9be866ce533c11d778e85b8ead7084fede01ec6db8b39379f1fd",
+          "bytes": 8078
+        },
+        "serve.py": {
+          "sha256": "05129fb2a0509e84578df3a086ad0332d249f89262bb4e977b295b2b99e67e56",
+          "bytes": 10442
+        },
+        "service-client.js": {
+          "sha256": "201a607659ca1a7b2337e4b59871c3bfec4f6292240123fcff25aa78e61ffa7a",
+          "bytes": 5817
+        },
+        "service-config.js": {
+          "sha256": "8621aab6b8f2799613c50ae155084a7668205606c977e84f590a6de42e44015e",
+          "bytes": 263
+        },
+        "build_protected.py": {
+          "sha256": "783456b3f8064a43c17d27dd2e3dd146cded3ae82e42cdc61b77ffe773815534",
+          "bytes": 4545
+        },
+        "build_research_data.py": {
+          "sha256": "290cbc404060abdd2dfe2b0b84fee41ab1f05168c31721c5d30aac560d299ae1",
+          "bytes": 35130
+        },
+        "core.js": {
+          "sha256": "8c4ae9d4b1d0db53525e2691df6167c1f3b6a15f680dd27e5d7e88a7af5da9eb",
+          "bytes": 3305
+        },
+        "query.js": {
+          "sha256": "48c0567f1b3250d1d629933d81645fffb573b6fa254c9594ee2c6f54dd41c7d3",
+          "bytes": 20352
+        },
+        "explorer.js": {
+          "sha256": "42ff655d3572d936cc2298eb16412fbac8d5cdadd0dd570d325c47f1df006432",
+          "bytes": 45769
+        },
+        "tools.js": {
+          "sha256": "db9552977c813c40e360c88e06ffe335bfc273a27f2b43413ca3e4e31100cce4",
+          "bytes": 20117
+        },
+        "styles.css": {
+          "sha256": "4f6c7068ab27c1fb4ef507a82d9b74399965e395c6ca4ea2ff29aed136ff15d8",
+          "bytes": 50809
+        },
+        "tests/security_research.py": {
+          "sha256": "42452b5ca15f03a9c780c9c9ef056886c12b366d2216b6d7df5c67344e190e82",
+          "bytes": 18032
+        },
+        "data/meta.js": {
+          "sha256": "f60f741e00af35aaa21d725ca1dd2890277ec774d1fe0fb36376a963b932c9de",
+          "bytes": 15443
+        },
+        "data/research.js": {
+          "sha256": "78efd219508d19677fa539dc22cb3f42c9a8f6f31b04638310dcd191200daf01",
+          "bytes": 5698927
+        },
+        "service/__init__.py": {
+          "sha256": "c428819bcb10bdf2fd0e8685dd00f8fa51709a0890b93661cd6e45b512ea82ca",
+          "bytes": 97
+        },
+        "service/app.py": {
+          "sha256": "3cd7ed803eb1b6554869136f9ce35739564e5b831c5bf983944b6eb03a82c1ca",
+          "bytes": 14728
+        },
+        "service/auth.py": {
+          "sha256": "bb9b258ec2806bd67a95458819f5ed926517ebaf0c1ed030a1157098d57ae3a2",
+          "bytes": 3878
+        },
+        "service/chat.py": {
+          "sha256": "98e632c9317fde014aaea909e007ab5b3f233980bdc96e89b4234ae3477e1bcc",
+          "bytes": 18031
+        },
+        "service/config.py": {
+          "sha256": "2287232d0b89ff0cacc6cebc3aa95d2799018bf949c232a0b32887764eb31e1b",
+          "bytes": 2716
+        },
+        "service/ingest.py": {
+          "sha256": "245035561f367366679af3a32a9c55da6bd2e7fee35b4b19517047b55435ddcf",
+          "bytes": 12878
+        },
+        "service/limits.py": {
+          "sha256": "7abce0d6e226a2e2727a8f092028c52077784674612248af4c98bc91073a64af",
+          "bytes": 1059
+        },
+        "service/llm.py": {
+          "sha256": "b1fe6e880e44433b10a2798768e6d4f097fbd654d998d10baf9315a0639f0874",
+          "bytes": 7298
+        },
+        "service/planner.py": {
+          "sha256": "64aafee9c09bbbef0f8c319ae8f9be263c116f1549f1a56be8237d0c22f46361",
+          "bytes": 10936
+        },
+        "service/retrieval.py": {
+          "sha256": "c11913318dbf8959bfd1427e4f5f9d981e6ce888c56d330114b9e404dd083a65",
+          "bytes": 26482
+        },
+        "service/text.py": {
+          "sha256": "0cde4d0275975c8ed981e21dc006082ebab7cbabae5c289526e9aca5805da9d2",
+          "bytes": 1878
+        },
+        "service/verify_live.py": {
+          "sha256": "2b305eb1c890cd905a124c564c1023ec13ef437a413d0dfeb756638e42b2738d",
+          "bytes": 3708
+        },
+        "tests/security_intent.py": {
+          "sha256": "9ae127fb60c5845280a658116407d682d9628b73341329908c9b25036d86974c",
+          "bytes": 10701
+        },
+        "tests/security_reference.py": {
+          "sha256": "1f94e938008c85f465ffb42ecda23207247a20bddfcbbeb59e2266d5e827bb4b",
+          "bytes": 4315
+        },
+        "tests/test_service.py": {
+          "sha256": "92900b751e4832501602bea51372edf7546f2f224565f5d1091b7ba8c8a44b2a",
+          "bytes": 45182
+        },
+        "tests/research.test.cjs": {
+          "sha256": "07777bc94ed5621647bec167a0b580bb0faa5f52d225bd9d0702c9210480831d",
+          "bytes": 23483
+        },
+        "service/intent.py": {
+          "sha256": "280ec230a2964a2e11f2ec5e32254000b26053ce8c734dca09db308780ae26c5",
+          "bytes": 4434
+        },
+        "service/verify_natural.py": {
+          "sha256": "8ecb786eebbd8248439b9a4a28421f8380ed2370727f851a8d8f08078a1c9bf1",
+          "bytes": 4992
+        }
+      },
+      "tested_service_files": {
+        "service/planner.py": "64aafee9c09bbbef0f8c319ae8f9be263c116f1549f1a56be8237d0c22f46361",
+        "service/chat.py": "98e632c9317fde014aaea909e007ab5b3f233980bdc96e89b4234ae3477e1bcc",
+        "service/intent.py": "280ec230a2964a2e11f2ec5e32254000b26053ce8c734dca09db308780ae26c5",
+        "service/retrieval.py": "c11913318dbf8959bfd1427e4f5f9d981e6ce888c56d330114b9e404dd083a65"
+      },
+      "source_drift_since_tests": [],
+      "build": {
+        "id": "6421c8a18fb064ae7dc9",
+        "manifest": "docs/manifest-6421c8a18fb064ae7dc9.json",
+        "manifest_sha256": "1663b038135bde3e5f1e0b19af261dc05de711df780d232542125ca528bab25f",
+        "entry_sha256": "a7e5060397d9777bbbc5ea0253154cf6893e2929feb79328f3e1cfe944b72791",
+        "asset_check_method": "PBKDF2/AES-GCM decrypt and gzip-decompress in memory; compare plaintext SHA-256 to source and encrypted filename SHA to ciphertext",
+        "reviewed_assets": [
+          {
+            "file": "index.html",
+            "published_plaintext_sha256": "8ae9411494e4b9189d364c96ab66e5594370b1c6fb2b6320e9750c064bddf2a2",
+            "source_sha256": "8ae9411494e4b9189d364c96ab66e5594370b1c6fb2b6320e9750c064bddf2a2",
+            "matches_source_at_check": true,
+            "ciphertext_filename_verified": true
+          },
+          {
+            "file": "app.js",
+            "published_plaintext_sha256": "32020367e78eaa53f81f8c9c5515cde7d44194e21df25bd2657b38799a3294b0",
+            "source_sha256": "32020367e78eaa53f81f8c9c5515cde7d44194e21df25bd2657b38799a3294b0",
+            "matches_source_at_check": true,
+            "ciphertext_filename_verified": true
+          },
+          {
+            "file": "assistant.js",
+            "published_plaintext_sha256": "158799d7671514a9e128a4bf52e01fb99af06a73211b62e027b4f4cbb41e0ee9",
+            "source_sha256": "158799d7671514a9e128a4bf52e01fb99af06a73211b62e027b4f4cbb41e0ee9",
+            "matches_source_at_check": true,
+            "ciphertext_filename_verified": true
+          },
+          {
+            "file": "explorer.js",
+            "published_plaintext_sha256": "42ff655d3572d936cc2298eb16412fbac8d5cdadd0dd570d325c47f1df006432",
+            "source_sha256": "42ff655d3572d936cc2298eb16412fbac8d5cdadd0dd570d325c47f1df006432",
+            "matches_source_at_check": true,
+            "ciphertext_filename_verified": true
+          },
+          {
+            "file": "projects.js",
+            "published_plaintext_sha256": "8dc4c5fddc416b6153a777bd709707c4163347d5200c6d7eff529950ea0d0110",
+            "source_sha256": "8dc4c5fddc416b6153a777bd709707c4163347d5200c6d7eff529950ea0d0110",
+            "matches_source_at_check": true,
+            "ciphertext_filename_verified": true
+          },
+          {
+            "file": "research.js",
+            "published_plaintext_sha256": "8400c9bce246214d7977c3cdeca9e689f8dafd6153b8e7f1d86586648fca14ab",
+            "source_sha256": "8400c9bce246214d7977c3cdeca9e689f8dafd6153b8e7f1d86586648fca14ab",
+            "matches_source_at_check": true,
+            "ciphertext_filename_verified": true
+          },
+          {
+            "file": "service-client.js",
+            "published_plaintext_sha256": "201a607659ca1a7b2337e4b59871c3bfec4f6292240123fcff25aa78e61ffa7a",
+            "source_sha256": "201a607659ca1a7b2337e4b59871c3bfec4f6292240123fcff25aa78e61ffa7a",
+            "matches_source_at_check": true,
+            "ciphertext_filename_verified": true
+          },
+          {
+            "file": "service-config.js",
+            "published_plaintext_sha256": "8621aab6b8f2799613c50ae155084a7668205606c977e84f590a6de42e44015e",
+            "source_sha256": "8621aab6b8f2799613c50ae155084a7668205606c977e84f590a6de42e44015e",
+            "matches_source_at_check": true,
+            "ciphertext_filename_verified": true
+          },
+          {
+            "file": "styles.css",
+            "published_plaintext_sha256": "4f6c7068ab27c1fb4ef507a82d9b74399965e395c6ca4ea2ff29aed136ff15d8",
+            "source_sha256": "4f6c7068ab27c1fb4ef507a82d9b74399965e395c6ca4ea2ff29aed136ff15d8",
+            "matches_source_at_check": true,
+            "ciphertext_filename_verified": true
+          },
+          {
+            "file": "projects.css",
+            "published_plaintext_sha256": "6f4cb89e58ce9be866ce533c11d778e85b8ead7084fede01ec6db8b39379f1fd",
+            "source_sha256": "6f4cb89e58ce9be866ce533c11d778e85b8ead7084fede01ec6db8b39379f1fd",
+            "matches_source_at_check": true,
+            "ciphertext_filename_verified": true
+          },
+          {
+            "file": "research.css",
+            "published_plaintext_sha256": "2a735a3b99080464d6ba0d1980ec5cd4362d13089e1be5013ff23758914e8648",
+            "source_sha256": "2a735a3b99080464d6ba0d1980ec5cd4362d13089e1be5013ff23758914e8648",
+            "matches_source_at_check": true,
+            "ciphertext_filename_verified": true
+          },
+          {
+            "file": "assistant.css",
+            "published_plaintext_sha256": "8915038be9ab6e4161389e978bbd8fd183536325435466dcc64d2e751a251fdc",
+            "source_sha256": "8915038be9ab6e4161389e978bbd8fd183536325435466dcc64d2e751a251fdc",
+            "matches_source_at_check": true,
+            "ciphertext_filename_verified": true
+          },
+          {
+            "file": "data/meta.js",
+            "published_plaintext_sha256": "f60f741e00af35aaa21d725ca1dd2890277ec774d1fe0fb36376a963b932c9de",
+            "source_sha256": "f60f741e00af35aaa21d725ca1dd2890277ec774d1fe0fb36376a963b932c9de",
+            "matches_source_at_check": true,
+            "ciphertext_filename_verified": true
+          },
+          {
+            "file": "data/research.js",
+            "published_plaintext_sha256": "78efd219508d19677fa539dc22cb3f42c9a8f6f31b04638310dcd191200daf01",
+            "source_sha256": "78efd219508d19677fa539dc22cb3f42c9a8f6f31b04638310dcd191200daf01",
+            "matches_source_at_check": true,
+            "ciphertext_filename_verified": true
+          }
+        ],
+        "all_14_assets_match": true,
+        "public_entry_manifest": "manifest-6421c8a18fb064ae7dc9.json",
+        "public_entry_http_status": 200
+      },
+      "regressions": {
+        "original_security18": {
+          "file": "tests/security_research.py",
+          "sha256": "42452b5ca15f03a9c780c9c9ef056886c12b366d2216b6d7df5c67344e190e82",
+          "assertions_unchanged": true,
+          "command": "PYTHONDONTWRITEBYTECODE=1 python3 -B tests/security_research.py -v",
+          "tests_run": 18,
+          "passed": 18,
+          "failures": 0,
+          "errors": 0,
+          "exit_code": 0,
+          "duration_seconds": 3.598,
+          "cases": [
+            "AnswerEvidenceSecurity.test_a_literal_C1_extract_remains_usable",
+            "AnswerEvidenceSecurity.test_a_real_C1_quote_does_not_validate_an_unrelated_claim",
+            "AnswerEvidenceSecurity.test_third_turn_retains_institution_inherited_by_second_turn",
+            "BrowserClientSecurity.test_clear_cannot_restore_credentials_from_pending_response_body",
+            "BrowserClientSecurity.test_login_timeout_remains_active_until_response_body_is_parsed",
+            "FrontendHistorySecurity.test_history_stays_within_backend_message_and_character_limits",
+            "FrontendHistorySecurity.test_retrieval_only_turn_retains_the_users_institution_and_topic",
+            "LoginAvailabilitySecurity.test_bad_passwords_from_shared_proxy_peer_do_not_block_correct_login",
+            "ProxyOriginSecurity.test_cross_site_metadata_cannot_infer_allowed_origin",
+            "ProxyOriginSecurity.test_duplicate_origins_never_reach_backend",
+            "ProxyOriginSecurity.test_exact_same_origin_get_can_infer_origin",
+            "ProxyOriginSecurity.test_untrusted_referer_cannot_infer_allowed_origin",
+            "ResearchMergePreservation.test_merging_a_backup_never_drops_existing_groups_over_import_limit",
+            "ResearchMergePreservation.test_merging_a_backup_never_drops_existing_members_over_import_limit",
+            "WorkspaceImportSecurity.test_invalid_project_cannot_partially_import_favorites",
+            "WorkspaceImportSecurity.test_research_supplement_is_restored",
+            "WorkspaceImportSecurity.test_storage_failure_is_not_reported_as_successful_restore",
+            "WorkspaceImportSecurity.test_switching_routes_during_backup_read_preserves_active_view_edits"
+          ]
+        },
+        "original_intent14": {
+          "file": "tests/security_intent.py",
+          "sha256": "9ae127fb60c5845280a658116407d682d9628b73341329908c9b25036d86974c",
+          "assertions_unchanged": true,
+          "command": "PYTHONDONTWRITEBYTECODE=1 python3 -B tests/security_intent.py -v",
+          "tests_run": 14,
+          "passed": 14,
+          "failures": 0,
+          "errors": 0,
+          "exit_code": 0,
+          "duration_seconds": 0.293,
+          "cases": [
+            "IntentBoundaryFixtures.test_citation_cleaner_preserves_negative_and_unknown_clause",
+            "IntentBoundaryFixtures.test_citation_only_request_cannot_select_arbitrary_scope_record",
+            "IntentBoundaryFixtures.test_empty_model_groups_do_not_clear_unknown_local_concepts",
+            "IntentBoundaryFixtures.test_expansion_false_disables_cleanup_history_planner_and_relaxation",
+            "IntentBoundaryFixtures.test_foreign_institution_sql_or_extra_filters_cannot_change_locked_scope",
+            "IntentBoundaryFixtures.test_genuine_record_count_does_not_call_model",
+            "IntentBoundaryFixtures.test_original_chinese_question_keeps_scope_and_all_subject_concepts",
+            "IntentBoundaryFixtures.test_reference_without_user_source_cannot_select_arbitrary_scope_record",
+            "IntentBoundaryFixtures.test_same_source_ambiguity_does_not_accept_assistant_record_id",
+            "IntentBoundaryFixtures.test_score_of_this_source_is_not_a_database_record_count",
+            "IntentBoundaryFixtures.test_unique_source_scope_remains_fixed_across_planner_generation",
+            "IntentBoundaryFixtures.test_unknown_additional_subject_is_not_removed_or_relaxed",
+            "IntentBoundaryFixtures.test_unknown_anchor_generic_replacement_is_rejected_by_planner_validation",
+            "IntentBoundaryFixtures.test_unknown_topic_cannot_be_replaced_by_generic_model_alias"
+          ]
+        },
+        "new_backend_targeted": {
+          "file": "tests/test_service.py",
+          "file_not_modified_by_reviewer": true,
+          "tests_run": 5,
+          "passed": 5,
+          "failures": 0,
+          "errors": 0,
+          "exit_code": 0,
+          "duration_seconds": 1.358,
+          "cases": [
+            "ServiceFixture.test_unverified_model_alias_cannot_erase_unknown_entity",
+            "ServiceFixture.test_verified_bilingual_model_aliases_are_actually_used",
+            "ServiceFixture.test_content_free_and_unresolved_reference_never_generate",
+            "ServiceFixture.test_source_score_priority_and_record_count_followups",
+            "HTTPService.test_http_content_free_and_unknown_semantic_alias_boundaries"
+          ]
+        },
+        "optional_backup_product_change": {
+          "source": "research.js",
+          "source_sha256": "8400c9bce246214d7977c3cdeca9e689f8dafd6153b8e7f1d86586648fca14ab",
+          "test_file": "tests/research.test.cjs",
+          "test_sha256": "07777bc94ed5621647bec167a0b580bb0faa5f52d225bd9d0702c9210480831d",
+          "command": "node --test --test-name-pattern=\"optional backup fields\" tests/research.test.cjs",
+          "matching_tests_passed": 1,
+          "other_tests_skipped": 23,
+          "failures": 0,
+          "exit_code": 0,
+          "duration_ms": 1424.728732,
+          "scope": "Optional task/group/subscription fields distinguish absent and explicit empty values, preserve whitelisted text, reject invalid objects/types/lengths before mutation; original security18 merge regressions also passed."
+        },
+        "extra_alias_matrix": {
+          "cases": 8,
+          "passed": 8,
+          "failures": 0,
+          "examples": {
+            "AI -> artificial intelligence": true,
+            "unknownidentifier6281 -> safety": false,
+            "safety -> policy": false,
+            "芯片 -> export controls": false,
+            "比分 -> game": false,
+            "North Korea -> DPRK": true
+          }
+        },
+        "english_reference": {
+          "file": "tests/security_reference.py",
+          "sha256": "1f94e938008c85f465ffb42ecda23207247a20bddfcbbeb59e2266d5e827bb4b",
+          "command": "PYTHONDONTWRITEBYTECODE=1 python3 -B tests/security_reference.py -v",
+          "tests_run": 4,
+          "passed_test_methods": 1,
+          "failed_test_methods": 3,
+          "unittest_failure_entries_including_subtests": 7,
+          "errors": 0,
+          "exit_code": 1,
+          "duration_seconds": 0.046,
+          "cases": [
+            {
+              "id": "CuratedAliasFixtures.test_curated_aliases_allow_equivalents_and_reject_generic_substitutions",
+              "status": "passed"
+            },
+            {
+              "id": "EnglishReferenceFixtures.test_ambiguous_english_reference_never_selects_a_scope_first_record",
+              "status": "failed"
+            },
+            {
+              "id": "EnglishReferenceFixtures.test_english_this_and_that_are_source_references",
+              "status": "failed"
+            },
+            {
+              "id": "EnglishReferenceFixtures.test_unique_english_source_is_locked_before_model_calls",
+              "status": "failed"
+            }
+          ]
+        }
+      },
+      "resolutions_of_previous_findings": [
+        {
+          "id": "I01",
+          "status": "resolved_independently_verified",
+          "change": "Curated MODEL_EQUIVALENTS and validated_alias govern added OR terms; unverifiable generic replacement raises ModelUnavailable(unverified_model_alias).",
+          "proof": [
+            "IntentBoundaryFixtures.test_unknown_anchor_generic_replacement_is_rejected_by_planner_validation",
+            "IntentBoundaryFixtures.test_unknown_topic_cannot_be_replaced_by_generic_model_alias",
+            "CuratedAliasFixtures.test_curated_aliases_allow_equivalents_and_reject_generic_substitutions"
+          ],
+          "paths": [
+            {
+              "path": "service/planner.py",
+              "line": 17
+            },
+            {
+              "path": "service/planner.py",
+              "line": 183
+            }
+          ]
+        },
+        {
+          "id": "I02",
+          "status": "resolved_for_original_no_topic_and_Chinese_cases; additional_English_reference_issue_tracked_as_I04",
+          "change": "Non-count requests without substantive concepts or explicit user subject receive empty record scope and missing_topic; source references without unique user evidence return no_results before generation.",
+          "proof": [
+            "IntentBoundaryFixtures.test_citation_only_request_cannot_select_arbitrary_scope_record",
+            "IntentBoundaryFixtures.test_reference_without_user_source_cannot_select_arbitrary_scope_record",
+            "IntentBoundaryFixtures.test_same_source_ambiguity_does_not_accept_assistant_record_id"
+          ],
+          "paths": [
+            {
+              "path": "service/chat.py",
+              "line": 149
+            },
+            {
+              "path": "service/chat.py",
+              "line": 166
+            }
+          ]
+        },
+        {
+          "id": "I03",
+          "status": "resolved_independently_verified",
+          "change": "Score/measurement intent precedes source nouns; count route requires explicit record quantity wording when attributes are present, and unresolved-source return precedes count answer.",
+          "proof": [
+            "IntentBoundaryFixtures.test_score_of_this_source_is_not_a_database_record_count",
+            "IntentBoundaryFixtures.test_genuine_record_count_does_not_call_model"
+          ],
+          "paths": [
+            {
+              "path": "service/planner.py",
+              "line": 47
+            },
+            {
+              "path": "service/chat.py",
+              "line": 168
+            }
+          ]
+        }
+      ],
+      "new_findings": [
+        {
+          "id": "I04",
+          "severity": "medium",
+          "status": "open_on_tested_revision",
+          "path": "service/intent.py",
+          "line": 32,
+          "source_sha256": "280ec230a2964a2e11f2ec5e32254000b26053ce8c734dca09db308780ae26c5",
+          "problem": "English this/that source-reference regular expression contains two literal U+0008 backspace characters, not word-boundary escapes. It does not recognize this record or that document, bypassing conversation_source uniqueness checks.",
+          "evidence": {
+            "control_codepoint": 8,
+            "occurrences": 2,
+            "history": [
+              {
+                "role": "user",
+                "content": "AI safety"
+              },
+              {
+                "role": "assistant",
+                "content": "The source is news-1. Use that document."
+              }
+            ],
+            "scope": {
+              "institution": [
+                1000490
+              ],
+              "angle": [
+                "news"
+              ]
+            },
+            "samples": [
+              {
+                "question": "Please summarize this record.",
+                "source_reference": false,
+                "state": "answered",
+                "source_record_ids": null,
+                "citation_record_id": "news-1",
+                "model_calls": 2
+              },
+              {
+                "question": "Please summarize that document.",
+                "source_reference": false,
+                "state": "answered",
+                "source_record_ids": null,
+                "citation_record_id": "news-4",
+                "model_calls": 2
+              }
+            ],
+            "Chinese_equivalent": "这条资料讲了什么？ => source_reference=true, no_results, record_ids=[], zero model calls"
+          },
+          "fix": "Replace literal backspaces with raw-regex word boundaries; run English detection, ambiguity rejection and unique-source locking regressions without changing the existing fixtures."
+        }
+      ],
+      "snapshot_consistency": {
+        "source_version": "f064c896c123cbf4",
+        "research_version": "a8acd9d0b712fbe06a65",
+        "database_source_version": "f064c896c123cbf4",
+        "database_research_version": "a8acd9d0b712fbe06a65",
+        "real_total": 6989,
+        "public_API_http_status": 200,
+        "public_CORS_origin": "https://co-minder.github.io",
+        "public_endpoint": "https://bringing-themes-mae-dating.trycloudflare.com/api/status",
+        "source_and_research_match_disk": true
+      },
+      "real_model_calls_in_this_revision": 0,
+      "earlier_real_grounding_retained_at_report_root": true,
+      "reviewer_changes": {
+        "functional_files": [],
+        "QA_main_test_files": [],
+        "original_security18_and_intent14_files": [],
+        "new_test": "tests/security_reference.py",
+        "report": "append new revision and update latest outcome only"
+      },
+      "release_assessment": "Original I01-I03 cases are fixed, but medium English reference uniqueness bypass remains; no global no-remaining-findings claim."
+    },
+    {
+      "revision_id": "I04-final-directed-verification-3",
+      "recorded_at_utc": "2026-11-08T15:23:35+00:00",
+      "previous_report_sha256": "e99494d15df5bc006497800a24846779338a238076532e37d26aea11858f079e",
+      "previous_revisions_and_failed_cases_preserved": true,
+      "result": "passed_no_remaining_findings_in_reviewed_scope",
+      "remaining": [],
+      "source_files_at_capture": {
+        "index.html": {
+          "sha256": "8ae9411494e4b9189d364c96ab66e5594370b1c6fb2b6320e9750c064bddf2a2",
+          "bytes": 7675
+        },
+        "access.js": {
+          "sha256": "8f5dbea85e1710676889153dd0b77ebca4cf172767686a84abef016f286de428",
+          "bytes": 6672
+        },
+        "access.html": {
+          "sha256": "76723823160179c627b7a80754b1aa94e6cbc59f0806427020776819fe884597",
+          "bytes": 2325
+        },
+        "access.css": {
+          "sha256": "a979784e9684dba572029684b7d6a29bd6c8eac55fa4f3a60c314fadd0e91be9",
+          "bytes": 3775
+        },
+        "app.js": {
+          "sha256": "32020367e78eaa53f81f8c9c5515cde7d44194e21df25bd2657b38799a3294b0",
+          "bytes": 93557
+        },
+        "assistant.js": {
+          "sha256": "158799d7671514a9e128a4bf52e01fb99af06a73211b62e027b4f4cbb41e0ee9",
+          "bytes": 94332
+        },
+        "assistant.css": {
+          "sha256": "8915038be9ab6e4161389e978bbd8fd183536325435466dcc64d2e751a251fdc",
+          "bytes": 13501
+        },
+        "research.js": {
+          "sha256": "8400c9bce246214d7977c3cdeca9e689f8dafd6153b8e7f1d86586648fca14ab",
+          "bytes": 96517
+        },
+        "research.css": {
+          "sha256": "2a735a3b99080464d6ba0d1980ec5cd4362d13089e1be5013ff23758914e8648",
+          "bytes": 8623
+        },
+        "projects.js": {
+          "sha256": "8dc4c5fddc416b6153a777bd709707c4163347d5200c6d7eff529950ea0d0110",
+          "bytes": 51959
+        },
+        "projects.css": {
+          "sha256": "6f4cb89e58ce9be866ce533c11d778e85b8ead7084fede01ec6db8b39379f1fd",
+          "bytes": 8078
+        },
+        "serve.py": {
+          "sha256": "05129fb2a0509e84578df3a086ad0332d249f89262bb4e977b295b2b99e67e56",
+          "bytes": 10442
+        },
+        "service-client.js": {
+          "sha256": "201a607659ca1a7b2337e4b59871c3bfec4f6292240123fcff25aa78e61ffa7a",
+          "bytes": 5817
+        },
+        "service-config.js": {
+          "sha256": "8621aab6b8f2799613c50ae155084a7668205606c977e84f590a6de42e44015e",
+          "bytes": 263
+        },
+        "build_protected.py": {
+          "sha256": "783456b3f8064a43c17d27dd2e3dd146cded3ae82e42cdc61b77ffe773815534",
+          "bytes": 4545
+        },
+        "build_research_data.py": {
+          "sha256": "290cbc404060abdd2dfe2b0b84fee41ab1f05168c31721c5d30aac560d299ae1",
+          "bytes": 35130
+        },
+        "core.js": {
+          "sha256": "8c4ae9d4b1d0db53525e2691df6167c1f3b6a15f680dd27e5d7e88a7af5da9eb",
+          "bytes": 3305
+        },
+        "query.js": {
+          "sha256": "48c0567f1b3250d1d629933d81645fffb573b6fa254c9594ee2c6f54dd41c7d3",
+          "bytes": 20352
+        },
+        "explorer.js": {
+          "sha256": "42ff655d3572d936cc2298eb16412fbac8d5cdadd0dd570d325c47f1df006432",
+          "bytes": 45769
+        },
+        "tools.js": {
+          "sha256": "db9552977c813c40e360c88e06ffe335bfc273a27f2b43413ca3e4e31100cce4",
+          "bytes": 20117
+        },
+        "styles.css": {
+          "sha256": "4f6c7068ab27c1fb4ef507a82d9b74399965e395c6ca4ea2ff29aed136ff15d8",
+          "bytes": 50809
+        },
+        "tests/security_research.py": {
+          "sha256": "42452b5ca15f03a9c780c9c9ef056886c12b366d2216b6d7df5c67344e190e82",
+          "bytes": 18032
+        },
+        "data/meta.js": {
+          "sha256": "f60f741e00af35aaa21d725ca1dd2890277ec774d1fe0fb36376a963b932c9de",
+          "bytes": 15443
+        },
+        "data/research.js": {
+          "sha256": "78efd219508d19677fa539dc22cb3f42c9a8f6f31b04638310dcd191200daf01",
+          "bytes": 5698927
+        },
+        "service/__init__.py": {
+          "sha256": "c428819bcb10bdf2fd0e8685dd00f8fa51709a0890b93661cd6e45b512ea82ca",
+          "bytes": 97
+        },
+        "service/app.py": {
+          "sha256": "3cd7ed803eb1b6554869136f9ce35739564e5b831c5bf983944b6eb03a82c1ca",
+          "bytes": 14728
+        },
+        "service/auth.py": {
+          "sha256": "bb9b258ec2806bd67a95458819f5ed926517ebaf0c1ed030a1157098d57ae3a2",
+          "bytes": 3878
+        },
+        "service/chat.py": {
+          "sha256": "98e632c9317fde014aaea909e007ab5b3f233980bdc96e89b4234ae3477e1bcc",
+          "bytes": 18031
+        },
+        "service/config.py": {
+          "sha256": "2287232d0b89ff0cacc6cebc3aa95d2799018bf949c232a0b32887764eb31e1b",
+          "bytes": 2716
+        },
+        "service/ingest.py": {
+          "sha256": "245035561f367366679af3a32a9c55da6bd2e7fee35b4b19517047b55435ddcf",
+          "bytes": 12878
+        },
+        "service/limits.py": {
+          "sha256": "7abce0d6e226a2e2727a8f092028c52077784674612248af4c98bc91073a64af",
+          "bytes": 1059
+        },
+        "service/llm.py": {
+          "sha256": "b1fe6e880e44433b10a2798768e6d4f097fbd654d998d10baf9315a0639f0874",
+          "bytes": 7298
+        },
+        "service/planner.py": {
+          "sha256": "64aafee9c09bbbef0f8c319ae8f9be263c116f1549f1a56be8237d0c22f46361",
+          "bytes": 10936
+        },
+        "service/retrieval.py": {
+          "sha256": "c11913318dbf8959bfd1427e4f5f9d981e6ce888c56d330114b9e404dd083a65",
+          "bytes": 26482
+        },
+        "service/text.py": {
+          "sha256": "0cde4d0275975c8ed981e21dc006082ebab7cbabae5c289526e9aca5805da9d2",
+          "bytes": 1878
+        },
+        "service/verify_live.py": {
+          "sha256": "2b305eb1c890cd905a124c564c1023ec13ef437a413d0dfeb756638e42b2738d",
+          "bytes": 3708
+        },
+        "tests/security_intent.py": {
+          "sha256": "9ae127fb60c5845280a658116407d682d9628b73341329908c9b25036d86974c",
+          "bytes": 10701
+        },
+        "tests/security_reference.py": {
+          "sha256": "1f94e938008c85f465ffb42ecda23207247a20bddfcbbeb59e2266d5e827bb4b",
+          "bytes": 4315
+        },
+        "tests/test_service.py": {
+          "sha256": "d48940cbd0fa4b4790cc3e3daffb9249213d2670042111fd5a17a268ff8a8ecb",
+          "bytes": 48058
+        },
+        "tests/research.test.cjs": {
+          "sha256": "07777bc94ed5621647bec167a0b580bb0faa5f52d225bd9d0702c9210480831d",
+          "bytes": 23483
+        },
+        "service/intent.py": {
+          "sha256": "fd2956503dcde06f5d4c96a27ab3b7f26a4a57454009242bcea9db2796b91b64",
+          "bytes": 4436
+        },
+        "service/verify_natural.py": {
+          "sha256": "8ecb786eebbd8248439b9a4a28421f8380ed2370727f851a8d8f08078a1c9bf1",
+          "bytes": 4992
+        },
+        "docs/index.html": {
+          "sha256": "a7e5060397d9777bbbc5ea0253154cf6893e2929feb79328f3e1cfe944b72791",
+          "bytes": 2356
+        },
+        "docs/manifest-6421c8a18fb064ae7dc9.json": {
+          "sha256": "1663b038135bde3e5f1e0b19af261dc05de711df780d232542125ca528bab25f",
+          "bytes": 54831
+        }
+      },
+      "service_hash_manifest": {
+        "algorithm": "SHA256 of lexicographically sorted sha256sum lines for service/*.py",
+        "sha256": "c41734d3a3ba15df39e16026a2b5835b42af934c67301ba84078409bb9538d42"
+      },
+      "I04_resolution": {
+        "id": "I04",
+        "status": "resolved_independently_verified",
+        "path": "service/intent.py",
+        "line": 32,
+        "previous_sha256": "280ec230a2964a2e11f2ec5e32254000b26053ce8c734dca09db308780ae26c5",
+        "final_sha256": "fd2956503dcde06f5d4c96a27ab3b7f26a4a57454009242bcea9db2796b91b64",
+        "exact_change": "Replace two literal U+0008 characters surrounding the English this/that source-reference regex with raw-string word boundaries \\b.",
+        "only_this_change_verified_by_reconstructing_prior_source_sha256": true,
+        "intent_backspace_count": 0,
+        "unexpected_control_characters_in_service_python_files": [],
+        "correct_English_boundary_pattern_present": true,
+        "proof": "Original unmodified security_reference.py now passes: English reference detection, ambiguous-source zero-model rejection, unique-source record_ids locking, and curated alias matrix."
+      },
+      "previous_findings_final_status": [
+        {
+          "id": "I01",
+          "status": "resolved_independently_verified",
+          "proof": "original security_intent.py 14/14 passed on final service revision"
+        },
+        {
+          "id": "I02",
+          "status": "resolved_independently_verified",
+          "proof": "original security_intent.py 14/14 passed on final service revision"
+        },
+        {
+          "id": "I03",
+          "status": "resolved_independently_verified",
+          "proof": "original security_intent.py 14/14 passed on final service revision"
+        }
+      ],
+      "directed_test_runs": [
+        {
+          "file": "tests/security_reference.py",
+          "sha256": "1f94e938008c85f465ffb42ecda23207247a20bddfcbbeb59e2266d5e827bb4b",
+          "assertions_unchanged": true,
+          "command": "PYTHONDONTWRITEBYTECODE=1 python3 -B tests/security_reference.py -v",
+          "exit_code": 0,
+          "tests_run": 4,
+          "passed": 4,
+          "failures": 0,
+          "errors": 0,
+          "duration_seconds": 0.084,
+          "cases": [
+            {
+              "id": "CuratedAliasFixtures.test_curated_aliases_allow_equivalents_and_reject_generic_substitutions",
+              "status": "passed"
+            },
+            {
+              "id": "EnglishReferenceFixtures.test_ambiguous_english_reference_never_selects_a_scope_first_record",
+              "status": "passed"
+            },
+            {
+              "id": "EnglishReferenceFixtures.test_english_this_and_that_are_source_references",
+              "status": "passed"
+            },
+            {
+              "id": "EnglishReferenceFixtures.test_unique_english_source_is_locked_before_model_calls",
+              "status": "passed"
+            }
+          ]
+        },
+        {
+          "file": "tests/security_intent.py",
+          "sha256": "9ae127fb60c5845280a658116407d682d9628b73341329908c9b25036d86974c",
+          "assertions_unchanged": true,
+          "command": "PYTHONDONTWRITEBYTECODE=1 python3 -B tests/security_intent.py -v",
+          "exit_code": 0,
+          "tests_run": 14,
+          "passed": 14,
+          "failures": 0,
+          "errors": 0,
+          "duration_seconds": 0.175,
+          "cases": [
+            {
+              "id": "IntentBoundaryFixtures.test_citation_cleaner_preserves_negative_and_unknown_clause",
+              "status": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_citation_only_request_cannot_select_arbitrary_scope_record",
+              "status": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_empty_model_groups_do_not_clear_unknown_local_concepts",
+              "status": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_expansion_false_disables_cleanup_history_planner_and_relaxation",
+              "status": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_foreign_institution_sql_or_extra_filters_cannot_change_locked_scope",
+              "status": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_genuine_record_count_does_not_call_model",
+              "status": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_original_chinese_question_keeps_scope_and_all_subject_concepts",
+              "status": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_reference_without_user_source_cannot_select_arbitrary_scope_record",
+              "status": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_same_source_ambiguity_does_not_accept_assistant_record_id",
+              "status": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_score_of_this_source_is_not_a_database_record_count",
+              "status": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_unique_source_scope_remains_fixed_across_planner_generation",
+              "status": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_unknown_additional_subject_is_not_removed_or_relaxed",
+              "status": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_unknown_anchor_generic_replacement_is_rejected_by_planner_validation",
+              "status": "passed"
+            },
+            {
+              "id": "IntentBoundaryFixtures.test_unknown_topic_cannot_be_replaced_by_generic_model_alias",
+              "status": "passed"
+            }
+          ]
+        },
+        {
+          "file": "tests/security_research.py",
+          "sha256": "42452b5ca15f03a9c780c9c9ef056886c12b366d2216b6d7df5c67344e190e82",
+          "assertions_unchanged": true,
+          "command": "PYTHONDONTWRITEBYTECODE=1 python3 -B tests/security_research.py -v",
+          "exit_code": 0,
+          "tests_run": 18,
+          "passed": 18,
+          "failures": 0,
+          "errors": 0,
+          "duration_seconds": 3.56,
+          "cases": [
+            {
+              "id": "AnswerEvidenceSecurity.test_a_literal_C1_extract_remains_usable",
+              "status": "passed"
+            },
+            {
+              "id": "AnswerEvidenceSecurity.test_a_real_C1_quote_does_not_validate_an_unrelated_claim",
+              "status": "passed"
+            },
+            {
+              "id": "AnswerEvidenceSecurity.test_third_turn_retains_institution_inherited_by_second_turn",
+              "status": "passed"
+            },
+            {
+              "id": "BrowserClientSecurity.test_clear_cannot_restore_credentials_from_pending_response_body",
+              "status": "passed"
+            },
+            {
+              "id": "BrowserClientSecurity.test_login_timeout_remains_active_until_response_body_is_parsed",
+              "status": "passed"
+            },
+            {
+              "id": "FrontendHistorySecurity.test_history_stays_within_backend_message_and_character_limits",
+              "status": "passed"
+            },
+            {
+              "id": "FrontendHistorySecurity.test_retrieval_only_turn_retains_the_users_institution_and_topic",
+              "status": "passed"
+            },
+            {
+              "id": "LoginAvailabilitySecurity.test_bad_passwords_from_shared_proxy_peer_do_not_block_correct_login",
+              "status": "passed"
+            },
+            {
+              "id": "ProxyOriginSecurity.test_cross_site_metadata_cannot_infer_allowed_origin",
+              "status": "passed"
+            },
+            {
+              "id": "ProxyOriginSecurity.test_duplicate_origins_never_reach_backend",
+              "status": "passed"
+            },
+            {
+              "id": "ProxyOriginSecurity.test_exact_same_origin_get_can_infer_origin",
+              "status": "passed"
+            },
+            {
+              "id": "ProxyOriginSecurity.test_untrusted_referer_cannot_infer_allowed_origin",
+              "status": "passed"
+            },
+            {
+              "id": "ResearchMergePreservation.test_merging_a_backup_never_drops_existing_groups_over_import_limit",
+              "status": "passed"
+            },
+            {
+              "id": "ResearchMergePreservation.test_merging_a_backup_never_drops_existing_members_over_import_limit",
+              "status": "passed"
+            },
+            {
+              "id": "WorkspaceImportSecurity.test_invalid_project_cannot_partially_import_favorites",
+              "status": "passed"
+            },
+            {
+              "id": "WorkspaceImportSecurity.test_research_supplement_is_restored",
+              "status": "passed"
+            },
+            {
+              "id": "WorkspaceImportSecurity.test_storage_failure_is_not_reported_as_successful_restore",
+              "status": "passed"
+            },
+            {
+              "id": "WorkspaceImportSecurity.test_switching_routes_during_backup_read_preserves_active_view_edits",
+              "status": "passed"
+            }
+          ]
+        }
+      ],
+      "total_directed_tests": 36,
+      "total_passed": 36,
+      "failures": 0,
+      "errors": 0,
+      "frontend_build": {
+        "id": "6421c8a18fb064ae7dc9",
+        "manifest": "docs/manifest-6421c8a18fb064ae7dc9.json",
+        "manifest_sha256": "1663b038135bde3e5f1e0b19af261dc05de711df780d232542125ca528bab25f",
+        "entry_sha256": "a7e5060397d9777bbbc5ea0253154cf6893e2929feb79328f3e1cfe944b72791",
+        "research_js_sha256": "8400c9bce246214d7977c3cdeca9e689f8dafd6153b8e7f1d86586648fca14ab",
+        "frontend_unchanged_from_prior_14_asset_decryption_verification": true,
+        "prior_public_API_and_gate_checks_preserved_in_revision": "optional-backup-and-final-intent-independent-review-2"
+      },
+      "snapshot_consistency": {
+        "source_version": "f064c896c123cbf4",
+        "research_source_version": "f064c896c123cbf4",
+        "research_version": "a8acd9d0b712fbe06a65",
+        "database_source_version": "f064c896c123cbf4",
+        "database_research_version": "a8acd9d0b712fbe06a65",
+        "real_total": 6989,
+        "consistent": true
+      },
+      "model_calls_in_this_final_revision": 0,
+      "earlier_one_real_grounding_retained_at_report_root": true,
+      "scope_and_limits": [
+        "Final verification was limited to the requested original reference4 + intent14 + security18 suites, exact I04 source delta/control bytes, frontend identity and snapshot consistency. No new scope expansion was performed.",
+        "These directed regressions verify the reported issues and fixed synthetic boundaries, not an exhaustive security audit or production load test.",
+        "answer_format=verbatim_extracts remains exact model-selected sample extracts, not free-form summary, inference or independently established source truth.",
+        "No real model request was repeated; post-commit/public two-turn acceptance belongs to the main/QA agent."
+      ],
+      "reviewer_changes": {
+        "functional_files": [],
+        "test_files": [],
+        "report_only": "Append final evidence and latest status; retain old failure history"
+      },
+      "review_frozen": true
+    }
+  ],
+  "latest_review_result": "passed_no_remaining_findings_in_reviewed_scope",
+  "latest_open_findings": [],
+  "final_remaining_findings": [],
+  "final_review_frozen": true,
+  "final_build_id": "6421c8a18fb064ae7dc9"
+}

@@ -1,0 +1,50 @@
+{
+  "prepared_at": "2026-11-08T15:17:44.253845+00:00",
+  "manifest": "manifest-6421c8a18fb064ae7dc9.json",
+  "source_version": "f064c896c123cbf4",
+  "research_version": "a8acd9d0b712fbe06a65",
+  "real_records": 6989,
+  "simulation_records": 30000,
+  "simulation_default": false,
+  "checks": {
+    "encrypted_asset_matches": 418,
+    "page_acceptance_resolved": 60,
+    "previous_feature_browser_regressions": 205,
+    "backup_supplement": 7,
+    "public_preview_harness": 19
+  },
+  "reports": {
+    "page_acceptance": "reports/research-acceptance.json",
+    "integrity": "reports/research-release-integrity.json",
+    "service": "reports/research-service.json",
+    "security": "reports/research-security.json",
+    "public": "reports/research-public-api.json"
+  },
+  "pending": [
+    "authorized Git commit and push",
+    "actual GitHub Pages deployment acceptance",
+    "COS archive with remote SHA-256 verification"
+  ],
+  "commit_scope_review": {
+    "active_encrypted_assets_only": true,
+    "original_snapshot_modified": false,
+    "ignored_runtime_included": false,
+    "unrelated_work_preserved": true,
+    "final_frontend_source_drift": false
+  },
+  "pending_security_findings": [],
+  "backend_tests": {
+    "service": 38,
+    "independent_intent": 14,
+    "independent_reference": 4,
+    "independent_original_security": 18,
+    "latest_backend_revision": "cf40ebf6bd9d8052b40764e712d0501e4293c3ec3dd1151cacb64c4417b4a15a",
+    "verification_status": "independent final 36/36 reference/intent/security regressions passed"
+  },
+  "credential_scan": {
+    "findings": 0,
+    "scope": "staged release text; password and provider/GitHub secret formats",
+    "credentials_logged": false
+  },
+  "independent_security_remaining": []
+}

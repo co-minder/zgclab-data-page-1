@@ -33,8 +33,8 @@
     saveWorkspace();
   }
   function saveWorkspace() {
-    try { localStorage.setItem(storageKey, JSON.stringify(workspace)); }
-    catch (_) { showToast("浏览器未允许保存，当前操作仅在本次访问中保留"); }
+    try { localStorage.setItem(storageKey, JSON.stringify(workspace)); return true; }
+    catch (_) { showToast("浏览器空间不足或未允许保存，当前操作仅在本次访问中保留；可导出工作台备份"); return false; }
   }
   const isFavorite = (angle, id) => workspace.favorites.some((item) => item.angle === angle && item.id === id);
 
@@ -280,6 +280,38 @@
       return chunks.flat();
     }
     return (await ensure(angle)).map((r) => ({ angle, r }));
+  }
+
+  let researchLoading;
+  async function ensureResearch() {
+    if (window.ZGCLAB_RESEARCH) return window.ZGCLAB_RESEARCH;
+    if (!researchLoading) researchLoading = loadAsset("data/research.js").then(() => {
+      if (!window.ZGCLAB_RESEARCH) throw new Error("研究元数据加载失败");
+      return window.ZGCLAB_RESEARCH;
+    }).catch((error) => { researchLoading = null; throw error; });
+    return researchLoading;
+  }
+  function researchApi() {
+    return {META, REAL_META, CORE, Q:window.ZGCLAB_QUERY, view, esc, fmt, entriesFor, ensureDetail, ensureResearch, recCard, bindRecords, pager, bindPager, exportEntries, downloadCsv, copyText, titleOf, snippetOf, dateOf, instName, recordLink, workspace, saveWorkspace, isRead, markRead, showToast, serviceClient:window.ZGCLAB_SERVICE_CLIENT, serviceSession:options=>window.ZGCLAB_SERVICE_CLIENT.session(options), version:routeVersion, currentVersion:()=>routeVersion, signal:routeController.signal};
+  }
+  async function viewResearch(name, params) {
+    const titles = {projects:"专题资料夹",assistant:"资料对话与模糊查询",evidence:"证据阅读与引用",related:"相关材料",changes:"新增与变化",coverage:"来源与时间覆盖","collection-plan":"未来采集建议"};
+    setActive(name);setCrumb(`<b>${esc(titles[name])}</b>`);
+    const version = routeVersion;
+    if (name !== "assistant" && name !== "projects") {
+      view.innerHTML = '<div class="skeleton">正在载入研究资料…</div>';
+      try { await ensureResearch(); }
+      catch (error) { if (version !== routeVersion) return; showToast(error.message); }
+      if (version !== routeVersion) return;
+    }
+    try {
+      if (name === "projects") return await window.ZGCLAB_PROJECTS(params,researchApi());
+      if (name === "assistant") return await window.ZGCLAB_ASSISTANT(params,researchApi());
+      return await window.ZGCLAB_RESEARCH_UI(name,params,researchApi());
+    } catch (error) {
+      if (version !== routeVersion || routeController.signal.aborted) return;
+      view.innerHTML = `<div class="empty">${esc(error.message || "研究页面载入失败")}<br><a href="#/overview">返回总览</a></div>`;
+    }
   }
 
   function exportEntries(entries, filename, context) {
@@ -688,6 +720,7 @@
     setActive("explore");
     setCrumb("<b>数据浏览</b>");
     return window.ZGCLAB_EXPLORER(params, {
+      ...researchApi(),
       META, CORE, view, esc, fmt, entriesFor, recCard, bindRecords, pager, bindPager,
       exportEntries, copyText, showToast, workspace, saveWorkspace, titleOf, snippetOf,
       version: routeVersion, currentVersion: () => routeVersion, signal: routeController.signal, isRead, markRead,
@@ -891,6 +924,7 @@
     setActive("workspace"); setCrumb("<b>我的工作台</b>");
     const version = routeVersion;
     view.innerHTML = `<div class="page-head"><div><span class="kicker">WORKSPACE</span><h1>我的工作台</h1><p>保存查询条件和待跟进记录 · 内容保存在当前浏览器，可导出备份</p></div><div class="page-actions"><button class="btn" id="backupWorkspace">导出工作台备份</button><label class="btn import-label">导入备份<input type="file" id="importWorkspace" accept="application/json,.json" hidden></label></div></div>
+      <section class="section card pad" style="margin:0 0 16px"><div class="section-head"><h2>研究工作</h2></div><div class="quick-links"><a class="btn" href="#/projects">专题资料夹 · ${fmt((workspace.projects||[]).length)} 个专题</a><a class="btn" href="#/assistant?mode=chat">资料对话</a><a class="btn" href="#/changes">新增与变化</a><a class="btn" href="#/collection-plan">未来采集建议</a></div><p class="hint">总备份包含专题、批注、资料分组、变化基线、采集待办及选择保存的对话；导入时合并保留已有编辑。</p></section>
       <section class="grid g2"><div class="card pad"><div class="section-head"><h2>保存的查询</h2><span class="hint">${workspace.queries.length} 项</span></div>
         <div class="saved-list">${workspace.queries.length ? workspace.queries.map((item, index) => `<article class="saved-item"><a href="#${esc(item.hash)}">${esc(item.name)}</a><button class="icon-btn" data-remove-query="${index}" aria-label="移除查询：${esc(item.name)}">×</button><span class="date">保存于 ${esc(day(item.savedAt))}</span></article>`).join("") : '<div class="empty">还没有保存查询<br>在数据浏览中组合筛选后，点击“保存查询”</div>'}</div></div>
         <div class="card pad"><div class="section-head"><h2>收藏记录</h2><span class="hint">${workspace.favorites.length} 条</span><button class="btn" id="exportFavorites" ${workspace.favorites.length ? "" : "disabled"}>导出 CSV</button></div>
@@ -909,25 +943,34 @@
       finally { if (version === routeVersion) button.disabled = false; }
     };
     $("#backupWorkspace").onclick = () => {
-      const blob = new Blob([JSON.stringify({ version: 2, ...workspace }, null, 2)], {type:"application/json"});
+      const blob = new Blob([JSON.stringify({ version: 3, ...workspace }, null, 2)], {type:"application/json"});
       const url = URL.createObjectURL(blob), a = document.createElement("a"); a.href = url; a.download = "zgclab-workspace.json"; a.click(); window.setTimeout(() => URL.revokeObjectURL(url), 1000);
     };
     $("#importWorkspace").onchange = async (event) => {
       const file = event.target.files[0];
       if (!file) return;
+      const importSignal=routeController.signal;
       try {
-        if (file.size > 2 * 1024 * 1024) throw new Error("备份文件超过 2 MB，请检查文件");
+        if (file.size > 10 * 1024 * 1024) throw new Error("备份文件超过 10 MB，请检查文件");
         const parsed = JSON.parse(await file.text());
+        if(version!==routeVersion||importSignal.aborted)return;
         if (!parsed || !Array.isArray(parsed.favorites) || !Array.isArray(parsed.queries)) throw new Error("备份格式不正确");
+        if(parsed.favorites.length>50_000||parsed.queries.length>1_000)throw new Error("备份记录数量超过允许范围");
+        const draft=JSON.parse(JSON.stringify(workspace));
         const favorites = parsed.favorites.filter((item) => item && ANGLES.includes(item.angle) && typeof item.id === "string" && /^[a-z0-9-]{1,100}$/i.test(item.id) && instMap.has(Number(item.ktid)));
         const queries = parsed.queries.filter((item) => item && typeof item.hash === "string" && /^\/explore(?:\?|$)/.test(item.hash) && typeof item.name === "string");
-        for (const item of favorites) if (!isFavorite(item.angle, item.id)) workspace.favorites.push({angle:item.angle,id:item.id,ktid:Number(item.ktid),title:String(item.title || item.id).slice(0,1000),date:String(item.date || ""),savedAt:String(item.savedAt || "")});
-        for (const item of queries) if (!workspace.queries.some((q) => q.hash === item.hash)) workspace.queries.push({name:item.name.slice(0,500),hash:item.hash.slice(0,10000),savedAt:String(item.savedAt || "")});
-        if (Array.isArray(parsed.watchlist)) workspace.watchlist = [...new Set([...workspace.watchlist, ...parsed.watchlist.map(Number).filter((id) => instMap.has(id))])];
+        for (const item of favorites) if (!draft.favorites.some(existing=>existing.angle===item.angle&&existing.id===item.id)) draft.favorites.push({angle:item.angle,id:item.id,ktid:Number(item.ktid),title:String(item.title || item.id).slice(0,1000),date:String(item.date || ""),savedAt:String(item.savedAt || "")});
+        for (const item of queries) if (!draft.queries.some((q) => q.hash === item.hash)) draft.queries.push({name:item.name.slice(0,500),hash:item.hash.slice(0,10000),savedAt:String(item.savedAt || ""),...(typeof item.version==="string"&&/^[a-f0-9]{16,64}$/i.test(item.version)?{version:item.version}:{})});
+        if (Array.isArray(parsed.watchlist)) draft.watchlist = [...new Set([...draft.watchlist, ...parsed.watchlist.map(Number).filter((id) => instMap.has(id))])];
         if (parsed.read && typeof parsed.read === "object" && !Array.isArray(parsed.read)) for (const [key, time] of Object.entries(parsed.read)) {
-          if (/^[a-f0-9]{16}:(news|clue|social):[a-z0-9-]+$/i.test(key) && typeof time === "string" && Number.isFinite(Date.parse(time))) workspace.read[key] = time;
+          if (/^[a-f0-9]{16}:(news|clue|social):[a-z0-9-]+$/i.test(key) && typeof time === "string" && Number.isFinite(Date.parse(time))) draft.read[key] = time;
         }
-        saveWorkspace(); if (version === routeVersion) viewWorkspace(); showToast("备份已合并导入");
+        if (parsed.projects !== undefined && window.ZGCLAB_PROJECTS?.mergeBackup) window.ZGCLAB_PROJECTS.mergeBackup(parsed.projects,draft);
+        if (window.ZGCLAB_RESEARCH_UI?.mergeBackup) window.ZGCLAB_RESEARCH_UI.mergeBackup(parsed,draft);
+        if (window.ZGCLAB_ASSISTANT?.mergeBackup) window.ZGCLAB_ASSISTANT.mergeBackup(parsed,draft);
+        if(version!==routeVersion||importSignal.aborted)return;
+        workspace=draft;
+        const persisted=saveWorkspace(); if (version === routeVersion) viewWorkspace(); showToast(persisted ? "备份已合并导入并保存" : "备份已合并到本次访问，但浏览器未能保存；请导出备份，刷新会丢失本次导入");
       } catch (e) { showToast(e.message || "备份读取失败"); }
     };
   }
@@ -1121,7 +1164,7 @@
         <div class="r-top" style="margin-bottom:12px">${angleDot(angle)}<span class="tag ${angle}">${esc(ANG[angle].name)}</span>${badgeOf(angle, r)}
           <span class="date" style="margin-left:auto">${esc(day(dateOf(angle, r)) || "时间未标注")}</span></div>
         <div class="modal-tools"><button class="btn" id="favoriteRecord">${isFavorite(angle,id) ? "★ 已收藏" : "☆ 收藏记录"}</button><button class="btn" id="toggleReadRecord">${isRead(angle,id) ? "标为未读" : "标为已读"}</button><button class="btn" id="copyRecordLink">复制记录链接</button>
-          <button class="btn" id="downloadRecord">下载记录 CSV</button><button class="btn" id="downloadRecordJson">下载 JSON</button></div>
+          <button class="btn" id="downloadRecord">下载记录 CSV</button><button class="btn" id="downloadRecordJson">下载 JSON</button><button class="btn" id="addRecordProject">加入专题</button><a class="btn research-record-link" href="#/evidence?${esc(new URLSearchParams({angle,id:r.id}).toString())}">对照阅读与引用</a><a class="btn research-record-link" href="#/related?${esc(new URLSearchParams({angle,id:r.id}).toString())}">相关材料</a><a class="btn research-record-link" href="#/assistant?${esc(new URLSearchParams({angle,ids:r.ktid,q:titleOf(angle,r).slice(0,160)}).toString())}">基于资料提问</a></div>
         <div class="detail-status" id="detailStatus" role="status">正在加载完整交付字段与正文…</div>
         <label class="empty-toggle" id="emptyToggleWrap" hidden><input type="checkbox" id="showEmptyFields"> 显示未填写字段</label>
         <div id="recordDetails"><dl class="kv">${rows}</dl>${longBlocks}</div>
@@ -1163,6 +1206,8 @@
     $("#favoriteRecord").onclick = (event) => { event.currentTarget.textContent = toggleFavorite(angle, r) ? "★ 已收藏" : "☆ 收藏记录"; };
     $("#toggleReadRecord").onclick = (event) => { markRead([{angle,r}],!isRead(angle,id)); event.currentTarget.textContent=isRead(angle,id)?"标为未读":"标为已读"; };
     $("#copyRecordLink").addEventListener("click", () => copyText(recordLink(angle, r.id), "记录链接已复制"));
+    $("#addRecordProject").onclick = () => { close(false);window.ZGCLAB_PROJECTS.addEntries([{angle,r}],researchApi()); };
+    root.querySelectorAll(".research-record-link").forEach((a)=>a.addEventListener("click",()=>close(false)));
     let fullRecord = null;
     $("#downloadRecord").addEventListener("click", () => {
       if (fullRecord) {
@@ -1238,9 +1283,10 @@
     if(r.params.get("sim")==="1"&&!simulationEnabled){setSimulation(true);return;}
     const mobileMore=document.querySelector(".mobile-more");if(mobileMore)mobileMore.open=false;
     if(simulationEnabled){const parts=location.hash.split("?");const qs=new URLSearchParams(parts[1]||"");if(qs.get("sim")!=="1"){qs.set("sim","1");history.replaceState(null,"",(parts[0]||"#/overview")+"?"+qs);}}
+    if (["projects","assistant","evidence","related","changes","coverage","collection-plan"].includes(r.name)) return viewResearch(r.name,r.params);
     if (["timeline", "quality", "fulltext", "watchlist"].includes(r.name)) {
       setActive(r.name); setCrumb(`<b>${{timeline:"记录时间线",quality:"数据质量",fulltext:"完整正文检索",watchlist:"关注看板"}[r.name]}</b>`);
-      return window.ZGCLAB_TOOLS(r.name, r.params, {META, CORE, Q:window.ZGCLAB_QUERY, view, esc, fmt, entriesFor, ensureDetail, recCard, bindRecords, pager, bindPager, exportEntries, downloadCsv, titleOf, snippetOf, instName, workspace, saveWorkspace, isRead, markRead, showToast, signal:routeController.signal});
+      return window.ZGCLAB_TOOLS(r.name, r.params, researchApi());
     }
     if (r.name === "workspace") return viewWorkspace();
     if (r.name === "compare") return viewCompare(r.params);

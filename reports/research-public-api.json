@@ -1,0 +1,1698 @@
+{
+  "review": "independent_public_authenticated_api",
+  "started_at": "2026-11-08T14:49:45.293118+00:00",
+  "public_base": "https://bringing-themes-mae-dating.trycloudflare.com",
+  "pages_origin": "https://co-minder.github.io",
+  "execution": "social, explicitly assigned /home/ubuntu/zgclab-1-web",
+  "model_enabled_api_request_limit": 2,
+  "model_enabled_api_requests_attempted": 2,
+  "automatic_model_retries": 0,
+  "checks": {
+    "pages_login": {
+      "http_status": 200,
+      "duration_seconds": 0.491,
+      "content_type": "application/json; charset=utf-8",
+      "allow_origin": "https://co-minder.github.io",
+      "cache_control": "no-store",
+      "vary": "Origin",
+      "credential_issued": true,
+      "expires_in": 900,
+      "pass": true
+    },
+    "authenticated_status": {
+      "http_status": 200,
+      "duration_seconds": 0.737,
+      "content_type": "application/json; charset=utf-8",
+      "allow_origin": "https://co-minder.github.io",
+      "cache_control": "no-store",
+      "vary": "Origin",
+      "snapshot": {
+        "schema_version": 2,
+        "source_version": "f064c896c123cbf4",
+        "source_package": "20261011-current-reviewed",
+        "source_generated_at": "2026-11-05T15:10:46+00:00",
+        "ingested_at": "2026-11-08T14:45:40+00:00",
+        "content_sha256": "f82dff3392d608e0a30f0011ca754eeb9a885dc9a47ba8f27a85b04ddbbaafda",
+        "dataset": "real",
+        "total": 6989,
+        "by_angle": {
+          "news": 3675,
+          "clue": 1468,
+          "social": 1846
+        },
+        "paragraphs": 348116,
+        "research_version": "a8acd9d0b712fbe06a65",
+        "date_scope_default": "published_at (original source field only)",
+        "field_map": {
+          "news": {
+            "original_title": "title_en",
+            "translated_title": "title_cn",
+            "original_body": "content",
+            "translated_body": "content_cn",
+            "source_url": "url",
+            "discovered_at": "founddate",
+            "collected_at": null,
+            "original_path": null,
+            "source_hash": null
+          },
+          "clue": {
+            "original_title": "clue_title",
+            "translated_title": null,
+            "original_body": "original_content",
+            "translated_body": "chinese_trans",
+            "source_url": "original_url",
+            "discovered_at": "discovery_time",
+            "collected_at": null,
+            "original_path": "report_path",
+            "source_hash": null
+          },
+          "social": {
+            "original_title": "title",
+            "translated_title": null,
+            "original_body": "original_content",
+            "translated_body": "chinese_translation",
+            "source_url": "content_url",
+            "discovered_at": null,
+            "collected_at": "collected_time",
+            "original_path": null,
+            "source_hash": "content_hash"
+          }
+        },
+        "quality": {
+          "publication": {
+            "missing": 392,
+            "provided": 5971,
+            "recovered": 626
+          },
+          "translation": {
+            "available": 6664,
+            "placeholder": 325
+          }
+        }
+      },
+      "dataset": "real",
+      "database": "ready",
+      "aggregates": {
+        "total": 6989,
+        "by_angle": {
+          "news": 3675,
+          "clue": 1468,
+          "social": 1846
+        },
+        "by_institution": [
+          {
+            "ktid": 1000110,
+            "cn": "美国联邦调查局",
+            "en": "Federal Bureau of Investigation",
+            "count": 1688,
+            "by_angle": {
+              "news": 1446,
+              "clue": 6,
+              "social": 236
+            }
+          },
+          {
+            "ktid": 1001140,
+            "cn": "美国国土安全部",
+            "en": "United States Department of Homeland Security",
+            "count": 1672,
+            "by_angle": {
+              "news": 1185,
+              "clue": 3,
+              "social": 484
+            }
+          },
+          {
+            "ktid": 1000490,
+            "cn": "战略与国际研究中心",
+            "en": "Center for Strategic and International Studies",
+            "count": 1317,
+            "by_angle": {
+              "news": 225,
+              "clue": 727,
+              "social": 365
+            }
+          },
+          {
+            "ktid": 1000580,
+            "cn": "克劳德斯特赖克公司",
+            "en": "CrowdStrike Holdings, Inc.",
+            "count": 516,
+            "by_angle": {
+              "news": 368,
+              "clue": 75,
+              "social": 73
+            }
+          },
+          {
+            "ktid": 1001190,
+            "cn": "大西洋理事会",
+            "en": "Atlantic Council",
+            "count": 386,
+            "by_angle": {
+              "news": 15,
+              "clue": 20,
+              "social": 351
+            }
+          },
+          {
+            "ktid": 1000480,
+            "cn": "兰德公司",
+            "en": "RAND Corporation",
+            "count": 290,
+            "by_angle": {
+              "news": 2,
+              "clue": 249,
+              "social": 39
+            }
+          },
+          {
+            "ktid": 1001210,
+            "cn": "布鲁金斯学会",
+            "en": "Brookings Institution",
+            "count": 272,
+            "by_angle": {
+              "news": 7,
+              "clue": 58,
+              "social": 207
+            }
+          },
+          {
+            "ktid": 1002550,
+            "cn": "阿肯色州立大学",
+            "en": "Arkansas State University",
+            "count": 221,
+            "by_angle": {
+              "news": 100,
+              "clue": 120,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 1001270,
+            "cn": "新美国安全中心",
+            "en": "Center for a New American Security",
+            "count": 164,
+            "by_angle": {
+              "news": 35,
+              "clue": 120,
+              "social": 9
+            }
+          },
+          {
+            "ktid": 1001290,
+            "cn": "美国外交关系协会（对外关系委员会）",
+            "en": "Council on Foreign Relations (CFR)",
+            "count": 99,
+            "by_angle": {
+              "news": 18,
+              "clue": 62,
+              "social": 19
+            }
+          },
+          {
+            "ktid": 1000760,
+            "cn": "洛克希德·马丁公司",
+            "en": "Lockheed Martin Corporation",
+            "count": 66,
+            "by_angle": {
+              "news": 40,
+              "clue": 15,
+              "social": 11
+            }
+          },
+          {
+            "ktid": 1055920,
+            "cn": "卡隆公司",
+            "en": "Kharon",
+            "count": 50,
+            "by_angle": {
+              "news": 38,
+              "clue": 1,
+              "social": 11
+            }
+          },
+          {
+            "ktid": 1056587,
+            "cn": "英特尔",
+            "en": "Intel",
+            "count": 39,
+            "by_angle": {
+              "news": 36,
+              "clue": 2,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 1056514,
+            "cn": "摩根大通",
+            "en": "JP Morgan",
+            "count": 37,
+            "by_angle": {
+              "news": 35,
+              "clue": 1,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 1001350,
+            "cn": "保卫民主基金会",
+            "en": "Foundation for Defense of Democracies",
+            "count": 36,
+            "by_angle": {
+              "news": 15,
+              "clue": 2,
+              "social": 19
+            }
+          },
+          {
+            "ktid": 5775050,
+            "cn": "OpenAI",
+            "en": "OpenAI",
+            "count": 36,
+            "by_angle": {
+              "news": 33,
+              "clue": 2,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 2575920,
+            "cn": "霍尼韦尔",
+            "en": "Honeywell",
+            "count": 30,
+            "by_angle": {
+              "news": 27,
+              "clue": 2,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 1056630,
+            "cn": "IBM",
+            "en": "IBM",
+            "count": 27,
+            "by_angle": {
+              "news": 25,
+              "clue": 1,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 2572960,
+            "cn": "思科",
+            "en": "Cisco",
+            "count": 25,
+            "by_angle": {
+              "news": 23,
+              "clue": 1,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 1001150,
+            "cn": "美国国务院",
+            "en": "United States Department of State (DOS)",
+            "count": 18,
+            "by_angle": {
+              "news": 2,
+              "clue": 1,
+              "social": 15
+            }
+          }
+        ],
+        "by_platform": [
+          {
+            "platform": "Google News RSS discovery",
+            "count": 1664
+          },
+          {
+            "platform": "official_web",
+            "count": 1468
+          },
+          {
+            "platform": "X",
+            "count": 1189
+          },
+          {
+            "platform": "Google News RSS",
+            "count": 946
+          },
+          {
+            "platform": "Google News RSS (deep pilot)",
+            "count": 881
+          },
+          {
+            "platform": "Facebook",
+            "count": 615
+          },
+          {
+            "platform": "Bing News RSS",
+            "count": 125
+          },
+          {
+            "platform": "LinkedIn",
+            "count": 42
+          },
+          {
+            "platform": "Google via Apify",
+            "count": 34
+          },
+          {
+            "platform": "Google",
+            "count": 15
+          },
+          {
+            "platform": "Google News RSS + Yahoo title resolution via Reader",
+            "count": 9
+          },
+          {
+            "platform": "legacy_cache_import",
+            "count": 1
+          }
+        ]
+      },
+      "llm": {
+        "available": true,
+        "state": "ready",
+        "model": "auto/deepseek-v4.1-flash",
+        "checked_at": 1794149385,
+        "health_scope": "relay_health"
+      },
+      "pass": true
+    },
+    "pages_exact_arkansas_counts": {
+      "http_status": 200,
+      "duration_seconds": 0.096,
+      "content_type": "application/json; charset=utf-8",
+      "allow_origin": "https://co-minder.github.io",
+      "cache_control": "no-store",
+      "vary": "Origin",
+      "expected": {
+        "total": 221,
+        "by_angle": {
+          "news": 100,
+          "clue": 120,
+          "social": 1
+        }
+      },
+      "actual": {
+        "total": 221,
+        "by_angle": {
+          "news": 100,
+          "clue": 120,
+          "social": 1
+        },
+        "by_institution": [
+          {
+            "ktid": 1002550,
+            "cn": "阿肯色州立大学",
+            "en": "Arkansas State University",
+            "count": 221,
+            "by_angle": {
+              "news": 100,
+              "clue": 120,
+              "social": 1
+            }
+          }
+        ],
+        "by_platform": [
+          {
+            "platform": "official_web",
+            "count": 120
+          },
+          {
+            "platform": "Google News RSS discovery",
+            "count": 98
+          },
+          {
+            "platform": "Bing News RSS",
+            "count": 2
+          },
+          {
+            "platform": "X",
+            "count": 1
+          }
+        ]
+      },
+      "pass": true,
+      "model": {
+        "id": "auto/deepseek-v4.1-flash",
+        "used": false,
+        "attempted": false,
+        "reason": "expansion_disabled"
+      },
+      "scope": {
+        "dataset": "real",
+        "filters": {
+          "institution": [
+            1002550
+          ]
+        },
+        "source_version": "f064c896c123cbf4",
+        "date_field": "published_at",
+        "timezone": "Asia/Shanghai",
+        "relaxed": false,
+        "term_match": [],
+        "strategy": "structured_filters",
+        "date_semantics": "Original source publication dates only; recovered dates do not change this scope"
+      }
+    },
+    "origin_bound_session": {
+      "http_status": 401,
+      "duration_seconds": 0.095,
+      "content_type": "application/json; charset=utf-8",
+      "allow_origin": "https://bringing-themes-mae-dating.trycloudflare.com",
+      "cache_control": "no-store",
+      "vary": "Origin",
+      "error": {
+        "code": "session_expired",
+        "message": "Sign in again to continue"
+      },
+      "pass": true
+    },
+    "tunnel_same_origin_browser": {
+      "login_status": 200,
+      "status_http": 200,
+      "scoped_http": 200,
+      "status_dataset": "real",
+      "snapshot": {
+        "schema_version": 2,
+        "source_version": "f064c896c123cbf4",
+        "source_package": "20261011-current-reviewed",
+        "source_generated_at": "2026-11-05T15:10:46+00:00",
+        "ingested_at": "2026-11-08T14:45:40+00:00",
+        "content_sha256": "f82dff3392d608e0a30f0011ca754eeb9a885dc9a47ba8f27a85b04ddbbaafda",
+        "dataset": "real",
+        "total": 6989,
+        "by_angle": {
+          "news": 3675,
+          "clue": 1468,
+          "social": 1846
+        },
+        "paragraphs": 348116,
+        "research_version": "a8acd9d0b712fbe06a65",
+        "date_scope_default": "published_at (original source field only)",
+        "field_map": {
+          "news": {
+            "original_title": "title_en",
+            "translated_title": "title_cn",
+            "original_body": "content",
+            "translated_body": "content_cn",
+            "source_url": "url",
+            "discovered_at": "founddate",
+            "collected_at": null,
+            "original_path": null,
+            "source_hash": null
+          },
+          "clue": {
+            "original_title": "clue_title",
+            "translated_title": null,
+            "original_body": "original_content",
+            "translated_body": "chinese_trans",
+            "source_url": "original_url",
+            "discovered_at": "discovery_time",
+            "collected_at": null,
+            "original_path": "report_path",
+            "source_hash": null
+          },
+          "social": {
+            "original_title": "title",
+            "translated_title": null,
+            "original_body": "original_content",
+            "translated_body": "chinese_translation",
+            "source_url": "content_url",
+            "discovered_at": null,
+            "collected_at": "collected_time",
+            "original_path": null,
+            "source_hash": "content_hash"
+          }
+        },
+        "quality": {
+          "publication": {
+            "missing": 392,
+            "provided": 5971,
+            "recovered": 626
+          },
+          "translation": {
+            "available": 6664,
+            "placeholder": 325
+          }
+        }
+      },
+      "scoped": {
+        "total": 221,
+        "by_angle": {
+          "news": 100,
+          "clue": 120,
+          "social": 1
+        },
+        "by_institution": [
+          {
+            "ktid": 1002550,
+            "cn": "阿肯色州立大学",
+            "en": "Arkansas State University",
+            "count": 221,
+            "by_angle": {
+              "news": 100,
+              "clue": 120,
+              "social": 1
+            }
+          }
+        ],
+        "by_platform": [
+          {
+            "platform": "official_web",
+            "count": 120
+          },
+          {
+            "platform": "Google News RSS discovery",
+            "count": 98
+          },
+          {
+            "platform": "Bing News RSS",
+            "count": 2
+          },
+          {
+            "platform": "X",
+            "count": 1
+          }
+        ]
+      },
+      "model": {
+        "id": "auto/deepseek-v4.1-flash",
+        "used": false,
+        "attempted": false,
+        "reason": "expansion_disabled"
+      },
+      "scoped_error": null,
+      "requests": [
+        {
+          "path": "/api/session",
+          "method": "POST",
+          "origin": "https://bringing-themes-mae-dating.trycloudflare.com",
+          "referer": "https://bringing-themes-mae-dating.trycloudflare.com/",
+          "sec_fetch_site": "same-origin",
+          "has_authorization": false
+        },
+        {
+          "path": "/api/status",
+          "method": "GET",
+          "origin": null,
+          "referer": "https://bringing-themes-mae-dating.trycloudflare.com/",
+          "sec_fetch_site": "same-origin",
+          "has_authorization": true
+        },
+        {
+          "path": "/api/search",
+          "method": "POST",
+          "origin": "https://bringing-themes-mae-dating.trycloudflare.com",
+          "referer": "https://bringing-themes-mae-dating.trycloudflare.com/",
+          "sec_fetch_site": "same-origin",
+          "has_authorization": true
+        }
+      ],
+      "page_errors": [],
+      "pass": true,
+      "same_origin_get_inferred": true
+    },
+    "semantic_search": {
+      "request": {
+        "query": "Arkansas State 比赛",
+        "filters": {
+          "institution": [
+            1002550
+          ],
+          "angle": [
+            "social"
+          ]
+        },
+        "expand": true,
+        "semantic": true,
+        "relax": false,
+        "limit": 8
+      },
+      "http_status": 200,
+      "duration_seconds": 8.372,
+      "content_type": "application/json; charset=utf-8",
+      "allow_origin": "https://co-minder.github.io",
+      "cache_control": "no-store",
+      "vary": "Origin",
+      "response": {
+        "query": "Arkansas State 比赛",
+        "plan": {
+          "query": "Arkansas State 比赛",
+          "filters": {
+            "institution": [
+              1002550
+            ],
+            "angle": [
+              "social"
+            ]
+          },
+          "inferred_filters": {},
+          "locked_scope": {
+            "institution": [
+              1002550
+            ],
+            "angle": [
+              "social"
+            ]
+          },
+          "terms": [
+            [
+              "比赛",
+              "game",
+              "match",
+              "matchup",
+              "football",
+              "soccer"
+            ]
+          ],
+          "expansion_enabled": true,
+          "fuzzy_terms": [],
+          "strategy": "fts5_and",
+          "relaxed": false,
+          "relax_allowed": false,
+          "model": {
+            "attempted": true,
+            "used": true,
+            "reason": null,
+            "original_query": "Arkansas State 比赛",
+            "rewritten_query": "Arkansas State 有哪些比赛？请从社交角度检索相关信息。",
+            "applied_groups": [
+              {
+                "anchor": "比赛",
+                "terms": []
+              }
+            ]
+          },
+          "semantic_requested": true,
+          "duration_ms": 8281
+        },
+        "results": [
+          {
+            "citation_id": "C1",
+            "id": "social-1",
+            "angle": "social",
+            "paragraph": 3,
+            "field": "translation",
+            "paragraph_scheme": "service_field_chunks_v1",
+            "paragraph_note": "1-based chunks across title, summary, original and translation fields; not evidence-page paragraph numbers",
+            "snippet": "A-State在对阵南阿拉巴马的高比分比赛中失利，比分56比49。https://t.co/4uChDuOQVI",
+            "source_url": "https://x.com/ArkansasState/status/2108426110039908459",
+            "title": "Arkansas State (@ArkansasState) on X",
+            "title_en": "",
+            "ktid": 1002550,
+            "institution": "阿肯色州立大学",
+            "institution_en": "Arkansas State University",
+            "platform": "X",
+            "published_at": "2026-10-09T05:15:31+00:00",
+            "collected_at": "2026-10-09T13:25:55+00:00",
+            "source_version": "f064c896c123cbf4",
+            "source_field": "chinese_translation",
+            "published_original": "2026-10-09T05:15:31+00:00",
+            "published_effective_at": "2026-10-09T05:15:31+00:00",
+            "date_origin": "provided",
+            "evidence_eligible": true,
+            "date_verified": false,
+            "date_basis": [
+              "publish_time"
+            ],
+            "translation_status": "available"
+          },
+          {
+            "citation_id": "C2",
+            "id": "social-1",
+            "angle": "social",
+            "paragraph": 2,
+            "field": "original_text",
+            "paragraph_scheme": "service_field_chunks_v1",
+            "paragraph_note": "1-based chunks across title, summary, original and translation fields; not evidence-page paragraph numbers",
+            "snippet": "A-State Faces Setback in High-Scoring Matchup Versus South Alabama, 56-49 https://t.co/4uChDuOQVI",
+            "source_url": "https://x.com/ArkansasState/status/2108426110039908459",
+            "title": "Arkansas State (@ArkansasState) on X",
+            "title_en": "",
+            "ktid": 1002550,
+            "institution": "阿肯色州立大学",
+            "institution_en": "Arkansas State University",
+            "platform": "X",
+            "published_at": "2026-10-09T05:15:31+00:00",
+            "collected_at": "2026-10-09T13:25:55+00:00",
+            "source_version": "f064c896c123cbf4",
+            "source_field": "original_content",
+            "published_original": "2026-10-09T05:15:31+00:00",
+            "published_effective_at": "2026-10-09T05:15:31+00:00",
+            "date_origin": "provided",
+            "evidence_eligible": true,
+            "date_verified": false,
+            "date_basis": [
+              "publish_time"
+            ],
+            "translation_status": "available"
+          }
+        ],
+        "state": "retrieval",
+        "aggregates": {
+          "scope": {
+            "dataset": "real",
+            "filters": {
+              "institution": [
+                1002550
+              ],
+              "angle": [
+                "social"
+              ]
+            },
+            "source_version": "f064c896c123cbf4",
+            "date_field": "published_at",
+            "timezone": "Asia/Shanghai",
+            "relaxed": false,
+            "term_match": [
+              [
+                "比赛",
+                "game",
+                "match",
+                "matchup",
+                "football",
+                "soccer"
+              ]
+            ],
+            "strategy": "fts5_and",
+            "date_semantics": "Original source publication dates only; recovered dates do not change this scope"
+          },
+          "scoped": {
+            "total": 1,
+            "by_angle": {
+              "news": 0,
+              "clue": 0,
+              "social": 1
+            },
+            "by_institution": [
+              {
+                "ktid": 1002550,
+                "cn": "阿肯色州立大学",
+                "en": "Arkansas State University",
+                "count": 1,
+                "by_angle": {
+                  "news": 0,
+                  "clue": 0,
+                  "social": 1
+                }
+              }
+            ],
+            "by_platform": [
+              {
+                "platform": "X",
+                "count": 1
+              }
+            ]
+          },
+          "matched": {
+            "total": 1,
+            "by_angle": {
+              "news": 0,
+              "clue": 0,
+              "social": 1
+            },
+            "by_institution": [
+              {
+                "ktid": 1002550,
+                "cn": "阿肯色州立大学",
+                "en": "Arkansas State University",
+                "count": 1,
+                "by_angle": {
+                  "news": 0,
+                  "clue": 0,
+                  "social": 1
+                }
+              }
+            ],
+            "by_platform": [
+              {
+                "platform": "X",
+                "count": 1
+              }
+            ]
+          }
+        },
+        "coverage": {
+          "dataset": "real",
+          "source_version": "f064c896c123cbf4",
+          "database_total": 6989,
+          "scoped_records": 1,
+          "matched_records": 1,
+          "returned_records": 1,
+          "returned_paragraphs": 2,
+          "exhaustive": true,
+          "warning": "Counts describe the stored real snapshot, not the entire web; retrieved paragraphs are a bounded sample."
+        },
+        "model": {
+          "id": "auto/deepseek-v4.1-flash",
+          "used": true,
+          "attempted": true,
+          "reason": null
+        },
+        "usage": {
+          "prompt_tokens": 262,
+          "completion_tokens": 696,
+          "total_tokens": 958
+        }
+      },
+      "model_verification": {
+        "exact_model_id": true,
+        "used": true,
+        "attempted": true,
+        "nonzero_usage": true,
+        "semantic_requested": true,
+        "model_plan_used": true,
+        "pass": true
+      },
+      "citation_verification": {
+        "checked": 2,
+        "all_valid": true,
+        "items": [
+          {
+            "citation_id": "C1",
+            "record_id": "social-1",
+            "angle": "social",
+            "paragraph": 3,
+            "field": "translation",
+            "record_found": true,
+            "ktid": 1002550,
+            "source_url": "https://x.com/ArkansasState/status/2108426110039908459",
+            "source_version": "f064c896c123cbf4",
+            "source_ids": {
+              "content_id": "2108426110039908459",
+              "content_hash": "99cd4b9d4d5f202dbf7b201998c175b5b6535078e8ce3536b2eb4ac3d2d76649"
+            },
+            "source_url_matches": true,
+            "stable_detail_matches": true,
+            "source_fields_equal": true,
+            "paragraph_found": true,
+            "field_matches": true,
+            "snippet_in_paragraph": true,
+            "snippet_in_original_field": true,
+            "source_field_name": "chinese_translation",
+            "source_field_reported": "chinese_translation",
+            "source_id_in_url": true,
+            "quotes_verified": true,
+            "quote_count": 0,
+            "evidence_eligible": true,
+            "snippet_sha256": "b810940a73b9af94112a7c5fe49db700a6fbc93cc8fec0057fc41c599bf57c8d",
+            "scope_matches": true,
+            "valid": true
+          },
+          {
+            "citation_id": "C2",
+            "record_id": "social-1",
+            "angle": "social",
+            "paragraph": 2,
+            "field": "original_text",
+            "record_found": true,
+            "ktid": 1002550,
+            "source_url": "https://x.com/ArkansasState/status/2108426110039908459",
+            "source_version": "f064c896c123cbf4",
+            "source_ids": {
+              "content_id": "2108426110039908459",
+              "content_hash": "99cd4b9d4d5f202dbf7b201998c175b5b6535078e8ce3536b2eb4ac3d2d76649"
+            },
+            "source_url_matches": true,
+            "stable_detail_matches": true,
+            "source_fields_equal": true,
+            "paragraph_found": true,
+            "field_matches": true,
+            "snippet_in_paragraph": true,
+            "snippet_in_original_field": true,
+            "source_field_name": "original_content",
+            "source_field_reported": "original_content",
+            "source_id_in_url": true,
+            "quotes_verified": true,
+            "quote_count": 0,
+            "evidence_eligible": true,
+            "snippet_sha256": "99cd4b9d4d5f202dbf7b201998c175b5b6535078e8ce3536b2eb4ac3d2d76649",
+            "scope_matches": true,
+            "valid": true
+          }
+        ]
+      },
+      "pass": true
+    },
+    "chat": {
+      "request": {
+        "message": "ArkansasState 比赛",
+        "history": [],
+        "filters": {
+          "institution": [
+            1002550
+          ],
+          "angle": [
+            "social"
+          ]
+        },
+        "expand": true,
+        "relax": false
+      },
+      "http_status": 200,
+      "duration_seconds": 12.123,
+      "content_type": "application/json; charset=utf-8",
+      "allow_origin": "https://co-minder.github.io",
+      "cache_control": "no-store",
+      "vary": "Origin",
+      "response": {
+        "answer": "模型选取的数据库原文摘录（未改写）：\nA-State在对阵南阿拉巴马的高比分比赛中失利，比分56比49。 [C1]\n以上为来源文本摘录，仅核验逐字对应关系，不代表来源陈述已获事实核实；未覆盖全部记录。",
+        "citations": [
+          {
+            "citation_id": "C1",
+            "id": "social-1",
+            "angle": "social",
+            "paragraph": 3,
+            "field": "translation",
+            "paragraph_scheme": "service_field_chunks_v1",
+            "paragraph_note": "1-based chunks across title, summary, original and translation fields; not evidence-page paragraph numbers",
+            "snippet": "A-State在对阵南阿拉巴马的高比分比赛中失利，比分56比49。https://t.co/4uChDuOQVI",
+            "source_url": "https://x.com/ArkansasState/status/2108426110039908459",
+            "title": "Arkansas State (@ArkansasState) on X",
+            "title_en": "",
+            "ktid": 1002550,
+            "institution": "阿肯色州立大学",
+            "institution_en": "Arkansas State University",
+            "platform": "X",
+            "published_at": "2026-10-09T05:15:31+00:00",
+            "collected_at": "2026-10-09T13:25:55+00:00",
+            "source_version": "f064c896c123cbf4",
+            "source_field": "chinese_translation",
+            "published_original": "2026-10-09T05:15:31+00:00",
+            "published_effective_at": "2026-10-09T05:15:31+00:00",
+            "date_origin": "provided",
+            "evidence_eligible": true,
+            "date_verified": false,
+            "date_basis": [
+              "publish_time"
+            ],
+            "translation_status": "available",
+            "quotes": [
+              "A-State在对阵南阿拉巴马的高比分比赛中失利，比分56比49。"
+            ]
+          }
+        ],
+        "aggregate_citations": [
+          {
+            "citation_id": "A1",
+            "kind": "database_aggregate",
+            "scope": {
+              "dataset": "real",
+              "filters": {
+                "institution": [
+                  1002550
+                ],
+                "angle": [
+                  "social"
+                ]
+              },
+              "source_version": "f064c896c123cbf4",
+              "date_field": "published_at",
+              "timezone": "Asia/Shanghai",
+              "relaxed": false,
+              "term_match": [
+                [
+                  "比赛",
+                  "game",
+                  "match",
+                  "matchup",
+                  "football",
+                  "soccer"
+                ]
+              ],
+              "strategy": "fts5_and",
+              "date_semantics": "Original source publication dates only; recovered dates do not change this scope"
+            },
+            "scoped": {
+              "total": 1,
+              "by_angle": {
+                "news": 0,
+                "clue": 0,
+                "social": 1
+              },
+              "by_institution": [
+                {
+                  "ktid": 1002550,
+                  "cn": "阿肯色州立大学",
+                  "en": "Arkansas State University",
+                  "count": 1,
+                  "by_angle": {
+                    "news": 0,
+                    "clue": 0,
+                    "social": 1
+                  }
+                }
+              ],
+              "by_platform": [
+                {
+                  "platform": "X",
+                  "count": 1
+                }
+              ]
+            },
+            "matched": {
+              "total": 1,
+              "by_angle": {
+                "news": 0,
+                "clue": 0,
+                "social": 1
+              },
+              "by_institution": [
+                {
+                  "ktid": 1002550,
+                  "cn": "阿肯色州立大学",
+                  "en": "Arkansas State University",
+                  "count": 1,
+                  "by_angle": {
+                    "news": 0,
+                    "clue": 0,
+                    "social": 1
+                  }
+                }
+              ],
+              "by_platform": [
+                {
+                  "platform": "X",
+                  "count": 1
+                }
+              ]
+            }
+          }
+        ],
+        "query": "ArkansasState 比赛",
+        "plan": {
+          "query": "ArkansasState 比赛",
+          "filters": {
+            "institution": [
+              1002550
+            ],
+            "angle": [
+              "social"
+            ]
+          },
+          "inferred_filters": {},
+          "locked_scope": {
+            "institution": [
+              1002550
+            ],
+            "angle": [
+              "social"
+            ]
+          },
+          "terms": [
+            [
+              "比赛",
+              "game",
+              "match",
+              "matchup",
+              "football",
+              "soccer"
+            ]
+          ],
+          "expansion_enabled": true,
+          "fuzzy_terms": [],
+          "strategy": "fts5_and",
+          "relaxed": false,
+          "relax_allowed": false,
+          "model": {
+            "attempted": true,
+            "used": true,
+            "reason": null,
+            "original_query": "ArkansasState 比赛",
+            "rewritten_query": "Arkansas State（机构ID 1002550）在社交角度下有哪些比赛？",
+            "applied_groups": [
+              {
+                "anchor": "比赛",
+                "terms": []
+              }
+            ]
+          },
+          "semantic_requested": true,
+          "duration_ms": 5789
+        },
+        "aggregates": {
+          "scope": {
+            "dataset": "real",
+            "filters": {
+              "institution": [
+                1002550
+              ],
+              "angle": [
+                "social"
+              ]
+            },
+            "source_version": "f064c896c123cbf4",
+            "date_field": "published_at",
+            "timezone": "Asia/Shanghai",
+            "relaxed": false,
+            "term_match": [
+              [
+                "比赛",
+                "game",
+                "match",
+                "matchup",
+                "football",
+                "soccer"
+              ]
+            ],
+            "strategy": "fts5_and",
+            "date_semantics": "Original source publication dates only; recovered dates do not change this scope"
+          },
+          "scoped": {
+            "total": 1,
+            "by_angle": {
+              "news": 0,
+              "clue": 0,
+              "social": 1
+            },
+            "by_institution": [
+              {
+                "ktid": 1002550,
+                "cn": "阿肯色州立大学",
+                "en": "Arkansas State University",
+                "count": 1,
+                "by_angle": {
+                  "news": 0,
+                  "clue": 0,
+                  "social": 1
+                }
+              }
+            ],
+            "by_platform": [
+              {
+                "platform": "X",
+                "count": 1
+              }
+            ]
+          },
+          "matched": {
+            "total": 1,
+            "by_angle": {
+              "news": 0,
+              "clue": 0,
+              "social": 1
+            },
+            "by_institution": [
+              {
+                "ktid": 1002550,
+                "cn": "阿肯色州立大学",
+                "en": "Arkansas State University",
+                "count": 1,
+                "by_angle": {
+                  "news": 0,
+                  "clue": 0,
+                  "social": 1
+                }
+              }
+            ],
+            "by_platform": [
+              {
+                "platform": "X",
+                "count": 1
+              }
+            ]
+          }
+        },
+        "coverage": {
+          "dataset": "real",
+          "source_version": "f064c896c123cbf4",
+          "database_total": 6989,
+          "scoped_records": 1,
+          "matched_records": 1,
+          "returned_records": 1,
+          "returned_paragraphs": 2,
+          "exhaustive": true,
+          "warning": "Counts describe the stored real snapshot, not the entire web; retrieved paragraphs are a bounded sample."
+        },
+        "model": {
+          "id": "auto/deepseek-v4.1-flash",
+          "used": true,
+          "attempted": true,
+          "reason": null
+        },
+        "usage": {
+          "prompt_tokens": 1744,
+          "completion_tokens": 684,
+          "total_tokens": 2428
+        },
+        "state": "answered",
+        "answer_format": "verbatim_extracts"
+      },
+      "model_verification": {
+        "exact_model_id": true,
+        "used": true,
+        "attempted": true,
+        "nonzero_usage": true,
+        "answered": true,
+        "nonempty_answer": true,
+        "pass": true,
+        "answer_citations_resolve": true
+      },
+      "citation_verification": {
+        "checked": 1,
+        "all_valid": true,
+        "items": [
+          {
+            "citation_id": "C1",
+            "record_id": "social-1",
+            "angle": "social",
+            "paragraph": 3,
+            "field": "translation",
+            "record_found": true,
+            "ktid": 1002550,
+            "source_url": "https://x.com/ArkansasState/status/2108426110039908459",
+            "source_version": "f064c896c123cbf4",
+            "source_ids": {
+              "content_id": "2108426110039908459",
+              "content_hash": "99cd4b9d4d5f202dbf7b201998c175b5b6535078e8ce3536b2eb4ac3d2d76649"
+            },
+            "source_url_matches": true,
+            "stable_detail_matches": true,
+            "source_fields_equal": true,
+            "paragraph_found": true,
+            "field_matches": true,
+            "snippet_in_paragraph": true,
+            "snippet_in_original_field": true,
+            "source_field_name": "chinese_translation",
+            "source_field_reported": "chinese_translation",
+            "source_id_in_url": true,
+            "quotes_verified": true,
+            "quote_count": 1,
+            "evidence_eligible": true,
+            "snippet_sha256": "b810940a73b9af94112a7c5fe49db700a6fbc93cc8fec0057fc41c599bf57c8d",
+            "scope_matches": true,
+            "valid": true
+          }
+        ]
+      },
+      "pass": true
+    },
+    "final_status": {
+      "http_status": 200,
+      "duration_seconds": 0.128,
+      "content_type": "application/json; charset=utf-8",
+      "allow_origin": "https://co-minder.github.io",
+      "cache_control": "no-store",
+      "vary": "Origin",
+      "snapshot": {
+        "schema_version": 2,
+        "source_version": "f064c896c123cbf4",
+        "source_package": "20261011-current-reviewed",
+        "source_generated_at": "2026-11-05T15:10:46+00:00",
+        "ingested_at": "2026-11-08T14:45:40+00:00",
+        "content_sha256": "f82dff3392d608e0a30f0011ca754eeb9a885dc9a47ba8f27a85b04ddbbaafda",
+        "dataset": "real",
+        "total": 6989,
+        "by_angle": {
+          "news": 3675,
+          "clue": 1468,
+          "social": 1846
+        },
+        "paragraphs": 348116,
+        "research_version": "a8acd9d0b712fbe06a65",
+        "date_scope_default": "published_at (original source field only)",
+        "field_map": {
+          "news": {
+            "original_title": "title_en",
+            "translated_title": "title_cn",
+            "original_body": "content",
+            "translated_body": "content_cn",
+            "source_url": "url",
+            "discovered_at": "founddate",
+            "collected_at": null,
+            "original_path": null,
+            "source_hash": null
+          },
+          "clue": {
+            "original_title": "clue_title",
+            "translated_title": null,
+            "original_body": "original_content",
+            "translated_body": "chinese_trans",
+            "source_url": "original_url",
+            "discovered_at": "discovery_time",
+            "collected_at": null,
+            "original_path": "report_path",
+            "source_hash": null
+          },
+          "social": {
+            "original_title": "title",
+            "translated_title": null,
+            "original_body": "original_content",
+            "translated_body": "chinese_translation",
+            "source_url": "content_url",
+            "discovered_at": null,
+            "collected_at": "collected_time",
+            "original_path": null,
+            "source_hash": "content_hash"
+          }
+        },
+        "quality": {
+          "publication": {
+            "missing": 392,
+            "provided": 5971,
+            "recovered": 626
+          },
+          "translation": {
+            "available": 6664,
+            "placeholder": 325
+          }
+        }
+      },
+      "llm": {
+        "available": true,
+        "state": "ready",
+        "model": "auto/deepseek-v4.1-flash",
+        "checked_at": 1794149405,
+        "health_scope": "relay_health"
+      }
+    },
+    "pages_browser_authenticated": {
+      "page_origin": "https://co-minder.github.io",
+      "login_http": 200,
+      "status_http": 200,
+      "counts_http": 200,
+      "snapshot": {
+        "schema_version": 2,
+        "source_version": "f064c896c123cbf4",
+        "source_package": "20261011-current-reviewed",
+        "source_generated_at": "2026-11-05T15:10:46+00:00",
+        "ingested_at": "2026-11-08T14:45:40+00:00",
+        "content_sha256": "f82dff3392d608e0a30f0011ca754eeb9a885dc9a47ba8f27a85b04ddbbaafda",
+        "dataset": "real",
+        "total": 6989,
+        "by_angle": {
+          "news": 3675,
+          "clue": 1468,
+          "social": 1846
+        },
+        "paragraphs": 348116,
+        "research_version": "a8acd9d0b712fbe06a65",
+        "date_scope_default": "published_at (original source field only)",
+        "field_map": {
+          "news": {
+            "original_title": "title_en",
+            "translated_title": "title_cn",
+            "original_body": "content",
+            "translated_body": "content_cn",
+            "source_url": "url",
+            "discovered_at": "founddate",
+            "collected_at": null,
+            "original_path": null,
+            "source_hash": null
+          },
+          "clue": {
+            "original_title": "clue_title",
+            "translated_title": null,
+            "original_body": "original_content",
+            "translated_body": "chinese_trans",
+            "source_url": "original_url",
+            "discovered_at": "discovery_time",
+            "collected_at": null,
+            "original_path": "report_path",
+            "source_hash": null
+          },
+          "social": {
+            "original_title": "title",
+            "translated_title": null,
+            "original_body": "original_content",
+            "translated_body": "chinese_translation",
+            "source_url": "content_url",
+            "discovered_at": null,
+            "collected_at": "collected_time",
+            "original_path": null,
+            "source_hash": "content_hash"
+          }
+        },
+        "quality": {
+          "publication": {
+            "missing": 392,
+            "provided": 5971,
+            "recovered": 626
+          },
+          "translation": {
+            "available": 6664,
+            "placeholder": 325
+          }
+        }
+      },
+      "counts": {
+        "total": 221,
+        "by_angle": {
+          "news": 100,
+          "clue": 120,
+          "social": 1
+        },
+        "by_institution": [
+          {
+            "ktid": 1002550,
+            "cn": "阿肯色州立大学",
+            "en": "Arkansas State University",
+            "count": 221,
+            "by_angle": {
+              "news": 100,
+              "clue": 120,
+              "social": 1
+            }
+          }
+        ],
+        "by_platform": [
+          {
+            "platform": "official_web",
+            "count": 120
+          },
+          {
+            "platform": "Google News RSS discovery",
+            "count": 98
+          },
+          {
+            "platform": "Bing News RSS",
+            "count": 2
+          },
+          {
+            "platform": "X",
+            "count": 1
+          }
+        ]
+      },
+      "model": {
+        "id": "auto/deepseek-v4.1-flash",
+        "used": false,
+        "attempted": false,
+        "reason": "expansion_disabled"
+      },
+      "cache": "no-store",
+      "session_expiry_seconds": 900,
+      "api_requests": [
+        {
+          "path": "/api/session",
+          "method": "POST",
+          "origin": "https://co-minder.github.io",
+          "has_authorization": false
+        },
+        {
+          "path": "/api/status",
+          "method": "GET",
+          "origin": "https://co-minder.github.io",
+          "has_authorization": true
+        },
+        {
+          "path": "/api/search",
+          "method": "POST",
+          "origin": "https://co-minder.github.io",
+          "has_authorization": true
+        }
+      ],
+      "console_errors": [],
+      "pass": true,
+      "verified_at": "2026-11-08T14:51:25.092967+00:00",
+      "extra_model_enabled_api_requests": 0
+    }
+  },
+  "issues": [],
+  "workspace": {
+    "state": "READY",
+    "source": "cos{kqkoO}:ai-lab-archive-1-1410628711/work-disk-1",
+    "filesystem": "fuse.rclone",
+    "directory_access": true
+  },
+  "local_database_before": {
+    "snapshot": {
+      "schema_version": 2,
+      "source_version": "f064c896c123cbf4",
+      "source_package": "20261011-current-reviewed",
+      "source_generated_at": "2026-11-05T15:10:46+00:00",
+      "ingested_at": "2026-11-08T14:45:40+00:00",
+      "content_sha256": "f82dff3392d608e0a30f0011ca754eeb9a885dc9a47ba8f27a85b04ddbbaafda",
+      "dataset": "real",
+      "total": 6989,
+      "by_angle": {
+        "news": 3675,
+        "clue": 1468,
+        "social": 1846
+      },
+      "paragraphs": 348116,
+      "research_version": "a8acd9d0b712fbe06a65",
+      "date_scope_default": "published_at (original source field only)",
+      "field_map": {
+        "news": {
+          "original_title": "title_en",
+          "translated_title": "title_cn",
+          "original_body": "content",
+          "translated_body": "content_cn",
+          "source_url": "url",
+          "discovered_at": "founddate",
+          "collected_at": null,
+          "original_path": null,
+          "source_hash": null
+        },
+        "clue": {
+          "original_title": "clue_title",
+          "translated_title": null,
+          "original_body": "original_content",
+          "translated_body": "chinese_trans",
+          "source_url": "original_url",
+          "discovered_at": "discovery_time",
+          "collected_at": null,
+          "original_path": "report_path",
+          "source_hash": null
+        },
+        "social": {
+          "original_title": "title",
+          "translated_title": null,
+          "original_body": "original_content",
+          "translated_body": "chinese_translation",
+          "source_url": "content_url",
+          "discovered_at": null,
+          "collected_at": "collected_time",
+          "original_path": null,
+          "source_hash": "content_hash"
+        }
+      },
+      "quality": {
+        "publication": {
+          "missing": 392,
+          "provided": 5971,
+          "recovered": 626
+        },
+        "translation": {
+          "available": 6664,
+          "placeholder": 325
+        }
+      }
+    },
+    "arkansas_counts": {
+      "total": 221,
+      "by_angle": {
+        "news": 100,
+        "clue": 120,
+        "social": 1
+      }
+    },
+    "arkansas_matches_expected": true
+  },
+  "code_sha256": {
+    "serve.py": "05129fb2a0509e84578df3a086ad0332d249f89262bb4e977b295b2b99e67e56",
+    "service-client.js": "201a607659ca1a7b2337e4b59871c3bfec4f6292240123fcff25aa78e61ffa7a",
+    "service/app.py": "3cd7ed803eb1b6554869136f9ce35739564e5b831c5bf983944b6eb03a82c1ca",
+    "service/chat.py": "412f5c6c2a77a56d12e50de7a82a9a213901a28df951a41655be35ccf02f7a91",
+    "service/planner.py": "df6c22b5bf8cd96af26e1e9d9fdf8d88b23716c658cc9fda061ad025dfabff51"
+  },
+  "answer_scope_note": "Chat output is validated verbatim extracts selected through model-assisted processing. This does not validate free-form summarization or broader conclusions.",
+  "local_database_after": {
+    "snapshot": {
+      "schema_version": 2,
+      "source_version": "f064c896c123cbf4",
+      "source_package": "20261011-current-reviewed",
+      "source_generated_at": "2026-11-05T15:10:46+00:00",
+      "ingested_at": "2026-11-08T14:45:40+00:00",
+      "content_sha256": "f82dff3392d608e0a30f0011ca754eeb9a885dc9a47ba8f27a85b04ddbbaafda",
+      "dataset": "real",
+      "total": 6989,
+      "by_angle": {
+        "news": 3675,
+        "clue": 1468,
+        "social": 1846
+      },
+      "paragraphs": 348116,
+      "research_version": "a8acd9d0b712fbe06a65",
+      "date_scope_default": "published_at (original source field only)",
+      "field_map": {
+        "news": {
+          "original_title": "title_en",
+          "translated_title": "title_cn",
+          "original_body": "content",
+          "translated_body": "content_cn",
+          "source_url": "url",
+          "discovered_at": "founddate",
+          "collected_at": null,
+          "original_path": null,
+          "source_hash": null
+        },
+        "clue": {
+          "original_title": "clue_title",
+          "translated_title": null,
+          "original_body": "original_content",
+          "translated_body": "chinese_trans",
+          "source_url": "original_url",
+          "discovered_at": "discovery_time",
+          "collected_at": null,
+          "original_path": "report_path",
+          "source_hash": null
+        },
+        "social": {
+          "original_title": "title",
+          "translated_title": null,
+          "original_body": "original_content",
+          "translated_body": "chinese_translation",
+          "source_url": "content_url",
+          "discovered_at": null,
+          "collected_at": "collected_time",
+          "original_path": null,
+          "source_hash": "content_hash"
+        }
+      },
+      "quality": {
+        "publication": {
+          "missing": 392,
+          "provided": 5971,
+          "recovered": 626
+        },
+        "translation": {
+          "available": 6664,
+          "placeholder": 325
+        }
+      }
+    },
+    "arkansas_counts": {
+      "total": 221,
+      "by_angle": {
+        "news": 100,
+        "clue": 120,
+        "social": 1
+      }
+    },
+    "arkansas_matches_expected": true
+  },
+  "snapshot_stable_during_review": true,
+  "expected_preserved_processes": {
+    "1766361": true,
+    "2940274": true,
+    "5703": true,
+    "2890398": true,
+    "3283287": true
+  },
+  "finished_at": "2026-11-08T14:50:12.194267+00:00",
+  "model_enabled_api_request_limit_respected": true,
+  "all_required_checks_passed": true,
+  "workspace_final": {
+    "state": "READY",
+    "source": "cos{kqkoO}:ai-lab-archive-1-1410628711/work-disk-1",
+    "filesystem": "fuse.rclone",
+    "directory_access": true
+  },
+  "additional_pages_browser_verified_at": "2026-11-08T14:51:25.092967+00:00"
+}
