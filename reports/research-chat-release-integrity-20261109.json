@@ -1,6 +1,6 @@
 {
-  "tested_at": "2026-11-08T18:59:57.613546+00:00",
-  "manifest": "manifest-365700f88d660ec861e2.json",
+  "tested_at": "2026-11-08T19:33:55.704746+00:00",
+  "manifest": "manifest-d15ea4a006bfdb3ba0ad.json",
   "encrypted_assets_verified": 418,
   "preserved_files_verified": 1002,
   "baseline_commit": "e625e61f0196fedced392280f572b762cee75176",
@@ -88,9 +88,9 @@
     },
     {
       "source": "assistant.js",
-      "encrypted": "encrypted/d85b2d070fb493bdc1365d227c81eb08ffb260e6d674d8f3fd15f5af5bf9e377.bin",
-      "bytes": 132250,
-      "sha256": "60f6c7faff7f5744b8f553c4ac3bfb593201f1f8b03327014043490be7ba2480"
+      "encrypted": "encrypted/4d7aabfc7b12f6e23cba6329f872d5bacc8feb0f3c809c1de17a07a73a3c7bee.bin",
+      "bytes": 137634,
+      "sha256": "74eb1795bcbd5191cd4b38a130a5561378cfba5e90459143625a24dd20471176"
     },
     {
       "source": "assistant.css",
@@ -2529,7 +2529,7 @@
     "service/limits.py": "7abce0d6e226a2e2727a8f092028c52077784674612248af4c98bc91073a64af",
     "service/llm.py": "3d9b49d5d423d73b3e6a3d031a7bed5c82c66628201fd747c599fa830d842507",
     "service/planner.py": "3967a0b07e7e16a0e0846ae9239c852ef066ae00d5fce42fd8d27af1fa933a7c",
-    "service/research_chat.py": "745e5a29ad71b8ede0c2ce085eae2f5e806451063ef77d9bdddc5b1d40b65113",
+    "service/research_chat.py": "492eb24de610a436a122002394896dc83354ac57479c156a4f890a812368f0ca",
     "service/retrieval.py": "81b579721ae34911ad4c49168e62356dd4428c86b25ed203b0b21cc70225fde1",
     "service/text.py": "0cde4d0275975c8ed981e21dc006082ebab7cbabae5c289526e9aca5805da9d2",
     "service/verify_live.py": "2b305eb1c890cd905a124c564c1023ec13ef437a413d0dfeb756638e42b2738d",

@@ -23,14 +23,20 @@ def main():
   local=(ROOT/'docs'/path).read_bytes();committed=subprocess.check_output(['git','show',args.commit+':docs/'+path],cwd=ROOT)
   assert local==committed,path+' working package differs from release commit'
   request=urllib.request.Request(BASE+path+'?chatRelease='+nonce,headers={'Cache-Control':'no-cache'})
-  with urllib.request.urlopen(request,timeout=45)as response:
-   raw=response.read();code=response.status
+  for attempt in range(3):
+   try:
+    opener=urllib.request.build_opener(urllib.request.ProxyHandler({}))
+    with opener.open(request,timeout=30)as response:
+     raw=response.read();code=response.status
+    break
+   except (OSError,urllib.error.URLError):
+    if attempt==2:raise
   assert code==200 and raw==committed,path+' public bytes differ from release commit'
   digest=hashlib.sha256(raw).hexdigest()
   if path.startswith('encrypted/'):assert digest==Path(path).stem
   return {'path':path,'bytes':len(raw),'sha256':digest,'public_exact_bytes':True}
  entries=[]
- with ThreadPoolExecutor(max_workers=6)as pool:
+ with ThreadPoolExecutor(max_workers=4)as pool:
   futures=[pool.submit(verify,path)for path in paths]
   for future in as_completed(futures):entries.append(future.result())
  entries.sort(key=lambda item:item['path'])

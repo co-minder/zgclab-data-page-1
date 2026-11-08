@@ -13655,6 +13655,3532 @@
       "artifact_dir": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T185846Z-3400830",
       "manifest": "365700f88d660ec861e2",
       "finished_at": "2026-11-08T18:58:46.870412+00:00"
+    },
+    {
+      "run_id": "20261108T191759Z-3432363",
+      "mode": "ui-stalled-index",
+      "target": "http://127.0.0.1:8790",
+      "started_at": "2026-11-08T19:17:59.336459+00:00",
+      "checks": [
+        {
+          "id": "baseline",
+          "status": "PASS",
+          "evidence": {
+            "path": "/home/ubuntu/zgclab-1-web/reports/research-chat-baseline-api-20261109.json",
+            "sha256": "542eab776c3e9d282db555a0f7dda006dcf00349d3529417d9786265a86c0dee",
+            "question": "你好，给我看看 近期的就是 对中国最相关的 报道我看看",
+            "actual_prior_model": {
+              "id": "auto/deepseek-v4.1-flash",
+              "used": true,
+              "attempted": true,
+              "reason": null
+            },
+            "prior_usage": {
+              "prompt_tokens": 579,
+              "completion_tokens": 782,
+              "total_tokens": 1361
+            },
+            "prior_seconds": 12.91,
+            "prior_results": 0,
+            "repeated_model_call": false
+          },
+          "seconds": 0.0
+        },
+        {
+          "id": "snapshot",
+          "status": "PASS",
+          "evidence": {
+            "snapshot": {
+              "schema_version": 2,
+              "source_version": "f064c896c123cbf4",
+              "source_package": "20261011-current-reviewed",
+              "source_generated_at": "2026-11-05T15:10:46+00:00",
+              "ingested_at": "2026-11-08T14:45:40+00:00",
+              "content_sha256": "f82dff3392d608e0a30f0011ca754eeb9a885dc9a47ba8f27a85b04ddbbaafda",
+              "dataset": "real",
+              "total": 6989,
+              "by_angle": {
+                "news": 3675,
+                "clue": 1468,
+                "social": 1846
+              },
+              "paragraphs": 348116,
+              "research_version": "a8acd9d0b712fbe06a65",
+              "date_scope_default": "published_at (original source field only)",
+              "field_map": {
+                "news": {
+                  "original_title": "title_en",
+                  "translated_title": "title_cn",
+                  "original_body": "content",
+                  "translated_body": "content_cn",
+                  "source_url": "url",
+                  "discovered_at": "founddate",
+                  "collected_at": null,
+                  "original_path": null,
+                  "source_hash": null
+                },
+                "clue": {
+                  "original_title": "clue_title",
+                  "translated_title": null,
+                  "original_body": "original_content",
+                  "translated_body": "chinese_trans",
+                  "source_url": "original_url",
+                  "discovered_at": "discovery_time",
+                  "collected_at": null,
+                  "original_path": "report_path",
+                  "source_hash": null
+                },
+                "social": {
+                  "original_title": "title",
+                  "translated_title": null,
+                  "original_body": "original_content",
+                  "translated_body": "chinese_translation",
+                  "source_url": "content_url",
+                  "discovered_at": null,
+                  "collected_at": "collected_time",
+                  "original_path": null,
+                  "source_hash": "content_hash"
+                }
+              },
+              "quality": {
+                "publication": {
+                  "missing": 392,
+                  "provided": 5971,
+                  "recovered": 626
+                },
+                "translation": {
+                  "available": 6664,
+                  "placeholder": 325
+                }
+              }
+            },
+            "totals": {
+              "clue": 1468,
+              "news": 3675,
+              "social": 1846
+            },
+            "date_coverage": [
+              {
+                "angle": "clue",
+                "earliest": "1984-12-21T12:00:00+00:00",
+                "latest": "2026-11-12T18:00:00+00:00",
+                "collected_max": "2026-09-26T16:05:09+00:00",
+                "missing": 350
+              },
+              {
+                "angle": "news",
+                "earliest": "2012-02-09T21:11:14+00:00",
+                "latest": "2026-09-26T14:33:19+00:00",
+                "collected_max": "2026-09-26T14:58:58+00:00",
+                "missing": 11
+              },
+              {
+                "angle": "social",
+                "earliest": "2020-11-08T17:00:37+00:00",
+                "latest": "2026-10-09T05:15:31+00:00",
+                "collected_max": "2026-10-09T13:26:05+00:00",
+                "missing": 657
+              }
+            ],
+            "future_source_dates": [
+              {
+                "id": "clue-1",
+                "angle": "clue",
+                "title": "Global Affairs Expert Webinar: North Korea’s Strategic Playbook | CFR Education",
+                "published_at": "2026-11-12T18:00:00+00:00",
+                "collected_at": "2026-09-16T17:35:43+00:00",
+                "source_url": "https://www.cfr.org/education/events/global-affairs-expert-webinar-north-koreas-strategic-playbook"
+              }
+            ],
+            "source_readonly": true
+          },
+          "seconds": 0.052
+        },
+        {
+          "id": "encrypted_manifest",
+          "status": "PASS",
+          "evidence": {
+            "manifest": "manifest-d15ea4a006bfdb3ba0ad.json",
+            "index_sha256": "4a3ddc83250bcf0a98916ceaa3ed1825a622e0f48842f5da5a27746af60b47bd",
+            "source_injection": false,
+            "source_freeze": {
+              "assistant.js": "74eb1795bcbd5191cd4b38a130a5561378cfba5e90459143625a24dd20471176",
+              "service/research_chat.py": "745e5a29ad71b8ede0c2ce085eae2f5e806451063ef77d9bdddc5b1d40b65113",
+              "service/chat.py": "b5bfed832e8136346f46f5b941da8f210db52eeb83a3ed8ce166f4f95e0b4bc6",
+              "service/retrieval.py": "81b579721ae34911ad4c49168e62356dd4428c86b25ed203b0b21cc70225fde1",
+              "service/intent.py": "f2cbe2b02f4de482d59dce96897f74854dc2a54ebb4c6f206e9f8d605c511865",
+              "service/planner.py": "3967a0b07e7e16a0e0846ae9239c852ef066ae00d5fce42fd8d27af1fa933a7c",
+              "service/app.py": "dc9c131e54c64a65abcb16e84033aec956cfa0d6b6370419461c0f4e248324c9"
+            },
+            "assistant_sha256": "74eb1795bcbd5191cd4b38a130a5561378cfba5e90459143625a24dd20471176",
+            "cipher_path": "encrypted/4d7aabfc7b12f6e23cba6329f872d5bacc8feb0f3c809c1de17a07a73a3c7bee.bin",
+            "cipher_sha256": "4d7aabfc7b12f6e23cba6329f872d5bacc8feb0f3c809c1de17a07a73a3c7bee",
+            "encrypted_source_matches_freeze": true
+          },
+          "seconds": 0.532
+        },
+        {
+          "id": "ui_stalled_index",
+          "status": "FAIL",
+          "error": "AssertionError",
+          "traceback": "Traceback (most recent call last):\n  File \"/home/ubuntu/zgclab-1-web/tests/chat_acceptance.py\", line 308, in case\n    record.update(status=\"PASS\", evidence=action())\n                                          ^^^^^^^^\n  File \"/home/ubuntu/zgclab-1-web/tests/chat_acceptance.py\", line 628, in verify\n    assert citation[\"snippet\"] in card.inner_text() and card.locator(\"a[target='_blank']\").get_attribute(\"href\") == citation[\"source_url\"]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+          "seconds": 0.35
+        }
+      ],
+      "model_candidate_turns": 0,
+      "model_usage": {},
+      "source_injection": false,
+      "artifact_dir": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T191759Z-3432363",
+      "manifest": "d15ea4a006bfdb3ba0ad",
+      "source_freeze": {
+        "assistant.js": "74eb1795bcbd5191cd4b38a130a5561378cfba5e90459143625a24dd20471176",
+        "service/research_chat.py": "745e5a29ad71b8ede0c2ce085eae2f5e806451063ef77d9bdddc5b1d40b65113",
+        "service/chat.py": "b5bfed832e8136346f46f5b941da8f210db52eeb83a3ed8ce166f4f95e0b4bc6",
+        "service/retrieval.py": "81b579721ae34911ad4c49168e62356dd4428c86b25ed203b0b21cc70225fde1",
+        "service/intent.py": "f2cbe2b02f4de482d59dce96897f74854dc2a54ebb4c6f206e9f8d605c511865",
+        "service/planner.py": "3967a0b07e7e16a0e0846ae9239c852ef066ae00d5fce42fd8d27af1fa933a7c",
+        "service/app.py": "dc9c131e54c64a65abcb16e84033aec956cfa0d6b6370419461c0f4e248324c9"
+      },
+      "page_errors": [],
+      "model_calls": 0,
+      "finished_at": "2026-11-08T19:18:04.995610+00:00"
+    },
+    {
+      "run_id": "20261108T191906Z-3433642",
+      "mode": "ui-stalled-index",
+      "target": "http://127.0.0.1:8790",
+      "started_at": "2026-11-08T19:19:06.463872+00:00",
+      "checks": [
+        {
+          "id": "baseline",
+          "status": "PASS",
+          "evidence": {
+            "path": "/home/ubuntu/zgclab-1-web/reports/research-chat-baseline-api-20261109.json",
+            "sha256": "542eab776c3e9d282db555a0f7dda006dcf00349d3529417d9786265a86c0dee",
+            "question": "你好，给我看看 近期的就是 对中国最相关的 报道我看看",
+            "actual_prior_model": {
+              "id": "auto/deepseek-v4.1-flash",
+              "used": true,
+              "attempted": true,
+              "reason": null
+            },
+            "prior_usage": {
+              "prompt_tokens": 579,
+              "completion_tokens": 782,
+              "total_tokens": 1361
+            },
+            "prior_seconds": 12.91,
+            "prior_results": 0,
+            "repeated_model_call": false
+          },
+          "seconds": 0.0
+        },
+        {
+          "id": "snapshot",
+          "status": "PASS",
+          "evidence": {
+            "snapshot": {
+              "schema_version": 2,
+              "source_version": "f064c896c123cbf4",
+              "source_package": "20261011-current-reviewed",
+              "source_generated_at": "2026-11-05T15:10:46+00:00",
+              "ingested_at": "2026-11-08T14:45:40+00:00",
+              "content_sha256": "f82dff3392d608e0a30f0011ca754eeb9a885dc9a47ba8f27a85b04ddbbaafda",
+              "dataset": "real",
+              "total": 6989,
+              "by_angle": {
+                "news": 3675,
+                "clue": 1468,
+                "social": 1846
+              },
+              "paragraphs": 348116,
+              "research_version": "a8acd9d0b712fbe06a65",
+              "date_scope_default": "published_at (original source field only)",
+              "field_map": {
+                "news": {
+                  "original_title": "title_en",
+                  "translated_title": "title_cn",
+                  "original_body": "content",
+                  "translated_body": "content_cn",
+                  "source_url": "url",
+                  "discovered_at": "founddate",
+                  "collected_at": null,
+                  "original_path": null,
+                  "source_hash": null
+                },
+                "clue": {
+                  "original_title": "clue_title",
+                  "translated_title": null,
+                  "original_body": "original_content",
+                  "translated_body": "chinese_trans",
+                  "source_url": "original_url",
+                  "discovered_at": "discovery_time",
+                  "collected_at": null,
+                  "original_path": "report_path",
+                  "source_hash": null
+                },
+                "social": {
+                  "original_title": "title",
+                  "translated_title": null,
+                  "original_body": "original_content",
+                  "translated_body": "chinese_translation",
+                  "source_url": "content_url",
+                  "discovered_at": null,
+                  "collected_at": "collected_time",
+                  "original_path": null,
+                  "source_hash": "content_hash"
+                }
+              },
+              "quality": {
+                "publication": {
+                  "missing": 392,
+                  "provided": 5971,
+                  "recovered": 626
+                },
+                "translation": {
+                  "available": 6664,
+                  "placeholder": 325
+                }
+              }
+            },
+            "totals": {
+              "clue": 1468,
+              "news": 3675,
+              "social": 1846
+            },
+            "date_coverage": [
+              {
+                "angle": "clue",
+                "earliest": "1984-12-21T12:00:00+00:00",
+                "latest": "2026-11-12T18:00:00+00:00",
+                "collected_max": "2026-09-26T16:05:09+00:00",
+                "missing": 350
+              },
+              {
+                "angle": "news",
+                "earliest": "2012-02-09T21:11:14+00:00",
+                "latest": "2026-09-26T14:33:19+00:00",
+                "collected_max": "2026-09-26T14:58:58+00:00",
+                "missing": 11
+              },
+              {
+                "angle": "social",
+                "earliest": "2020-11-08T17:00:37+00:00",
+                "latest": "2026-10-09T05:15:31+00:00",
+                "collected_max": "2026-10-09T13:26:05+00:00",
+                "missing": 657
+              }
+            ],
+            "future_source_dates": [
+              {
+                "id": "clue-1",
+                "angle": "clue",
+                "title": "Global Affairs Expert Webinar: North Korea’s Strategic Playbook | CFR Education",
+                "published_at": "2026-11-12T18:00:00+00:00",
+                "collected_at": "2026-09-16T17:35:43+00:00",
+                "source_url": "https://www.cfr.org/education/events/global-affairs-expert-webinar-north-koreas-strategic-playbook"
+              }
+            ],
+            "source_readonly": true
+          },
+          "seconds": 0.061
+        },
+        {
+          "id": "encrypted_manifest",
+          "status": "PASS",
+          "evidence": {
+            "manifest": "manifest-d15ea4a006bfdb3ba0ad.json",
+            "index_sha256": "4a3ddc83250bcf0a98916ceaa3ed1825a622e0f48842f5da5a27746af60b47bd",
+            "source_injection": false,
+            "source_freeze": {
+              "assistant.js": "74eb1795bcbd5191cd4b38a130a5561378cfba5e90459143625a24dd20471176",
+              "service/research_chat.py": "745e5a29ad71b8ede0c2ce085eae2f5e806451063ef77d9bdddc5b1d40b65113",
+              "service/chat.py": "b5bfed832e8136346f46f5b941da8f210db52eeb83a3ed8ce166f4f95e0b4bc6",
+              "service/retrieval.py": "81b579721ae34911ad4c49168e62356dd4428c86b25ed203b0b21cc70225fde1",
+              "service/intent.py": "f2cbe2b02f4de482d59dce96897f74854dc2a54ebb4c6f206e9f8d605c511865",
+              "service/planner.py": "3967a0b07e7e16a0e0846ae9239c852ef066ae00d5fce42fd8d27af1fa933a7c",
+              "service/app.py": "dc9c131e54c64a65abcb16e84033aec956cfa0d6b6370419461c0f4e248324c9"
+            },
+            "assistant_sha256": "74eb1795bcbd5191cd4b38a130a5561378cfba5e90459143625a24dd20471176",
+            "cipher_path": "encrypted/4d7aabfc7b12f6e23cba6329f872d5bacc8feb0f3c809c1de17a07a73a3c7bee.bin",
+            "cipher_sha256": "4d7aabfc7b12f6e23cba6329f872d5bacc8feb0f3c809c1de17a07a73a3c7bee",
+            "encrypted_source_matches_freeze": true
+          },
+          "seconds": 0.622
+        },
+        {
+          "id": "ui_stalled_index",
+          "status": "PASS",
+          "evidence": {
+            "manifest": "d15ea4a006bfdb3ba0ad",
+            "source_freeze": {
+              "assistant.js": "74eb1795bcbd5191cd4b38a130a5561378cfba5e90459143625a24dd20471176",
+              "service/research_chat.py": "745e5a29ad71b8ede0c2ce085eae2f5e806451063ef77d9bdddc5b1d40b65113",
+              "service/chat.py": "b5bfed832e8136346f46f5b941da8f210db52eeb83a3ed8ce166f4f95e0b4bc6",
+              "service/retrieval.py": "81b579721ae34911ad4c49168e62356dd4428c86b25ed203b0b21cc70225fde1",
+              "service/intent.py": "f2cbe2b02f4de482d59dce96897f74854dc2a54ebb4c6f206e9f8d605c511865",
+              "service/planner.py": "3967a0b07e7e16a0e0846ae9239c852ef066ae00d5fce42fd8d27af1fa933a7c",
+              "service/app.py": "dc9c131e54c64a65abcb16e84033aec956cfa0d6b6370419461c0f4e248324c9"
+            },
+            "transport": "actual new encrypted UI; prior successful actual API answer replay; only three encrypted index HTTP assets held pending",
+            "new_model_calls": 0,
+            "source_injection": false,
+            "replay_capture": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/live-original-20261108T185421Z.json",
+            "replay_capture_sha256": "7af5ca83badd6f8c66eb60c91aa82d5e54d50e3552c7386ae976caeeca0242e2",
+            "api_to_usable_ms": 89.821,
+            "index_requests_held": 3,
+            "index_responses_completed": 0,
+            "after_optional_timeout_core_still_usable": true,
+            "citations": 4,
+            "full_export": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T191906Z-3433642/stalled-index-replay.md",
+            "page_errors": [],
+            "screenshot": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T191906Z-3433642/stalled-index-replay-390.png"
+          },
+          "seconds": 8.549
+        }
+      ],
+      "model_candidate_turns": 0,
+      "model_usage": {},
+      "source_injection": false,
+      "artifact_dir": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T191906Z-3433642",
+      "manifest": "d15ea4a006bfdb3ba0ad",
+      "source_freeze": {
+        "assistant.js": "74eb1795bcbd5191cd4b38a130a5561378cfba5e90459143625a24dd20471176",
+        "service/research_chat.py": "745e5a29ad71b8ede0c2ce085eae2f5e806451063ef77d9bdddc5b1d40b65113",
+        "service/chat.py": "b5bfed832e8136346f46f5b941da8f210db52eeb83a3ed8ce166f4f95e0b4bc6",
+        "service/retrieval.py": "81b579721ae34911ad4c49168e62356dd4428c86b25ed203b0b21cc70225fde1",
+        "service/intent.py": "f2cbe2b02f4de482d59dce96897f74854dc2a54ebb4c6f206e9f8d605c511865",
+        "service/planner.py": "3967a0b07e7e16a0e0846ae9239c852ef066ae00d5fce42fd8d27af1fa933a7c",
+        "service/app.py": "dc9c131e54c64a65abcb16e84033aec956cfa0d6b6370419461c0f4e248324c9"
+      },
+      "page_errors": [],
+      "model_calls": 0,
+      "finished_at": "2026-11-08T19:19:20.100903+00:00"
+    },
+    {
+      "run_id": "20261108T191944Z-3434387",
+      "mode": "ui",
+      "target": "http://127.0.0.1:8790",
+      "started_at": "2026-11-08T19:19:44.688464+00:00",
+      "checks": [
+        {
+          "id": "baseline",
+          "status": "PASS",
+          "evidence": {
+            "path": "/home/ubuntu/zgclab-1-web/reports/research-chat-baseline-api-20261109.json",
+            "sha256": "542eab776c3e9d282db555a0f7dda006dcf00349d3529417d9786265a86c0dee",
+            "question": "你好，给我看看 近期的就是 对中国最相关的 报道我看看",
+            "actual_prior_model": {
+              "id": "auto/deepseek-v4.1-flash",
+              "used": true,
+              "attempted": true,
+              "reason": null
+            },
+            "prior_usage": {
+              "prompt_tokens": 579,
+              "completion_tokens": 782,
+              "total_tokens": 1361
+            },
+            "prior_seconds": 12.91,
+            "prior_results": 0,
+            "repeated_model_call": false
+          },
+          "seconds": 0.0
+        },
+        {
+          "id": "snapshot",
+          "status": "PASS",
+          "evidence": {
+            "snapshot": {
+              "schema_version": 2,
+              "source_version": "f064c896c123cbf4",
+              "source_package": "20261011-current-reviewed",
+              "source_generated_at": "2026-11-05T15:10:46+00:00",
+              "ingested_at": "2026-11-08T14:45:40+00:00",
+              "content_sha256": "f82dff3392d608e0a30f0011ca754eeb9a885dc9a47ba8f27a85b04ddbbaafda",
+              "dataset": "real",
+              "total": 6989,
+              "by_angle": {
+                "news": 3675,
+                "clue": 1468,
+                "social": 1846
+              },
+              "paragraphs": 348116,
+              "research_version": "a8acd9d0b712fbe06a65",
+              "date_scope_default": "published_at (original source field only)",
+              "field_map": {
+                "news": {
+                  "original_title": "title_en",
+                  "translated_title": "title_cn",
+                  "original_body": "content",
+                  "translated_body": "content_cn",
+                  "source_url": "url",
+                  "discovered_at": "founddate",
+                  "collected_at": null,
+                  "original_path": null,
+                  "source_hash": null
+                },
+                "clue": {
+                  "original_title": "clue_title",
+                  "translated_title": null,
+                  "original_body": "original_content",
+                  "translated_body": "chinese_trans",
+                  "source_url": "original_url",
+                  "discovered_at": "discovery_time",
+                  "collected_at": null,
+                  "original_path": "report_path",
+                  "source_hash": null
+                },
+                "social": {
+                  "original_title": "title",
+                  "translated_title": null,
+                  "original_body": "original_content",
+                  "translated_body": "chinese_translation",
+                  "source_url": "content_url",
+                  "discovered_at": null,
+                  "collected_at": "collected_time",
+                  "original_path": null,
+                  "source_hash": "content_hash"
+                }
+              },
+              "quality": {
+                "publication": {
+                  "missing": 392,
+                  "provided": 5971,
+                  "recovered": 626
+                },
+                "translation": {
+                  "available": 6664,
+                  "placeholder": 325
+                }
+              }
+            },
+            "totals": {
+              "clue": 1468,
+              "news": 3675,
+              "social": 1846
+            },
+            "date_coverage": [
+              {
+                "angle": "clue",
+                "earliest": "1984-12-21T12:00:00+00:00",
+                "latest": "2026-11-12T18:00:00+00:00",
+                "collected_max": "2026-09-26T16:05:09+00:00",
+                "missing": 350
+              },
+              {
+                "angle": "news",
+                "earliest": "2012-02-09T21:11:14+00:00",
+                "latest": "2026-09-26T14:33:19+00:00",
+                "collected_max": "2026-09-26T14:58:58+00:00",
+                "missing": 11
+              },
+              {
+                "angle": "social",
+                "earliest": "2020-11-08T17:00:37+00:00",
+                "latest": "2026-10-09T05:15:31+00:00",
+                "collected_max": "2026-10-09T13:26:05+00:00",
+                "missing": 657
+              }
+            ],
+            "future_source_dates": [
+              {
+                "id": "clue-1",
+                "angle": "clue",
+                "title": "Global Affairs Expert Webinar: North Korea’s Strategic Playbook | CFR Education",
+                "published_at": "2026-11-12T18:00:00+00:00",
+                "collected_at": "2026-09-16T17:35:43+00:00",
+                "source_url": "https://www.cfr.org/education/events/global-affairs-expert-webinar-north-koreas-strategic-playbook"
+              }
+            ],
+            "source_readonly": true
+          },
+          "seconds": 0.053
+        },
+        {
+          "id": "encrypted_manifest",
+          "status": "PASS",
+          "evidence": {
+            "manifest": "manifest-d15ea4a006bfdb3ba0ad.json",
+            "index_sha256": "4a3ddc83250bcf0a98916ceaa3ed1825a622e0f48842f5da5a27746af60b47bd",
+            "source_injection": false,
+            "source_freeze": {
+              "assistant.js": "74eb1795bcbd5191cd4b38a130a5561378cfba5e90459143625a24dd20471176",
+              "service/research_chat.py": "745e5a29ad71b8ede0c2ce085eae2f5e806451063ef77d9bdddc5b1d40b65113",
+              "service/chat.py": "b5bfed832e8136346f46f5b941da8f210db52eeb83a3ed8ce166f4f95e0b4bc6",
+              "service/retrieval.py": "81b579721ae34911ad4c49168e62356dd4428c86b25ed203b0b21cc70225fde1",
+              "service/intent.py": "f2cbe2b02f4de482d59dce96897f74854dc2a54ebb4c6f206e9f8d605c511865",
+              "service/planner.py": "3967a0b07e7e16a0e0846ae9239c852ef066ae00d5fce42fd8d27af1fa933a7c",
+              "service/app.py": "dc9c131e54c64a65abcb16e84033aec956cfa0d6b6370419461c0f4e248324c9"
+            },
+            "assistant_sha256": "74eb1795bcbd5191cd4b38a130a5561378cfba5e90459143625a24dd20471176",
+            "cipher_path": "encrypted/4d7aabfc7b12f6e23cba6329f872d5bacc8feb0f3c809c1de17a07a73a3c7bee.bin",
+            "cipher_sha256": "4d7aabfc7b12f6e23cba6329f872d5bacc8feb0f3c809c1de17a07a73a3c7bee",
+            "encrypted_source_matches_freeze": true
+          },
+          "seconds": 0.572
+        },
+        {
+          "id": "ui_original",
+          "status": "PASS",
+          "evidence": {
+            "transport": "actual encrypted UI + live API/model",
+            "answer_text": "研究问题\n\n你好，给我看看 近期的就是 对中国最相关的 报道我看看\n\n基于数据库资料的分析\n\n实际模型：auto/deepseek-v4.1-flash · 根据本次检索资料整理回答，来源陈述与分析仍需结合原文判断；不代表全库或实时结论。\n\n美国外交关系协会相关账号转引评论指出，特朗普对华政策最令人担忧之处在于其与前任错误的相似性，而非其前所未有。 [C1]\n\n大西洋理事会刊文提到，普京未能获得北京对“西伯利亚力量二号”管道的支持，文章认为这强化了乌克兰入侵使俄罗斯沦为中国的“小伙伴”的国际看法。 [C5]\n\n保卫民主基金会的Craig Singleton对美联社表示，延长贸易休战让美国有机会检验中国是否履行购买美国农产品的承诺，并称重点在于让中国赢得下一次延期。 [C6]\n\n卡隆公司预告一场炉边谈话，由国防情报局前代理局长大卫·谢德解读特朗普与习近平北京峰会后的美中战略竞争，并将其与中国情报和工业间谍活动联系起来。 [C7]\n\n分析：另有报道提及FBI门户遭黑客攻击后，部分被盗数据据称包含针对中国间谍等敏感工作信息；这属于安全事件中的涉华内容，与上述政策讨论主题不同。美国国土安全部相关报道中的“中国”仅出现在机构名称“国土安全部”里，并非中国议题。 [C10][C4]\n\n数据库范围：全部真实资料；结构化筛选共 6,989 条，按实际关键词规则命中 987 条（记录去重）。[A1]\n时间口径：原始发布时间，北京时间；依据已加载真实快照，非实时报道。本次返回的非未来日期资料中，最新记录日期为 2026-09-25T10:35:01+00:00。[A2]该统计范围的资料记录日期最大值为 2026-11-12T18:00:00+00:00。[A2]其中 1 条记录日期晚于当前日期基准，属于所存日期异常，不能当作未来事件已经发生的证据。[A2]当前日期基准为 2026-11-09。分析仅涉及所引证据样本，不能据此估计全库议题占比或机构全部立场。\n部分候选结论缺少充分证据，已省略。\n\n查看来源陈述、分析与对应摘录\n查看检索过程与资料范围\n复制本轮与引用\n继续追问 ↓\n加入专题（6 条）\n\n可继续研究 · 点击问题只填入输入框\n\n最近 CSIS 对中国关注什么？分析主要议题\n比较 CSIS 与 RAND 涉华报道的异同\nCSIS 有多少条记录？按角度统计\n[A1]\n数据库精确统计\n真实记录去重\n检索规则命中\n987 条\n结构化筛选范围\n6,989 条\n\n仅覆盖已入库快照；不以返回段落估算，不代表全网数量或实时覆盖。\n\n查看统计口径与角度分布\n在数据浏览查看结构化范围 →\n\n数据浏览链接只带入结构化筛选；本次关键词、排除词与命中数量请以此统计引用为准。\n\n查看命中记录的机构与平台分布\n[A2]\n数据库精确统计\n真实记录去重\n\n仅覆盖已入库快照；不以返回段落估算，不代表全网数量或实时覆盖。\n\n资料日期与月度统计 · 按同一筛选和关键词口径，由数据库计算\n\n命中记录\n987 条\n有日期\n896 条\n无可用日期\n91 条\n本次返回的最新非未来日期\n2026-09-25T10:35:01+00:00\n统计范围最新非未来日期\n2026-09-25T10:35:01+00:00\n统计范围最早日期\n1999-02-01T12:00:00+00:00\n统计范围最大日期\n2026-11-12T18:00:00+00:00\n\n1 条记录的所存日期晚于当前日期基准；不代表未来事件已经发生，最大日期不能作为近期覆盖截止。\n\n查看按月记录数（101 个月份）\n查看记录数量排名与份额\n在数据浏览查看结构化范围 →\n\n数据浏览链接只带入结构化筛选；本次关键词、排除词与命中数量请以此统计引用为准。\n\n查看命中记录的机构与平台分布\n引用资料 · 6 段证据\n[C1]\n社交媒体\n美国外交关系协会（对外关系委员会）\nForeign Affairs · Foreign Affairs (@ForeignAffairs) on X\n\nchinese_translation · 服务分段 4（服务按字段切分，非原网页段落号）\n\n@jonczin写道：“特朗普的对华政策最令人担忧的地方，不在于它前所未有，而在于它与前任们的错误看起来多么相似。”https://t.co/vuFaTDFkhT\n\n服务资料版本 f064c896c123cbf4 · 原始发布时间已提供 · 翻译状态 available\n\n查看本站记录 →\n打开原文 ↗\n载入正文段落\n查看回答使用的来源摘录\n[C4]\n新闻舆情\n美国国土安全部\n报道称白宫保留诺姆价值7000万美元的豪华专机\n\ncontent_cn · 服务分段 18（服务按字段切分，非原网页段落号）\n\n克里斯蒂·诺姆将被解除特朗普总统内阁中国土安全部部长及国土安全部长的职务，有人提议由马克韦恩·穆林接替她，之后再获确认。\n\n服务资料版本 f064c896c123cbf4 · 原始发布时间已提供 · 翻译状态 available\n\n查看本站记录 →\n打开原文 ↗\n载入正文段落\n查看回答使用的来源摘录\n[C5]\n社交媒体\n大西洋理事会\nAtlantic Council · Atlantic Council (@AtlanticCouncil) on X\n\nchinese_translation · 服务分段 5（服务按字段切分，非原网页段落号）\n\n普京无法获得北京对“西伯利亚力量二号”管道的支持，这强化了国际社会的看法：乌克兰入侵已使俄罗斯沦为中国的“小伙伴”。@zaharhryniv撰文。阅读更多：https://t.co/JklqpWCU1Q\n\n服务资料版本 f064c896c123cbf4 · 原始发布时间已提供 · 翻译状态 available\n\n查看本站记录 →\n打开原文 ↗\n载入正文段落\n查看回答使用的来源摘录\n展开其余 3 段引用资料",
+            "screenshot": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T191944Z-3434387/ui-original.png",
+            "live_model_answer": true,
+            "source_injection": false,
+            "api_to_usable_ms": 7.851
+          },
+          "seconds": 15.433
+        },
+        {
+          "id": "ui_loading_cancel_retry",
+          "status": "PASS",
+          "evidence": {
+            "immediate_loading": true,
+            "cancel_kept_answer_count": 1,
+            "timeout_error": "研究服务暂时无法连接，请检查网络或重新连接。当前可继续使用本地索引检索。",
+            "retry_attempts": 2,
+            "transport": "controlled local HTTP408 then replay of real API answer; not a new model-quality check",
+            "screenshot": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T191944Z-3434387/ui-retry.png"
+          },
+          "seconds": 2.24
+        },
+        {
+          "id": "ui_sources_followup",
+          "status": "PASS",
+          "evidence": {
+            "citation_focus": {
+              "citation": "C1",
+              "text": "[C1]\n社交媒体\n美国外交关系协会（对外关系委员会）\nForeign Affairs · Foreign Affairs (@ForeignAffairs) on X\n\nchinese_translation · 服务分段 4（服务按字段切分，非原网页段落号）\n\n@jonczin写道：“特朗普的对华政策最令人担忧的地方，不在于它前所未有，而在于它与前任们的错误看起来多么相似。”https://t.co/vuFaTDFkhT\n\n服务资料版本 f064c896c123cbf4 · 原始发布时间已提供 · 翻译状态 available\n\n查看本站记录 →\n打开原文 ↗\n载入正文段落\n查看回答使用的来源摘录"
+            },
+            "followup_focus": {
+              "focused": true,
+              "top": 699.984375,
+              "bottom": 800.234375,
+              "height": 1050
+            },
+            "external_source_opened": false,
+            "screenshot": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T191944Z-3434387/ui-followup.png"
+          },
+          "seconds": 1.421
+        },
+        {
+          "id": "ui_saved_backup",
+          "status": "PASS",
+          "evidence": {
+            "backup": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T191944Z-3434387/real-answer-workspace-backup.json",
+            "saved_turns": 2,
+            "fresh_context_restored": true,
+            "screenshot": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T191944Z-3434387/ui-restored-chat.png"
+          },
+          "seconds": 3.665
+        },
+        {
+          "id": "ui_zero_to_chat",
+          "status": "PASS",
+          "evidence": {
+            "action_to_chat": true,
+            "question": "2026新奇量子foo987",
+            "actual_zero_response": {
+              "api_revision": "research-chat-20261109",
+              "answer": "当前真实数据库及筛选范围内未检索到可引用的资料。可以调整关键词、机构、角度或日期；现有证据不足以回答该问题。\n\n数据库范围：全部真实资料；结构化筛选共 6,989 条，按实际关键词规则命中 0 条（记录去重）。[A1]\n时间口径：published_at，Asia/Shanghai；依据已加载真实快照，非实时报道。当前日期基准为 2026-11-09。",
+              "citations": [],
+              "aggregate_citations": [
+                {
+                  "citation_id": "A1",
+                  "kind": "database_aggregate",
+                  "scope": {
+                    "dataset": "real",
+                    "filters": {
+                      "date_field": "published_at"
+                    },
+                    "source_version": "f064c896c123cbf4",
+                    "date_field": "published_at",
+                    "timezone": "Asia/Shanghai",
+                    "excluded_terms": [],
+                    "sort": "relevance",
+                    "relaxed": false,
+                    "term_match": [
+                      [
+                        "量子",
+                        "quantum"
+                      ],
+                      [
+                        "2026"
+                      ],
+                      [
+                        "新奇"
+                      ],
+                      [
+                        "foo987"
+                      ]
+                    ],
+                    "strategy": "fts5_and",
+                    "date_semantics": "Original source publication dates only; recovered dates do not change this scope"
+                  },
+                  "scoped": {
+                    "total": 6989,
+                    "by_angle": {
+                      "news": 3675,
+                      "clue": 1468,
+                      "social": 1846
+                    },
+                    "by_institution": [
+                      {
+                        "ktid": 1000110,
+                        "cn": "美国联邦调查局",
+                        "en": "Federal Bureau of Investigation",
+                        "count": 1688,
+                        "by_angle": {
+                          "news": 1446,
+                          "clue": 6,
+                          "social": 236
+                        }
+                      },
+                      {
+                        "ktid": 1001140,
+                        "cn": "美国国土安全部",
+                        "en": "United States Department of Homeland Security",
+                        "count": 1672,
+                        "by_angle": {
+                          "news": 1185,
+                          "clue": 3,
+                          "social": 484
+                        }
+                      },
+                      {
+                        "ktid": 1000490,
+                        "cn": "战略与国际研究中心",
+                        "en": "Center for Strategic and International Studies",
+                        "count": 1317,
+                        "by_angle": {
+                          "news": 225,
+                          "clue": 727,
+                          "social": 365
+                        }
+                      },
+                      {
+                        "ktid": 1000580,
+                        "cn": "克劳德斯特赖克公司",
+                        "en": "CrowdStrike Holdings, Inc.",
+                        "count": 516,
+                        "by_angle": {
+                          "news": 368,
+                          "clue": 75,
+                          "social": 73
+                        }
+                      },
+                      {
+                        "ktid": 1001190,
+                        "cn": "大西洋理事会",
+                        "en": "Atlantic Council",
+                        "count": 386,
+                        "by_angle": {
+                          "news": 15,
+                          "clue": 20,
+                          "social": 351
+                        }
+                      },
+                      {
+                        "ktid": 1000480,
+                        "cn": "兰德公司",
+                        "en": "RAND Corporation",
+                        "count": 290,
+                        "by_angle": {
+                          "news": 2,
+                          "clue": 249,
+                          "social": 39
+                        }
+                      },
+                      {
+                        "ktid": 1001210,
+                        "cn": "布鲁金斯学会",
+                        "en": "Brookings Institution",
+                        "count": 272,
+                        "by_angle": {
+                          "news": 7,
+                          "clue": 58,
+                          "social": 207
+                        }
+                      },
+                      {
+                        "ktid": 1002550,
+                        "cn": "阿肯色州立大学",
+                        "en": "Arkansas State University",
+                        "count": 221,
+                        "by_angle": {
+                          "news": 100,
+                          "clue": 120,
+                          "social": 1
+                        }
+                      },
+                      {
+                        "ktid": 1001270,
+                        "cn": "新美国安全中心",
+                        "en": "Center for a New American Security",
+                        "count": 164,
+                        "by_angle": {
+                          "news": 35,
+                          "clue": 120,
+                          "social": 9
+                        }
+                      },
+                      {
+                        "ktid": 1001290,
+                        "cn": "美国外交关系协会（对外关系委员会）",
+                        "en": "Council on Foreign Relations (CFR)",
+                        "count": 99,
+                        "by_angle": {
+                          "news": 18,
+                          "clue": 62,
+                          "social": 19
+                        }
+                      },
+                      {
+                        "ktid": 1000760,
+                        "cn": "洛克希德·马丁公司",
+                        "en": "Lockheed Martin Corporation",
+                        "count": 66,
+                        "by_angle": {
+                          "news": 40,
+                          "clue": 15,
+                          "social": 11
+                        }
+                      },
+                      {
+                        "ktid": 1055920,
+                        "cn": "卡隆公司",
+                        "en": "Kharon",
+                        "count": 50,
+                        "by_angle": {
+                          "news": 38,
+                          "clue": 1,
+                          "social": 11
+                        }
+                      },
+                      {
+                        "ktid": 1056587,
+                        "cn": "英特尔",
+                        "en": "Intel",
+                        "count": 39,
+                        "by_angle": {
+                          "news": 36,
+                          "clue": 2,
+                          "social": 1
+                        }
+                      },
+                      {
+                        "ktid": 1056514,
+                        "cn": "摩根大通",
+                        "en": "JP Morgan",
+                        "count": 37,
+                        "by_angle": {
+                          "news": 35,
+                          "clue": 1,
+                          "social": 1
+                        }
+                      },
+                      {
+                        "ktid": 1001350,
+                        "cn": "保卫民主基金会",
+                        "en": "Foundation for Defense of Democracies",
+                        "count": 36,
+                        "by_angle": {
+                          "news": 15,
+                          "clue": 2,
+                          "social": 19
+                        }
+                      },
+                      {
+                        "ktid": 5775050,
+                        "cn": "OpenAI",
+                        "en": "OpenAI",
+                        "count": 36,
+                        "by_angle": {
+                          "news": 33,
+                          "clue": 2,
+                          "social": 1
+                        }
+                      },
+                      {
+                        "ktid": 2575920,
+                        "cn": "霍尼韦尔",
+                        "en": "Honeywell",
+                        "count": 30,
+                        "by_angle": {
+                          "news": 27,
+                          "clue": 2,
+                          "social": 1
+                        }
+                      },
+                      {
+                        "ktid": 1056630,
+                        "cn": "IBM",
+                        "en": "IBM",
+                        "count": 27,
+                        "by_angle": {
+                          "news": 25,
+                          "clue": 1,
+                          "social": 1
+                        }
+                      },
+                      {
+                        "ktid": 2572960,
+                        "cn": "思科",
+                        "en": "Cisco",
+                        "count": 25,
+                        "by_angle": {
+                          "news": 23,
+                          "clue": 1,
+                          "social": 1
+                        }
+                      },
+                      {
+                        "ktid": 1001150,
+                        "cn": "美国国务院",
+                        "en": "United States Department of State (DOS)",
+                        "count": 18,
+                        "by_angle": {
+                          "news": 2,
+                          "clue": 1,
+                          "social": 15
+                        }
+                      }
+                    ],
+                    "by_platform": [
+                      {
+                        "platform": "Google News RSS discovery",
+                        "count": 1664
+                      },
+                      {
+                        "platform": "official_web",
+                        "count": 1468
+                      },
+                      {
+                        "platform": "X",
+                        "count": 1189
+                      },
+                      {
+                        "platform": "Google News RSS",
+                        "count": 946
+                      },
+                      {
+                        "platform": "Google News RSS (deep pilot)",
+                        "count": 881
+                      },
+                      {
+                        "platform": "Facebook",
+                        "count": 615
+                      },
+                      {
+                        "platform": "Bing News RSS",
+                        "count": 125
+                      },
+                      {
+                        "platform": "LinkedIn",
+                        "count": 42
+                      },
+                      {
+                        "platform": "Google via Apify",
+                        "count": 34
+                      },
+                      {
+                        "platform": "Google",
+                        "count": 15
+                      },
+                      {
+                        "platform": "Google News RSS + Yahoo title resolution via Reader",
+                        "count": 9
+                      },
+                      {
+                        "platform": "legacy_cache_import",
+                        "count": 1
+                      }
+                    ]
+                  },
+                  "matched": {
+                    "total": 0,
+                    "by_angle": {
+                      "news": 0,
+                      "clue": 0,
+                      "social": 0
+                    },
+                    "by_institution": [],
+                    "by_platform": []
+                  }
+                },
+                {
+                  "citation_id": "A2",
+                  "kind": "database_aggregate",
+                  "scope": {
+                    "dataset": "real",
+                    "filters": {
+                      "date_field": "published_at"
+                    },
+                    "source_version": "f064c896c123cbf4",
+                    "date_field": "published_at",
+                    "timezone": "Asia/Shanghai",
+                    "excluded_terms": [],
+                    "sort": "relevance",
+                    "relaxed": false,
+                    "term_match": [
+                      [
+                        "量子",
+                        "quantum"
+                      ],
+                      [
+                        "2026"
+                      ],
+                      [
+                        "新奇"
+                      ],
+                      [
+                        "foo987"
+                      ]
+                    ],
+                    "strategy": "fts5_and",
+                    "date_semantics": "Original source publication dates only; recovered dates do not change this scope",
+                    "dimensions": [
+                      "institution",
+                      "angle",
+                      "platform",
+                      "month"
+                    ],
+                    "as_of": "2026-11-09T03:20:11+08:00",
+                    "date_basis": "Original source publication field only; recovered dates do not replace it"
+                  },
+                  "matched": {
+                    "total": 0,
+                    "by_angle": {
+                      "news": 0,
+                      "clue": 0,
+                      "social": 0
+                    },
+                    "by_institution": [],
+                    "by_platform": []
+                  },
+                  "date_range": {
+                    "date_field": "published_at",
+                    "timezone": "Asia/Shanghai",
+                    "basis": "Original source publication field only; recovered dates do not replace it",
+                    "min": null,
+                    "max": null,
+                    "max_nonfuture": null,
+                    "dated_records": 0,
+                    "undated_records": 0,
+                    "future_dated_records": 0,
+                    "date_origins": {}
+                  },
+                  "by_month": [],
+                  "method": "parameterized_readonly_sql_distinct_records",
+                  "shares": {
+                    "denominator": 0,
+                    "basis": "matched_records_within_current_filters_and_terms",
+                    "unit": "percent",
+                    "by_institution": [],
+                    "by_angle": [
+                      {
+                        "angle": "news",
+                        "count": 0,
+                        "percent": null
+                      },
+                      {
+                        "angle": "clue",
+                        "count": 0,
+                        "percent": null
+                      },
+                      {
+                        "angle": "social",
+                        "count": 0,
+                        "percent": null
+                      }
+                    ],
+                    "by_platform": []
+                  },
+                  "ranking": null,
+                  "latest_returned_date": null
+                }
+              ],
+              "analytics": {
+                "scope": {
+                  "dataset": "real",
+                  "filters": {
+                    "date_field": "published_at"
+                  },
+                  "source_version": "f064c896c123cbf4",
+                  "date_field": "published_at",
+                  "timezone": "Asia/Shanghai",
+                  "excluded_terms": [],
+                  "sort": "relevance",
+                  "relaxed": false,
+                  "term_match": [
+                    [
+                      "量子",
+                      "quantum"
+                    ],
+                    [
+                      "2026"
+                    ],
+                    [
+                      "新奇"
+                    ],
+                    [
+                      "foo987"
+                    ]
+                  ],
+                  "strategy": "fts5_and",
+                  "date_semantics": "Original source publication dates only; recovered dates do not change this scope",
+                  "dimensions": [
+                    "institution",
+                    "angle",
+                    "platform",
+                    "month"
+                  ],
+                  "as_of": "2026-11-09T03:20:11+08:00",
+                  "date_basis": "Original source publication field only; recovered dates do not replace it"
+                },
+                "matched": {
+                  "total": 0,
+                  "by_angle": {
+                    "news": 0,
+                    "clue": 0,
+                    "social": 0
+                  },
+                  "by_institution": [],
+                  "by_platform": []
+                },
+                "total": 0,
+                "by_month": [],
+                "date_range": {
+                  "date_field": "published_at",
+                  "timezone": "Asia/Shanghai",
+                  "basis": "Original source publication field only; recovered dates do not replace it",
+                  "min": null,
+                  "max": null,
+                  "max_nonfuture": null,
+                  "dated_records": 0,
+                  "undated_records": 0,
+                  "future_dated_records": 0,
+                  "date_origins": {}
+                },
+                "by_institution": [],
+                "by_angle": {
+                  "news": 0,
+                  "clue": 0,
+                  "social": 0
+                },
+                "by_platform": [],
+                "method": "parameterized_readonly_sql_distinct_records",
+                "warning": "Counts describe records in the stored real snapshot. Monthly record volume is not a measure of institutional stance or web-wide attention.",
+                "shares": {
+                  "denominator": 0,
+                  "basis": "matched_records_within_current_filters_and_terms",
+                  "unit": "percent",
+                  "by_institution": [],
+                  "by_angle": [
+                    {
+                      "angle": "news",
+                      "count": 0,
+                      "percent": null
+                    },
+                    {
+                      "angle": "clue",
+                      "count": 0,
+                      "percent": null
+                    },
+                    {
+                      "angle": "social",
+                      "count": 0,
+                      "percent": null
+                    }
+                  ],
+                  "by_platform": []
+                },
+                "scoped": {
+                  "total": 6989,
+                  "by_angle": {
+                    "news": 3675,
+                    "clue": 1468,
+                    "social": 1846
+                  },
+                  "by_institution": [
+                    {
+                      "ktid": 1000110,
+                      "cn": "美国联邦调查局",
+                      "en": "Federal Bureau of Investigation",
+                      "count": 1688,
+                      "by_angle": {
+                        "news": 1446,
+                        "clue": 6,
+                        "social": 236
+                      }
+                    },
+                    {
+                      "ktid": 1001140,
+                      "cn": "美国国土安全部",
+                      "en": "United States Department of Homeland Security",
+                      "count": 1672,
+                      "by_angle": {
+                        "news": 1185,
+                        "clue": 3,
+                        "social": 484
+                      }
+                    },
+                    {
+                      "ktid": 1000490,
+                      "cn": "战略与国际研究中心",
+                      "en": "Center for Strategic and International Studies",
+                      "count": 1317,
+                      "by_angle": {
+                        "news": 225,
+                        "clue": 727,
+                        "social": 365
+                      }
+                    },
+                    {
+                      "ktid": 1000580,
+                      "cn": "克劳德斯特赖克公司",
+                      "en": "CrowdStrike Holdings, Inc.",
+                      "count": 516,
+                      "by_angle": {
+                        "news": 368,
+                        "clue": 75,
+                        "social": 73
+                      }
+                    },
+                    {
+                      "ktid": 1001190,
+                      "cn": "大西洋理事会",
+                      "en": "Atlantic Council",
+                      "count": 386,
+                      "by_angle": {
+                        "news": 15,
+                        "clue": 20,
+                        "social": 351
+                      }
+                    },
+                    {
+                      "ktid": 1000480,
+                      "cn": "兰德公司",
+                      "en": "RAND Corporation",
+                      "count": 290,
+                      "by_angle": {
+                        "news": 2,
+                        "clue": 249,
+                        "social": 39
+                      }
+                    },
+                    {
+                      "ktid": 1001210,
+                      "cn": "布鲁金斯学会",
+                      "en": "Brookings Institution",
+                      "count": 272,
+                      "by_angle": {
+                        "news": 7,
+                        "clue": 58,
+                        "social": 207
+                      }
+                    },
+                    {
+                      "ktid": 1002550,
+                      "cn": "阿肯色州立大学",
+                      "en": "Arkansas State University",
+                      "count": 221,
+                      "by_angle": {
+                        "news": 100,
+                        "clue": 120,
+                        "social": 1
+                      }
+                    },
+                    {
+                      "ktid": 1001270,
+                      "cn": "新美国安全中心",
+                      "en": "Center for a New American Security",
+                      "count": 164,
+                      "by_angle": {
+                        "news": 35,
+                        "clue": 120,
+                        "social": 9
+                      }
+                    },
+                    {
+                      "ktid": 1001290,
+                      "cn": "美国外交关系协会（对外关系委员会）",
+                      "en": "Council on Foreign Relations (CFR)",
+                      "count": 99,
+                      "by_angle": {
+                        "news": 18,
+                        "clue": 62,
+                        "social": 19
+                      }
+                    },
+                    {
+                      "ktid": 1000760,
+                      "cn": "洛克希德·马丁公司",
+                      "en": "Lockheed Martin Corporation",
+                      "count": 66,
+                      "by_angle": {
+                        "news": 40,
+                        "clue": 15,
+                        "social": 11
+                      }
+                    },
+                    {
+                      "ktid": 1055920,
+                      "cn": "卡隆公司",
+                      "en": "Kharon",
+                      "count": 50,
+                      "by_angle": {
+                        "news": 38,
+                        "clue": 1,
+                        "social": 11
+                      }
+                    },
+                    {
+                      "ktid": 1056587,
+                      "cn": "英特尔",
+                      "en": "Intel",
+                      "count": 39,
+                      "by_angle": {
+                        "news": 36,
+                        "clue": 2,
+                        "social": 1
+                      }
+                    },
+                    {
+                      "ktid": 1056514,
+                      "cn": "摩根大通",
+                      "en": "JP Morgan",
+                      "count": 37,
+                      "by_angle": {
+                        "news": 35,
+                        "clue": 1,
+                        "social": 1
+                      }
+                    },
+                    {
+                      "ktid": 1001350,
+                      "cn": "保卫民主基金会",
+                      "en": "Foundation for Defense of Democracies",
+                      "count": 36,
+                      "by_angle": {
+                        "news": 15,
+                        "clue": 2,
+                        "social": 19
+                      }
+                    },
+                    {
+                      "ktid": 5775050,
+                      "cn": "OpenAI",
+                      "en": "OpenAI",
+                      "count": 36,
+                      "by_angle": {
+                        "news": 33,
+                        "clue": 2,
+                        "social": 1
+                      }
+                    },
+                    {
+                      "ktid": 2575920,
+                      "cn": "霍尼韦尔",
+                      "en": "Honeywell",
+                      "count": 30,
+                      "by_angle": {
+                        "news": 27,
+                        "clue": 2,
+                        "social": 1
+                      }
+                    },
+                    {
+                      "ktid": 1056630,
+                      "cn": "IBM",
+                      "en": "IBM",
+                      "count": 27,
+                      "by_angle": {
+                        "news": 25,
+                        "clue": 1,
+                        "social": 1
+                      }
+                    },
+                    {
+                      "ktid": 2572960,
+                      "cn": "思科",
+                      "en": "Cisco",
+                      "count": 25,
+                      "by_angle": {
+                        "news": 23,
+                        "clue": 1,
+                        "social": 1
+                      }
+                    },
+                    {
+                      "ktid": 1001150,
+                      "cn": "美国国务院",
+                      "en": "United States Department of State (DOS)",
+                      "count": 18,
+                      "by_angle": {
+                        "news": 2,
+                        "clue": 1,
+                        "social": 15
+                      }
+                    }
+                  ],
+                  "by_platform": [
+                    {
+                      "platform": "Google News RSS discovery",
+                      "count": 1664
+                    },
+                    {
+                      "platform": "official_web",
+                      "count": 1468
+                    },
+                    {
+                      "platform": "X",
+                      "count": 1189
+                    },
+                    {
+                      "platform": "Google News RSS",
+                      "count": 946
+                    },
+                    {
+                      "platform": "Google News RSS (deep pilot)",
+                      "count": 881
+                    },
+                    {
+                      "platform": "Facebook",
+                      "count": 615
+                    },
+                    {
+                      "platform": "Bing News RSS",
+                      "count": 125
+                    },
+                    {
+                      "platform": "LinkedIn",
+                      "count": 42
+                    },
+                    {
+                      "platform": "Google via Apify",
+                      "count": 34
+                    },
+                    {
+                      "platform": "Google",
+                      "count": 15
+                    },
+                    {
+                      "platform": "Google News RSS + Yahoo title resolution via Reader",
+                      "count": 9
+                    },
+                    {
+                      "platform": "legacy_cache_import",
+                      "count": 1
+                    }
+                  ]
+                }
+              },
+              "query": "2026新奇量子foo987",
+              "plan": {
+                "query": "2026新奇量子foo987",
+                "filters": {
+                  "date_field": "published_at"
+                },
+                "inferred_filters": {},
+                "locked_scope": {
+                  "date_field": "published_at"
+                },
+                "terms": [
+                  [
+                    "量子",
+                    "quantum"
+                  ],
+                  [
+                    "2026"
+                  ],
+                  [
+                    "新奇"
+                  ],
+                  [
+                    "foo987"
+                  ]
+                ],
+                "request_intent": {
+                  "enabled": true,
+                  "normalized_query": "2026新奇量子foo987",
+                  "topics_query": "2026新奇量子foo987",
+                  "removed_request_phrases": [],
+                  "citation_requested": false,
+                  "same_source_requested": false,
+                  "referential": false,
+                  "source_reference": false,
+                  "requested_attributes": [],
+                  "task": "lookup",
+                  "kind": "lookup",
+                  "query_kind": "lookup",
+                  "topic": "量子 2026 新奇 foo987",
+                  "dimensions": [],
+                  "requested_sort": null,
+                  "exact_phrases": [],
+                  "excluded_terms": [],
+                  "operations": {
+                    "count": false,
+                    "compare": false,
+                    "trend": false,
+                    "ranking": false,
+                    "share": false
+                  },
+                  "requires_history": false,
+                  "time_scope": {
+                    "mode": "unrestricted",
+                    "timezone": "Asia/Shanghai",
+                    "as_of": "2026-11-09T03:20:11+08:00",
+                    "date_from": null,
+                    "date_to": null,
+                    "expressions": [],
+                    "basis": "actual_clock",
+                    "date_field": "published_at",
+                    "policy": "Vague recent means ordering within the loaded snapshot; explicit calendar bounds remain locked"
+                  }
+                },
+                "intent": {
+                  "enabled": true,
+                  "normalized_query": "2026新奇量子foo987",
+                  "topics_query": "2026新奇量子foo987",
+                  "removed_request_phrases": [],
+                  "citation_requested": false,
+                  "same_source_requested": false,
+                  "referential": false,
+                  "source_reference": false,
+                  "requested_attributes": [],
+                  "task": "lookup",
+                  "kind": "lookup",
+                  "query_kind": "lookup",
+                  "topic": "量子 2026 新奇 foo987",
+                  "dimensions": [],
+                  "requested_sort": null,
+                  "exact_phrases": [],
+                  "excluded_terms": [],
+                  "operations": {
+                    "count": false,
+                    "compare": false,
+                    "trend": false,
+                    "ranking": false,
+                    "share": false
+                  },
+                  "requires_history": false,
+                  "time_scope": {
+                    "mode": "unrestricted",
+                    "timezone": "Asia/Shanghai",
+                    "as_of": "2026-11-09T03:20:11+08:00",
+                    "date_from": null,
+                    "date_to": null,
+                    "expressions": [],
+                    "basis": "actual_clock",
+                    "date_field": "published_at",
+                    "policy": "Vague recent means ordering within the loaded snapshot; explicit calendar bounds remain locked"
+                  }
+                },
+                "time_scope": {
+                  "mode": "unrestricted",
+                  "timezone": "Asia/Shanghai",
+                  "as_of": "2026-11-09T03:20:11+08:00",
+                  "date_from": null,
+                  "date_to": null,
+                  "expressions": [],
+                  "basis": "actual_clock",
+                  "date_field": "published_at",
+                  "policy": "Vague recent means ordering within the loaded snapshot; explicit calendar bounds remain locked"
+                },
+                "sort": "relevance",
+                "exact_phrases": [],
+                "excluded_terms": [],
+                "expansion_enabled": true,
+                "fuzzy_terms": [],
+                "strategy": "fts5_and",
+                "relaxed": false,
+                "relax_allowed": false,
+                "model": {
+                  "attempted": false,
+                  "used": false,
+                  "reason": "deterministic_query_plan",
+                  "original_query": "2026新奇量子foo987",
+                  "rewritten_query": null,
+                  "applied_groups": []
+                },
+                "semantic_requested": true,
+                "duration_ms": 120,
+                "conversation": {
+                  "history_used": false,
+                  "original_message": "2026新奇量子foo987",
+                  "same_source_requested": false,
+                  "scope_basis": "bounded_user_history_and_current_filters",
+                  "source_record_ids": null,
+                  "source_basis": null,
+                  "request_intent": {
+                    "enabled": true,
+                    "normalized_query": "2026新奇量子foo987",
+                    "topics_query": "2026新奇量子foo987",
+                    "removed_request_phrases": [],
+                    "citation_requested": false,
+                    "same_source_requested": false,
+                    "referential": false,
+                    "source_reference": false,
+                    "requested_attributes": [],
+                    "task": "lookup",
+                    "kind": "lookup",
+                    "query_kind": "lookup",
+                    "topic": "2026新奇量子foo987",
+                    "dimensions": [],
+                    "requested_sort": null,
+                    "exact_phrases": [],
+                    "excluded_terms": [],
+                    "operations": {
+                      "count": false,
+                      "compare": false,
+                      "trend": false,
+                      "ranking": false,
+                      "share": false
+                    },
+                    "requires_history": false,
+                    "time_scope": {
+                      "mode": "unrestricted",
+                      "timezone": "Asia/Shanghai",
+                      "as_of": "2026-11-09T03:20:11+08:00",
+                      "date_from": null,
+                      "date_to": null,
+                      "expressions": [],
+                      "basis": "actual_clock"
+                    }
+                  }
+                },
+                "tool_steps": [
+                  {
+                    "tool": "database_evidence",
+                    "purpose": "question_scope",
+                    "filters": {
+                      "date_field": "published_at"
+                    },
+                    "returned_paragraphs": 0
+                  },
+                  {
+                    "tool": "database_aggregate",
+                    "purpose": "exact_scoped_and_matched_counts"
+                  },
+                  {
+                    "tool": "database_analytics",
+                    "purpose": "exact_dates_and_dimensions"
+                  }
+                ]
+              },
+              "aggregates": {
+                "scope": {
+                  "dataset": "real",
+                  "filters": {
+                    "date_field": "published_at"
+                  },
+                  "source_version": "f064c896c123cbf4",
+                  "date_field": "published_at",
+                  "timezone": "Asia/Shanghai",
+                  "excluded_terms": [],
+                  "sort": "relevance",
+                  "relaxed": false,
+                  "term_match": [
+                    [
+                      "量子",
+                      "quantum"
+                    ],
+                    [
+                      "2026"
+                    ],
+                    [
+                      "新奇"
+                    ],
+                    [
+                      "foo987"
+                    ]
+                  ],
+                  "strategy": "fts5_and",
+                  "date_semantics": "Original source publication dates only; recovered dates do not change this scope"
+                },
+                "scoped": {
+                  "total": 6989,
+                  "by_angle": {
+                    "news": 3675,
+                    "clue": 1468,
+                    "social": 1846
+                  },
+                  "by_institution": [
+                    {
+                      "ktid": 1000110,
+                      "cn": "美国联邦调查局",
+                      "en": "Federal Bureau of Investigation",
+                      "count": 1688,
+                      "by_angle": {
+                        "news": 1446,
+                        "clue": 6,
+                        "social": 236
+                      }
+                    },
+                    {
+                      "ktid": 1001140,
+                      "cn": "美国国土安全部",
+                      "en": "United States Department of Homeland Security",
+                      "count": 1672,
+                      "by_angle": {
+                        "news": 1185,
+                        "clue": 3,
+                        "social": 484
+                      }
+                    },
+                    {
+                      "ktid": 1000490,
+                      "cn": "战略与国际研究中心",
+                      "en": "Center for Strategic and International Studies",
+                      "count": 1317,
+                      "by_angle": {
+                        "news": 225,
+                        "clue": 727,
+                        "social": 365
+                      }
+                    },
+                    {
+                      "ktid": 1000580,
+                      "cn": "克劳德斯特赖克公司",
+                      "en": "CrowdStrike Holdings, Inc.",
+                      "count": 516,
+                      "by_angle": {
+                        "news": 368,
+                        "clue": 75,
+                        "social": 73
+                      }
+                    },
+                    {
+                      "ktid": 1001190,
+                      "cn": "大西洋理事会",
+                      "en": "Atlantic Council",
+                      "count": 386,
+                      "by_angle": {
+                        "news": 15,
+                        "clue": 20,
+                        "social": 351
+                      }
+                    },
+                    {
+                      "ktid": 1000480,
+                      "cn": "兰德公司",
+                      "en": "RAND Corporation",
+                      "count": 290,
+                      "by_angle": {
+                        "news": 2,
+                        "clue": 249,
+                        "social": 39
+                      }
+                    },
+                    {
+                      "ktid": 1001210,
+                      "cn": "布鲁金斯学会",
+                      "en": "Brookings Institution",
+                      "count": 272,
+                      "by_angle": {
+                        "news": 7,
+                        "clue": 58,
+                        "social": 207
+                      }
+                    },
+                    {
+                      "ktid": 1002550,
+                      "cn": "阿肯色州立大学",
+                      "en": "Arkansas State University",
+                      "count": 221,
+                      "by_angle": {
+                        "news": 100,
+                        "clue": 120,
+                        "social": 1
+                      }
+                    },
+                    {
+                      "ktid": 1001270,
+                      "cn": "新美国安全中心",
+                      "en": "Center for a New American Security",
+                      "count": 164,
+                      "by_angle": {
+                        "news": 35,
+                        "clue": 120,
+                        "social": 9
+                      }
+                    },
+                    {
+                      "ktid": 1001290,
+                      "cn": "美国外交关系协会（对外关系委员会）",
+                      "en": "Council on Foreign Relations (CFR)",
+                      "count": 99,
+                      "by_angle": {
+                        "news": 18,
+                        "clue": 62,
+                        "social": 19
+                      }
+                    },
+                    {
+                      "ktid": 1000760,
+                      "cn": "洛克希德·马丁公司",
+                      "en": "Lockheed Martin Corporation",
+                      "count": 66,
+                      "by_angle": {
+                        "news": 40,
+                        "clue": 15,
+                        "social": 11
+                      }
+                    },
+                    {
+                      "ktid": 1055920,
+                      "cn": "卡隆公司",
+                      "en": "Kharon",
+                      "count": 50,
+                      "by_angle": {
+                        "news": 38,
+                        "clue": 1,
+                        "social": 11
+                      }
+                    },
+                    {
+                      "ktid": 1056587,
+                      "cn": "英特尔",
+                      "en": "Intel",
+                      "count": 39,
+                      "by_angle": {
+                        "news": 36,
+                        "clue": 2,
+                        "social": 1
+                      }
+                    },
+                    {
+                      "ktid": 1056514,
+                      "cn": "摩根大通",
+                      "en": "JP Morgan",
+                      "count": 37,
+                      "by_angle": {
+                        "news": 35,
+                        "clue": 1,
+                        "social": 1
+                      }
+                    },
+                    {
+                      "ktid": 1001350,
+                      "cn": "保卫民主基金会",
+                      "en": "Foundation for Defense of Democracies",
+                      "count": 36,
+                      "by_angle": {
+                        "news": 15,
+                        "clue": 2,
+                        "social": 19
+                      }
+                    },
+                    {
+                      "ktid": 5775050,
+                      "cn": "OpenAI",
+                      "en": "OpenAI",
+                      "count": 36,
+                      "by_angle": {
+                        "news": 33,
+                        "clue": 2,
+                        "social": 1
+                      }
+                    },
+                    {
+                      "ktid": 2575920,
+                      "cn": "霍尼韦尔",
+                      "en": "Honeywell",
+                      "count": 30,
+                      "by_angle": {
+                        "news": 27,
+                        "clue": 2,
+                        "social": 1
+                      }
+                    },
+                    {
+                      "ktid": 1056630,
+                      "cn": "IBM",
+                      "en": "IBM",
+                      "count": 27,
+                      "by_angle": {
+                        "news": 25,
+                        "clue": 1,
+                        "social": 1
+                      }
+                    },
+                    {
+                      "ktid": 2572960,
+                      "cn": "思科",
+                      "en": "Cisco",
+                      "count": 25,
+                      "by_angle": {
+                        "news": 23,
+                        "clue": 1,
+                        "social": 1
+                      }
+                    },
+                    {
+                      "ktid": 1001150,
+                      "cn": "美国国务院",
+                      "en": "United States Department of State (DOS)",
+                      "count": 18,
+                      "by_angle": {
+                        "news": 2,
+                        "clue": 1,
+                        "social": 15
+                      }
+                    }
+                  ],
+                  "by_platform": [
+                    {
+                      "platform": "Google News RSS discovery",
+                      "count": 1664
+                    },
+                    {
+                      "platform": "official_web",
+                      "count": 1468
+                    },
+                    {
+                      "platform": "X",
+                      "count": 1189
+                    },
+                    {
+                      "platform": "Google News RSS",
+                      "count": 946
+                    },
+                    {
+                      "platform": "Google News RSS (deep pilot)",
+                      "count": 881
+                    },
+                    {
+                      "platform": "Facebook",
+                      "count": 615
+                    },
+                    {
+                      "platform": "Bing News RSS",
+                      "count": 125
+                    },
+                    {
+                      "platform": "LinkedIn",
+                      "count": 42
+                    },
+                    {
+                      "platform": "Google via Apify",
+                      "count": 34
+                    },
+                    {
+                      "platform": "Google",
+                      "count": 15
+                    },
+                    {
+                      "platform": "Google News RSS + Yahoo title resolution via Reader",
+                      "count": 9
+                    },
+                    {
+                      "platform": "legacy_cache_import",
+                      "count": 1
+                    }
+                  ]
+                },
+                "matched": {
+                  "total": 0,
+                  "by_angle": {
+                    "news": 0,
+                    "clue": 0,
+                    "social": 0
+                  },
+                  "by_institution": [],
+                  "by_platform": []
+                }
+              },
+              "coverage": {
+                "dataset": "real",
+                "source_version": "f064c896c123cbf4",
+                "database_total": 6989,
+                "scoped_records": 6989,
+                "matched_records": 0,
+                "returned_records": 0,
+                "returned_paragraphs": 0,
+                "time_scope": {
+                  "mode": "unrestricted",
+                  "timezone": "Asia/Shanghai",
+                  "as_of": "2026-11-09T03:20:11+08:00",
+                  "date_from": null,
+                  "date_to": null,
+                  "expressions": [],
+                  "basis": "actual_clock",
+                  "date_field": "published_at",
+                  "policy": "Vague recent means ordering within the loaded snapshot; explicit calendar bounds remain locked"
+                },
+                "sort": "relevance",
+                "latest_returned_date": null,
+                "earliest_returned_date": null,
+                "future_dated_returned_records": 0,
+                "snapshot_generated_at": "2026-11-05T15:10:46+00:00",
+                "exhaustive": true,
+                "warning": "Counts describe the stored real snapshot, not the entire web; retrieved paragraphs are a bounded sample."
+              },
+              "model": {
+                "id": "auto/deepseek-v4.1-flash",
+                "used": false,
+                "attempted": false,
+                "reason": "no_results"
+              },
+              "usage": {},
+              "state": "no_results",
+              "answer_format": "retrieval_extracts",
+              "answer_kind": "lookup",
+              "sections": [],
+              "suggestions": [
+                "最近 CSIS 对中国关注什么？分析主要议题",
+                "比较 CSIS 与 RAND 涉华报道的异同",
+                "CSIS 有多少条记录？按角度统计"
+              ],
+              "suggested_questions": [
+                "最近 CSIS 对中国关注什么？分析主要议题",
+                "比较 CSIS 与 RAND 涉华报道的异同",
+                "CSIS 有多少条记录？按角度统计"
+              ],
+              "search_suggestions": [],
+              "analysis_scope": {
+                "scope": {
+                  "dataset": "real",
+                  "filters": {
+                    "date_field": "published_at"
+                  },
+                  "source_version": "f064c896c123cbf4",
+                  "date_field": "published_at",
+                  "timezone": "Asia/Shanghai",
+                  "excluded_terms": [],
+                  "sort": "relevance",
+                  "relaxed": false,
+                  "term_match": [
+                    [
+                      "量子",
+                      "quantum"
+                    ],
+                    [
+                      "2026"
+                    ],
+                    [
+                      "新奇"
+                    ],
+                    [
+                      "foo987"
+                    ]
+                  ],
+                  "strategy": "fts5_and",
+                  "date_semantics": "Original source publication dates only; recovered dates do not change this scope"
+                },
+                "bounded_sample": true,
+                "exhaustive": true,
+                "realtime": false,
+                "limitation": "分析仅依据可引用样本；精确数量以相同筛选和关键词口径的数据库统计为准。"
+              },
+              "validation": {
+                "level": "not_generated",
+                "semantic_entailment": "not_applicable",
+                "source_truth_verified": false
+              }
+            },
+            "model_calls": 0,
+            "screenshot": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T191944Z-3434387/ui-zero-to-chat.png"
+          },
+          "seconds": 1.301
+        },
+        {
+          "id": "ui_mobile",
+          "status": "PASS",
+          "evidence": {
+            "geometry": {
+              "viewport": 390,
+              "width": 390,
+              "background": "rgb(7, 9, 13)",
+              "submitHeight": 44
+            },
+            "page_errors": [],
+            "screenshot": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T191944Z-3434387/ui-mobile390.png"
+          },
+          "seconds": 0.317
+        }
+      ],
+      "model_candidate_turns": 1,
+      "model_usage": {},
+      "source_injection": false,
+      "artifact_dir": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T191944Z-3434387",
+      "manifest": "d15ea4a006bfdb3ba0ad",
+      "source_freeze": {
+        "assistant.js": "74eb1795bcbd5191cd4b38a130a5561378cfba5e90459143625a24dd20471176",
+        "service/research_chat.py": "745e5a29ad71b8ede0c2ce085eae2f5e806451063ef77d9bdddc5b1d40b65113",
+        "service/chat.py": "b5bfed832e8136346f46f5b941da8f210db52eeb83a3ed8ce166f4f95e0b4bc6",
+        "service/retrieval.py": "81b579721ae34911ad4c49168e62356dd4428c86b25ed203b0b21cc70225fde1",
+        "service/intent.py": "f2cbe2b02f4de482d59dce96897f74854dc2a54ebb4c6f206e9f8d605c511865",
+        "service/planner.py": "3967a0b07e7e16a0e0846ae9239c852ef066ae00d5fce42fd8d27af1fa933a7c",
+        "service/app.py": "dc9c131e54c64a65abcb16e84033aec956cfa0d6b6370419461c0f4e248324c9"
+      },
+      "page_errors": [],
+      "protocol_errors": [],
+      "finished_at": "2026-11-08T19:20:12.951448+00:00"
+    },
+    {
+      "run_id": "20261108T192123Z-3436287",
+      "mode": "manual-review",
+      "target": "http://127.0.0.1:8790",
+      "started_at": "2026-11-08T19:21:23.935751+00:00",
+      "checks": [
+        {
+          "id": "manual_ui_live_response",
+          "status": "FAIL",
+          "error": "C4 news9: response says 中国 occurs in institution name 国土安全部, but the only match crosses 内阁中|国土安全部; new UI manual source review fails. Receipt /home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T192123Z-3436287/manual-source-review-new-ui.json",
+          "traceback": "Traceback (most recent call last):\n  File \"tests/chat_acceptance.py\", line 308, in case\n    record.update(status=\"PASS\", evidence=action())\n                                          ^^^^^^^^\n  File \"<stdin>\", line 19, in fail\nAssertionError: C4 news9: response says 中国 occurs in institution name 国土安全部, but the only match crosses 内阁中|国土安全部; new UI manual source review fails. Receipt /home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T192123Z-3436287/manual-source-review-new-ui.json\n",
+          "seconds": 0.003
+        }
+      ],
+      "model_candidate_turns": 0,
+      "model_usage": {},
+      "source_injection": false,
+      "artifact_dir": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T192123Z-3436287",
+      "manifest": "d15ea4a006bfdb3ba0ad",
+      "finished_at": "2026-11-08T19:21:24.953973+00:00",
+      "new_model_calls": 0,
+      "browser_calls": 0
+    },
+    {
+      "run_id": "20261108T192753Z-3443177",
+      "mode": "review",
+      "target": "http://127.0.0.1:8790",
+      "started_at": "2026-11-08T19:27:53.239981+00:00",
+      "checks": [
+        {
+          "id": "baseline",
+          "status": "PASS",
+          "evidence": {
+            "path": "/home/ubuntu/zgclab-1-web/reports/research-chat-baseline-api-20261109.json",
+            "sha256": "542eab776c3e9d282db555a0f7dda006dcf00349d3529417d9786265a86c0dee",
+            "question": "你好，给我看看 近期的就是 对中国最相关的 报道我看看",
+            "actual_prior_model": {
+              "id": "auto/deepseek-v4.1-flash",
+              "used": true,
+              "attempted": true,
+              "reason": null
+            },
+            "prior_usage": {
+              "prompt_tokens": 579,
+              "completion_tokens": 782,
+              "total_tokens": 1361
+            },
+            "prior_seconds": 12.91,
+            "prior_results": 0,
+            "repeated_model_call": false
+          },
+          "seconds": 0.0
+        },
+        {
+          "id": "snapshot",
+          "status": "PASS",
+          "evidence": {
+            "snapshot": {
+              "schema_version": 2,
+              "source_version": "f064c896c123cbf4",
+              "source_package": "20261011-current-reviewed",
+              "source_generated_at": "2026-11-05T15:10:46+00:00",
+              "ingested_at": "2026-11-08T14:45:40+00:00",
+              "content_sha256": "f82dff3392d608e0a30f0011ca754eeb9a885dc9a47ba8f27a85b04ddbbaafda",
+              "dataset": "real",
+              "total": 6989,
+              "by_angle": {
+                "news": 3675,
+                "clue": 1468,
+                "social": 1846
+              },
+              "paragraphs": 348116,
+              "research_version": "a8acd9d0b712fbe06a65",
+              "date_scope_default": "published_at (original source field only)",
+              "field_map": {
+                "news": {
+                  "original_title": "title_en",
+                  "translated_title": "title_cn",
+                  "original_body": "content",
+                  "translated_body": "content_cn",
+                  "source_url": "url",
+                  "discovered_at": "founddate",
+                  "collected_at": null,
+                  "original_path": null,
+                  "source_hash": null
+                },
+                "clue": {
+                  "original_title": "clue_title",
+                  "translated_title": null,
+                  "original_body": "original_content",
+                  "translated_body": "chinese_trans",
+                  "source_url": "original_url",
+                  "discovered_at": "discovery_time",
+                  "collected_at": null,
+                  "original_path": "report_path",
+                  "source_hash": null
+                },
+                "social": {
+                  "original_title": "title",
+                  "translated_title": null,
+                  "original_body": "original_content",
+                  "translated_body": "chinese_translation",
+                  "source_url": "content_url",
+                  "discovered_at": null,
+                  "collected_at": "collected_time",
+                  "original_path": null,
+                  "source_hash": "content_hash"
+                }
+              },
+              "quality": {
+                "publication": {
+                  "missing": 392,
+                  "provided": 5971,
+                  "recovered": 626
+                },
+                "translation": {
+                  "available": 6664,
+                  "placeholder": 325
+                }
+              }
+            },
+            "totals": {
+              "clue": 1468,
+              "news": 3675,
+              "social": 1846
+            },
+            "date_coverage": [
+              {
+                "angle": "clue",
+                "earliest": "1984-12-21T12:00:00+00:00",
+                "latest": "2026-11-12T18:00:00+00:00",
+                "collected_max": "2026-09-26T16:05:09+00:00",
+                "missing": 350
+              },
+              {
+                "angle": "news",
+                "earliest": "2012-02-09T21:11:14+00:00",
+                "latest": "2026-09-26T14:33:19+00:00",
+                "collected_max": "2026-09-26T14:58:58+00:00",
+                "missing": 11
+              },
+              {
+                "angle": "social",
+                "earliest": "2020-11-08T17:00:37+00:00",
+                "latest": "2026-10-09T05:15:31+00:00",
+                "collected_max": "2026-10-09T13:26:05+00:00",
+                "missing": 657
+              }
+            ],
+            "future_source_dates": [
+              {
+                "id": "clue-1",
+                "angle": "clue",
+                "title": "Global Affairs Expert Webinar: North Korea’s Strategic Playbook | CFR Education",
+                "published_at": "2026-11-12T18:00:00+00:00",
+                "collected_at": "2026-09-16T17:35:43+00:00",
+                "source_url": "https://www.cfr.org/education/events/global-affairs-expert-webinar-north-koreas-strategic-playbook"
+              }
+            ],
+            "source_readonly": true
+          },
+          "seconds": 0.051
+        },
+        {
+          "id": "review_chat_original",
+          "status": "PASS",
+          "evidence": {
+            "sql_reference": {
+              "scoped": {
+                "total": 6989,
+                "by_angle": {
+                  "news": 3675,
+                  "clue": 1468,
+                  "social": 1846
+                },
+                "by_institution": {
+                  "1056514": 37,
+                  "1000580": 516,
+                  "1001350": 36,
+                  "1000480": 290,
+                  "2572960": 25,
+                  "1000490": 1317,
+                  "1000110": 1688,
+                  "1055920": 50,
+                  "2575920": 30,
+                  "1001140": 1672,
+                  "1001270": 164,
+                  "1002550": 221,
+                  "1000760": 66,
+                  "1001150": 18,
+                  "1001290": 99,
+                  "1056587": 39,
+                  "5775050": 36,
+                  "1001190": 386,
+                  "1056630": 27,
+                  "1001210": 272
+                },
+                "by_platform": {
+                  "legacy_cache_import": 1,
+                  "official_web": 1468,
+                  "Google News RSS discovery": 1664,
+                  "Bing News RSS": 125,
+                  "Google News RSS (deep pilot)": 881,
+                  "Google News RSS": 946,
+                  "Google News RSS + Yahoo title resolution via Reader": 9,
+                  "Google": 15,
+                  "LinkedIn": 42,
+                  "X": 1189,
+                  "Facebook": 615,
+                  "Google via Apify": 34
+                }
+              },
+              "matched": {
+                "total": 987,
+                "by_angle": {
+                  "news": 529,
+                  "clue": 362,
+                  "social": 96
+                },
+                "by_institution": {
+                  "1000480": 56,
+                  "2572960": 9,
+                  "1056514": 5,
+                  "1000580": 34,
+                  "1001190": 24,
+                  "1001350": 9,
+                  "1000490": 321,
+                  "1001290": 34,
+                  "1056587": 7,
+                  "5775050": 8,
+                  "1000110": 162,
+                  "2575920": 9,
+                  "1055920": 23,
+                  "1001140": 122,
+                  "1001270": 127,
+                  "1002550": 2,
+                  "1056630": 3,
+                  "1001210": 32
+                },
+                "by_platform": {
+                  "Google News RSS discovery": 310,
+                  "official_web": 362,
+                  "Bing News RSS": 19,
+                  "Google News RSS (deep pilot)": 119,
+                  "Google News RSS": 63,
+                  "Google": 2,
+                  "LinkedIn": 3,
+                  "X": 72,
+                  "Facebook": 21,
+                  "Google via Apify": 16
+                }
+              }
+            },
+            "scope": {
+              "dataset": "real",
+              "filters": {},
+              "source_version": "f064c896c123cbf4",
+              "date_field": "published_at",
+              "timezone": "Asia/Shanghai",
+              "excluded_terms": [],
+              "sort": "recent",
+              "relaxed": false,
+              "term_match": [
+                [
+                  "中国",
+                  "China",
+                  "Chinese",
+                  "PRC",
+                  "对华",
+                  "涉华",
+                  "中美",
+                  "美中"
+                ]
+              ],
+              "strategy": "fts5_and",
+              "date_semantics": "Original source publication dates only; recovered dates do not change this scope"
+            },
+            "fts_expression": "(\"中国\" OR \"china\" OR \"chinese\" OR \"prc\" OR \"对华\" OR \"涉华\" OR \"中美\" OR \"美中\")",
+            "exclude_fts_expression": "",
+            "count_unit": "distinct stored real records; returned evidence and snapshot/web totals are separate",
+            "source_hash_checks": [
+              {
+                "citation_id": "C1",
+                "id": "social-7",
+                "source_field": "chinese_translation",
+                "source_sha256": "acb539657e33c3cbdf4b5c519a8381182bfc19f6b695733489917b54997c8ebd",
+                "snippet_sha256": "acb539657e33c3cbdf4b5c519a8381182bfc19f6b695733489917b54997c8ebd",
+                "source_version": "f064c896c123cbf4",
+                "quotes_verified": 1
+              },
+              {
+                "citation_id": "C5",
+                "id": "social-15",
+                "source_field": "chinese_translation",
+                "source_sha256": "13cd5620284cf167df18669e56ccde6de5d29d27bbf917866062e213d8b4daed",
+                "snippet_sha256": "13cd5620284cf167df18669e56ccde6de5d29d27bbf917866062e213d8b4daed",
+                "source_version": "f064c896c123cbf4",
+                "quotes_verified": 1
+              },
+              {
+                "citation_id": "C6",
+                "id": "social-22",
+                "source_field": "chinese_translation",
+                "source_sha256": "19f0afe34aa46c6220b948b0990bf8bf74780c5da8c69a59c0d761d34409325a",
+                "snippet_sha256": "19f0afe34aa46c6220b948b0990bf8bf74780c5da8c69a59c0d761d34409325a",
+                "source_version": "f064c896c123cbf4",
+                "quotes_verified": 1
+              },
+              {
+                "citation_id": "C7",
+                "id": "news-33",
+                "source_field": "content_cn",
+                "source_sha256": "74bdbe4d0fffa21bee5fbfb374d27ff6720dac24f07cac8892eb42584cf28b66",
+                "snippet_sha256": "f0865ea8ca9dd1c40dc27acb429d45bc869729e4e440844c56b8da48e12ff3de",
+                "source_version": "f064c896c123cbf4",
+                "quotes_verified": 1
+              },
+              {
+                "citation_id": "C11",
+                "id": "social-52",
+                "source_field": "chinese_translation",
+                "source_sha256": "25692d581ea83e19153d73f88f03ad2bb9ac7e49135fd87d6490424119e5b2d3",
+                "snippet_sha256": "ad501d1b279a70c9cce85e226ccc28560e25a027261d2c9a20b119c21e06769e",
+                "source_version": "f064c896c123cbf4",
+                "quotes_verified": 1
+              },
+              {
+                "citation_id": "C12",
+                "id": "social-59",
+                "source_field": "chinese_translation",
+                "source_sha256": "9abfdda65a7c00bb2d2977d381eee081ad8cfde378e0865f0c220d2d6397923f",
+                "snippet_sha256": "9abfdda65a7c00bb2d2977d381eee081ad8cfde378e0865f0c220d2d6397923f",
+                "source_version": "f064c896c123cbf4",
+                "quotes_verified": 1
+              }
+            ],
+            "aggregate_checks": {
+              "A1": "independent scoped/matched SQL checked",
+              "A2": "independent dates/months/shares/ranking checked; scoped not required",
+              "date_range_reference": {
+                "min": "1999-02-01T12:00:00+00:00",
+                "max": "2026-11-12T18:00:00+00:00",
+                "max_nonfuture": "2026-09-25T10:35:01+00:00",
+                "dated_records": 896,
+                "undated_records": 91,
+                "future_dated_records": 1,
+                "date_origins": {
+                  "provided": 896,
+                  "missing": 69,
+                  "recovered": 22
+                }
+              },
+              "monthly_reference": [
+                {
+                  "month": "1999-02",
+                  "count": 1
+                },
+                {
+                  "month": "2000-07",
+                  "count": 1
+                },
+                {
+                  "month": "2004-09",
+                  "count": 1
+                },
+                {
+                  "month": "2004-12",
+                  "count": 1
+                },
+                {
+                  "month": "2005-01",
+                  "count": 1
+                },
+                {
+                  "month": "2005-02",
+                  "count": 1
+                },
+                {
+                  "month": "2005-03",
+                  "count": 1
+                },
+                {
+                  "month": "2005-04",
+                  "count": 1
+                },
+                {
+                  "month": "2005-06",
+                  "count": 1
+                },
+                {
+                  "month": "2005-09",
+                  "count": 1
+                },
+                {
+                  "month": "2006-07",
+                  "count": 1
+                },
+                {
+                  "month": "2007-04",
+                  "count": 1
+                },
+                {
+                  "month": "2007-10",
+                  "count": 1
+                },
+                {
+                  "month": "2008-01",
+                  "count": 3
+                },
+                {
+                  "month": "2008-02",
+                  "count": 1
+                },
+                {
+                  "month": "2008-04",
+                  "count": 1
+                },
+                {
+                  "month": "2008-05",
+                  "count": 1
+                },
+                {
+                  "month": "2008-07",
+                  "count": 1
+                },
+                {
+                  "month": "2008-09",
+                  "count": 1
+                },
+                {
+                  "month": "2008-10",
+                  "count": 1
+                },
+                {
+                  "month": "2009-01",
+                  "count": 1
+                },
+                {
+                  "month": "2009-02",
+                  "count": 1
+                },
+                {
+                  "month": "2009-04",
+                  "count": 1
+                },
+                {
+                  "month": "2009-05",
+                  "count": 2
+                },
+                {
+                  "month": "2009-07",
+                  "count": 1
+                },
+                {
+                  "month": "2009-08",
+                  "count": 1
+                },
+                {
+                  "month": "2009-10",
+                  "count": 3
+                },
+                {
+                  "month": "2009-11",
+                  "count": 1
+                },
+                {
+                  "month": "2010-04",
+                  "count": 1
+                },
+                {
+                  "month": "2010-05",
+                  "count": 1
+                },
+                {
+                  "month": "2010-10",
+                  "count": 1
+                },
+                {
+                  "month": "2010-11",
+                  "count": 1
+                },
+                {
+                  "month": "2010-12",
+                  "count": 1
+                },
+                {
+                  "month": "2011-01",
+                  "count": 2
+                },
+                {
+                  "month": "2011-06",
+                  "count": 1
+                },
+                {
+                  "month": "2011-07",
+                  "count": 1
+                },
+                {
+                  "month": "2011-08",
+                  "count": 1
+                },
+                {
+                  "month": "2011-09",
+                  "count": 1
+                },
+                {
+                  "month": "2011-10",
+                  "count": 1
+                },
+                {
+                  "month": "2011-11",
+                  "count": 1
+                },
+                {
+                  "month": "2012-01",
+                  "count": 1
+                },
+                {
+                  "month": "2012-02",
+                  "count": 1
+                },
+                {
+                  "month": "2012-03",
+                  "count": 1
+                },
+                {
+                  "month": "2012-07",
+                  "count": 1
+                },
+                {
+                  "month": "2012-09",
+                  "count": 2
+                },
+                {
+                  "month": "2012-10",
+                  "count": 1
+                },
+                {
+                  "month": "2013-04",
+                  "count": 2
+                },
+                {
+                  "month": "2013-06",
+                  "count": 1
+                },
+                {
+                  "month": "2013-07",
+                  "count": 2
+                },
+                {
+                  "month": "2013-10",
+                  "count": 1
+                },
+                {
+                  "month": "2013-11",
+                  "count": 1
+                },
+                {
+                  "month": "2013-12",
+                  "count": 1
+                },
+                {
+                  "month": "2014-04",
+                  "count": 2
+                },
+                {
+                  "month": "2014-05",
+                  "count": 1
+                },
+                {
+                  "month": "2014-07",
+                  "count": 1
+                },
+                {
+                  "month": "2014-10",
+                  "count": 1
+                },
+                {
+                  "month": "2014-11",
+                  "count": 1
+                },
+                {
+                  "month": "2015-01",
+                  "count": 3
+                },
+                {
+                  "month": "2015-03",
+                  "count": 1
+                },
+                {
+                  "month": "2015-04",
+                  "count": 1
+                },
+                {
+                  "month": "2015-06",
+                  "count": 1
+                },
+                {
+                  "month": "2015-07",
+                  "count": 1
+                },
+                {
+                  "month": "2015-09",
+                  "count": 2
+                },
+                {
+                  "month": "2015-10",
+                  "count": 2
+                },
+                {
+                  "month": "2016-01",
+                  "count": 2
+                },
+                {
+                  "month": "2016-03",
+                  "count": 2
+                },
+                {
+                  "month": "2018-06",
+                  "count": 1
+                },
+                {
+                  "month": "2018-07",
+                  "count": 1
+                },
+                {
+                  "month": "2021-10",
+                  "count": 1
+                },
+                {
+                  "month": "2023-05",
+                  "count": 1
+                },
+                {
+                  "month": "2023-12",
+                  "count": 1
+                },
+                {
+                  "month": "2024-05",
+                  "count": 1
+                },
+                {
+                  "month": "2024-06",
+                  "count": 2
+                },
+                {
+                  "month": "2024-07",
+                  "count": 1
+                },
+                {
+                  "month": "2024-08",
+                  "count": 7
+                },
+                {
+                  "month": "2024-09",
+                  "count": 15
+                },
+                {
+                  "month": "2024-10",
+                  "count": 9
+                },
+                {
+                  "month": "2024-11",
+                  "count": 7
+                },
+                {
+                  "month": "2024-12",
+                  "count": 17
+                },
+                {
+                  "month": "2025-01",
+                  "count": 18
+                },
+                {
+                  "month": "2025-02",
+                  "count": 14
+                },
+                {
+                  "month": "2025-03",
+                  "count": 18
+                },
+                {
+                  "month": "2025-04",
+                  "count": 18
+                },
+                {
+                  "month": "2025-05",
+                  "count": 16
+                },
+                {
+                  "month": "2025-06",
+                  "count": 20
+                },
+                {
+                  "month": "2025-07",
+                  "count": 29
+                },
+                {
+                  "month": "2025-08",
+                  "count": 21
+                },
+                {
+                  "month": "2025-09",
+                  "count": 28
+                },
+                {
+                  "month": "2025-10",
+                  "count": 38
+                },
+                {
+                  "month": "2025-11",
+                  "count": 27
+                },
+                {
+                  "month": "2025-12",
+                  "count": 33
+                },
+                {
+                  "month": "2026-01",
+                  "count": 37
+                },
+                {
+                  "month": "2026-02",
+                  "count": 34
+                },
+                {
+                  "month": "2026-03",
+                  "count": 48
+                },
+                {
+                  "month": "2026-04",
+                  "count": 23
+                },
+                {
+                  "month": "2026-05",
+                  "count": 63
+                },
+                {
+                  "month": "2026-06",
+                  "count": 33
+                },
+                {
+                  "month": "2026-07",
+                  "count": 58
+                },
+                {
+                  "month": "2026-08",
+                  "count": 92
+                },
+                {
+                  "month": "2026-09",
+                  "count": 81
+                },
+                {
+                  "month": "2026-11",
+                  "count": 1
+                }
+              ],
+              "denominator": 987,
+              "ranking": null
+            },
+            "actual_answer": "美国外交关系协会（对外关系委员会）账号转引观点称，特朗普对华政策最令人担忧之处不在其前所未有，而在于与前任错误相似。 [C1]\n\n大西洋理事会引述文章称，普京未获北京对“西伯利亚力量二号”管道的支持，强化了俄罗斯因乌克兰入侵而沦为“小伙伴”的看法。 [C5]\n\n保卫民主基金会的Craig Singleton对美联社表示，延长贸易休战让美国有机会检验中国是否履行购买美国农产品的承诺，并将其描述为要让中国赢得下一次延期。 [C6]\n\n卡隆公司介绍一场炉边谈话：特朗普与习近平在北京举行峰会数日后，前国防情报局代理局长David Shedd将解读会晤对美中战略竞争下一阶段释放的信号，并联系中国的“情报和工业间谍活动”。 [C7]\n\n新美国安全中心引述@vivekchil对Politico的说法，称国会两党有强烈共识，不应允许中国公司或实体购买或获取美国芯片。 [C11]\n\n战略与国际研究中心预告由顶尖中国问题专家对特朗普与习近平峰会进行现场直播分析。 [C12]\n\n数据库范围：全部真实资料；结构化筛选共 6,989 条，按实际关键词规则命中 987 条（记录去重）。[A1]\n时间口径：published_at，Asia/Shanghai；依据已加载真实快照，非实时报道。本次返回的非未来日期资料中，最新记录日期为 2026-09-25T10:35:01+00:00。[A2]该统计范围的资料记录日期最大值为 2026-11-12T18:00:00+00:00。[A2]其中 1 条记录日期晚于当前日期基准，属于所存日期异常，不能当作未来事件已经发生的证据。[A2]当前日期基准为 2026-11-09。分析仅涉及所引证据样本，不能据此估计全库议题占比或机构全部立场。",
+            "answer_format": "grounded_summary",
+            "answer_kind": "lookup",
+            "model": {
+              "id": "auto/deepseek-v4.1-flash",
+              "used": true,
+              "attempted": true,
+              "reason": null
+            },
+            "usage": {
+              "prompt_tokens": 4655,
+              "completion_tokens": 1056,
+              "total_tokens": 5711
+            },
+            "sections": [
+              {
+                "kind": "fact",
+                "text": "美国外交关系协会（对外关系委员会）账号转引观点称，特朗普对华政策最令人担忧之处不在其前所未有，而在于与前任错误相似。",
+                "citations": [
+                  "C1"
+                ],
+                "quotes": [
+                  {
+                    "citation_id": "C1",
+                    "quote": "@jonczin写道：“特朗普的对华政策最令人担忧的地方，不在于它前所未有，而在于它与前任们的错误看起来多么相似。”https://t.co/vuFaTDFkhT"
+                  }
+                ]
+              },
+              {
+                "kind": "fact",
+                "text": "大西洋理事会引述文章称，普京未获北京对“西伯利亚力量二号”管道的支持，强化了俄罗斯因乌克兰入侵而沦为“小伙伴”的看法。",
+                "citations": [
+                  "C5"
+                ],
+                "quotes": [
+                  {
+                    "citation_id": "C5",
+                    "quote": "普京无法获得北京对“西伯利亚力量二号”管道的支持，这强化了国际社会的看法：乌克兰入侵已使俄罗斯沦为中国的“小伙伴”。@zaharhryniv撰文。阅读更多：https://t.co/JklqpWCU1Q"
+                  }
+                ]
+              },
+              {
+                "kind": "fact",
+                "text": "保卫民主基金会的Craig Singleton对美联社表示，延长贸易休战让美国有机会检验中国是否履行购买美国农产品的承诺，并将其描述为要让中国赢得下一次延期。",
+                "citations": [
+                  "C6"
+                ],
+                "quotes": [
+                  {
+                    "citation_id": "C6",
+                    "quote": "FDD的Craig Singleton对@AP表示，延长贸易休战让美国有机会检验中国是否履行购买美国农产品的承诺：“这与购买两个月的平静关系不大，而是要让中国赢得下一次延期。”https://t.co/90Zqf8QQRF"
+                  }
+                ]
+              },
+              {
+                "kind": "fact",
+                "text": "卡隆公司介绍一场炉边谈话：特朗普与习近平在北京举行峰会数日后，前国防情报局代理局长David Shedd将解读会晤对美中战略竞争下一阶段释放的信号，并联系中国的“情报和工业间谍活动”。",
+                "citations": [
+                  "C7"
+                ],
+                "quotes": [
+                  {
+                    "citation_id": "C7",
+                    "quote": "特朗普总统与习近平主席在北京举行峰会数日后，欢迎参加我们与国防情报局前代理局长大卫·谢德的炉边谈话。谢德先生将解读这次会晤对美中战略竞争下一阶段释放的信号，并将其与中国持续数十年的情报和工业间谍活动联系起来。"
+                  }
+                ]
+              },
+              {
+                "kind": "fact",
+                "text": "新美国安全中心引述@vivekchil对Politico的说法，称国会两党有强烈共识，不应允许中国公司或实体购买或获取美国芯片。",
+                "citations": [
+                  "C11"
+                ],
+                "quotes": [
+                  {
+                    "citation_id": "C11",
+                    "quote": "@vivekchil 对 @politico 表示， “国会两党有着强烈共识：我们不应允许中国公司或实体购买美国芯片，或获取美国芯片。”"
+                  }
+                ]
+              },
+              {
+                "kind": "fact",
+                "text": "战略与国际研究中心预告由顶尖中国问题专家对特朗普与习近平峰会进行现场直播分析。",
+                "citations": [
+                  "C12"
+                ],
+                "quotes": [
+                  {
+                    "citation_id": "C12",
+                    "quote": "明天｜CSIS顶尖中国问题专家将对特朗普与习近平峰会进行现场直播分析。敬请收看《State of Play》：https://t.co/vUDUTZDsBE"
+                  }
+                ]
+              }
+            ],
+            "validation": {
+              "level": "exact_quotes_and_model_review",
+              "semantic_entailment": "model_reviewed_not_proven",
+              "accepted_claims": 6,
+              "rejected_claims": [],
+              "source_truth_verified": false,
+              "review_status": "completed"
+            },
+            "human_semantic_review": "PENDING: read facts/inferences against citations; source identity and quotes alone do not prove entailment",
+            "actual_question": "你好，给我看看 近期的就是 对中国最相关的 报道我看看",
+            "actual_http_status": 200,
+            "main_capture": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/live-original-20261108T192610Z.json",
+            "main_capture_sha256": "b757201a8a06a323032750aa352fa27b4635affe81bf74ebfbaf1114c4089842",
+            "independent_model_calls": 0
+          },
+          "seconds": 0.892
+        }
+      ],
+      "model_candidate_turns": 0,
+      "model_usage": {},
+      "source_injection": false,
+      "artifact_dir": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T192753Z-3443177",
+      "manifest": "d15ea4a006bfdb3ba0ad",
+      "finished_at": "2026-11-08T19:27:54.359045+00:00"
+    },
+    {
+      "run_id": "20261108T192919Z-3444454",
+      "mode": "manual-review",
+      "target": "http://127.0.0.1:8790",
+      "started_at": "2026-11-08T19:29:19.706229+00:00",
+      "checks": [
+        {
+          "id": "final_api_current_source",
+          "status": "PASS",
+          "evidence": {
+            "capture": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/live-original-20261108T192610Z.json",
+            "capture_sha256": "b757201a8a06a323032750aa352fa27b4635affe81bf74ebfbaf1114c4089842",
+            "actual_http_status": 200,
+            "actual_state": "answered",
+            "actual_model": {
+              "id": "auto/deepseek-v4.1-flash",
+              "used": true,
+              "attempted": true,
+              "reason": null
+            },
+            "actual_usage": {
+              "prompt_tokens": 4655,
+              "completion_tokens": 1056,
+              "total_tokens": 5711
+            },
+            "final_source_sha256": "492eb24de610a436a122002394896dc83354ac57479c156a4f890a812368f0ca",
+            "observed_by": "MAIN final8792 process capture supplied explicitly; independent source+SQLreview performed",
+            "new_qa_model_calls": 0
+          },
+          "seconds": 0.0
+        },
+        {
+          "id": "incremental_guard_proof",
+          "status": "PASS",
+          "evidence": {
+            "transport": "Independent offline execution of final validate_analysis against exact prior real response and two prior accepted actual captures",
+            "external_model_calls": 0,
+            "final_source_sha256": "492eb24de610a436a122002394896dc83354ac57479c156a4f890a812368f0ca",
+            "old_capture": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T191944Z-3434387/ui_live_response.json",
+            "old_capture_sha256": "7b43a0a57c58082d2cf307365e4603c5a7379a585f82861934c23eeabd04020f",
+            "old_error_rejected": true,
+            "other_old_claims_unchanged": true,
+            "summary_comparison_accepted_claims_unchanged": true,
+            "rejected_claims": [
+              {
+                "claim_id": "K5",
+                "reason": "unsupported_retrieval_explanation"
+              }
+            ],
+            "old_retained_claims": 4,
+            "reused_accepted_cases": [
+              {
+                "id": "chat_synthesis",
+                "capture": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/live-summary-20261108T185441Z.json",
+                "capture_sha256": "b7e08838bba275d103f9ca669a6f79f294333331f21f25c1cd7277e5832c6691",
+                "accepted_claims_unchanged": true,
+                "claims": 5
+              },
+              {
+                "id": "chat_comparison",
+                "capture": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/live-comparison-20261108T185452Z.json",
+                "capture_sha256": "9e2c43da239865ee8ee8dd285885c8f0583d3c73f38f3c46b9123f5c6113fdec",
+                "accepted_claims_unchanged": true,
+                "claims": 4
+              }
+            ],
+            "MAIN_offline_proof": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/analysis/retrieval-explanation-actual-offline-replay.json",
+            "MAIN_offline_proof_sha256": "796a44a51718b79adfeda66f91d0fa2fd9c527d9cadf00d9cd0a0f8a9915cc80",
+            "limitation": "Offline guard proof is not model generation or semantic live review. Final-source real HTTP answer is provided separately."
+          },
+          "seconds": 0.0
+        },
+        {
+          "id": "manual_final_api_capture",
+          "status": "PASS",
+          "evidence": {
+            "verdict": "PASS",
+            "capture": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/live-original-20261108T192610Z.json",
+            "capture_sha256": "b757201a8a06a323032750aa352fa27b4635affe81bf74ebfbaf1114c4089842",
+            "source_records_checked": 6,
+            "unsupported_claims": [],
+            "sql_and_A2_verified": true
+          },
+          "seconds": 0.0
+        }
+      ],
+      "model_candidate_turns": 0,
+      "model_usage": {},
+      "source_injection": false,
+      "artifact_dir": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T192919Z-3444454",
+      "manifest": "d15ea4a006bfdb3ba0ad",
+      "finished_at": "2026-11-08T19:29:20.819657+00:00",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "20261108T192928Z-3444600",
+      "mode": "ui-final-api-replay",
+      "target": "http://127.0.0.1:8790",
+      "started_at": "2026-11-08T19:29:28.673270+00:00",
+      "checks": [
+        {
+          "id": "baseline",
+          "status": "PASS",
+          "evidence": {
+            "path": "/home/ubuntu/zgclab-1-web/reports/research-chat-baseline-api-20261109.json",
+            "sha256": "542eab776c3e9d282db555a0f7dda006dcf00349d3529417d9786265a86c0dee",
+            "question": "你好，给我看看 近期的就是 对中国最相关的 报道我看看",
+            "actual_prior_model": {
+              "id": "auto/deepseek-v4.1-flash",
+              "used": true,
+              "attempted": true,
+              "reason": null
+            },
+            "prior_usage": {
+              "prompt_tokens": 579,
+              "completion_tokens": 782,
+              "total_tokens": 1361
+            },
+            "prior_seconds": 12.91,
+            "prior_results": 0,
+            "repeated_model_call": false
+          },
+          "seconds": 0.0
+        },
+        {
+          "id": "snapshot",
+          "status": "PASS",
+          "evidence": {
+            "snapshot": {
+              "schema_version": 2,
+              "source_version": "f064c896c123cbf4",
+              "source_package": "20261011-current-reviewed",
+              "source_generated_at": "2026-11-05T15:10:46+00:00",
+              "ingested_at": "2026-11-08T14:45:40+00:00",
+              "content_sha256": "f82dff3392d608e0a30f0011ca754eeb9a885dc9a47ba8f27a85b04ddbbaafda",
+              "dataset": "real",
+              "total": 6989,
+              "by_angle": {
+                "news": 3675,
+                "clue": 1468,
+                "social": 1846
+              },
+              "paragraphs": 348116,
+              "research_version": "a8acd9d0b712fbe06a65",
+              "date_scope_default": "published_at (original source field only)",
+              "field_map": {
+                "news": {
+                  "original_title": "title_en",
+                  "translated_title": "title_cn",
+                  "original_body": "content",
+                  "translated_body": "content_cn",
+                  "source_url": "url",
+                  "discovered_at": "founddate",
+                  "collected_at": null,
+                  "original_path": null,
+                  "source_hash": null
+                },
+                "clue": {
+                  "original_title": "clue_title",
+                  "translated_title": null,
+                  "original_body": "original_content",
+                  "translated_body": "chinese_trans",
+                  "source_url": "original_url",
+                  "discovered_at": "discovery_time",
+                  "collected_at": null,
+                  "original_path": "report_path",
+                  "source_hash": null
+                },
+                "social": {
+                  "original_title": "title",
+                  "translated_title": null,
+                  "original_body": "original_content",
+                  "translated_body": "chinese_translation",
+                  "source_url": "content_url",
+                  "discovered_at": null,
+                  "collected_at": "collected_time",
+                  "original_path": null,
+                  "source_hash": "content_hash"
+                }
+              },
+              "quality": {
+                "publication": {
+                  "missing": 392,
+                  "provided": 5971,
+                  "recovered": 626
+                },
+                "translation": {
+                  "available": 6664,
+                  "placeholder": 325
+                }
+              }
+            },
+            "totals": {
+              "clue": 1468,
+              "news": 3675,
+              "social": 1846
+            },
+            "date_coverage": [
+              {
+                "angle": "clue",
+                "earliest": "1984-12-21T12:00:00+00:00",
+                "latest": "2026-11-12T18:00:00+00:00",
+                "collected_max": "2026-09-26T16:05:09+00:00",
+                "missing": 350
+              },
+              {
+                "angle": "news",
+                "earliest": "2012-02-09T21:11:14+00:00",
+                "latest": "2026-09-26T14:33:19+00:00",
+                "collected_max": "2026-09-26T14:58:58+00:00",
+                "missing": 11
+              },
+              {
+                "angle": "social",
+                "earliest": "2020-11-08T17:00:37+00:00",
+                "latest": "2026-10-09T05:15:31+00:00",
+                "collected_max": "2026-10-09T13:26:05+00:00",
+                "missing": 657
+              }
+            ],
+            "future_source_dates": [
+              {
+                "id": "clue-1",
+                "angle": "clue",
+                "title": "Global Affairs Expert Webinar: North Korea’s Strategic Playbook | CFR Education",
+                "published_at": "2026-11-12T18:00:00+00:00",
+                "collected_at": "2026-09-16T17:35:43+00:00",
+                "source_url": "https://www.cfr.org/education/events/global-affairs-expert-webinar-north-koreas-strategic-playbook"
+              }
+            ],
+            "source_readonly": true
+          },
+          "seconds": 0.051
+        },
+        {
+          "id": "encrypted_manifest",
+          "status": "PASS",
+          "evidence": {
+            "manifest": "manifest-d15ea4a006bfdb3ba0ad.json",
+            "index_sha256": "4a3ddc83250bcf0a98916ceaa3ed1825a622e0f48842f5da5a27746af60b47bd",
+            "source_injection": false,
+            "source_freeze": {
+              "assistant.js": "74eb1795bcbd5191cd4b38a130a5561378cfba5e90459143625a24dd20471176",
+              "service/research_chat.py": "492eb24de610a436a122002394896dc83354ac57479c156a4f890a812368f0ca",
+              "service/chat.py": "b5bfed832e8136346f46f5b941da8f210db52eeb83a3ed8ce166f4f95e0b4bc6",
+              "service/retrieval.py": "81b579721ae34911ad4c49168e62356dd4428c86b25ed203b0b21cc70225fde1",
+              "service/intent.py": "f2cbe2b02f4de482d59dce96897f74854dc2a54ebb4c6f206e9f8d605c511865",
+              "service/planner.py": "3967a0b07e7e16a0e0846ae9239c852ef066ae00d5fce42fd8d27af1fa933a7c",
+              "service/app.py": "dc9c131e54c64a65abcb16e84033aec956cfa0d6b6370419461c0f4e248324c9"
+            },
+            "assistant_sha256": "74eb1795bcbd5191cd4b38a130a5561378cfba5e90459143625a24dd20471176",
+            "cipher_path": "encrypted/4d7aabfc7b12f6e23cba6329f872d5bacc8feb0f3c809c1de17a07a73a3c7bee.bin",
+            "cipher_sha256": "4d7aabfc7b12f6e23cba6329f872d5bacc8feb0f3c809c1de17a07a73a3c7bee",
+            "encrypted_source_matches_freeze": true
+          },
+          "seconds": 0.531
+        },
+        {
+          "id": "ui_final_api_replay",
+          "status": "PASS",
+          "evidence": {
+            "manifest": "d15ea4a006bfdb3ba0ad",
+            "source_freeze": {
+              "assistant.js": "74eb1795bcbd5191cd4b38a130a5561378cfba5e90459143625a24dd20471176",
+              "service/research_chat.py": "492eb24de610a436a122002394896dc83354ac57479c156a4f890a812368f0ca",
+              "service/chat.py": "b5bfed832e8136346f46f5b941da8f210db52eeb83a3ed8ce166f4f95e0b4bc6",
+              "service/retrieval.py": "81b579721ae34911ad4c49168e62356dd4428c86b25ed203b0b21cc70225fde1",
+              "service/intent.py": "f2cbe2b02f4de482d59dce96897f74854dc2a54ebb4c6f206e9f8d605c511865",
+              "service/planner.py": "3967a0b07e7e16a0e0846ae9239c852ef066ae00d5fce42fd8d27af1fa933a7c",
+              "service/app.py": "dc9c131e54c64a65abcb16e84033aec956cfa0d6b6370419461c0f4e248324c9"
+            },
+            "transport": "new encrypted frontend rendering exact final-source actual HTTP response replay; no model request and not a new live frontend-to-model answer",
+            "capture": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/live-original-20261108T192610Z.json",
+            "capture_sha256": "b757201a8a06a323032750aa352fa27b4635affe81bf74ebfbaf1114c4089842",
+            "api_revision": "research-chat-20261109",
+            "new_model_calls": 0,
+            "source_injection": false,
+            "api_to_usable_ms": 104.995,
+            "citations": 6,
+            "all_claims_visible": true,
+            "all_citation_focus": true,
+            "all_sources_exported": true,
+            "export": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T192928Z-3444600/final-api-ui-replay.md",
+            "page_errors": [],
+            "screenshot": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T192928Z-3444600/final-api-ui-replay.png"
+          },
+          "seconds": 2.148
+        }
+      ],
+      "model_candidate_turns": 0,
+      "model_usage": {},
+      "source_injection": false,
+      "artifact_dir": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T192928Z-3444600",
+      "manifest": "d15ea4a006bfdb3ba0ad",
+      "source_freeze": {
+        "assistant.js": "74eb1795bcbd5191cd4b38a130a5561378cfba5e90459143625a24dd20471176",
+        "service/research_chat.py": "492eb24de610a436a122002394896dc83354ac57479c156a4f890a812368f0ca",
+        "service/chat.py": "b5bfed832e8136346f46f5b941da8f210db52eeb83a3ed8ce166f4f95e0b4bc6",
+        "service/retrieval.py": "81b579721ae34911ad4c49168e62356dd4428c86b25ed203b0b21cc70225fde1",
+        "service/intent.py": "f2cbe2b02f4de482d59dce96897f74854dc2a54ebb4c6f206e9f8d605c511865",
+        "service/planner.py": "3967a0b07e7e16a0e0846ae9239c852ef066ae00d5fce42fd8d27af1fa933a7c",
+        "service/app.py": "dc9c131e54c64a65abcb16e84033aec956cfa0d6b6370419461c0f4e248324c9"
+      },
+      "model_calls": 0,
+      "page_errors": [],
+      "finished_at": "2026-11-08T19:29:35.847767+00:00"
+    },
+    {
+      "run_id": "20261108T193027Z-3445594",
+      "mode": "manual-review",
+      "target": "http://127.0.0.1:8790",
+      "started_at": "2026-11-08T19:30:27.884985+00:00",
+      "checks": [
+        {
+          "id": "manual_chat_original",
+          "status": "PASS",
+          "evidence": {
+            "verdict": "PASS",
+            "capture_sha256": "b757201a8a06a323032750aa352fa27b4635affe81bf74ebfbaf1114c4089842",
+            "source_records": 6,
+            "manual_review": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T193027Z-3445594/manual-source-review-incremental-final.json",
+            "current_actual_API": true
+          },
+          "seconds": 0.0
+        },
+        {
+          "id": "incremental_manual_receipt",
+          "status": "PASS",
+          "evidence": {
+            "verdict": "PASS",
+            "acceptance_mode": "bounded_incremental_actual_api_and_same_frontend",
+            "historical_ui_content_failure_preserved": true,
+            "current_API_content_review": "PASS",
+            "current_exact_frontend_replay": "PASS",
+            "final_public_actual_required": true,
+            "new_qa_model_calls": 0,
+            "manual_review": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T193027Z-3445594/manual-source-review-incremental-final.json"
+          },
+          "seconds": 0.0
+        }
+      ],
+      "model_candidate_turns": 0,
+      "model_usage": {},
+      "source_injection": false,
+      "artifact_dir": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T193027Z-3445594",
+      "manifest": "d15ea4a006bfdb3ba0ad",
+      "finished_at": "2026-11-08T19:30:28.025447+00:00",
+      "new_model_calls": 0
+    },
+    {
+      "run_id": "20261108T193035Z-3445718",
+      "mode": "finalize",
+      "target": "http://127.0.0.1:8790",
+      "started_at": "2026-11-08T19:30:35.478920+00:00",
+      "checks": [
+        {
+          "id": "baseline",
+          "status": "PASS",
+          "evidence": {
+            "path": "/home/ubuntu/zgclab-1-web/reports/research-chat-baseline-api-20261109.json",
+            "sha256": "542eab776c3e9d282db555a0f7dda006dcf00349d3529417d9786265a86c0dee",
+            "question": "你好，给我看看 近期的就是 对中国最相关的 报道我看看",
+            "actual_prior_model": {
+              "id": "auto/deepseek-v4.1-flash",
+              "used": true,
+              "attempted": true,
+              "reason": null
+            },
+            "prior_usage": {
+              "prompt_tokens": 579,
+              "completion_tokens": 782,
+              "total_tokens": 1361
+            },
+            "prior_seconds": 12.91,
+            "prior_results": 0,
+            "repeated_model_call": false
+          },
+          "seconds": 0.0
+        },
+        {
+          "id": "snapshot",
+          "status": "PASS",
+          "evidence": {
+            "snapshot": {
+              "schema_version": 2,
+              "source_version": "f064c896c123cbf4",
+              "source_package": "20261011-current-reviewed",
+              "source_generated_at": "2026-11-05T15:10:46+00:00",
+              "ingested_at": "2026-11-08T14:45:40+00:00",
+              "content_sha256": "f82dff3392d608e0a30f0011ca754eeb9a885dc9a47ba8f27a85b04ddbbaafda",
+              "dataset": "real",
+              "total": 6989,
+              "by_angle": {
+                "news": 3675,
+                "clue": 1468,
+                "social": 1846
+              },
+              "paragraphs": 348116,
+              "research_version": "a8acd9d0b712fbe06a65",
+              "date_scope_default": "published_at (original source field only)",
+              "field_map": {
+                "news": {
+                  "original_title": "title_en",
+                  "translated_title": "title_cn",
+                  "original_body": "content",
+                  "translated_body": "content_cn",
+                  "source_url": "url",
+                  "discovered_at": "founddate",
+                  "collected_at": null,
+                  "original_path": null,
+                  "source_hash": null
+                },
+                "clue": {
+                  "original_title": "clue_title",
+                  "translated_title": null,
+                  "original_body": "original_content",
+                  "translated_body": "chinese_trans",
+                  "source_url": "original_url",
+                  "discovered_at": "discovery_time",
+                  "collected_at": null,
+                  "original_path": "report_path",
+                  "source_hash": null
+                },
+                "social": {
+                  "original_title": "title",
+                  "translated_title": null,
+                  "original_body": "original_content",
+                  "translated_body": "chinese_translation",
+                  "source_url": "content_url",
+                  "discovered_at": null,
+                  "collected_at": "collected_time",
+                  "original_path": null,
+                  "source_hash": "content_hash"
+                }
+              },
+              "quality": {
+                "publication": {
+                  "missing": 392,
+                  "provided": 5971,
+                  "recovered": 626
+                },
+                "translation": {
+                  "available": 6664,
+                  "placeholder": 325
+                }
+              }
+            },
+            "totals": {
+              "clue": 1468,
+              "news": 3675,
+              "social": 1846
+            },
+            "date_coverage": [
+              {
+                "angle": "clue",
+                "earliest": "1984-12-21T12:00:00+00:00",
+                "latest": "2026-11-12T18:00:00+00:00",
+                "collected_max": "2026-09-26T16:05:09+00:00",
+                "missing": 350
+              },
+              {
+                "angle": "news",
+                "earliest": "2012-02-09T21:11:14+00:00",
+                "latest": "2026-09-26T14:33:19+00:00",
+                "collected_max": "2026-09-26T14:58:58+00:00",
+                "missing": 11
+              },
+              {
+                "angle": "social",
+                "earliest": "2020-11-08T17:00:37+00:00",
+                "latest": "2026-10-09T05:15:31+00:00",
+                "collected_max": "2026-10-09T13:26:05+00:00",
+                "missing": 657
+              }
+            ],
+            "future_source_dates": [
+              {
+                "id": "clue-1",
+                "angle": "clue",
+                "title": "Global Affairs Expert Webinar: North Korea’s Strategic Playbook | CFR Education",
+                "published_at": "2026-11-12T18:00:00+00:00",
+                "collected_at": "2026-09-16T17:35:43+00:00",
+                "source_url": "https://www.cfr.org/education/events/global-affairs-expert-webinar-north-koreas-strategic-playbook"
+              }
+            ],
+            "source_readonly": true
+          },
+          "seconds": 0.05
+        },
+        {
+          "id": "final_promotion_receipt",
+          "status": "PASS",
+          "evidence": {
+            "manual_review": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T193027Z-3445594/manual-source-review-incremental-final.json",
+            "manual_review_sha256": "fcd8c19dfd044263ca41ed8bba6decafe64399d18c06f78ee4481dd3797fbc38",
+            "required_checks": [
+              "baseline",
+              "count_followup",
+              "encrypted_manifest",
+              "explicit_30days_search",
+              "final_api_current_source",
+              "greeting",
+              "incremental_guard_proof",
+              "manual_final_api_capture",
+              "readonly_exact_count",
+              "readonly_monthly",
+              "readonly_ranking",
+              "readonly_share",
+              "review_chat_comparison",
+              "review_chat_original",
+              "review_chat_synthesis",
+              "search_original",
+              "snapshot",
+              "social_count_followup",
+              "ui_final_api_replay",
+              "ui_loading_cancel_retry",
+              "ui_mobile",
+              "ui_original",
+              "ui_saved_backup",
+              "ui_sources_followup",
+              "ui_stalled_index",
+              "ui_zero_to_chat",
+              "unknown_chat",
+              "unknown_search"
+            ],
+            "live_ui_run": "20261108T191944Z-3434387",
+            "independent_extra_model_turns": 2,
+            "completed_at": "2026-11-08T19:30:36.250897+00:00",
+            "served_index_sha256": "4a3ddc83250bcf0a98916ceaa3ed1825a622e0f48842f5da5a27746af60b47bd",
+            "source_freeze": {
+              "assistant.js": "74eb1795bcbd5191cd4b38a130a5561378cfba5e90459143625a24dd20471176",
+              "service/research_chat.py": "492eb24de610a436a122002394896dc83354ac57479c156a4f890a812368f0ca",
+              "service/chat.py": "b5bfed832e8136346f46f5b941da8f210db52eeb83a3ed8ce166f4f95e0b4bc6",
+              "service/retrieval.py": "81b579721ae34911ad4c49168e62356dd4428c86b25ed203b0b21cc70225fde1",
+              "service/intent.py": "f2cbe2b02f4de482d59dce96897f74854dc2a54ebb4c6f206e9f8d605c511865",
+              "service/planner.py": "3967a0b07e7e16a0e0846ae9239c852ef066ae00d5fce42fd8d27af1fa933a7c",
+              "service/app.py": "dc9c131e54c64a65abcb16e84033aec956cfa0d6b6370419461c0f4e248324c9"
+            },
+            "stalled_index_run": "20261108T191906Z-3433642",
+            "stalled_index_api_to_usable_ms": 89.821,
+            "encrypted_assistant_sha256": "74eb1795bcbd5191cd4b38a130a5561378cfba5e90459143625a24dd20471176",
+            "history_preserved": true,
+            "semantic_limit": "Independent sampled source review; no guarantee that external source statements are true or all semantic claims are proven",
+            "acceptance_mode": "bounded_incremental_actual_api_and_same_frontend",
+            "incremental_evidence": {
+              "final_api_capture": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/live-original-20261108T192610Z.json",
+              "final_api_capture_sha256": "b757201a8a06a323032750aa352fa27b4635affe81bf74ebfbaf1114c4089842",
+              "final_api_source_sha256": "492eb24de610a436a122002394896dc83354ac57479c156a4f890a812368f0ca",
+              "final_api_transport": "Real MAIN HTTP generation+review on final492eb24source at8792,12.92s,5711tokens; no QA model call",
+              "prior_actual_ui_run": "20261108T191944Z-3434387",
+              "prior_actual_ui_capture": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T191944Z-3434387/ui_live_response.json",
+              "prior_actual_ui_capture_sha256": "7b43a0a57c58082d2cf307365e4603c5a7379a585f82861934c23eeabd04020f",
+              "prior_actual_ui_content_verdict": "FAIL",
+              "prior_actual_ui_render_verdict": "PASS",
+              "prior_actual_ui_usable_ms": 7.851,
+              "prior_actual_ui_frontend_sha256": "74eb1795bcbd5191cd4b38a130a5561378cfba5e90459143625a24dd20471176",
+              "final_api_ui_replay": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T192928Z-3444600/ui_final_api_replay.json",
+              "final_api_ui_replay_api_to_usable_ms": 104.995,
+              "final_api_replay_is_new_live_model_call": false,
+              "stalled_index_replay": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T191906Z-3433642/ui_stalled_index.json",
+              "stalled_index_api_to_usable_ms": 89.821,
+              "offline_filter_is_live_generation": false,
+              "summary_comparison_revalidated_offline_not_regenerated": true,
+              "new_qa_model_calls": 0,
+              "final_public_actual_required": true,
+              "final_public_actual_owner": "MAIN after promotion/restart/publish; not claimed complete by this preview receipt"
+            },
+            "final_api_capture": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/live-original-20261108T192610Z.json",
+            "final_api_replay": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T192928Z-3444600/ui_final_api_replay.json",
+            "live_ui_semantics": "Prior actual UI proves unchanged frontend rendering/workflows; its content failure remains historical. Current final backend answer is proven by real HTTP capture and replayed through that frontend.",
+            "final_public_actual_required": true
+          }
+        }
+      ],
+      "model_candidate_turns": 0,
+      "model_usage": {},
+      "source_injection": false,
+      "artifact_dir": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T193035Z-3445718",
+      "manifest": "d15ea4a006bfdb3ba0ad",
+      "finished_at": "2026-11-08T19:30:36.252444+00:00"
     }
   ],
   "artifacts": {
@@ -13670,30 +17196,44 @@
     "readonly_share": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T182404Z-3358200/readonly_share.json",
     "readonly_monthly": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T182404Z-3358200/readonly_monthly.json",
     "ui_readonly_count_response": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T182535Z-3359591/ui_readonly_count_response.json",
-    "chat_original": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/live-original-20261108T185421Z.json",
+    "chat_original": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/live-original-20261108T192610Z.json",
     "chat_synthesis": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/live-summary-20261108T185441Z.json",
     "chat_comparison": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/live-comparison-20261108T185452Z.json",
-    "manual_source_review": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T185838Z-3400503/manual-source-review-final.json",
-    "ui_live_response": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T185709Z-3397774/ui_live_response.json"
+    "manual_source_review": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T193027Z-3445594/manual-source-review-incremental-final.json",
+    "ui_live_response": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T191944Z-3434387/ui_live_response.json",
+    "ui_stalled_index": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T191906Z-3433642/ui_stalled_index.json",
+    "final_api_capture": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/live-original-20261108T192610Z.json",
+    "incremental_guard_proof": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T192919Z-3444454/incremental_guard_proof.json",
+    "manual_final_api_source": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T192919Z-3444454/manual_final_api_source.json",
+    "ui_final_api_replay": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T192928Z-3444600/ui_final_api_replay.json"
   },
   "manual_reviews": {
     "reviewer": "CHAT-QA-20261109",
-    "reviewed_at": "2026-11-08T18:58:39.754775+00:00",
-    "manifest": "365700f88d660ec861e2",
+    "reviewed_at": "2026-11-08T19:30:27.926143+00:00",
+    "manifest": "d15ea4a006bfdb3ba0ad",
     "api_revision": "research-chat-20261109",
     "source_injection": false,
     "verdict": "PASS",
-    "new_model_calls": 0,
-    "browser_calls": 0,
-    "pending": [],
-    "prior_failed_receipt_preserved": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T184935Z-3389074/manual-source-review.json",
+    "acceptance_mode": "bounded_incremental_actual_api_and_same_frontend",
+    "source_freeze": {
+      "assistant.js": "74eb1795bcbd5191cd4b38a130a5561378cfba5e90459143625a24dd20471176",
+      "service/research_chat.py": "492eb24de610a436a122002394896dc83354ac57479c156a4f890a812368f0ca",
+      "service/chat.py": "b5bfed832e8136346f46f5b941da8f210db52eeb83a3ed8ce166f4f95e0b4bc6",
+      "service/retrieval.py": "81b579721ae34911ad4c49168e62356dd4428c86b25ed203b0b21cc70225fde1",
+      "service/intent.py": "f2cbe2b02f4de482d59dce96897f74854dc2a54ebb4c6f206e9f8d605c511865",
+      "service/planner.py": "3967a0b07e7e16a0e0846ae9239c852ef066ae00d5fce42fd8d27af1fa933a7c",
+      "service/app.py": "dc9c131e54c64a65abcb16e84033aec956cfa0d6b6370419461c0f4e248324c9"
+    },
     "cases": [
       {
         "id": "chat_original",
         "verdict": "PASS",
-        "capture": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/live-original-20261108T185421Z.json",
-        "capture_sha256": "7af5ca83badd6f8c66eb60c91aa82d5e54d50e3552c7386ae976caeeca0242e2",
+        "capture": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/live-original-20261108T192610Z.json",
+        "capture_sha256": "b757201a8a06a323032750aa352fa27b4635affe81bf74ebfbaf1114c4089842",
         "actual_question": "你好，给我看看 近期的就是 对中国最相关的 报道我看看",
+        "actual_http_status": 200,
+        "seconds": 12.92,
+        "transport": "MAIN actual authenticated HTTP against final492eb24source loaded at8792; not offline response",
         "actual_state": "answered",
         "actual_format": "grounded_summary",
         "actual_model": {
@@ -13703,11 +17243,10 @@
           "reason": null
         },
         "actual_usage": {
-          "prompt_tokens": 4402,
-          "completion_tokens": 996,
-          "total_tokens": 5398
+          "prompt_tokens": 4655,
+          "completion_tokens": 1056,
+          "total_tokens": 5711
         },
-        "seconds": 14.21,
         "source_checks": [
           {
             "citation_id": "C1",
@@ -13755,6 +17294,10 @@
               "original_content": "e5d931469dd4ee3aac06a6238c49dfbdf87da305b9550e502f516d40e5ed7061",
               "chinese_translation": "19f0afe34aa46c6220b948b0990bf8bf74780c5da8c69a59c0d761d34409325a",
               "raw_json": "980809c2ba83d5fe9d96b9ccb0956aa3f308151ac9bbf8135aacd289b5981bdf"
+            },
+            "name_grounding": {
+              "name": "Craig Singleton",
+              "full_original_and_translation": true
             }
           },
           {
@@ -13769,7 +17312,51 @@
             "complete_original_translation_reviewed": true,
             "original_field_hashes": {
               "content": "dde919a1600d1cd7fbf4565bb67223d936b31ddb461bc62f8ae97e9ee848ad7c",
-              "content_cn": "74bdbe4d0fffa21bee5fbfb374d27ff6720dac24f07cac8892eb42584cf28b66"
+              "content_cn": "74bdbe4d0fffa21bee5fbfb374d27ff6720dac24f07cac8892eb42584cf28b66",
+              "title_cn": "15ea97aab25cb33da6e4cda683ab85bf162a6a483ce644c32b12616672828d31",
+              "title_en": "1ca84a7eda812d3643ca178d3c7db0980b5614dbb734012792cbecb50e42407a"
+            },
+            "name_grounding": {
+              "name": "David Shedd",
+              "original_body": true,
+              "source_title": true,
+              "original_event_date": "recorded on Wednesday, May20,2026; archived invitation context retained"
+            }
+          },
+          {
+            "citation_id": "C11",
+            "id": "social-52",
+            "source_field": "chinese_translation",
+            "source_sha256": "25692d581ea83e19153d73f88f03ad2bb9ac7e49135fd87d6490424119e5b2d3",
+            "snippet_sha256": "ad501d1b279a70c9cce85e226ccc28560e25a027261d2c9a20b119c21e06769e",
+            "source_version": "f064c896c123cbf4",
+            "quotes_verified": 1,
+            "complete_fields_sha256": "498174078e091eda3dbb95250897144761b52658d539cf3ea12dd65ef9588364",
+            "complete_original_translation_reviewed": true,
+            "original_field_hashes": {
+              "original_content": "5b5c78d0f96d70e4c825d0b2664653eab467645e0a5ee43845d23ec104bd6ac0",
+              "chinese_translation": "25692d581ea83e19153d73f88f03ad2bb9ac7e49135fd87d6490424119e5b2d3",
+              "raw_json": "3c6872bca9d75ef5d299601b6d013aa4ac1770a757521a71810f2e5921c7992d"
+            },
+            "name_grounding": {
+              "handle": "@vivekchil",
+              "unsupported_fullname_absent": true
+            }
+          },
+          {
+            "citation_id": "C12",
+            "id": "social-59",
+            "source_field": "chinese_translation",
+            "source_sha256": "9abfdda65a7c00bb2d2977d381eee081ad8cfde378e0865f0c220d2d6397923f",
+            "snippet_sha256": "9abfdda65a7c00bb2d2977d381eee081ad8cfde378e0865f0c220d2d6397923f",
+            "source_version": "f064c896c123cbf4",
+            "quotes_verified": 1,
+            "complete_fields_sha256": "b5eb955dc9c83424dd8cc5829ca05adaf6b200d3f144dae378ef1bfda02e50a2",
+            "complete_original_translation_reviewed": true,
+            "original_field_hashes": {
+              "original_content": "b3ec6c3b5fbb3f5cd8f280a2ec3f46ea20243186625dd8857bd8e6a744773923",
+              "chinese_translation": "9abfdda65a7c00bb2d2977d381eee081ad8cfde378e0865f0c220d2d6397923f",
+              "raw_json": "841580487db17544af4f224186244bf5866c7e7ae6cc1aa5ec54d0a79e10e0c3"
             }
           }
         ],
@@ -13805,18 +17392,18 @@
                 "1001210": 272
               },
               "by_platform": {
-                "Facebook": 615,
-                "Google News RSS (deep pilot)": 881,
-                "Google News RSS": 946,
-                "X": 1189,
-                "Google": 15,
                 "official_web": 1468,
-                "Bing News RSS": 125,
-                "LinkedIn": 42,
-                "Google via Apify": 34,
                 "Google News RSS discovery": 1664,
+                "legacy_cache_import": 1,
+                "Google via Apify": 34,
+                "Facebook": 615,
+                "X": 1189,
+                "Bing News RSS": 125,
+                "Google": 15,
                 "Google News RSS + Yahoo title resolution via Reader": 9,
-                "legacy_cache_import": 1
+                "LinkedIn": 42,
+                "Google News RSS": 946,
+                "Google News RSS (deep pilot)": 881
               }
             },
             "matched": {
@@ -13847,16 +17434,16 @@
                 "1001210": 32
               },
               "by_platform": {
-                "Google News RSS (deep pilot)": 119,
-                "Google News RSS": 63,
-                "X": 72,
-                "Google": 2,
                 "official_web": 362,
-                "Bing News RSS": 19,
-                "LinkedIn": 3,
-                "Google via Apify": 16,
                 "Google News RSS discovery": 310,
-                "Facebook": 21
+                "Facebook": 21,
+                "Google via Apify": 16,
+                "X": 72,
+                "Bing News RSS": 19,
+                "Google": 2,
+                "LinkedIn": 3,
+                "Google News RSS": 63,
+                "Google News RSS (deep pilot)": 119
               }
             }
           },
@@ -14315,38 +17902,38 @@
         },
         "unsupported_claims": [],
         "task_fulfillment_failures": [],
-        "limitations": [
-          "Review is limited to cited stored real snapshot records and their full original/translation fields; external source truth has not been independently established.",
-          "987 and377 are disclosed lexical match counts, not a guarantee that every record substantively concerns China, objective importance ranks, organizational attention or institutional policy.",
-          "Metadata publication/collection dates and dates mentioned in archived source content can differ; no real-time completeness is asserted."
-        ],
-        "resolved_previous_failure": "Unsupported C11 identity is absent; no replacement invention. Lexical-noise domestic DHS news9 is not used as China evidence.",
         "claim_reviews": [
           {
-            "citations": [
-              "C1"
-            ],
-            "finding": "Publisher-attributed opinion about Trump China-policy continuity is supported; it is not presented as independently proven truth."
+            "cid": "C1",
+            "finding": "Account-attributed policy commentary is faithfully paraphrased."
           },
           {
-            "citations": [
-              "C5"
-            ],
-            "finding": "Pipeline/Beijing support and junior-partner interpretation remain attributed to the Atlantic Council article."
+            "cid": "C5",
+            "finding": "Pipeline/Beijing/Russia-junior-partner interpretation remains source-attributed."
           },
           {
-            "citations": [
-              "C6"
-            ],
-            "finding": "Craig Singleton and FDD affiliation occur in the complete original and translation; farm-purchase commitment/truce paraphrase is supported."
+            "cid": "C6",
+            "finding": "Craig Singleton original naming and FDD affiliation are explicit; agricultural commitments/truce paraphrase supported."
           },
           {
-            "citations": [
-              "C7"
-            ],
-            "finding": "The source invitation explicitly introduces a fireside chat on summit signals, competition and industrial espionage; answer paraphrases the source introduction without inventing a summit outcome."
+            "cid": "C7",
+            "finding": "David Shedd full English name occurs in original title and body, role and summit-topic invitation supported. Archived recording/date context is not an independently verified current upcoming event."
+          },
+          {
+            "cid": "C11",
+            "finding": "CNAS publishing attribution preserves @vivekchil as handle; no ungrounded fullname or employment."
+          },
+          {
+            "cid": "C12",
+            "finding": "CSIS program announcement supports expert summit discussion without an invented outcome."
           }
-        ]
+        ],
+        "limitations": [
+          "Evidence is the immutable real snapshot, not real-time web information or independent verification of external statements.",
+          "987 remains the disclosed lexical match count; no objective importance ranking or all-substantive-relevance claim.",
+          "Source activity/recorded dates can differ from publication metadata; current and upcoming-event inferences remain bounded."
+        ],
+        "supersedes_prior_original_capture": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/live-original-20261108T192610Z.json"
       },
       {
         "id": "chat_synthesis",
@@ -15610,12 +19197,14 @@
         ]
       },
       {
-        "id": "ui_live_response",
+        "id": "final_api_capture",
         "verdict": "PASS",
-        "capture": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T185709Z-3397774/ui_live_response.json",
-        "capture_sha256": "c70457e4298a6a265c66e015aba4d842810233076666ccbddba8629b4ad240c4",
+        "capture": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/live-original-20261108T192610Z.json",
+        "capture_sha256": "b757201a8a06a323032750aa352fa27b4635affe81bf74ebfbaf1114c4089842",
         "actual_question": "你好，给我看看 近期的就是 对中国最相关的 报道我看看",
-        "transport": "actual protected encrypted preview UI through live HTTP API; no mocked original request or source injection",
+        "actual_http_status": 200,
+        "seconds": 12.92,
+        "transport": "MAIN actual authenticated HTTP against final492eb24source loaded at8792; not offline response",
         "actual_state": "answered",
         "actual_format": "grounded_summary",
         "actual_model": {
@@ -15625,9 +19214,9 @@
           "reason": null
         },
         "actual_usage": {
-          "prompt_tokens": 4128,
-          "completion_tokens": 919,
-          "total_tokens": 5047
+          "prompt_tokens": 4655,
+          "completion_tokens": 1056,
+          "total_tokens": 5711
         },
         "source_checks": [
           {
@@ -15663,6 +19252,26 @@
             }
           },
           {
+            "citation_id": "C6",
+            "id": "social-22",
+            "source_field": "chinese_translation",
+            "source_sha256": "19f0afe34aa46c6220b948b0990bf8bf74780c5da8c69a59c0d761d34409325a",
+            "snippet_sha256": "19f0afe34aa46c6220b948b0990bf8bf74780c5da8c69a59c0d761d34409325a",
+            "source_version": "f064c896c123cbf4",
+            "quotes_verified": 1,
+            "complete_fields_sha256": "4556e979e9a4cc7ec1dcfd9c20ae0a853dd81068c6d767170d831e5d52281b33",
+            "complete_original_translation_reviewed": true,
+            "original_field_hashes": {
+              "original_content": "e5d931469dd4ee3aac06a6238c49dfbdf87da305b9550e502f516d40e5ed7061",
+              "chinese_translation": "19f0afe34aa46c6220b948b0990bf8bf74780c5da8c69a59c0d761d34409325a",
+              "raw_json": "980809c2ba83d5fe9d96b9ccb0956aa3f308151ac9bbf8135aacd289b5981bdf"
+            },
+            "name_grounding": {
+              "name": "Craig Singleton",
+              "full_original_and_translation": true
+            }
+          },
+          {
             "citation_id": "C7",
             "id": "news-33",
             "source_field": "content_cn",
@@ -15674,7 +19283,35 @@
             "complete_original_translation_reviewed": true,
             "original_field_hashes": {
               "content": "dde919a1600d1cd7fbf4565bb67223d936b31ddb461bc62f8ae97e9ee848ad7c",
-              "content_cn": "74bdbe4d0fffa21bee5fbfb374d27ff6720dac24f07cac8892eb42584cf28b66"
+              "content_cn": "74bdbe4d0fffa21bee5fbfb374d27ff6720dac24f07cac8892eb42584cf28b66",
+              "title_cn": "15ea97aab25cb33da6e4cda683ab85bf162a6a483ce644c32b12616672828d31",
+              "title_en": "1ca84a7eda812d3643ca178d3c7db0980b5614dbb734012792cbecb50e42407a"
+            },
+            "name_grounding": {
+              "name": "David Shedd",
+              "original_body": true,
+              "source_title": true,
+              "original_event_date": "recorded on Wednesday, May20,2026; archived invitation context retained"
+            }
+          },
+          {
+            "citation_id": "C11",
+            "id": "social-52",
+            "source_field": "chinese_translation",
+            "source_sha256": "25692d581ea83e19153d73f88f03ad2bb9ac7e49135fd87d6490424119e5b2d3",
+            "snippet_sha256": "ad501d1b279a70c9cce85e226ccc28560e25a027261d2c9a20b119c21e06769e",
+            "source_version": "f064c896c123cbf4",
+            "quotes_verified": 1,
+            "complete_fields_sha256": "498174078e091eda3dbb95250897144761b52658d539cf3ea12dd65ef9588364",
+            "complete_original_translation_reviewed": true,
+            "original_field_hashes": {
+              "original_content": "5b5c78d0f96d70e4c825d0b2664653eab467645e0a5ee43845d23ec104bd6ac0",
+              "chinese_translation": "25692d581ea83e19153d73f88f03ad2bb9ac7e49135fd87d6490424119e5b2d3",
+              "raw_json": "3c6872bca9d75ef5d299601b6d013aa4ac1770a757521a71810f2e5921c7992d"
+            },
+            "name_grounding": {
+              "handle": "@vivekchil",
+              "unsupported_fullname_absent": true
             }
           },
           {
@@ -15726,18 +19363,18 @@
                 "1001210": 272
               },
               "by_platform": {
-                "LinkedIn": 42,
-                "Google News RSS + Yahoo title resolution via Reader": 9,
-                "legacy_cache_import": 1,
-                "Google News RSS": 946,
                 "official_web": 1468,
+                "Google News RSS discovery": 1664,
+                "legacy_cache_import": 1,
                 "Google via Apify": 34,
-                "Google": 15,
+                "Facebook": 615,
                 "X": 1189,
                 "Bing News RSS": 125,
-                "Google News RSS (deep pilot)": 881,
-                "Google News RSS discovery": 1664,
-                "Facebook": 615
+                "Google": 15,
+                "Google News RSS + Yahoo title resolution via Reader": 9,
+                "LinkedIn": 42,
+                "Google News RSS": 946,
+                "Google News RSS (deep pilot)": 881
               }
             },
             "matched": {
@@ -15768,24 +19405,22 @@
                 "1001210": 32
               },
               "by_platform": {
-                "LinkedIn": 3,
-                "Google News RSS": 63,
                 "official_web": 362,
+                "Google News RSS discovery": 310,
+                "Facebook": 21,
                 "Google via Apify": 16,
-                "Google": 2,
                 "X": 72,
                 "Bing News RSS": 19,
-                "Google News RSS (deep pilot)": 119,
-                "Google News RSS discovery": 310,
-                "Facebook": 21
+                "Google": 2,
+                "LinkedIn": 3,
+                "Google News RSS": 63,
+                "Google News RSS (deep pilot)": 119
               }
             }
           },
           "scope": {
             "dataset": "real",
-            "filters": {
-              "date_field": "published_at"
-            },
+            "filters": {},
             "source_version": "f064c896c123cbf4",
             "date_field": "published_at",
             "timezone": "Asia/Shanghai",
@@ -16240,68 +19875,171 @@
         "task_fulfillment_failures": [],
         "claim_reviews": [
           {
-            "citations": [
-              "C1"
-            ],
-            "finding": "Attributed source opinion about Trump China policy is faithfully paraphrased; no invented identity, event or measured rank."
+            "cid": "C1",
+            "finding": "Account-attributed policy commentary is faithfully paraphrased."
           },
           {
-            "citations": [
-              "C7"
-            ],
-            "finding": "Source has the summit/fireside-chat setup and the named former DIA director. The full record states recorded2026-05-20; arranging the archived talk is supported, with the answer explicitly identifying the overall response as snapshot material rather than real-time."
+            "cid": "C5",
+            "finding": "Pipeline/Beijing/Russia-junior-partner interpretation remains source-attributed."
           },
           {
-            "citations": [
-              "C12"
-            ],
-            "finding": "Source announcement supports CSIS expert summit-analysis preview; no novel conclusion or invented participation."
+            "cid": "C6",
+            "finding": "Craig Singleton original naming and FDD affiliation are explicit; agricultural commitments/truce paraphrase supported."
           },
           {
-            "citations": [
-              "C5"
-            ],
-            "finding": "Beijing support/Power of Siberia2/Russia junior-partner interpretation matches the Atlantic Council source and stays attributed."
+            "cid": "C7",
+            "finding": "David Shedd full English name occurs in original title and body, role and summit-topic invitation supported. Archived recording/date context is not an independently verified current upcoming event."
+          },
+          {
+            "cid": "C11",
+            "finding": "CNAS publishing attribution preserves @vivekchil as handle; no ungrounded fullname or employment."
+          },
+          {
+            "cid": "C12",
+            "finding": "CSIS program announcement supports expert summit discussion without an invented outcome."
           }
         ],
         "limitations": [
-          "Stored real snapshot only; this is not live web fact checking or a source-truth guarantee.",
-          "987 is the disclosed lexical-query count; the UI does not establish987 substantively China-related articles or an objective importance ranking.",
-          "Historical source announcements and publication metadata dates differ; archived previews are not validated current upcoming events.",
-          "Only selected evidence was summarized; the model omitted a rejected candidate rather than asserting unsupported material."
+          "Evidence is the immutable real snapshot, not real-time web information or independent verification of external statements.",
+          "987 remains the disclosed lexical match count; no objective importance ranking or all-substantive-relevance claim.",
+          "Source activity/recorded dates can differ from publication metadata; current and upcoming-event inferences remain bounded."
         ]
       }
     ],
-    "independent_extra_model_turns": 1,
-    "final_live_ui_run": "20261108T185709Z-3397774",
-    "prior_pending_receipt_preserved": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T185701Z-3397625/manual-source-review.json",
-    "source_freeze": {
-      "service/research_chat.py": "745e5a29ad71b8ede0c2ce085eae2f5e806451063ef77d9bdddc5b1d40b65113"
+    "reused_manual_receipt": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T185838Z-3400503/manual-source-review-final.json",
+    "reused_manual_receipt_sha256": "bbcb8da761a93d698160cd0f20dbc316299b74e9a0fbaaee1882b2fecdf81376",
+    "historical_failed_receipt": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T192123Z-3436287/manual-source-review-new-ui.json",
+    "independent_extra_model_turns": 2,
+    "new_model_calls_this_incremental_phase": 0,
+    "final_api_capture": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/live-original-20261108T192610Z.json",
+    "final_api_capture_sha256": "b757201a8a06a323032750aa352fa27b4635affe81bf74ebfbaf1114c4089842",
+    "guard_offline_proof": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T192919Z-3444454/incremental_guard_proof.json",
+    "guard_offline_proof_sha256": "0297c9d26909ac319b700d1296633b64547114a7dee20c4372bdda30f970e64d",
+    "final_api_ui_replay": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T192928Z-3444600/ui_final_api_replay.json",
+    "final_api_ui_replay_sha256": "4ab0b2e62df0b7f765e413600b091aef05e45ddd90dbdeaa4b517e4bef5a6129",
+    "incremental_evidence": {
+      "final_api_capture": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/live-original-20261108T192610Z.json",
+      "final_api_capture_sha256": "b757201a8a06a323032750aa352fa27b4635affe81bf74ebfbaf1114c4089842",
+      "final_api_source_sha256": "492eb24de610a436a122002394896dc83354ac57479c156a4f890a812368f0ca",
+      "final_api_transport": "Real MAIN HTTP generation+review on final492eb24source at8792,12.92s,5711tokens; no QA model call",
+      "prior_actual_ui_run": "20261108T191944Z-3434387",
+      "prior_actual_ui_capture": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T191944Z-3434387/ui_live_response.json",
+      "prior_actual_ui_capture_sha256": "7b43a0a57c58082d2cf307365e4603c5a7379a585f82861934c23eeabd04020f",
+      "prior_actual_ui_content_verdict": "FAIL",
+      "prior_actual_ui_render_verdict": "PASS",
+      "prior_actual_ui_usable_ms": 7.851,
+      "prior_actual_ui_frontend_sha256": "74eb1795bcbd5191cd4b38a130a5561378cfba5e90459143625a24dd20471176",
+      "final_api_ui_replay": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T192928Z-3444600/ui_final_api_replay.json",
+      "final_api_ui_replay_api_to_usable_ms": 104.995,
+      "final_api_replay_is_new_live_model_call": false,
+      "stalled_index_replay": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T191906Z-3433642/ui_stalled_index.json",
+      "stalled_index_api_to_usable_ms": 89.821,
+      "offline_filter_is_live_generation": false,
+      "summary_comparison_revalidated_offline_not_regenerated": true,
+      "new_qa_model_calls": 0,
+      "final_public_actual_required": true,
+      "final_public_actual_owner": "MAIN after promotion/restart/publish; not claimed complete by this preview receipt"
     },
-    "regression_report": {
-      "path": "reports/research-chat-frozen-regression-20261109.json",
-      "sha256": "f413d22fd86027974a757c9fe61e2bdb3e0021acc4c125525e45b89419453574"
+    "historical_failure_resolution": {
+      "historical_check": "manual_ui_live_response",
+      "historical_content_verdict": "FAIL",
+      "old_ui_capture_sha256": "7b43a0a57c58082d2cf307365e4603c5a7379a585f82861934c23eeabd04020f",
+      "resolution": "supported_final_actual_api_plus_unchanged_frontend_replay",
+      "old_error_kept_in_history": true,
+      "justification": "Final guard excludes unsupported retrieval explanations. Independent exact offline replay rejects onlyK5 from the historical response; final-source actual HTTP original has6fullysupportedclaimsandnoerror. Same frontend bytes already have actualrender/workflowPASS and final HTTPanswer is independently replayed through that encryptedfrontend."
     },
-    "manual_review_note": "All four exact answer captures independently read against original/translated full fields. Historical failed captures remain preserved and are superseded only by the exact replacement-case PASS results."
+    "limitations": [
+      "This is explicit bounded incremental preview acceptance, not a claim of a new final-source frontend-to-model request by QA.",
+      "The old actual UI answer content remains failed in history; only its unchanged frontend rendering/workflow observations are reused.",
+      "Final public full-stack actual request remains mandatory and assigned to MAIN after publishing.",
+      "Stored snapshot quotes, exactSQL and independent cited-source reading do not guarantee external source truth or all semantic inferences;987islexical,notall-substantiveorobjectiveimportance."
+    ]
   },
-  "updated_at": "2026-11-08T18:58:46.870419+00:00",
+  "updated_at": "2026-11-08T19:30:36.252457+00:00",
   "acceptance_complete": true,
   "acceptance_note": "PASS requires successful real original/synthesis/comparison, independent source review, exact SQL and final encrypted live UI. Historical preparation/pending and superseded failures remain visible in runs.",
   "verdict": "PASS",
   "failed": 0,
   "api_revision": "research-chat-20261109",
   "unresolved_failures": [],
-  "manifest": "365700f88d660ec861e2",
+  "manifest": "d15ea4a006bfdb3ba0ad",
   "source_injection": false,
+  "prior_promotion_receipts": [
+    {
+      "manifest": "365700f88d660ec861e2",
+      "receipt": {
+        "manual_review": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T185838Z-3400503/manual-source-review-final.json",
+        "manual_review_sha256": "bbcb8da761a93d698160cd0f20dbc316299b74e9a0fbaaee1882b2fecdf81376",
+        "required_checks": [
+          "baseline",
+          "count_followup",
+          "encrypted_manifest",
+          "explicit_30days_search",
+          "greeting",
+          "readonly_exact_count",
+          "readonly_monthly",
+          "readonly_ranking",
+          "readonly_share",
+          "review_chat_comparison",
+          "review_chat_original",
+          "review_chat_synthesis",
+          "search_original",
+          "snapshot",
+          "social_count_followup",
+          "ui_loading_cancel_retry",
+          "ui_mobile",
+          "ui_original",
+          "ui_saved_backup",
+          "ui_sources_followup",
+          "ui_zero_to_chat",
+          "unknown_chat",
+          "unknown_search"
+        ],
+        "live_ui_run": "20261108T185709Z-3397774",
+        "independent_extra_model_turns": 1,
+        "completed_at": "2026-11-08T18:58:46.870267+00:00",
+        "served_index_sha256": "40be3f12420620c0808c4bc8690aa956ca4c45e2c8f54af11f1640dc7742b1f1",
+        "history_preserved": true,
+        "semantic_limit": "Independent sampled source review; no guarantee that external source statements are true or all semantic claims are proven"
+      },
+      "superseded_for_current_manifest": true
+    }
+  ],
+  "incremental_evidence": {
+    "final_api_capture": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/live-original-20261108T192610Z.json",
+    "final_api_capture_sha256": "b757201a8a06a323032750aa352fa27b4635affe81bf74ebfbaf1114c4089842",
+    "final_api_source_sha256": "492eb24de610a436a122002394896dc83354ac57479c156a4f890a812368f0ca",
+    "final_api_transport": "Real MAIN HTTP generation+review on final492eb24source at8792,12.92s,5711tokens; no QA model call",
+    "prior_actual_ui_run": "20261108T191944Z-3434387",
+    "prior_actual_ui_capture": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T191944Z-3434387/ui_live_response.json",
+    "prior_actual_ui_capture_sha256": "7b43a0a57c58082d2cf307365e4603c5a7379a585f82861934c23eeabd04020f",
+    "prior_actual_ui_content_verdict": "FAIL",
+    "prior_actual_ui_render_verdict": "PASS",
+    "prior_actual_ui_usable_ms": 7.851,
+    "prior_actual_ui_frontend_sha256": "74eb1795bcbd5191cd4b38a130a5561378cfba5e90459143625a24dd20471176",
+    "final_api_ui_replay": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T192928Z-3444600/ui_final_api_replay.json",
+    "final_api_ui_replay_api_to_usable_ms": 104.995,
+    "final_api_replay_is_new_live_model_call": false,
+    "stalled_index_replay": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T191906Z-3433642/ui_stalled_index.json",
+    "stalled_index_api_to_usable_ms": 89.821,
+    "offline_filter_is_live_generation": false,
+    "summary_comparison_revalidated_offline_not_regenerated": true,
+    "new_qa_model_calls": 0,
+    "final_public_actual_required": true,
+    "final_public_actual_owner": "MAIN after promotion/restart/publish; not claimed complete by this preview receipt"
+  },
   "promotion_receipt": {
-    "manual_review": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T185838Z-3400503/manual-source-review-final.json",
-    "manual_review_sha256": "bbcb8da761a93d698160cd0f20dbc316299b74e9a0fbaaee1882b2fecdf81376",
+    "manual_review": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T193027Z-3445594/manual-source-review-incremental-final.json",
+    "manual_review_sha256": "fcd8c19dfd044263ca41ed8bba6decafe64399d18c06f78ee4481dd3797fbc38",
     "required_checks": [
       "baseline",
       "count_followup",
       "encrypted_manifest",
       "explicit_30days_search",
+      "final_api_current_source",
       "greeting",
+      "incremental_guard_proof",
+      "manual_final_api_capture",
       "readonly_exact_count",
       "readonly_monthly",
       "readonly_ranking",
@@ -16312,20 +20050,71 @@
       "search_original",
       "snapshot",
       "social_count_followup",
+      "ui_final_api_replay",
       "ui_loading_cancel_retry",
       "ui_mobile",
       "ui_original",
       "ui_saved_backup",
       "ui_sources_followup",
+      "ui_stalled_index",
       "ui_zero_to_chat",
       "unknown_chat",
       "unknown_search"
     ],
-    "live_ui_run": "20261108T185709Z-3397774",
-    "independent_extra_model_turns": 1,
-    "completed_at": "2026-11-08T18:58:46.870267+00:00",
-    "served_index_sha256": "40be3f12420620c0808c4bc8690aa956ca4c45e2c8f54af11f1640dc7742b1f1",
+    "live_ui_run": "20261108T191944Z-3434387",
+    "independent_extra_model_turns": 2,
+    "completed_at": "2026-11-08T19:30:36.250897+00:00",
+    "served_index_sha256": "4a3ddc83250bcf0a98916ceaa3ed1825a622e0f48842f5da5a27746af60b47bd",
+    "source_freeze": {
+      "assistant.js": "74eb1795bcbd5191cd4b38a130a5561378cfba5e90459143625a24dd20471176",
+      "service/research_chat.py": "492eb24de610a436a122002394896dc83354ac57479c156a4f890a812368f0ca",
+      "service/chat.py": "b5bfed832e8136346f46f5b941da8f210db52eeb83a3ed8ce166f4f95e0b4bc6",
+      "service/retrieval.py": "81b579721ae34911ad4c49168e62356dd4428c86b25ed203b0b21cc70225fde1",
+      "service/intent.py": "f2cbe2b02f4de482d59dce96897f74854dc2a54ebb4c6f206e9f8d605c511865",
+      "service/planner.py": "3967a0b07e7e16a0e0846ae9239c852ef066ae00d5fce42fd8d27af1fa933a7c",
+      "service/app.py": "dc9c131e54c64a65abcb16e84033aec956cfa0d6b6370419461c0f4e248324c9"
+    },
+    "stalled_index_run": "20261108T191906Z-3433642",
+    "stalled_index_api_to_usable_ms": 89.821,
+    "encrypted_assistant_sha256": "74eb1795bcbd5191cd4b38a130a5561378cfba5e90459143625a24dd20471176",
     "history_preserved": true,
-    "semantic_limit": "Independent sampled source review; no guarantee that external source statements are true or all semantic claims are proven"
-  }
+    "semantic_limit": "Independent sampled source review; no guarantee that external source statements are true or all semantic claims are proven",
+    "acceptance_mode": "bounded_incremental_actual_api_and_same_frontend",
+    "incremental_evidence": {
+      "final_api_capture": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/live-original-20261108T192610Z.json",
+      "final_api_capture_sha256": "b757201a8a06a323032750aa352fa27b4635affe81bf74ebfbaf1114c4089842",
+      "final_api_source_sha256": "492eb24de610a436a122002394896dc83354ac57479c156a4f890a812368f0ca",
+      "final_api_transport": "Real MAIN HTTP generation+review on final492eb24source at8792,12.92s,5711tokens; no QA model call",
+      "prior_actual_ui_run": "20261108T191944Z-3434387",
+      "prior_actual_ui_capture": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T191944Z-3434387/ui_live_response.json",
+      "prior_actual_ui_capture_sha256": "7b43a0a57c58082d2cf307365e4603c5a7379a585f82861934c23eeabd04020f",
+      "prior_actual_ui_content_verdict": "FAIL",
+      "prior_actual_ui_render_verdict": "PASS",
+      "prior_actual_ui_usable_ms": 7.851,
+      "prior_actual_ui_frontend_sha256": "74eb1795bcbd5191cd4b38a130a5561378cfba5e90459143625a24dd20471176",
+      "final_api_ui_replay": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T192928Z-3444600/ui_final_api_replay.json",
+      "final_api_ui_replay_api_to_usable_ms": 104.995,
+      "final_api_replay_is_new_live_model_call": false,
+      "stalled_index_replay": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T191906Z-3433642/ui_stalled_index.json",
+      "stalled_index_api_to_usable_ms": 89.821,
+      "offline_filter_is_live_generation": false,
+      "summary_comparison_revalidated_offline_not_regenerated": true,
+      "new_qa_model_calls": 0,
+      "final_public_actual_required": true,
+      "final_public_actual_owner": "MAIN after promotion/restart/publish; not claimed complete by this preview receipt"
+    },
+    "final_api_capture": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/live-original-20261108T192610Z.json",
+    "final_api_replay": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T192928Z-3444600/ui_final_api_replay.json",
+    "live_ui_semantics": "Prior actual UI proves unchanged frontend rendering/workflows; its content failure remains historical. Current final backend answer is proven by real HTTP capture and replayed through that frontend.",
+    "final_public_actual_required": true
+  },
+  "prior_promotion_blocks": [
+    {
+      "manifest": "d15ea4a006bfdb3ba0ad",
+      "reason": "manual_ui_live_response inaccurate lexical-match explanation",
+      "evidence": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T192123Z-3436287/manual-source-review-new-ui.json",
+      "model_budget_used": 2,
+      "finalize_not_run": true
+    }
+  ]
 }

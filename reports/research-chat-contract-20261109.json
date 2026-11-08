@@ -50,5 +50,7 @@
     "source_review": "bounded separate evidence review, no retries or unsupported pass on timeout"
   },
   "source_supported_named_entities": "Retain exact handles and person names supplied by cited evidence; do not expand handles into full names or infer affiliations from database institution attribution.",
-  "comparison_completion": "Both institutions have evidence, and the answer explicitly states supported common themes and sample differences or clearly explains why a requested difference cannot be inferred."
+  "comparison_completion": "Both institutions have evidence, and the answer explicitly states supported common themes and sample differences or clearly explains why a requested difference cannot be inferred.",
+  "answer_render_policy": "Successful API answer is rendered before local snapshot citation enrichment; a slow or unavailable full local index must not leave a completed model response appearing unresponsive.",
+  "unsupported_engine_explanations": "Source-grounded answers discuss source content. Unsupported explanations about lexical matching, token boundaries or why a record was retrieved are rejected; unrelated sources are omitted."
 }

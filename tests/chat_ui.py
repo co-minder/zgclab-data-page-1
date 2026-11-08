@@ -232,7 +232,132 @@ def run():
         page.wait_for_timeout(100)
         assert page.locator(".as-turn").count() == 0
         check("route disposal cancels in-flight result and prevents late transcript writes")
-        page.evaluate("latency=0;workspace.assistantPreferences={};workspace.chatSessions=[]")
+        # Regression: remote answers must never await local data asset/index completion.
+        page.evaluate("""()=>{
+          window.beforeIndexChat=client.chat.bind(client);
+          client.chat=async(...args)=>{const value=await beforeIndexChat(...args);value.citations=value.citations.map(c=>({...c,source_url:'https://api.example.org/'+c.id,quotes:['保留原样摘录']}));window.apiResponseAt=performance.now();return value;};
+          window.indexCalls=0;window.indexResolve=null;api.entriesFor=()=>{indexCalls++;return new Promise(resolve=>{indexResolve=resolve;});};
+          latency=0;uiFail=false;uiKind='analysis';uiFormat='grounded_analysis';uiLong=false;mockMode='normal';workspace.assistantPreferences={};workspace.chatSessions=[];mount('mode=chat');
+        }""")
+        open_details(page, "#asSessionArea");page.locator("#asKeep").check();page.locator("#asSessionArea > summary").click()
+        page.locator("#asQuestion").fill(NATURAL);page.locator("#asSubmit").click()
+        page.wait_for_function("document.querySelector('.as-turn .as-markdown') && document.querySelector('#asForm').getAttribute('aria-busy')==='false'", timeout=2000)
+        elapsed = page.evaluate("performance.now()-apiResponseAt")
+        assert elapsed < 2000, elapsed
+        assert page.locator("#asPending").is_hidden() and not page.locator("#asSubmit").is_disabled()
+        assert page.evaluate("indexCalls") == 1
+        assert page.locator(".as-evidence a[data-as-local-record]").count() == 0
+        assert page.locator("[data-as-citation='C1'] [data-as-original-source]").get_attribute("href") == "https://api.example.org/news-1"
+        assert "尚未核对" in page.locator("[data-as-citation='C1'] [data-as-local-record]").inner_text()
+        open_details(page, "[data-as-citation='C1'] .as-body-preview")
+        assert "保留原样摘录" in page.locator("[data-as-citation='C1'] .as-body-preview").inner_text()
+        early_saved = page.evaluate("workspace.chatSessions[0].turns[0]")
+        assert early_saved["answer"] and early_saved["items"][0]["source_url"] == "https://api.example.org/news-1"
+        with page.expect_download() as download:
+            page.locator("#asExport").click()
+        assert "https://api.example.org/news-1" in Path(download.value.path()).read_text()
+        measurements["stalled-index-answer-ms"] = elapsed
+        page.screenshot(path=str(OUT / "index-stall-answer-visible.png"), full_page=False)
+        page.locator(".as-citation-ref", has_text="[C1]").first.click()
+        page.evaluate("window.focusBeforeIndex=document.activeElement;window.scrollBeforeIndex=scrollY;indexResolve(entries)")
+        page.wait_for_function("document.querySelector('[data-as-citation=C1] a[data-as-local-record]')")
+        assert page.evaluate("document.activeElement===focusBeforeIndex")
+        assert abs(page.evaluate("scrollY-scrollBeforeIndex")) < 3
+        assert page.locator("[data-as-citation='C1'] h3 a").inner_text() == "人工智能安全研究"
+        assert page.locator("[data-as-citation='C1'] [data-as-local-record]").get_attribute("href") == "#/record/news/news-1"
+        assert page.locator("[data-as-citation='C1'] [data-as-original-source]").get_attribute("href") == "https://example.org/evidence"
+        assert page.locator(".as-turn").count() == 1
+        page.locator("[data-as-citation='C1'] [data-as-local-record]").click()
+        assert page.evaluate("location.hash") == "#/record/news/news-1"
+        assert page.evaluate("workspace.chatSessions[0].turns[0].answer") == early_saved["answer"]
+        assert page.evaluate("workspace.chatSessions[0].turns[0].items[0].title") == "人工智能安全研究"
+        with page.expect_download() as download:
+            page.locator("#asExport").click()
+        enriched_markdown = Path(download.value.path()).read_text()
+        assert "#/record/news/news-1" in enriched_markdown and "https://example.org/evidence" in enriched_markdown
+        check("stalled index: API answer/submit ready in <2s with original sources/quotes/save/export; later enrichment patches record links without focus/scroll loss")
+
+        # A failed optional index cannot turn a successful remote answer into an error.
+        page.evaluate("""()=>{window.indexCalls=0;api.entriesFor=()=>{indexCalls++;return Promise.reject(new Error('asset unavailable'));};workspace.assistantPreferences={};workspace.chatSessions=[];mount('mode=chat');}""")
+        submit(page, "索引加载失败仍然展示服务回答")
+        assert page.locator(".as-turn .as-answer>.as-markdown").count() == 1
+        assert page.locator("#asError").is_hidden()
+        assert "索引暂不可用" in page.locator("[data-as-citation='C1'] [data-as-local-record]").inner_text()
+        assert page.locator("[data-as-citation='C1'] [data-as-original-source]").get_attribute("href") == "https://api.example.org/news-1"
+        check("failed asset index leaves the API answer/citations usable without fallback or false record links")
+
+        # Search results use the same nonblocking enrichment; its one deadline is cleaned up.
+        page.evaluate("""()=>{
+          window.nativeIndexSetTimeout=window.setTimeout;window.nativeIndexClearTimeout=window.clearTimeout;window.indexDeadline=null;window.indexDeadlineCleared=false;
+          window.setTimeout=(fn,ms,...args)=>{const timer=nativeIndexSetTimeout(fn,ms,...args);if(ms===8000){indexDeadline=timer;window.fireIndexDeadline=fn;}return timer;};
+          window.clearTimeout=timer=>{if(timer===indexDeadline)indexDeadlineCleared=true;return nativeIndexClearTimeout(timer);};
+          api.entriesFor=()=>new Promise(resolve=>window.searchIndexResolve=resolve);workspace.assistantPreferences={};workspace.chatSessions=[];mockMode='normal';mount('mode=search');
+        }""")
+        page.locator("#asQuestion").fill("中国");page.locator("#asSubmit").click()
+        page.wait_for_function("document.querySelector('#asSearchResults .as-evidence[data-as-citation=C3]') && document.querySelector('#asForm').getAttribute('aria-busy')==='false'", timeout=2000)
+        assert page.locator("#asSearchResults [data-as-local-record]").get_attribute("href") is None
+        page.evaluate("fireIndexDeadline()")
+        page.wait_for_function("document.querySelector('#asSearchResults [data-as-local-record]').textContent.includes('索引暂不可用')")
+        assert page.evaluate("indexDeadlineCleared")
+        assert page.locator("#asError").is_hidden() and not page.locator("#asSubmit").is_disabled()
+        page.evaluate("searchIndexResolve(entries)")
+        page.wait_for_function("document.querySelector('#asSearchResults a[data-as-local-record]')")
+        assert page.locator("#asSearchResults [data-as-local-record]").get_attribute("href") == "#/record/news/news-1"
+        page.evaluate("window.setTimeout=nativeIndexSetTimeout;window.clearTimeout=nativeIndexClearTimeout")
+        check("search API results render without local index; optional background deadline clears and later index resolution safely enriches links")
+
+        # Do not touch the local index for statistics, zero evidence, or explicit version mismatch.
+        page.evaluate("""()=>{window.indexCalls=0;api.entriesFor=()=>{indexCalls++;return new Promise(()=>{});};workspace.assistantPreferences={};workspace.chatSessions=[];uiKind='database';mount('mode=chat');}""")
+        submit(page, "纯数据库统计")
+        assert page.evaluate("indexCalls") == 0
+        page.evaluate("uiKind='empty';mount('mode=chat')")
+        submit(page, "零结果不要加载全库")
+        assert page.evaluate("indexCalls") == 0
+        page.evaluate("""()=>{uiKind='analysis';window.sameVersionCitation=citation;window.citation=()=>({...sameVersionCitation(),source_version:'other-version'});mount('mode=chat');}""")
+        submit(page, "不同版本不要混用本站记录")
+        assert page.evaluate("indexCalls") == 0
+        assert "快照版本不同" in page.locator("[data-as-citation='C1'] [data-as-local-record]").inner_text()
+        assert page.locator(".as-evidence a[data-as-local-record]").count() == 0
+        page.evaluate("window.citation=sameVersionCitation")
+        check("count/zero/version-mismatch responses skip full-index load; mismatched citations retain their original service sources")
+
+        # Optional late enrichment cannot overwrite a new session or a disposed route.
+        page.evaluate("""()=>{api.entriesFor=()=>new Promise(resolve=>window.staleIndexResolve=resolve);workspace.assistantPreferences={};workspace.chatSessions=[];mount('mode=chat');}""")
+        submit(page, "后台索引旧会话")
+        open_details(page, "#asSessionArea");page.locator("#asKeep").check();page.locator("#asNew").click()
+        page.evaluate("staleIndexResolve(entries)")
+        page.wait_for_timeout(60)
+        assert page.locator(".as-turn").count() == 0
+        assert page.locator("#asWelcome").is_visible()
+        page.evaluate("""()=>{api.entriesFor=()=>new Promise(resolve=>window.abortIndexResolve=resolve);workspace.assistantPreferences={};workspace.chatSessions=[];mount('mode=chat');}""")
+        submit(page, "离开路由前已有回答")
+        page.evaluate("controller.abort();document.querySelector('#view').innerHTML='<p id=indexSentinel>新的页面</p>';abortIndexResolve(entries)")
+        page.wait_for_timeout(60)
+        assert page.locator("#indexSentinel").inner_text() == "新的页面"
+        page.evaluate("""()=>{api.entriesFor=()=>new Promise(resolve=>window.cancelIndexResolve=resolve);workspace.assistantPreferences={};workspace.chatSessions=[];mount('mode=chat');}""")
+        submit(page, "先完成的一轮")
+        page.evaluate("latency=3000")
+        page.locator("#asQuestion").fill("这轮需要取消");page.locator("#asSubmit").click();page.locator("#asCancel").click()
+        page.wait_for_function("document.querySelector('#asForm').getAttribute('aria-busy')==='false'")
+        page.evaluate("cancelIndexResolve(entries)")
+        page.wait_for_function("document.querySelector('[data-as-citation=C1] a[data-as-local-record]')")
+        assert page.locator(".as-turn").count() == 1
+        assert "这轮需要取消" not in page.locator("#asTranscript").inner_text()
+        assert "已取消" in page.locator("#asError").inner_text()
+        check("new-session/route guards prevent stale writes; cancelling a follow-up keeps earlier answer and safe background link enrichment")
+
+        # Saved content opens immediately even when its optional index is still pending.
+        page.evaluate("""()=>{latency=0;api.entriesFor=async()=>entries;workspace.assistantPreferences={};workspace.chatSessions=[];mount('mode=chat');}""")
+        submit(page, "保存待重开的服务回答")
+        open_details(page, "#asSessionArea");page.locator("#asKeep").check()
+        page.evaluate("""()=>{window.reopenId=workspace.chatSessions[0].id;window.reopenAnswer=workspace.chatSessions[0].turns[0].answer;api.entriesFor=()=>new Promise(resolve=>window.reopenIndexResolve=resolve);mount('mode=chat&session='+reopenId);}""")
+        page.wait_for_function("document.querySelector('.as-turn .as-markdown') && document.querySelector('#asForm').getAttribute('aria-busy')!=='true'", timeout=2000)
+        assert page.locator(".as-turn").count() == 1
+        assert page.evaluate("workspace.chatSessions[0].turns[0].answer===reopenAnswer")
+        page.evaluate("reopenIndexResolve(entries)")
+        page.wait_for_function("document.querySelector('[data-as-citation=C1] a[data-as-local-record]')")
+        check("opening a saved session renders its original answer immediately before optional local-index resolution")
+        page.evaluate("client.chat=beforeIndexChat;api.entriesFor=async()=>entries;latency=0;workspace.assistantPreferences={};workspace.chatSessions=[]")
         for width in WIDTHS:
             page.set_viewport_size({"width": width, "height": 844 if width <= 768 else 1000})
             page.evaluate("uiKind='analysis';uiFormat='grounded_analysis';uiLong=false;mount('')")

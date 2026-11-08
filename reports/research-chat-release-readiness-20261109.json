@@ -23,12 +23,12 @@
   },
   "helper": {
     "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/archive/archive_chat_release.py",
-    "sha256": "e8fb35d8db0c1209974a90b5186b366a0bcc11414940781968a3fb3afba4075c",
+    "sha256": "2a1881636353a1ba1c82c2e38363f88202e8c8c0d26dd2737698c329a5ead79d",
     "adapter_path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/archive/chat_report_contract.py",
-    "adapter_sha256": "3b3bd57cf8fb0299a63d4ffe29f3b6d6eed6e83140c4f4c8b21d3078e019eeef",
+    "adapter_sha256": "3a970b17309da2fc039044a843f62ebafb8ab7c5a6c326fc90605cd77579debb",
     "adapter_ready": false,
     "handoff": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/archive/ARCHIVE-HANDOFF.md",
-    "handoff_sha256": "391b376251e0ded9dd5d421b4a3e497eea5cac305a562c7640b6d050dd555a28",
+    "handoff_sha256": "32ac58beefc4b034ba3eb26edd1dbc3feab26198242ede89182478083ab490ea",
     "reused_core": "/home/ubuntu/log/zgclab-ui-design-20261109/archive/archive_design_release.py",
     "reused_core_sha256": "a0fb85d82f0ff0848a825190372c65fcdd07fa712e055779e79b8918d67ddac2",
     "destination": "cos:ai-lab-archive-1-1410628711/work-disk-1/zgclab-1/outputs/web-chat-release-20261109/",
@@ -41,7 +41,9 @@
       "EXPLICIT_EVIDENCE_MANIFEST"
     ],
     "authorization_format": "FINALCHATARCHIVEREADY=ses_e6cd45dc7ffdpaE4LPjiHhd5m6:<exact final commit>",
-    "preflight_command": "python3 /home/ubuntu/log/zgclab-chat-upgrade-20261109/archive/archive_chat_release.py --preflight"
+    "preflight_command": "python3 /home/ubuntu/log/zgclab-chat-upgrade-20261109/archive/archive_chat_release.py --preflight",
+    "inventory_builder": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/archive/build_chat_inventory.py",
+    "inventory_builder_sha256": "a8e90a2fcc2e8675f0109b227103614a1db0f119b0cbdb7e75fc75cedfdee232"
   },
   "checks": [
     {
@@ -338,5 +340,57 @@
       "archive_actions": 0
     },
     "pending": "good final captures, actual completed QA/manual review, final hash-bound regression/runtime report paths and MAIN readiness"
+  },
+  "final_qa_adapter_update": {
+    "schema_ready": false,
+    "actual_qa": {
+      "path": "/home/ubuntu/zgclab-1-web/reports/research-chat-acceptance-20261109.json",
+      "sha256": "a3d6534cf3f09d7c702b0ad883169a3c3910420b2968ef530e7cb782111255c5",
+      "verdict": "PASS",
+      "failed": 0,
+      "acceptance_complete": true,
+      "promotion_receipt_completed_at": "2026-11-08T18:58:46.870267+00:00",
+      "manual_review": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T185838Z-3400503/manual-source-review-final.json",
+      "manual_review_sha256": "bbcb8da761a93d698160cd0f20dbc316299b74e9a0fbaaee1882b2fecdf81376",
+      "adapter_readonly_verification": "PASS",
+      "independent_live_ui_run": "20261108T185709Z-3397774"
+    },
+    "fixed_good_captures": {
+      "chat_original": {
+        "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/live-original-20261108T185421Z.json",
+        "sha256": "7af5ca83badd6f8c66eb60c91aa82d5e54d50e3552c7386ae976caeeca0242e2"
+      },
+      "chat_synthesis": {
+        "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/live-summary-20261108T185441Z.json",
+        "sha256": "b7e08838bba275d103f9ca669a6f79f294333331f21f25c1cd7277e5832c6691"
+      },
+      "chat_comparison": {
+        "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/live-comparison-20261108T185452Z.json",
+        "sha256": "9e2c43da239865ee8ee8dd285885c8f0583d3c73f38f3c46b9123f5c6113fdec"
+      }
+    },
+    "actual_frozen_regression": {
+      "path": "/home/ubuntu/zgclab-1-web/reports/research-chat-frozen-regression-20261109.json",
+      "sha256": "f413d22fd86027974a757c9fe61e2bdb3e0021acc4c125525e45b89419453574",
+      "tests_passed": 197,
+      "log_count": 11,
+      "adapter_readonly_verification": "PASS",
+      "server_research_chat_sha256": "745e5a29ad71b8ede0c2ce085eae2f5e806451063ef77d9bdddc5b1d40b65113"
+    },
+    "actual_final_preview_integrity": {
+      "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/preview-integrity-final.json",
+      "sha256": "f9ae4196d1019f715349ca2c4aedd4202c0086de0b48a1706db1830d210b2662",
+      "encrypted_assets": 418,
+      "preserved_files": 1002
+    },
+    "verification_limits": "No tests, models or network rerun. Actual final QA and regression adapter read-only checks passed; runtime/public/final committed identity still awaits MAIN inputs.",
+    "builder_policy": "Explicit named reports, captures, logs and screenshots only; no recursive JSON or directory inventory; no archive/upload/schema toggle; exclusive new output requires exact clean committed HEAD",
+    "pending": [
+      "MAIN actual final commit/report paths",
+      "actual runtime switch and runtime verification reports",
+      "actual public/public-assets reports and five exact screenshots",
+      "MAIN actual final reports ready before SCHEMA_READY true",
+      "MAIN FINALCHATARCHIVEREADY exact commit before archive execution"
+    ]
   }
 }

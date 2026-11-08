@@ -432,13 +432,16 @@
       sessionId: makeID(), createdAt: new Date().toISOString(), lastRequest: null,
     };
     let activeRequest = null, statusRequest = null, requestSerial = 0, statusSerial = 0, progressTimer = null;
-    let entriesPromise = null, entryMap = new Map();
+    let entriesPromise = null, entryMap = new Map(), entriesState = "idle";
+    let enrichmentRequest = null, enrichmentTimer = null, enrichmentAttempted = false, enrichmentContext = null;
     let resolvedClient = api.serviceClient || window.ZGCLAB_SERVICE_CLIENT || null;
     const textCache = new WeakMap();
 
     function dispose() {
       ownController.abort();
       window.clearInterval(progressTimer);
+      window.clearTimeout(enrichmentTimer);
+      if (enrichmentRequest) enrichmentRequest.abort();
       if (activeRequest) activeRequest.abort();
       if (statusRequest) statusRequest.abort();
       const dialog = view.querySelector("#asPasswordDialog");
@@ -489,30 +492,103 @@
     async function allEntries() {
       if (!entriesPromise) {
         if (typeof api.entriesFor !== "function") throw errorWith("INDEX", "本地索引接口不可用");
-        entriesPromise = Promise.resolve(api.entriesFor("all")).then((rows) => {
+        entriesState = "loading";
+        entriesPromise = Promise.resolve().then(() => api.entriesFor("all")).then((rows) => {
+          if (!live()) throw abortError();
           if (!Array.isArray(rows)) throw errorWith("INDEX");
           const real = rows.filter((entry) => entry && ANGLES.includes(entry.angle) && entry.r && !entry.r._simulation && !/^sim-/i.test(String(entry.r.id || "")));
           entryMap = new Map(real.map((entry) => [entry.angle + ":" + entry.r.id, entry]));
+          entriesState = "ready";
+          if (enrichmentAttempted && !enrichmentRequest) refreshCurrentEvidence(enrichmentContext);
           return real;
-        }).catch((error) => { entriesPromise = null; throw error; });
+        }).catch((error) => { entriesPromise = null; entriesState = "failed"; throw error; });
       }
       return entriesPromise;
     }
 
-    async function verifyEvidence(items, requestSignal) {
-      try { await abortable(allEntries(), requestSignal || signal); }
-      catch (_) { /* Service evidence remains readable if the snapshot index failed to load. */ }
-      if (requestSignal && requestSignal.aborted) throw abortError();
+    function evidenceVersionMismatch(item) {
+      return !!(item.version && META.version && item.version !== String(META.version));
+    }
+
+    function applyEvidenceIndex(items) {
+      let changed = false;
       for (const item of items) {
-        item.entry = entryMap.get(item.angle + ":" + item.id) || null;
-        if (item.entry) {
-          item.title = text(titleOf(item.entry.angle, item.entry.r), 500);
-          item.ktid = String(item.entry.r.ktid || "");
-          const record = item.entry.r;
-          item.source_url = safeUrl(record.source_url || record.content_url || record.original_url || record.url) || item.source_url;
+        const entry = !evidenceVersionMismatch(item) ? entryMap.get(item.angle + ":" + item.id) || null : null;
+        if (item.entry !== entry) { item.entry = entry; changed = true; }
+        if (entry) {
+          const title = text(titleOf(entry.angle, entry.r), 500), ktid = String(entry.r.ktid || "");
+          const source = safeUrl(entry.r.source_url || entry.r.content_url || entry.r.original_url || entry.r.url) || item.source_url;
+          if (item.title !== title || item.ktid !== ktid || item.source_url !== source) changed = true;
+          item.title = title; item.ktid = ktid; item.source_url = source;
         }
       }
-      return items;
+      return changed;
+    }
+
+    function evidenceLookupNotice(item) {
+      if (evidenceVersionMismatch(item)) return "服务引用与本页快照版本不同；请按服务引用与原文核对。";
+      if (entriesState === "ready") return "当前快照未找到该记录；请核对服务资料版本。";
+      if (entriesState === "unavailable" || entriesState === "failed") return "本站记录索引暂不可用；可先查看服务引用与原文。";
+      return "本站记录索引尚未核对；可先查看服务引用与原文。";
+    }
+
+    function refreshEvidenceCard(article, item) {
+      if (!article) return;
+      const record = recordUrl(item), heading = article.querySelector("h3");
+      if (record) {
+        let title = heading.querySelector("a");
+        if (!title) { title = document.createElement("a"); heading.replaceChildren(title); }
+        title.href = record; title.textContent = item.title;
+      }
+      const institution = article.querySelector("[data-as-evidence-institution]");
+      if (institution) institution.textContent = item.ktid ? instName(item.ktid) : "";
+      const local = article.querySelector("[data-as-local-record]");
+      if (record && local && local.tagName !== "A") {
+        const link = document.createElement("a"); link.dataset.asLocalRecord = "1"; link.href = record; link.textContent = "查看本站记录 →"; local.replaceWith(link);
+      } else if (local && !record) local.textContent = evidenceLookupNotice(item);
+      const source = article.querySelector("[data-as-original-source]");
+      if (item.source_url && source) {
+        if (source.tagName === "A") source.href = item.source_url;
+        else { const link = document.createElement("a"); link.dataset.asOriginalSource = "1"; link.href = item.source_url; link.target = "_blank"; link.rel = "noopener noreferrer"; link.textContent = "打开原文 ↗"; source.replaceWith(link); }
+      }
+      if (item.entry && typeof api.ensureDetail === "function" && !article.querySelector("[data-as-load-paragraph]")) {
+        const button = document.createElement("button"); button.type = "button"; button.className = "as-text-button"; button.dataset.asLoadParagraph = "1"; button.textContent = "载入正文段落";
+        button.onclick = () => loadParagraph(item, article, button); article.querySelector(".as-evidence-links").appendChild(button);
+      }
+    }
+
+    function refreshCurrentEvidence(context) {
+      if (!live() || !context || context.serial !== requestSerial || context.sessionId !== state.sessionId) return;
+      let changed = false;
+      const groups = [...(state.result ? [{ value: state.result, scope: "search" }] : []), ...state.turns.map((turn) => ({ value: turn, scope: turn.id }))];
+      for (const { value, scope } of groups) {
+        changed = applyEvidenceIndex(value.items) || changed;
+        for (const item of value.items) refreshEvidenceCard($("#as-evidence-" + scope + "-" + item.label), item);
+        const tools = scope === "search" ? $("#asSearchResults .as-result-actions") : $("[data-as-turn='" + scope + "'] .as-turn-tools");
+        if (tools && !tools.querySelector("[data-as-project-action]")) addProjectButton(tools, value.items, value.question || value.query);
+      }
+      // Patch source cards in place: keep the answer, focus, expanded sources and scroll position.
+      if (changed && state.keep && state.turns.length) persistConversation();
+    }
+
+    function queueEvidenceEnrichment() {
+      const items = [...(state.result ? state.result.items : []), ...state.turns.flatMap((turn) => turn.items)];
+      if (!items.some((item) => ANGLES.includes(item.angle) && !evidenceVersionMismatch(item))) return;
+      enrichmentContext = { serial: requestSerial, sessionId: state.sessionId };
+      if (entriesState === "ready") { refreshCurrentEvidence(enrichmentContext); return; }
+      // One bounded optional index subscription per route; API display never awaits it.
+      if (enrichmentRequest || enrichmentAttempted) return;
+      enrichmentAttempted = true;
+      const controller = new AbortController(); enrichmentRequest = controller;
+      enrichmentTimer = window.setTimeout(() => controller.abort(), 8000);
+      (async () => {
+        try { await abortable(allEntries(), controller.signal); }
+        catch (_) { if (live() && entriesState !== "ready") entriesState = "unavailable"; }
+        finally {
+          window.clearTimeout(enrichmentTimer); enrichmentTimer = null; enrichmentRequest = null;
+          if (live()) refreshCurrentEvidence(enrichmentContext);
+        }
+      })();
     }
 
     async function serviceClient(requestSignal) {
@@ -763,7 +839,7 @@
       const rows = Array.isArray(payload.results) ? payload.results : null;
       if (!rows) throw errorWith("BAD_RESPONSE");
       const items = [...new Map(rows.slice(0, MAX_EVIDENCE).map(normalizeEvidence).filter(Boolean).map((item) => [item.label, item])).values()];
-      await verifyEvidence(items, requestSignal);
+      applyEvidenceIndex(items);
       const aggregates = object(payload.aggregates), plan = object(payload.plan);
       return { items, total: finite(object(aggregates.matched).total ?? payload.total), returned: rows.length, returnedRecords: new Set(items.map((item) => item.id)).size, omitted: rows.length - items.length, limit: request.limit, expansions: planTerms(plan), coverage: coverageText(payload.coverage), source: "service", query: text(payload.query || request.question, MAX_QUERY), originalQuery: request.question, filters: request.filters, requestedExpand: request.expand, requestedSemantic: request.semantic, modelInfo: normalizedModel(payload.model || plan.model), strategy: text(plan.strategy, 100), modelQuery: text(plan.model_query || object(plan.model).rewritten_query, MAX_QUERY), aggregates: aggregates.scope ? [normalizeAggregate({ citation_id: "A1", ...aggregates }, 0)].filter(Boolean) : [], ...responseContext(payload) };
     }
@@ -772,7 +848,7 @@
       const payload = await serviceRequest("/api/chat", { message: request.question, history: request.expand ? buildHistory(request.replaceTurn) : [], filters: filterBody(request.filters), expand: request.expand }, requestSignal);
       const rows = Array.isArray(payload.citations) ? payload.citations : Array.isArray(payload.results) ? payload.results : [];
       const items = [...new Map(rows.slice(0, MAX_EVIDENCE).map(normalizeEvidence).filter(Boolean).map((item) => [item.label, item])).values()];
-      await verifyEvidence(items, requestSignal);
+      applyEvidenceIndex(items);
       const answer = text(payload.answer || payload.content, MAX_ANSWER), model = normalizedModel(payload.model);
       const mode = text(payload.state || payload.mode, 100), plan = object(payload.plan);
       if (!answer && !rows.length && payload.answer === undefined) throw errorWith("BAD_RESPONSE");
@@ -915,7 +991,7 @@
         const article = document.createElement("article"); article.className = "as-evidence"; article.tabIndex = -1; article.dataset.asCitation = item.label;
         article.id = "as-evidence-" + scope + "-" + item.label;
         const record = recordUrl(item);
-        article.innerHTML = `<div class="as-evidence-top"><b class="as-evidence-label">[${esc(item.label)}]</b><span>${esc(angleName(item.angle))}</span>${item.ktid ? `<span>${esc(instName(item.ktid))}</span>` : ""}${Number.isFinite(item.score) ? `<span class="as-score" title="检索排序分数，不是事实置信度">排序分 ${esc(Number(item.score).toFixed(2))}</span>` : ""}</div><h3>${record ? `<a href="${esc(record)}">${esc(item.title)}</a>` : esc(item.title)}</h3><p class="as-paragraph">${esc(item.paragraph ? (item.field ? item.field + " · " : "") + (/^\d+$/.test(item.paragraph) ? (item.paragraphScheme === "service_field_chunks_v1" ? "服务分段 " + item.paragraph + "（服务按字段切分，非原网页段落号）" : "段落 " + item.paragraph) : item.paragraph) : "服务未提供段落编号")}</p><blockquote class="as-excerpt"></blockquote><div class="as-evidence-links">${record ? `<a href="${esc(record)}">查看本站记录 →</a>` : '<span class="as-warning">当前快照未找到该记录；请核对服务资料版本。</span>'}${item.source_url ? `<a href="${esc(item.source_url)}" target="_blank" rel="noopener noreferrer">打开原文 ↗</a>` : '<span class="as-note">原文链接未提供或无效</span>'}</div>`;
+        article.innerHTML = `<div class="as-evidence-top"><b class="as-evidence-label">[${esc(item.label)}]</b><span>${esc(angleName(item.angle))}</span><span data-as-evidence-institution>${item.ktid ? esc(instName(item.ktid)) : ""}</span>${Number.isFinite(item.score) ? `<span class="as-score" title="检索排序分数，不是事实置信度">排序分 ${esc(Number(item.score).toFixed(2))}</span>` : ""}</div><h3>${record ? `<a href="${esc(record)}">${esc(item.title)}</a>` : esc(item.title)}</h3><p class="as-paragraph">${esc(item.paragraph ? (item.field ? item.field + " · " : "") + (/^\d+$/.test(item.paragraph) ? (item.paragraphScheme === "service_field_chunks_v1" ? "服务分段 " + item.paragraph + "（服务按字段切分，非原网页段落号）" : "段落 " + item.paragraph) : item.paragraph) : "服务未提供段落编号")}</p><blockquote class="as-excerpt"></blockquote><div class="as-evidence-links">${record ? `<a data-as-local-record href="${esc(record)}">查看本站记录 →</a>` : `<span class="as-note" data-as-local-record>${esc(evidenceLookupNotice(item))}</span>`}${item.source_url ? `<a data-as-original-source href="${esc(item.source_url)}" target="_blank" rel="noopener noreferrer">打开原文 ↗</a>` : '<span class="as-note" data-as-original-source>原文链接未提供或无效</span>'}</div>`;
         if (item.quotes && item.quotes.length) {
           const quotes = document.createElement("details"); quotes.className = "as-body-preview";
           const summary = document.createElement("summary"); summary.textContent = "查看回答使用的来源摘录"; quotes.appendChild(summary);
@@ -930,7 +1006,7 @@
         }
         article.querySelector(".as-excerpt").textContent = item.excerpt || "服务未返回命中片段，请打开完整记录核对。";
         if (item.entry && typeof api.ensureDetail === "function") {
-          const button = document.createElement("button"); button.type = "button"; button.className = "as-text-button"; button.textContent = "载入正文段落";
+          const button = document.createElement("button"); button.type = "button"; button.className = "as-text-button"; button.dataset.asLoadParagraph = "1"; button.textContent = "载入正文段落";
           button.onclick = () => loadParagraph(item, article, button); article.querySelector(".as-evidence-links").appendChild(button);
         }
         (additional ? additional.lastElementChild : listElement).appendChild(article);
@@ -942,7 +1018,7 @@
       if (!window.ZGCLAB_PROJECTS || typeof window.ZGCLAB_PROJECTS.addEntries !== "function") return;
       const entries = [...new Map(items.filter((item) => item.entry).map((item) => [item.angle + ":" + item.id, item.entry])).values()];
       if (!entries.length) return;
-      const button = document.createElement("button"); button.type = "button"; button.className = "btn"; button.textContent = "加入专题（" + entries.length + " 条）";
+      const button = document.createElement("button"); button.type = "button"; button.className = "btn"; button.textContent = "加入专题（" + entries.length + " 条）"; button.dataset.asProjectAction = "1";
       button.onclick = async () => {
         button.disabled = true;
         try { await window.ZGCLAB_PROJECTS.addEntries(entries, api, { sourceLabel: "资料问答：" + query.slice(0, 80) }); }
@@ -1215,13 +1291,14 @@
       const saved = savedSessions().find((item) => item.id === id);
       if (!saved || state.busy) return;
       const turns = saved.turns.slice(-MAX_TURNS).map(sanitizedTurn);
-      await verifyEvidence(turns.flatMap((turn) => turn.items), signal);
+      applyEvidenceIndex(turns.flatMap((turn) => turn.items));
       if (!live()) return;
+      requestSerial++;
       state.sessionId = saved.id; state.createdAt = text(saved.created_at, 50) || new Date().toISOString(); state.turns = turns;
       applyFilters(saved.filters || turns.at(-1)?.filters);
       if (turns.length) { state.expand = turns.at(-1).requestedExpand; state.semantic = turns.at(-1).requestedSemantic; $("#asExpand").checked = state.expand; $("#asSemantic").checked = state.semantic; $("#asSemantic").disabled = !state.expand; }
       state.keep = true; $("#asKeep").checked = true; state.lastRequest = null; showError("");
-      setMode("chat"); renderTranscript(); persistConversation(); $("#asProgress").textContent = "已打开保存的会话与筛选；当前可打开的记录按本页快照核对，原回答未重新生成。";
+      setMode("chat"); renderTranscript(); persistConversation(); queueEvidenceEnrichment(); $("#asProgress").textContent = "已打开保存的会话与筛选；本站记录链接在后台核对，原回答未重新生成。";
     }
 
     function applyFilters(value) {
@@ -1244,6 +1321,7 @@
       if (clear && (state.turns.length || savedSessions().some((item) => item.id === state.sessionId)) && !window.confirm("清空当前对话？本浏览器中保存的这个会话也会被移除。")) return;
       if (clear && Array.isArray(workspace.chatSessions)) workspace.chatSessions = workspace.chatSessions.filter((item) => !item || item.id !== state.sessionId);
       if (!clear) persistConversation();
+      requestSerial++;
       state.turns = []; state.sessionId = makeID(); state.createdAt = new Date().toISOString(); state.lastRequest = null;
       $("#asQuestion").value = ""; showError(""); $("#asProgress").textContent = clear ? "当前对话已清空。" : "已开始新对话。";
       renderTranscript(); persistConversation(); $("#asQuestion").focus();
@@ -1355,7 +1433,7 @@
       } finally {
         window.clearTimeout(timeout);
         window.clearInterval(progressTimer); progressTimer = null;
-        if (live() && serial === requestSerial) { activeRequest = null; setBusy(false); $("#asPending").hidden = true; $("#asElapsed").hidden = true; updateOutputButtons(); }
+        if (live() && serial === requestSerial) { activeRequest = null; setBusy(false); $("#asPending").hidden = true; $("#asElapsed").hidden = true; updateOutputButtons(); queueEvidenceEnrichment(); }
       }
     }
 

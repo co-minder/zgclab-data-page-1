@@ -126,6 +126,9 @@ class AnalysisModel:
             claims[0]["quotes"][0]["citation_id"] = "C999"
         elif self.mode == "direct":
             claims = [claim(selected[0]["snippet"])]
+        elif self.mode == "retrieval_explanation":
+            claims = [claim(selected[0]["snippet"]),
+                      claim('美国国土安全部相关报道中的“中国”仅出现在机构名称“国土安全部”里，并非中国议题。', "analysis")]
         elif self.mode == "mixed":
             claims = [claim(selected[0]["snippet"]), claim("这些资料已经证实巴西咖啡价格全面上涨。", "analysis")]
         elif data.get("answer_kind") == "comparison" and len(selected) > 1:
@@ -457,7 +460,8 @@ class ChatAnalysisTests(unittest.TestCase):
         self.assertNotIn("C1", generation["allowed_citation_ids"])
         self.assertNotIn("aggregates", generation)
         self.assertNotIn("coverage", generation)
-        self.assertIn("应跳过无关命中", model.calls[0]["system"])
+        self.assertIn("无关结果直接不引用", model.calls[0]["system"])
+        self.assertNotIn("中国土安全部", model.calls[0]["system"])
         self.assertIn("无需涵盖全部证据", model.calls[0]["system"])
         self.assertIn("3至4条简短报道", model.calls[0]["system"])
         self.assertTrue(all(c["citation_id"] in generation["allowed_citation_ids"] for c in response["citations"]))
@@ -524,6 +528,45 @@ class ChatAnalysisTests(unittest.TestCase):
         accepted, rejected = validate_analysis({"claims": [claim]}, evidence)
         self.assertEqual(accepted, [])
         self.assertEqual(rejected[0]["reason"], "unsupported_named_entity")
+
+    def test_actual_unsupported_retrieval_explanation_is_rejected(self):
+        dhs = "克里斯蒂·诺姆将被解除特朗普总统内阁中国土安全部部长及国土安全部长的职务，有人提议由马克韦恩·穆林接替她，之后再获确认。"
+        china = "据路透社报道，部分数据包含官员的工作分配详情，包括针对中国间谍、俄罗斯情报机构和贩毒集团的敏感工作。"
+        evidence = [{"citation_id": "C10", "snippet": china, "evidence_eligible": True, "institution": "美国联邦调查局"},
+                    {"citation_id": "C4", "snippet": dhs, "evidence_eligible": True, "institution": "美国国土安全部"}]
+        claim = {"kind": "analysis", "text": "另有报道提及FBI门户遭黑客攻击后，部分被盗数据据称包含针对中国间谍等敏感工作信息；这属于安全事件中的涉华内容，与上述政策讨论主题不同。美国国土安全部相关报道中的“中国”仅出现在机构名称“国土安全部”里，并非中国议题。",
+                 "citations": ["C10", "C4"], "quotes": [{"citation_id": "C10", "quote": china}, {"citation_id": "C4", "quote": dhs}]}
+        accepted, rejected = validate_analysis({"claims": [claim]}, evidence)
+        self.assertEqual(accepted, [])
+        self.assertEqual(rejected[0]["reason"], "unsupported_retrieval_explanation")
+        for text in ("中国二字只存在于机构名称里，所以本次检索误命中。", "该资料的检索命中机制依赖词边界的字面匹配。"):
+            accepted, rejected = validate_analysis({"claims": [dict(claim, text=text)]}, evidence)
+            self.assertEqual(accepted, [])
+            self.assertEqual(rejected[0]["reason"], "unsupported_retrieval_explanation")
+        # A real China security source is still eligible; the guard never drops
+        # a source merely because it belongs to a security institution.
+        claim = {"kind": "fact", "text": "美国联邦调查局相关报道引述路透社，称部分数据涉及针对中国间谍等对象的敏感工作。",
+                 "citations": ["C10"], "quotes": [{"citation_id": "C10", "quote": china}]}
+        accepted, rejected = validate_analysis({"claims": [claim]}, evidence)
+        self.assertEqual(len(accepted), 1)
+        self.assertEqual(rejected, [])
+        claim = {"kind": "fact", "text": "美国国土安全部相关报道提到诺姆可能被解除职务及继任人选。",
+                 "citations": ["C4"], "quotes": [{"citation_id": "C4", "quote": dhs}]}
+        accepted, rejected = validate_analysis({"claims": [claim]}, evidence)
+        self.assertEqual(len(accepted), 1)
+        self.assertEqual(rejected, [])
+
+    def test_retrieval_explanation_removed_while_supported_answer_survives(self):
+        chat, model = self.chat("retrieval_explanation")
+        response = chat.answer("分析CSIS中国资料")
+        self.assertEqual(response["state"], "answered")
+        self.assertEqual(len(response["sections"]), 1)
+        self.assertEqual(response["sections"][0]["kind"], "fact")
+        self.assertNotIn("仅出现在机构名称", response["answer"])
+        self.assertEqual(response["validation"]["rejected_claims"], [{"claim_id": "K2", "reason": "unsupported_retrieval_explanation"}])
+        self.assertEqual(response["aggregates"]["matched"]["total"], 20)
+        self.assertTrue(response["model"]["used"])
+        self.assertEqual(len(model.calls), 1)
 
     def test_greeting_missing_topic_and_true_empty_window_are_useful(self):
         chat, model = self.chat()

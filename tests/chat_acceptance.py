@@ -553,13 +553,151 @@ class Acceptance:
             self.report['artifacts'][key] = str(path)
             self.case('review_' + key, lambda p=payload, k=kind, f=path: {**self.answer_check(p['response'], k, p['question']), 'actual_question': p['question'], 'actual_http_status': p['http_status'], 'main_capture': str(f), 'main_capture_sha256': sha(f.read_bytes()), 'independent_model_calls': 0})
 
+    def source_freeze(self):
+        return {name: sha((ROOT / name).read_bytes()) for name in ("assistant.js", "service/research_chat.py", "service/chat.py", "service/retrieval.py", "service/intent.py", "service/planner.py", "service/app.py")}
+
     def manifest(self):
         html = self.opener.open(self.base + "/", timeout=15).read().decode()
         match = re.search(r'data-manifest="(manifest-([a-f0-9]+)\.json)"', html)
         assert match, "Protected encrypted entry missing"
         expected = self.args.expect_manifest.removeprefix("manifest-").removesuffix(".json")
         assert expected and match.group(2) == expected, {"expected": expected, "actual": match.group(2)}
-        return {"manifest": match.group(1), "index_sha256": sha(html), "source_injection": False}
+        evidence = {"manifest": match.group(1), "index_sha256": sha(html), "source_injection": False, "source_freeze": self.source_freeze()}
+        expected_assistant = getattr(self.args, "expect_assistant_sha", "")
+        if expected_assistant:
+            import base64
+            import gzip
+            from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+            from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+            from cryptography.hazmat.primitives import hashes
+            manifest = json.load(self.opener.open(self.base + "/" + match.group(1), timeout=15))
+            self.password = (ROOT / ".runtime/pages-password").read_text().strip()
+            derived = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=base64.b64decode(manifest["salt"]), iterations=manifest["iterations"]).derive(self.password.encode())
+            cipher_path = manifest["assets"]["assistant.js"]
+            encrypted = self.opener.open(self.base + "/" + cipher_path, timeout=15).read()
+            plaintext = gzip.decompress(AESGCM(derived).decrypt(encrypted[:12], encrypted[12:], b"assistant.js"))
+            actual = sha(plaintext)
+            assert actual == expected_assistant == evidence["source_freeze"]["assistant.js"], ("Wrong encrypted assistant source", actual, expected_assistant)
+            evidence.update(assistant_sha256=actual, cipher_path=cipher_path, cipher_sha256=sha(encrypted), encrypted_source_matches_freeze=True)
+        return evidence
+
+
+    def stalled_index_ui(self):
+        """Actual encrypted app with only the three index asset HTTP requests held."""
+        assert self.args.ready in {"FINALREADY", "MAINFINALREADY"} and self.args.expect_manifest
+        assert not self.args.live_ui, "Stalled-index replay cannot spend model calls"
+        assert self.case("encrypted_manifest", self.manifest)
+        from playwright.sync_api import sync_playwright
+        manifest = json.load(self.opener.open(self.base + "/manifest-" + self.current["manifest"] + ".json", timeout=15))
+        held_assets = {self.base + "/" + manifest["assets"]["data/" + angle + ".js"] for angle in ("news", "clue", "social")}
+        path = Path(self.report["artifacts"]["chat_original"])
+        replay = json.loads(path.read_text())["response"]
+        self.answer_check(replay, "lookup", QUESTION)
+        self.password = (ROOT / ".runtime/pages-password").read_text().strip()
+        self.current["source_freeze"] = self.source_freeze()
+        with sync_playwright() as pw:
+            browser = pw.chromium.launch(headless=True, executable_path=shutil.which("google-chrome"), args=["--no-sandbox"])
+            context = browser.new_context(viewport={"width": 390, "height": 844}, accept_downloads=True)
+            page = context.new_page(); page.set_default_timeout(20000)
+            page.on("pageerror", lambda error: self.page_errors.append(str(error)))
+            pending = []; replies = []; index_completed = []
+            def hold(route): pending.append(route)
+            for url in held_assets: page.route(url, hold)
+            def replay_api(route):
+                replies.append(time.monotonic())
+                route.fulfill(status=200, content_type="application/json", body=json.dumps(replay, ensure_ascii=False))
+            page.route("**/api/chat", replay_api)
+            page.on("response", lambda response: index_completed.append(response.url) if response.url in held_assets else None)
+            page.goto(self.base + "/#/assistant?mode=chat")
+            page.locator("#accessPassword").fill(self.password); page.locator("#accessSubmit").click()
+            page.locator("#asQuestion").wait_for()
+            page.locator(".as-connection.is-connected").wait_for()
+            def verify():
+                assert page.evaluate("!window.ZGCLAB_NEWS && !window.ZGCLAB_CLUE && !window.ZGCLAB_SOCIAL"), "Indices were loaded before the replay"
+                page.locator("#asQuestion").fill(QUESTION); page.locator("#asSubmit").click()
+                page.wait_for_function("document.querySelector('#asForm')?.getAttribute('aria-busy')==='false' && document.querySelectorAll('#asTranscript .as-turn').length===1 && !document.querySelector('#asSubmit').disabled && document.querySelector('#asPending').hidden", timeout=5000)
+                visible_at = time.monotonic()
+                assert len(replies) == 1 and visible_at-replies[0] < 5, "API response did not become usable within5s"
+                assert len(pending) == 3 and not index_completed, ("Index requests are not all still pending", len(pending), index_completed)
+                assert page.evaluate("!window.ZGCLAB_NEWS && !window.ZGCLAB_CLUE && !window.ZGCLAB_SOCIAL")
+                turn = page.locator("#asTranscript .as-turn").last
+                for section in replay.get("sections", []): assert section["text"] in turn.inner_text()
+                assert turn.locator(".as-evidence:not(.as-aggregate)").count() == len(replay["citations"])
+                for citation in replay["citations"]:
+                    # Extra sources start folded; use the actual inline citation to reveal each before reading.
+                    turn.locator(".as-answer > .as-markdown .as-citation-ref").filter(has_text="[" + citation["citation_id"] + "]").first.click()
+                    card = turn.locator("[data-as-citation='" + citation["citation_id"] + "']")
+                    assert card.is_visible() and card.locator(":scope > .as-excerpt").text_content() == citation["snippet"], (citation["citation_id"], card.text_content())
+                    assert card.locator("a[target='_blank']").get_attribute("href") == citation["source_url"]
+                turn.locator(".as-citation-ref").filter(has_text=re.compile(r"^\[C\d+\]$")).first.click()
+                assert re.fullmatch(r"C\d+", page.evaluate("document.activeElement.dataset.asCitation"))
+                with page.expect_download() as event: page.locator("#asExport").click()
+                export = self.out / "stalled-index-replay.md"; event.value.save_as(export)
+                markdown = export.read_text()
+                for citation in replay["citations"]:
+                    assert "[" + citation["citation_id"] + "]" in markdown and citation["source_url"] in markdown
+                # The optional background timeout may stop its subscription, while HTTP index requests still never finish.
+                page.wait_for_function("[...document.querySelectorAll('[data-as-local-record]')].some(el=>el.innerText.includes('索引暂不可用'))", timeout=11000)
+                assert not index_completed and len(pending) == 3 and page.locator("#asSubmit").is_enabled()
+                assert not self.page_errors, self.page_errors
+                screenshot = self.out / "stalled-index-replay-390.png"; page.screenshot(path=str(screenshot), full_page=True)
+                evidence = {"manifest": self.current["manifest"], "source_freeze": self.current["source_freeze"], "transport": "actual new encrypted UI; prior successful actual API answer replay; only three encrypted index HTTP assets held pending", "new_model_calls": 0, "source_injection": False, "replay_capture": str(path), "replay_capture_sha256": sha(path.read_bytes()), "api_to_usable_ms": round((visible_at-replies[0])*1000,3), "index_requests_held": len(pending), "index_responses_completed": len(index_completed), "after_optional_timeout_core_still_usable": True, "citations": len(replay["citations"]), "full_export": str(export), "page_errors": self.page_errors, "screenshot": str(screenshot)}
+                self.artifact("ui_stalled_index", evidence)
+                return evidence
+            self.case("ui_stalled_index", verify)
+            context.close(); browser.close()
+        self.current.update(page_errors=self.page_errors, model_calls=0, source_injection=False)
+
+    def final_api_replay_ui(self):
+        """Zero-model UI integration using the exact final-source real HTTP response."""
+        assert self.args.ready in {"FINALREADY", "MAINFINALREADY"} and not self.args.live_ui
+        assert self.case("encrypted_manifest", self.manifest)
+        from playwright.sync_api import sync_playwright
+        path = Path(self.report["artifacts"]["chat_original"])
+        payload = json.loads(path.read_text()); value = payload["response"]
+        assert payload["question"] == QUESTION and payload["http_status"] == 200
+        self.answer_check(value, "lookup", QUESTION)
+        self.current["source_freeze"] = self.source_freeze()
+        self.password = (ROOT / ".runtime/pages-password").read_text().strip()
+        with sync_playwright() as pw:
+            browser = pw.chromium.launch(headless=True, executable_path=shutil.which("google-chrome"), args=["--no-sandbox"])
+            context = browser.new_context(viewport={"width": 1440, "height": 1050}, accept_downloads=True)
+            page = context.new_page(); page.set_default_timeout(20000)
+            page.on("pageerror", lambda error: self.page_errors.append(str(error)))
+            replies = []
+            def replay(route):
+                replies.append(time.monotonic())
+                route.fulfill(status=200, content_type="application/json", body=json.dumps(value, ensure_ascii=False))
+            page.route("**/api/chat", replay)
+            page.goto(self.base + "/#/assistant?mode=chat")
+            page.locator("#accessPassword").fill(self.password); page.locator("#accessSubmit").click()
+            page.locator("#asQuestion").wait_for(); page.locator(".as-connection.is-connected").wait_for()
+            def verify():
+                page.locator("#asQuestion").fill(QUESTION); page.locator("#asSubmit").click()
+                page.wait_for_function("document.querySelector('#asForm')?.getAttribute('aria-busy')==='false' && document.querySelectorAll('#asTranscript .as-turn').length===1 && !document.querySelector('#asSubmit').disabled && document.querySelector('#asPending').hidden", timeout=5000)
+                rendered = time.monotonic()
+                assert len(replies) == 1 and rendered-replies[0] < 5
+                turn = page.locator("#asTranscript .as-turn").last
+                for section in value["sections"]: assert section["text"] in turn.inner_text()
+                for citation in value["citations"]:
+                    turn.locator(".as-answer > .as-markdown .as-citation-ref").filter(has_text="[" + citation["citation_id"] + "]").first.click()
+                    card = turn.locator("[data-as-citation='" + citation["citation_id"] + "']")
+                    assert card.is_visible() and card.locator(":scope > .as-excerpt").text_content() == citation["snippet"]
+                    assert card.locator("a[target='_blank']").get_attribute("href") == citation["source_url"]
+                    assert card.evaluate("el=>el===document.activeElement")
+                with page.expect_download() as event: page.locator("#asExport").click()
+                export = self.out / "final-api-ui-replay.md"; event.value.save_as(export)
+                markdown = export.read_text()
+                for citation in value["citations"]:
+                    assert "[" + citation["citation_id"] + "]" in markdown and citation["source_url"] in markdown
+                assert not self.page_errors
+                screenshot = self.out / "final-api-ui-replay.png"; page.screenshot(path=str(screenshot), full_page=True)
+                evidence = {"manifest": self.current["manifest"], "source_freeze": self.current["source_freeze"], "transport": "new encrypted frontend rendering exact final-source actual HTTP response replay; no model request and not a new live frontend-to-model answer", "capture": str(path), "capture_sha256": sha(path.read_bytes()), "api_revision": value["api_revision"], "new_model_calls": 0, "source_injection": False, "api_to_usable_ms": round((rendered-replies[0])*1000,3), "citations": len(value["citations"]), "all_claims_visible": True, "all_citation_focus": True, "all_sources_exported": True, "export": str(export), "page_errors": self.page_errors, "screenshot": str(screenshot)}
+                self.artifact("ui_final_api_replay", evidence)
+                return evidence
+            self.case("ui_final_api_replay", verify)
+            context.close(); browser.close()
+        self.current.update(model_calls=0, source_injection=False, page_errors=self.page_errors)
 
     def ui(self):
         assert self.args.ready in {"FINALREADY", "MAINFINALREADY"} and self.args.expect_manifest, "UI requires FINALREADY and exact encrypted manifest"
@@ -579,6 +717,8 @@ class Acceptance:
             actual = self.prior("chat_original")["response"]
         unknown = json.loads(Path(self.args.unknown_capture).read_text()) if self.args.unknown_capture else None
         captures = []
+        capture_received_times = []
+        self.current["source_freeze"] = self.source_freeze()
         with sync_playwright() as pw:
             browser = pw.chromium.launch(headless=True, executable_path=shutil.which("google-chrome"), args=["--no-sandbox"])
             context = browser.new_context(viewport={"width": 1440, "height": 1050}, accept_downloads=True)
@@ -603,7 +743,9 @@ class Acceptance:
             page.locator(".as-connection.is-connected").wait_for()
             def on_response(response):
                 if response.url.endswith("/api/chat") and response.status == 200:
-                    try: captures.append(response.json())
+                    try:
+                        captures.append(response.json())
+                        capture_received_times.append(time.monotonic())
                     except Exception: pass
             def revision_response(response):
                 if "/api/" not in urlsplit(response.url).path: return
@@ -641,13 +783,15 @@ class Acceptance:
                 page.route("**/api/chat", lambda route: route.fulfill(status=200, content_type="application/json", body=json.dumps(actual, ensure_ascii=False)))
             def original_ui():
                 send(QUESTION)
+                rendered_at = time.monotonic()
                 if self.args.live_ui:
+                    assert capture_received_times and rendered_at - capture_received_times[-1] < 5, "Live API answer did not become usable within5s"
                     assert captures, "No actual UI API response"
                     self.answer_check(captures[-1], "lookup")
                     self.artifact("ui_live_response", captures[-1])
                 text = page.locator("#asTranscript").inner_text()
                 assert QUESTION in text and page.locator("#asTranscript .as-citation-ref").count()
-                return {"transport": "actual encrypted UI + live API/model" if self.args.live_ui else "actual encrypted UI + explicit replay of MAIN known retrieval-only failure" if readonly else "actual encrypted UI + replay of independently verified real API capture (no new model call)", "answer_text": text, "screenshot": shot(page, "ui-original"), "live_model_answer": bool(self.args.live_ui), "source_injection": False}
+                return {"transport": "actual encrypted UI + live API/model" if self.args.live_ui else "actual encrypted UI + explicit replay of MAIN known retrieval-only failure" if readonly else "actual encrypted UI + replay of independently verified real API capture (no new model call)", "answer_text": text, "screenshot": shot(page, "ui-original"), "live_model_answer": bool(self.args.live_ui), "source_injection": False, "api_to_usable_ms": round((rendered_at - capture_received_times[-1]) * 1000, 3) if self.args.live_ui else None}
             self.case("ui_retrieval_only" if readonly else "ui_original", original_ui)
             page.unroute("**/api/chat")
             def lifecycle():
@@ -779,20 +923,37 @@ class Acceptance:
             if run["mode"] == "finalize": continue
             for check in run["checks"]:
                 latest[check["id"]] = (run, check)
-        required = {"baseline", "snapshot", "search_original", "explicit_30days_search", "unknown_search", "greeting", "unknown_chat", "readonly_exact_count", "count_followup", "social_count_followup", "readonly_ranking", "readonly_share", "readonly_monthly", "review_chat_original", "review_chat_synthesis", "review_chat_comparison", "encrypted_manifest", "ui_original", "ui_loading_cancel_retry", "ui_sources_followup", "ui_saved_backup", "ui_zero_to_chat", "ui_mobile"}
+        required = {"baseline", "snapshot", "search_original", "explicit_30days_search", "unknown_search", "greeting", "unknown_chat", "readonly_exact_count", "count_followup", "social_count_followup", "readonly_ranking", "readonly_share", "readonly_monthly", "review_chat_original", "review_chat_synthesis", "review_chat_comparison", "encrypted_manifest", "ui_original", "ui_loading_cancel_retry", "ui_sources_followup", "ui_saved_backup", "ui_zero_to_chat", "ui_mobile", "ui_stalled_index"}
+        incremental = bool(self.args.incremental)
+        if incremental:
+            assert receipt.get("acceptance_mode") == "bounded_incremental_actual_api_and_same_frontend"
+            required.update({"final_api_current_source", "incremental_guard_proof", "ui_final_api_replay", "manual_final_api_capture"})
         missing = sorted(required - latest.keys())
         failures = sorted(key for key in required & latest.keys() if latest[key][1]["status"] != "PASS")
         all_unresolved = sorted(key for key, (_, check) in latest.items() if check["status"] == "FAIL")
+        if incremental and "manual_ui_live_response" in all_unresolved:
+            resolution = receipt.get("historical_failure_resolution", {})
+            assert resolution.get("historical_check") == "manual_ui_live_response" and resolution.get("historical_content_verdict") == "FAIL"
+            assert resolution.get("resolution") == "supported_final_actual_api_plus_unchanged_frontend_replay"
+            assert resolution.get("old_ui_capture_sha256") == sha(Path(self.report["artifacts"]["ui_live_response"]).read_bytes())
+            all_unresolved.remove("manual_ui_live_response")
         assert not missing and not failures and not all_unresolved, {"missing": missing, "failed": failures, "other_unresolved": all_unresolved}
         ui_run, ui_check = latest["ui_original"]
         assert ui_run["mode"] == "ui" and ui_check["evidence"].get("live_model_answer") is True, "Replay UI cannot establish live integration"
         assert ui_check["evidence"].get("source_injection") is False and ui_run["source_injection"] is False
         assert not ui_run.get("page_errors") and not ui_run.get("protocol_errors"), "Browser had page/protocol errors"
         assert latest["encrypted_manifest"][1]["evidence"]["manifest"] == "manifest-" + manifest + ".json"
+        assert ui_run.get("manifest") == manifest, "Live UI answer was exercised against a different encrypted manifest"
+        stall_run, stall_check = latest["ui_stalled_index"]
+        assert stall_run.get("manifest") == manifest and stall_check["evidence"]["source_injection"] is False
+        assert stall_check["evidence"]["api_to_usable_ms"] < 5000 and stall_check["evidence"]["index_responses_completed"] == 0
+        assert receipt.get("source_freeze", {}).get("assistant.js") == self.source_freeze()["assistant.js"]
+        assert receipt.get("source_freeze", {}).get("service/research_chat.py") == self.source_freeze()["service/research_chat.py"]
         model_turns = sum(run.get("model_candidate_turns", 0) for run in self.report["runs"])
         assert model_turns <= 2, "Independent added-model-turn budget exceeded"
         reviews = {case["id"]: case for case in receipt.get("cases", [])}
-        for key in ("chat_original", "chat_synthesis", "chat_comparison", "ui_live_response"):
+        review_keys = ("chat_original", "chat_synthesis", "chat_comparison", "final_api_capture" if incremental else "ui_live_response")
+        for key in review_keys:
             path = Path(self.report["artifacts"][key])
             value = json.loads(path.read_text())
             response = value.get("response", value)
@@ -801,13 +962,36 @@ class Acceptance:
             assert review.get("verdict") == "PASS" and review.get("capture_sha256") == sha(path.read_bytes()), ("Missing/stale source review", key)
             assert review.get("source_checks") and not review.get("unsupported_claims"), ("Unreviewed or unsupported claims", key)
             assert review.get("limitations"), ("Review must state evidence limitations", key)
+        if incremental:
+            binding = receipt["incremental_evidence"]
+            final_path = Path(self.report["artifacts"]["final_api_capture"])
+            assert binding["final_api_capture_sha256"] == sha(final_path.read_bytes())
+            assert binding["final_api_source_sha256"] == self.source_freeze()["service/research_chat.py"]
+            assert binding["prior_actual_ui_capture_sha256"] == sha(Path(self.report["artifacts"]["ui_live_response"]).read_bytes())
+            assert binding["prior_actual_ui_content_verdict"] == "FAIL" and binding["prior_actual_ui_render_verdict"] == "PASS"
+            assert binding["final_public_actual_required"] is True and binding["new_qa_model_calls"] == 0
+            guard = latest["incremental_guard_proof"][1]["evidence"]
+            assert guard["final_source_sha256"] == self.source_freeze()["service/research_chat.py"] and guard["external_model_calls"] == 0
+            assert guard["old_error_rejected"] and guard["other_old_claims_unchanged"] and guard["summary_comparison_accepted_claims_unchanged"]
+            replay_run, replay_check = latest["ui_final_api_replay"]
+            assert replay_run["manifest"] == manifest and replay_check["evidence"]["capture_sha256"] == sha(final_path.read_bytes())
+            assert replay_check["evidence"]["source_injection"] is False and replay_check["evidence"]["new_model_calls"] == 0
+            assert replay_check["evidence"]["api_to_usable_ms"] < 5000 and replay_check["evidence"]["all_sources_exported"]
+            assert replay_check["evidence"]["source_freeze"]["assistant.js"] == ui_run["source_freeze"]["assistant.js"] == self.source_freeze()["assistant.js"]
         served = self.manifest()
         assert served["manifest"] == "manifest-" + manifest + ".json"
         self.report.update(verdict="PASS", failed=0, acceptance_complete=True, manifest=manifest, api_revision=API_REVISION,
                            source_injection=False, promotion_receipt={"manual_review": str(receipt_path), "manual_review_sha256": sha(receipt_path.read_bytes()),
                            "required_checks": sorted(required), "live_ui_run": ui_run["run_id"], "independent_extra_model_turns": model_turns,
                            "completed_at": datetime.now(timezone.utc).isoformat(), "served_index_sha256": served["index_sha256"],
+                           "source_freeze": self.source_freeze(), "stalled_index_run": stall_run["run_id"], "stalled_index_api_to_usable_ms": stall_check["evidence"]["api_to_usable_ms"],
+                           "encrypted_assistant_sha256": served.get("assistant_sha256"),
                            "history_preserved": True, "semantic_limit": "Independent sampled source review; no guarantee that external source statements are true or all semantic claims are proven"})
+        if incremental:
+            self.report["promotion_receipt"].update(acceptance_mode=receipt["acceptance_mode"], incremental_evidence=receipt["incremental_evidence"], final_api_capture=self.report["artifacts"]["final_api_capture"], final_api_replay=self.report["artifacts"]["ui_final_api_replay"], live_ui_semantics="Prior actual UI proves unchanged frontend rendering/workflows; its content failure remains historical. Current final backend answer is proven by real HTTP capture and replayed through that frontend.", final_public_actual_required=True)
+            if "promotion_blocked" in self.report:
+                self.report.setdefault("prior_promotion_blocks", []).append(self.report.pop("promotion_blocked"))
+            self.report.update(unresolved_failures=[], acceptance_note="PASS for explicitly scoped incremental preview acceptance. Final-source actual API and same-frontend actual rendering evidence are distinct; a new final public actual request remains MAIN's required post-promotion verification.")
         self.report["manual_reviews"] = receipt
         self.current["checks"].append({"id": "final_promotion_receipt", "status": "PASS", "evidence": self.report["promotion_receipt"]})
 
@@ -818,6 +1002,8 @@ class Acceptance:
         elif self.args.mode == "review": self.review_captures()
         elif self.args.mode == "checks": self.readonly_checks()
         elif self.args.mode in {"ui", "ui-readonly"}: self.ui()
+        elif self.args.mode == "ui-stalled-index": self.stalled_index_ui()
+        elif self.args.mode == "ui-final-api-replay": self.final_api_replay_ui()
         elif self.args.mode == "finalize": self.finalize()
         else:
             self.current["pending"] = [name for name, _ in CASES if name not in {"baseline", "snapshot"}]
@@ -831,7 +1017,7 @@ class Acceptance:
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--mode", choices=("prepare", "review", "checks", "api", "ui", "ui-readonly", "finalize"), default="prepare")
+    parser.add_argument("--mode", choices=("prepare", "review", "checks", "api", "ui", "ui-readonly", "ui-stalled-index", "ui-final-api-replay", "finalize"), default="prepare")
     parser.add_argument("--capture", action="append", default=[], help="Review MAIN actual calls: original|summary|comparison=/absolute/probe.json; no model call")
     parser.add_argument("--only", action="append", default=[], help="Narrow read-only checks to an exact case id; existing checks retained in report")
     parser.add_argument("--failure-capture", help="Exact MAIN retrieval-only failure capture for honest read-only UI rendering; never useful-answer acceptance")
@@ -839,6 +1025,8 @@ def main():
     parser.add_argument("--prepare", action="store_true", help="Explicit safe preparation; same as default --mode prepare")
     parser.add_argument("--list", action="store_true")
     parser.add_argument("--ready", choices=("MAINREADY", "FINALREADY", "MAINFINALREADY"))
+    parser.add_argument("--expect-assistant-sha", default=os.environ.get("ZGCLAB_CHAT_EXPECT_ASSISTANT_SHA", ""), help="Expected final assistant.js hash; decrypt served manifest asset in memory and verify")
+    parser.add_argument("--incremental", action="store_true", help="Explicit bounded successor acceptance: final real API plus unchanged frontend actual render proof and exact API replay; never relabel old answer as final-live")
     parser.add_argument("--manual-review", help="Independent QA written semantic source review artifact; used by finalize")
     parser.add_argument("--expect-manifest", default=os.environ.get("ZGCLAB_CHAT_EXPECT_MANIFEST", ""))
     parser.add_argument("--same-source", action="store_true", help="Coordinated optional two additional model-backed turns")
