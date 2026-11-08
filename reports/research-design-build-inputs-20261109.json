@@ -1,0 +1,24 @@
+{
+  "stage": "final_design_build",
+  "built_at": "2026-11-08T17:24:02.949865+00:00",
+  "baseline_head": "771684bfe45cece83ce08004a65c8c1dcac92d12",
+  "manifest": "manifest-d69bea92e77232e27415.json",
+  "manifest_version": "d69bea92e77232e27415",
+  "asset_count": 418,
+  "source_sha256": {
+    "styles.css": "41896959f7d96a9666a2363ae7cf35e8b7fa86a5f0ea6e0a90d2becadae0b124",
+    "assistant.js": "9982bf4b7dd128a3573911354ecdb570bdfc27abec65e5bcb9063acd6aeb7260",
+    "assistant.css": "b448e0a5139792ac4cb9761552af8dcf628dfd82e7b5d5ca0af65ee63ef58705",
+    "projects.js": "18f12fd02d8f7e5f4265b475f0cd2215a8894c848f5062b4043cc258f5eafbd4",
+    "projects.css": "9b32f35fea345514df4f42d5f274eb10bc5e80212f8623ecf4f06a0cf6547f55",
+    "research.js": "a104bfc59abc6bdfe379803ec60b8b1a67e1b2035f04cbbbfb7b7e67f9c2dd6f",
+    "research.css": "524040e052f52f5696b4566d0766fa360eb20fbff0673b4525eb70238ec4a274"
+  },
+  "source_injected": false,
+  "status": "independent actual encrypted visual and functional acceptance passed; ready for publication",
+  "previous_verified_manifest": "manifest-c43bba536e6b6ee9c83f.json",
+  "changes_since_verified_build": [
+    "research.css"
+  ],
+  "reason": "Reduce desktop evidence heading/source/action height while retaining reading text, column widths and citation behavior."
+}

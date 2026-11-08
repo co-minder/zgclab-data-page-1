@@ -1,0 +1,100 @@
+{
+  "routes": [
+    "assistant",
+    "projects",
+    "evidence",
+    "related",
+    "changes",
+    "coverage",
+    "collection-plan"
+  ],
+  "review_criteria": [
+    "clear page hierarchy and one obvious primary action",
+    "readable type hierarchy and consistent spacing",
+    "secondary technical details accessible on demand",
+    "balanced empty, loading and filled states",
+    "no clipped text or page overflow at360/390/768/1440",
+    "preserve important keyboard focus and modal behavior",
+    "all material/citation/export/import flows remain usable"
+  ],
+  "final_checks": [
+    "final encrypted assets match sources",
+    "independent visual screenshots checked",
+    "targeted research/assistant/project functional regressions",
+    "old independent filter modal and account/table checks",
+    "password required on refresh and simulation default off",
+    "no service or original data source changes"
+  ],
+  "model_generation_required": false,
+  "publication": "same existing GitHub Pages URL after independent final acceptance",
+  "visual_states": {
+    "assistant": [
+      "empty chat",
+      "search results with excerpts",
+      "database count with A1 citation",
+      "saved conversation picker",
+      "scope disclosure"
+    ],
+    "projects": [
+      "empty workspace",
+      "selected project with materials",
+      "note/excerpt edit",
+      "report preview and editor",
+      "create/import dialog"
+    ],
+    "research": [
+      "evidence original/translation",
+      "related candidates and saved group",
+      "changes zero baseline and filters",
+      "coverage matrix",
+      "plan category and active task"
+    ]
+  },
+  "visual_review_method": "Compare baseline and revised viewport screenshots; inspect type, spacing, grouping, first-screen task visibility and mobile reachability. Full-page overflow alone does not count as design acceptance.",
+  "efficient_validation_policy": "Use one central build after module freezes, one independent integrated screenshot/interaction run and targeted existing module regressions. Repeat only changed or failed cases; do not repeat paid model grounding for unchanged backend.",
+  "existing_release_scripts": [
+    "tests/research_public_release.py (published route/password/account/citation checks, no generation)",
+    "tests/projects.integration.py (topic actual-site workflow, no generation)",
+    "tests/research.preview.py (evidence and research routes)",
+    "tests/assistant_mock.py (states and cancellation without model)"
+  ],
+  "viewport_widths": [
+    360,
+    390,
+    768,
+    1024,
+    1440
+  ],
+  "intermediate_width_reason": "At1024px the fixed232px global sidebar and56px view padding leave736px content width; layouts must respond to content space instead of assuming full viewport width.",
+  "minimum_visual_acceptance": {
+    "assistant_mobile": "question field and primary send/search action visible on initial390px viewport",
+    "changes_desktop": "result or meaningful empty state visible without traversing service metadata",
+    "evidence_mobile": "source content begins within a short scroll; no default expanded provenance wall",
+    "related_desktop": "candidate material precedes full manual grouping form",
+    "projects_mobile": "selected project content or material action ahead of large folder/search panel",
+    "plan": "title/priority/purpose and task action dominate; raw fields are secondary"
+  },
+  "artifact_review": {
+    "before": "/home/ubuntu/log/zgclab-ui-design-20261109/qa/before/",
+    "after": "/home/ubuntu/log/zgclab-ui-design-20261109/qa/after/",
+    "comparison_tool": "/home/ubuntu/log/zgclab-ui-design-20261109/integration/build_comparison.py",
+    "comparison_rule": "Use actual browser viewport screenshots only; arrange them side-by-side without changing UI pixels except proportional downscaling.",
+    "final_site_manifest": "record actual value after central build"
+  },
+  "final_targeted_refinement": {
+    "manifest": "manifest-d69bea92e77232e27415.json",
+    "only_changed_asset_from_behavior_verified_c43": "research.css",
+    "desktop_evidence_targets": {
+      "1440_first_original_max_y": 590,
+      "1024_first_original_max_y": 625
+    },
+    "preserve": [
+      "15px reading type",
+      "column widths",
+      "40px controls",
+      "full source/title/date",
+      "mobile geometry"
+    ],
+    "new_validation": "affected evidence behavior and six-route CSS leakage smoke; previous33groups retain original c43 manifest"
+  }
+}

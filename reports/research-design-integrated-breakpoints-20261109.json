@@ -1,0 +1,125 @@
+{
+  "manifest": "manifest-c43bba536e6b6ee9c83f.json",
+  "source_injected": false,
+  "states": [
+    {
+      "viewport": 360,
+      "pageWidth": 360,
+      "view": 360,
+      "headline": "24px",
+      "bodyFont": "14px",
+      "questionWidth": 268,
+      "submitHeight": 44,
+      "route": "assistant?mode=chat"
+    },
+    {
+      "viewport": 360,
+      "pageWidth": 360,
+      "view": 360,
+      "headline": "24px",
+      "bodyFont": "14px",
+      "route": "projects"
+    },
+    {
+      "viewport": 360,
+      "pageWidth": 360,
+      "view": 360,
+      "headline": "24px",
+      "bodyFont": "14px",
+      "route": "evidence?angle=clue&id=clue-1"
+    },
+    {
+      "viewport": 360,
+      "pageWidth": 360,
+      "view": 360,
+      "headline": "24px",
+      "bodyFont": "14px",
+      "route": "related?angle=social&id=social-1"
+    },
+    {
+      "viewport": 360,
+      "pageWidth": 360,
+      "view": 360,
+      "headline": "24px",
+      "bodyFont": "14px",
+      "route": "changes"
+    },
+    {
+      "viewport": 360,
+      "pageWidth": 360,
+      "view": 360,
+      "headline": "24px",
+      "bodyFont": "14px",
+      "route": "coverage"
+    },
+    {
+      "viewport": 360,
+      "pageWidth": 360,
+      "view": 360,
+      "headline": "24px",
+      "bodyFont": "14px",
+      "route": "collection-plan"
+    },
+    {
+      "viewport": 1024,
+      "pageWidth": 1024,
+      "view": 792,
+      "headline": "28px",
+      "bodyFont": "14px",
+      "questionWidth": 660,
+      "submitHeight": 40,
+      "route": "assistant?mode=chat"
+    },
+    {
+      "viewport": 1024,
+      "pageWidth": 1024,
+      "view": 792,
+      "headline": "28px",
+      "bodyFont": "14px",
+      "route": "projects"
+    },
+    {
+      "viewport": 1024,
+      "pageWidth": 1024,
+      "view": 792,
+      "headline": "28px",
+      "bodyFont": "14px",
+      "route": "evidence?angle=clue&id=clue-1"
+    },
+    {
+      "viewport": 1024,
+      "pageWidth": 1024,
+      "view": 792,
+      "headline": "28px",
+      "bodyFont": "14px",
+      "route": "related?angle=social&id=social-1"
+    },
+    {
+      "viewport": 1024,
+      "pageWidth": 1024,
+      "view": 792,
+      "headline": "28px",
+      "bodyFont": "14px",
+      "route": "changes"
+    },
+    {
+      "viewport": 1024,
+      "pageWidth": 1024,
+      "view": 792,
+      "headline": "28px",
+      "bodyFont": "14px",
+      "route": "coverage"
+    },
+    {
+      "viewport": 1024,
+      "pageWidth": 1024,
+      "view": 792,
+      "headline": "28px",
+      "bodyFont": "14px",
+      "route": "collection-plan"
+    }
+  ],
+  "page_errors": [],
+  "model_requests": 0,
+  "passed": true
+}

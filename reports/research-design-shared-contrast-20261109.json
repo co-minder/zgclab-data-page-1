@@ -1,0 +1,24 @@
+{
+  "checks": [
+    {
+      "purpose": "body text",
+      "foreground": "#e8eff9",
+      "background": "#101720",
+      "contrast": 15.57
+    },
+    {
+      "purpose": "secondary text",
+      "foreground": "#8d9db2",
+      "background": "#101720",
+      "contrast": 6.52
+    },
+    {
+      "purpose": "primary button text",
+      "foreground": "#06202b",
+      "background": "#67d9ef",
+      "contrast": 10.2
+    }
+  ],
+  "all_above_4_5": true,
+  "scope": "Solid shared design token pairs only; final browser states and disabled controls are independently reviewed."
+}

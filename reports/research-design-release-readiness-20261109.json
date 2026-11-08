@@ -1,0 +1,198 @@
+{
+  "schema_version": 2,
+  "reviewer": "RELEASE-DESIGN-20261109",
+  "child_session": "ses_e43efa1b4ffevkk3cJUOXL8LPB",
+  "main_session": "ses_e6cd45dc7ffdpaE4LPjiHhd5m6",
+  "updated_at_utc": "2026-11-08T17:13:40.741Z",
+  "scope": "Read-only release/style/staging review and archive helper preparation only. MAIN has not issued FINALARCHIVEREADY.",
+  "environment": {
+    "machine": "social",
+    "project": "/home/ubuntu/zgclab-1-web",
+    "project_filesystem": "ext4",
+    "cos_mount": "/home/ubuntu/work-disk-1",
+    "cos_mount_type": "fuse.rclone",
+    "workspace_ready": true
+  },
+  "initial_snapshot": {
+    "head": "771684bfe45cece83ce08004a65c8c1dcac92d12",
+    "active_manifest": "manifest-6421c8a18fb064ae7dc9.json",
+    "active_assets": 418,
+    "active_refs": 424,
+    "untracked_obsolete_manifests": 11,
+    "untracked_binary_objects": 18,
+    "analysis_tracked": false,
+    "preserved_contract_files": 1012,
+    "note": "Historical prebuild staging review; these untracked files are to be preserved, not bulk-staged or removed."
+  },
+  "current_design_build": {
+    "path": "reports/research-design-build-inputs-20261109.json",
+    "report_sha256": "162934e7689c49c5dac5885e5735ce30bdeb55f98b0e3550b6c7bf0f25e7535c",
+    "stage": "final_design_build",
+    "manifest": "manifest-c43bba536e6b6ee9c83f.json",
+    "asset_count": 418,
+    "source_injected": false,
+    "source_hashes_current_and_integrity_match": true,
+    "source_sha256": {
+      "styles.css": "41896959f7d96a9666a2363ae7cf35e8b7fa86a5f0ea6e0a90d2becadae0b124",
+      "assistant.js": "9982bf4b7dd128a3573911354ecdb570bdfc27abec65e5bcb9063acd6aeb7260",
+      "assistant.css": "b448e0a5139792ac4cb9761552af8dcf628dfd82e7b5d5ca0af65ee63ef58705",
+      "projects.js": "18f12fd02d8f7e5f4265b475f0cd2215a8894c848f5062b4043cc258f5eafbd4",
+      "projects.css": "9b32f35fea345514df4f42d5f274eb10bc5e80212f8623ecf4f06a0cf6547f55",
+      "research.js": "a104bfc59abc6bdfe379803ec60b8b1a67e1b2035f04cbbbfb7b7e67f9c2dd6f",
+      "research.css": "7cf50199600e7b68f4ea0a8ef20fec1e5dd71033334169c3a4e7cd0e0f6d756b"
+    },
+    "integrity_report": "reports/research-design-integrity-20261109.json",
+    "integrity_report_sha256": "064e60d2e555ad0069ef1ec39b7a73d7671ca5a0c3aa8af84d15eae1bc1a94f6",
+    "integrity_passed": true,
+    "encrypted_assets_verified": 418,
+    "preserved_files_verified": 1012,
+    "old_research_build_report": "Preserved; never read as new build authority or changed by helper.",
+    "final_qa_public_archive_acceptance": false
+  },
+  "load_order": {
+    "source_html": [
+      "styles.css",
+      "projects.css",
+      "research.css",
+      "assistant.css"
+    ],
+    "protected_release": [
+      "access.css",
+      "decrypted styles.css",
+      "decrypted projects.css",
+      "decrypted research.css",
+      "decrypted assistant.css"
+    ],
+    "loader": "access.js:63 preserves order via Promise.all and joins CSS; source HTML head stylesheet links are not imported by mount().",
+    "scope_roots": [
+      ".as-root",
+      ".projects-page",
+      ".research-workspace"
+    ],
+    "cascade": "Equal-specificity assistant .as-root .btn and higher-specificity project controls override earlier shared metrics. Shared input/select :is with two :not(type) attributes has specificity0,3,1 and can still beat lower-specificity module fonts; final computed values matter.",
+    "modal": "Body-attached projects-dialog defines independent tokens, control/button and focus styles."
+  },
+  "risks": [
+    {
+      "id": "RD01",
+      "severity": "high",
+      "status": "build_integrity_resolved_final_evidence_pending",
+      "finding": "Actual central design build and418/1012 integrity now exist. Injected module previews remain supplementary; final independent QA and public evidence must bind this committed manifest and sources.",
+      "resolution": "Helper checks the new design build report, seven source hashes, final active refs and all final encrypted-integrity payloads."
+    },
+    {
+      "id": "RD02",
+      "severity": "medium",
+      "status": "verify_final_computed_values",
+      "finding": "Later module rules can override shared buttons while high-specificity shared form selectors can win over later fonts.",
+      "evidence": [
+        "styles.css:558",
+        "styles.css:563",
+        "assistant.css:.as-root .btn",
+        "research.css:.research-workspace form controls"
+      ],
+      "resolution": "Final actual protected QA should inspect fonts, target sizes, primary/disabled/focus states and project modal controls."
+    },
+    {
+      "id": "RD03",
+      "severity": "high",
+      "status": "final_independent_acceptance_pending",
+      "finding": "At adaptation read the after report identified newc43b manifest but recorded functionalVerdict=failed on legacy screenshot pixel comparison and visualVerdict=requires human inspection. QA owner is active; this is a snapshot, not a final outcome.",
+      "resolution": "No polling or QA edits by this agent. Helper refuses nonpassed final functional or visual verdicts; MAIN must supply accepted final report after reviewer resolution."
+    },
+    {
+      "id": "RD04",
+      "severity": "high",
+      "status": "new_public_owner_pending_exact_final_report",
+      "finding": "New owner ses_e43e2a812ffeN6s8a2fRohIdch prepares tests/design_public_release.py; file was not yet available when inspected. Previous research build inputs/report must remain separate.",
+      "resolution": "Helper never depends on old build report and requires actual public expected+observed final manifest, publication commit, clean checks/model count and run-bound public PNG. Exact new public schema requires final pre-execution read when MAIN supplies completed path."
+    },
+    {
+      "id": "RD05",
+      "severity": "medium",
+      "status": "targeted_final_width_evidence",
+      "finding": "Earlier integrated SIZES were390/768/1440 while plan also includes360/1024;1024 leaves about736px content beside232px sidebar.",
+      "resolution": "MAIN/QA own final narrow/intermediate viewport verification. Helper collects intended final screenshots without running browser tests."
+    },
+    {
+      "id": "RD06",
+      "severity": "high",
+      "status": "explicit_stage_guard",
+      "finding": "Append-only build output coexists with older untracked manifests/binaries, analysis and unrelated original files.",
+      "resolution": "MAIN explicitly stages intended sources/tests/design docs/final design reports and actual current active manifest refs only; preserve all unrelated untracked files and old research build inputs."
+    },
+    {
+      "id": "RD07",
+      "severity": "medium",
+      "status": "prepared_new_guard",
+      "finding": "Old archive helper hardcoded previous reports/versions and broadly discovered evidence directories.",
+      "resolution": "New helper binds the final design build/QA/public/integrity reports. It supports exact individual entries plus only six approved PNG roots, rejects archive self-inclusion and records every collected file hash/size."
+    }
+  ],
+  "archive_preparation": {
+    "helper": "/home/ubuntu/log/zgclab-ui-design-20261109/archive/archive_design_release.py",
+    "helper_sha256": "102348b2ae8e8d29aa740c4f367361dafdb180adf925e542e627b6e34a7019e4",
+    "helper_bytes": 31133,
+    "handoff": "/home/ubuntu/log/zgclab-ui-design-20261109/archive/ARCHIVE-HANDOFF.md",
+    "destination": "cos:ai-lab-archive-1-1410628711/work-disk-1/zgclab-1/outputs/web-design-release-20261109/",
+    "required_environment": [
+      "REQUIRED_FINAL_COMMIT",
+      "DESIGN_REPORT",
+      "PUBLIC_REPORT",
+      "FINALARCHIVEREADY"
+    ],
+    "evidence_inventory": "EVIDENCE_MANIFEST external JSON path or DESIGN_REPORT.archive_evidence; binds release, final commit and manifest; files with bytes/SHA256 and/or snapshot_directories.",
+    "snapshot_roots": [
+      "/home/ubuntu/log/zgclab-ui-design-20261109/assistant",
+      "/home/ubuntu/log/zgclab-ui-design-20261109/projects",
+      "/home/ubuntu/log/zgclab-ui-design-20261109/research",
+      "/home/ubuntu/log/zgclab-ui-design-20261109/qa",
+      "/home/ubuntu/log/zgclab-ui-design-20261109/integration",
+      "/home/ubuntu/log/zgclab-ui-design-20261109/public"
+    ],
+    "snapshot_collection": "Only PNG under individually named approved roots. Never follows symlinks; excludes archive/ and arbitrary parent roots. QA screenshots and four input reports automatically included as individual files; explicit nonimage reports still selected with bytes/SHA256.",
+    "public_contract": "Exact final public script/report remains to be inspected after MAIN supplies it; current adapter requires old-compatible release_commit/target/passed/failed/checks/page_errors/model_business_requests plus explicit observed final manifest or manifest check evidence. No silent old-report fallback.",
+    "guards": [
+      "explicit MAIN FINALARCHIVEREADY bound to full final commit",
+      "dedicated new social tmux, ext4 script/staging/logs",
+      "expected readable COS mount; mounted/direct remote target absent",
+      "exact final HEAD and clean tracked/index state; untracked preserved",
+      "new design build active manifest, source_sha256 and integrity agree",
+      "all1012 preserved baseline Git blobs identical",
+      "QA before/after manifests, explicit final visual+functional pass, timestamps, no errors/model calls",
+      "public expected and actual observed manifest; exact public source/active refs at tested ancestor commit",
+      "public PNG tied to report run directory",
+      "individual selected/PNG-discovered evidence hashed, safely added and verified",
+      "canonical tar paths; no symlinks/hardlinks/absolute/traversal/special files",
+      "exclude runtime/provider/password/SQLite/caches/unrelated; scan payloads without printing secrets",
+      "immutable upload; remote bytes and full SHA256 readback per object",
+      "existing/partial target preserved and stops; no overwrite/delete/cleanup"
+    ],
+    "syntax_validation": [
+      "ast.parse and compile passed without helper execution or pycache after final adaptation; seven design build/current/integrity source hashes and manifest independently matched"
+    ],
+    "helper_executed": false,
+    "archive_started": false,
+    "remote_artifacts_written": false,
+    "runtime_validation": "No final helper main invocation, tar creation, credential scan or upload/readback authorized yet."
+  },
+  "final_staging": {
+    "owner": "MAIN",
+    "allowed": "Intended source/tests/design docs/reports and active docs/index.html-derived manifest/asset/loader/favicon/nojekyll refs; NEW design build/integrity/QA/intended public reports.",
+    "preserve": [
+      "reports/research-build-inputs.json",
+      "analysis/",
+      "obsolete untracked binaries/manifests",
+      "unrelated originals"
+    ],
+    "no_bulk_add": true
+  },
+  "product_files_written": [],
+  "git_mutations": 0,
+  "builds_started": 0,
+  "deployments": 0,
+  "service_restarts": 0,
+  "model_calls": 0,
+  "final_release_ready": false,
+  "status": "new_build_adaptation_prepared; await exact MAIN FINALARCHIVEREADY/commit/reports; archive not started"
+}

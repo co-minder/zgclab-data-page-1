@@ -1,0 +1,78 @@
+{
+  "authoritative_project": "social:/home/ubuntu/zgclab-1-web",
+  "publication_url": "https://co-minder.github.io/zgclab-data-page-1/",
+  "archive_destination": "cos:ai-lab-archive-1-1410628711/work-disk-1/zgclab-1/outputs/web-design-release-20261109/",
+  "previous_release_archive_preserved": true,
+  "steps": [
+    "module source and screenshot review",
+    "central encrypted build",
+    "independent design and behavior acceptance",
+    "publish same GitHub Pages site",
+    "actual public route checks",
+    "archive committed redesign and before/after evidence with remote hash verification"
+  ],
+  "exclude": [
+    "ignored runtime",
+    "credentials",
+    "running SQLite",
+    "rclone caches",
+    "unrelated analysis and obsolete build artifacts"
+  ],
+  "source_data_changes": false,
+  "implementation_owners": {
+    "assistant": "ses_e43fc55eaffeeqXxmvAJini3tM",
+    "projects": "ses_e43fc0c5effeNSdKGys0TGiy7K",
+    "research": "ses_e43fbb4feffekFw2Xfq6ez7BRU",
+    "independent_qa": "ses_e43fb6825ffe0F0Jv04tHKRyDg"
+  },
+  "shared_owner": "main session ses_e6cd45dc7ffdpaE4LPjiHhd5m6",
+  "publication_manifest": "manifest-d69bea92e77232e27415.json",
+  "status": "final independent encrypted design accepted; ready to publish",
+  "release_preparation_agent": "ses_e43efa1b4ffevkk3cJUOXL8LPB",
+  "review_findings_to_resolve": [
+    "D01 change/coverage task visibility",
+    "D02 evidence reading starts too low",
+    "D03 mobile selected project/material priority",
+    "D04 complete empty-state composition",
+    "D05 mobile composer/action visible",
+    "D06 recommendation action and detail hierarchy",
+    "D07 unified quiet surfaces and typography",
+    "D08 candidates before manual group editor"
+  ],
+  "staging_review": {
+    "method": "Explicit path list assembled from intended design sources/tests/reports and active manifest references",
+    "active_new_binary_files": 7,
+    "already_tracked_active_binary_files": 411,
+    "unrelated_untracked_work_preserved": true,
+    "shared_git_index_owner": "MAIN",
+    "reviewed_remote_main_matches_baseline": true,
+    "prior_authorized_publish_credential_available": true,
+    "credential_written_to_disk": false
+  },
+  "qa_behavior_manifest": "manifest-c43bba536e6b6ee9c83f.json",
+  "remaining_design_fix": "D02 desktop evidence header/source/toolbar spacing only; no backend or reading text changes",
+  "verification_provenance": {
+    "complete_behavior_review": "33 unique checks on manifest-c43bba536e6b6ee9c83f.json",
+    "final_refinement": "evidence-only desktop CSS, manifest-d69bea92e77232e27415.json",
+    "affected_validation": "separate actual encrypted D02 target run, preserving c43 history",
+    "public_validation": "17 groups on the final publicly deployed manifest and exact source commit, pending publication"
+  },
+  "final_source_status": "All product sources frozen; evidence-only desktop CSS revision complete",
+  "publish_ready_requirements": [
+    "independent actual d69 D02 target pass",
+    "main screenshot review complete",
+    "all intended source/test/docs/reports and active assets explicitly staged"
+  ],
+  "main_screenshot_review_complete": true,
+  "accepted_final_manifest": "manifest-d69bea92e77232e27415.json",
+  "independent_final_acceptance": {
+    "functional": "passed",
+    "visual": "passed",
+    "report": "reports/research-design-review-20261109.json",
+    "checks_in_final_evidence": 38,
+    "previous_full_review_manifest": "manifest-c43bba536e6b6ee9c83f.json",
+    "final_css_refinement": "Only evidence desktop spacing changed; affected actual encrypted checks repeated with earlier behavior provenance retained.",
+    "page_errors": 0,
+    "model_calls": 0
+  }
+}

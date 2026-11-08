@@ -1,0 +1,79 @@
+{
+  "scope": "Final frozen module verification evidence before central independent encrypted acceptance",
+  "source_injected": true,
+  "model_generation_calls": 0,
+  "modules": {
+    "assistant": [
+      {
+        "report": "/home/ubuntu/log/zgclab-ui-design-20261109/assistant/design-results.json",
+        "sha256": "47483e3bd2a40e9dbb9a42fa813e6bcefdc4c344b378671090a53fb62aea7276",
+        "passed": null,
+        "checks": 6,
+        "errors": []
+      },
+      {
+        "report": "/home/ubuntu/log/zgclab-ui-design-20261109/assistant/mock/results.json",
+        "sha256": "e4afd1d7074b60c7d9df3e5c2a4ba6ae2dac5a6a2bf31f4844048229a5584c54",
+        "passed": 10,
+        "checks": 10,
+        "errors": []
+      }
+    ],
+    "projects": [
+      {
+        "report": "/home/ubuntu/log/zgclab-ui-design-20261109/projects/after-design-results.json",
+        "sha256": "c552bf785638d278ab2032a4b8b703762f26f4b8dd90d8161d68a291bc4cbe63",
+        "passed": null,
+        "checks": 6,
+        "errors": []
+      },
+      {
+        "report": "/home/ubuntu/log/zgclab-ui-design-20261109/projects/regression/results.json",
+        "sha256": "f248f0f47843254430eee2c9af342fc3f05dba006a096afe21fda95769eea19a",
+        "checks": null,
+        "errors": [],
+        "passed_count": 14
+      },
+      {
+        "report": "/home/ubuntu/log/zgclab-ui-design-20261109/projects/focus/results.json",
+        "sha256": "b8804894d8f3df503c998138f996e6528ad52c526f6f117b7f6ebf82c51a6274",
+        "checks": null,
+        "errors": [],
+        "passed_count": 16
+      }
+    ],
+    "research": [
+      {
+        "report": "/home/ubuntu/log/zgclab-ui-design-20261109/research/after/results.json",
+        "sha256": "21f01cc64d02db14e1b56efca84a0bc7644747dbd1758f2c1bc92d9d79bb4c9b",
+        "passed": 35,
+        "checks": 35,
+        "errors": []
+      },
+      {
+        "report": "/home/ubuntu/log/zgclab-ui-design-20261109/research/regression/results.json",
+        "sha256": "3cfc44458041508bc56f1630149e3d15f30afab66e256e7e27f571cc098e1e60",
+        "passed": 17,
+        "checks": 17,
+        "errors": []
+      },
+      {
+        "report": "/home/ubuntu/log/zgclab-ui-design-20261109/research/preview/results.json",
+        "sha256": "2cd8732f3c77082309afc42dfec4f1a83bf026cdbfb860b96971b4f2d062bae3",
+        "passed": 12,
+        "checks": 12,
+        "errors": []
+      }
+    ]
+  },
+  "independent_encrypted_baseline_acceptance": {
+    "manifest": "manifest-c43bba536e6b6ee9c83f.json",
+    "unique_behavior_checks_passed": 33,
+    "before_viewport_images": 36,
+    "after_viewport_images": 82,
+    "comparison_images": 8,
+    "page_errors": 0,
+    "language_model_calls": 0,
+    "visual_note": "D02 desktop evidence density is being refined in this round; affected checks will be repeated on the later CSS build. Other completed behavior results retain their original manifest provenance."
+  }
+}

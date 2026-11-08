@@ -1,0 +1,29 @@
+{
+  "scope": "latest shared CSS injected in baseline route before module redesign",
+  "measurements": [
+    {
+      "width": 360,
+      "pageWidth": 360,
+      "headerHeight": 140,
+      "contentWidth": 360,
+      "sidebarVisible": false
+    },
+    {
+      "width": 768,
+      "pageWidth": 768,
+      "headerHeight": 140,
+      "contentWidth": 768,
+      "sidebarVisible": false
+    },
+    {
+      "width": 1024,
+      "pageWidth": 1024,
+      "headerHeight": 63,
+      "contentWidth": 792,
+      "sidebarVisible": true
+    }
+  ],
+  "overflow_count": 0,
+  "mobile_more_open_close": true,
+  "model_requests": 0
+}

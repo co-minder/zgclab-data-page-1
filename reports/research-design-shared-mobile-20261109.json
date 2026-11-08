@@ -1,0 +1,33 @@
+{
+  "tested_at": "2026-11-08T16:41:29.379862+00:00",
+  "scope": "latest shared styles injected into unchanged encrypted baseline at 390px",
+  "source_injected": true,
+  "baseline_manifest": "6421c8a18fb064ae7dc9",
+  "viewport": 390,
+  "before_header_height": 206,
+  "after_header_height": 140,
+  "page_width": 390,
+  "menu_open_and_target_visible": true,
+  "menu_close_verified": true,
+  "screenshot": "/home/ubuntu/log/zgclab-ui-design-20261109/shared/mobile-navigation.png",
+  "model_requests": 0,
+  "limitations": "Full redesigned modules and final encrypted deployment remain pending.",
+  "shared_design_source": "styles.css",
+  "affected_routes": [
+    "assistant",
+    "projects",
+    "evidence",
+    "related",
+    "changes",
+    "coverage",
+    "collection-plan"
+  ],
+  "unchanged_routes": "All other body[data-route] selectors, including explore and overview",
+  "shared_visual_rules": [
+    "scoped typography and 40/44px controls",
+    "flat accent primary action",
+    "consistent field borders and focus",
+    "lower contrast background on research routes",
+    "compact mobile navigation with complete popover"
+  ]
+}

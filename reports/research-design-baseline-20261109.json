@@ -1,0 +1,41 @@
+{
+  "baseline_commit": "771684bfe45cece83ce08004a65c8c1dcac92d12",
+  "baseline_manifest": "manifest-6421c8a18fb064ae7dc9.json",
+  "source_version": "f064c896c123cbf4",
+  "research_version": "a8acd9d0b712fbe06a65",
+  "backend_and_data_changes_authorized": false,
+  "visual_scope": [
+    "assistant",
+    "projects",
+    "evidence",
+    "related",
+    "changes",
+    "coverage",
+    "collection-plan"
+  ],
+  "baseline_source_sha256": {
+    "styles.css": "4f6c7068ab27c1fb4ef507a82d9b74399965e395c6ca4ea2ff29aed136ff15d8",
+    "assistant.js": "158799d7671514a9e128a4bf52e01fb99af06a73211b62e027b4f4cbb41e0ee9",
+    "assistant.css": "8915038be9ab6e4161389e978bbd8fd183536325435466dcc64d2e751a251fdc",
+    "projects.js": "8dc4c5fddc416b6153a777bd709707c4163347d5200c6d7eff529950ea0d0110",
+    "projects.css": "6f4cb89e58ce9be866ce533c11d778e85b8ead7084fede01ec6db8b39379f1fd",
+    "research.js": "8400c9bce246214d7977c3cdeca9e689f8dafd6153b8e7f1d86586648fca14ab",
+    "research.css": "2a735a3b99080464d6ba0d1980ec5cd4362d13089e1be5013ff23758914e8648"
+  },
+  "preserve": [
+    "password on every refresh",
+    "dark theme",
+    "6989 original records",
+    "30000 separate simulation records default off",
+    "exact backup/import/export",
+    "citations and scope truthfulness",
+    "keyboard and route cancellation"
+  ],
+  "independent_visual_review": {
+    "report": "reports/research-design-review-20261109.json",
+    "before_screenshots": 36,
+    "findings": 8,
+    "baseline_has_zero_page_errors": true,
+    "baseline_not_design_accepted": true
+  }
+}

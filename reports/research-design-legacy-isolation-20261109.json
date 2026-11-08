@@ -1,0 +1,49 @@
+{
+  "scope": "New shared CSS injected into unchanged legacy explorer",
+  "checks": [
+    {
+      "viewport": 390,
+      "style_metrics_before": {
+        "header": 43,
+        "title": "18px",
+        "button": "36px",
+        "count": "筛选结果 1 条 · 1 个机构 · 当前显示 1–1 条",
+        "rows": 1,
+        "width": 390
+      },
+      "style_metrics_after": {
+        "header": 43,
+        "title": "18px",
+        "button": "36px",
+        "count": "筛选结果 1 条 · 1 个机构 · 当前显示 1–1 条",
+        "rows": 1,
+        "width": 390
+      },
+      "filter_modal_and_escape": true
+    },
+    {
+      "viewport": 1440,
+      "style_metrics_before": {
+        "header": 54,
+        "title": "20px",
+        "button": "36px",
+        "count": "筛选结果 1 条 · 1 个机构 · 当前显示 1–1 条",
+        "rows": 1,
+        "width": 1440
+      },
+      "style_metrics_after": {
+        "header": 54,
+        "title": "20px",
+        "button": "36px",
+        "count": "筛选结果 1 条 · 1 个机构 · 当前显示 1–1 条",
+        "rows": 1,
+        "width": 1440
+      },
+      "filter_modal_and_escape": true
+    }
+  ],
+  "passed": 2,
+  "model_requests": 0,
+  "existing_stylesheet_prefix_unchanged": true,
+  "new_css_scoped_to_research_roots_and_routes": true
+}

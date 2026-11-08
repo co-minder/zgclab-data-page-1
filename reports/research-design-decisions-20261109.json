@@ -1,0 +1,38 @@
+{
+  "user_request": "New research features are not visually polished; improve all of them using subagents.",
+  "accepted_direction": "Preserve dark appearance and improve hierarchy, typography, density, responsive layouts and task visibility.",
+  "publication_scope": "Existing website after concrete independent design and behavior acceptance.",
+  "not_changed": [
+    "dataset",
+    "backend",
+    "authentication",
+    "password refresh policy",
+    "model routing",
+    "simulation defaults"
+  ],
+  "actual_roles": {
+    "main": "shared design and integration, acceptance, final package and publication",
+    "three_implementation_agents": "disjoint assistant/projects/research modules",
+    "independent_qa": "baseline and final screenshots/behavior",
+    "release_preparer": "loading/staging review and archive helper only"
+  },
+  "followup_policy": "New user steering refines this redesign; do not restart independent tasks or overwrite previous release archives.",
+  "final_design_review": {
+    "assistant": "Accepted for central integration after actual screenshot review",
+    "projects": "Accepted for central integration after desktop/mobile and empty-state review",
+    "research": "Accepted for central integration after evidence/related/changes/coverage/plan review",
+    "encrypted_final_acceptance": "33 meaningful groups passed on c43; evidence desktop CSS refined, affected actual d69 target verification pending",
+    "release_manifest": "manifest-d69bea92e77232e27415.json"
+  },
+  "accepted_final_manifest": "manifest-d69bea92e77232e27415.json",
+  "independent_final_acceptance": {
+    "functional": "passed",
+    "visual": "passed",
+    "report": "reports/research-design-review-20261109.json",
+    "checks_in_final_evidence": 38,
+    "previous_full_review_manifest": "manifest-c43bba536e6b6ee9c83f.json",
+    "final_css_refinement": "Only evidence desktop spacing changed; affected actual encrypted checks repeated with earlier behavior provenance retained.",
+    "page_errors": 0,
+    "model_calls": 0
+  }
+}

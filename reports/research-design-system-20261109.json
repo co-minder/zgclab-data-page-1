@@ -1,0 +1,170 @@
+{
+  "principles": {
+    "hierarchy": "Task and evidence first; supporting provenance and runtime details available on demand.",
+    "tone": "Quiet dark research workspace, cyan reserved for primary action and selected state.",
+    "density": "Fewer competing card borders, clear section separation and readable long Chinese text.",
+    "mobile": "Compact header, complete accessible navigation, responsive controls and no body overflow."
+  },
+  "tokens": {
+    "surface": "#101720",
+    "raised": "#141e2a",
+    "border": "rgba(158,181,209,.14)",
+    "muted": "#8d9db2",
+    "text": "#e8eff9",
+    "accent": "#67d9ef",
+    "radius": "16px",
+    "desktop_heading": "28px",
+    "mobile_heading": "24px",
+    "control_height": "40px desktop /44px mobile"
+  },
+  "scope_only": [
+    ".as-root",
+    ".projects-page",
+    ".research-workspace"
+  ],
+  "protected_interfaces": [
+    "DOM IDs used for actual user actions",
+    "backup field preservation",
+    "full source content",
+    "citation identity and provenance",
+    "source/model status honesty",
+    "password refresh policy",
+    "simulation separation"
+  ],
+  "browser_baseline": {
+    "mobile_390_header": 206,
+    "shared_revision_mobile_390_header": 140,
+    "changes_result_top_y_at739px": 883.93
+  },
+  "owner": "main design integration; modules implemented by three disjoint subagents",
+  "before_after_reproducibility": {
+    "baseline_source_copy": "/home/ubuntu/log/zgclab-ui-design-20261109/integration/baseline/",
+    "source_of_baseline": "git show 771684b:<file>",
+    "purpose": "reproduce the previous visual layout for screenshot comparison on social",
+    "authoritative_path_unchanged": true
+  },
+  "review_sheet": "/home/ubuntu/log/zgclab-ui-design-20261109/integration/baseline-contact-sheet.png",
+  "review_sheet_scope": "Six real baseline viewport screenshots, original app data; used for side-by-side visual review after redesign.",
+  "main_baseline_review": {
+    "contact_sheet_inspected": true,
+    "findings_confirmed": [
+      "tiny uniform metadata text makes hierarchy weak",
+      "manual grouping editor pushes related candidates below the fold",
+      "version status cards dominate changes page",
+      "recommendation cards read as schema documentation",
+      "topic materials start after multiple boxed control groups"
+    ],
+    "guidance": "Prioritize task/result, reduce nested surfaces, balance text sizes and keep advanced details accessible."
+  },
+  "shared_mobile_validation": {
+    "390px_header_height": 140,
+    "360px_header_height": 140,
+    "768px_header_height": 140,
+    "mobile_menu_open_close": true,
+    "additional_breakpoints_no_overflow": [
+      360,
+      768,
+      1024
+    ],
+    "notes": "Scope-only shared CSS; final redesigned modules still require integrated QA."
+  },
+  "main_assistant_preview_review": {
+    "reviewed_images": [
+      "after-protected-empty-chat-1440.png",
+      "after-protected-empty-chat-390.png",
+      "after-protected-local-chat-390.png"
+    ],
+    "scope": "source-injection preview, not final encrypted acceptance",
+    "verdict": "Accepted for central integration: composer is clear, examples are organized, scope folds on narrow screens, and primary action fits the initial phone viewport. Filled-answer and citation behavior require the integrated independent run."
+  },
+  "main_projects_preview_review": {
+    "reviewed_images": [
+      "compare-filled-1440.png",
+      "compare-filled-390.png",
+      "after-empty-1440.png"
+    ],
+    "scope": "source-injection preview",
+    "verdict": "Accepted for integration: mobile selected project and material/report actions precede folder list; desktop report sits beside materials; empty composition has a clear next action. Final encrypted backup, focus and responsive checks remain with independent QA."
+  },
+  "main_research_preview_review": {
+    "reviewed_images": [
+      "contact-sheet.png",
+      "mobile-review.png",
+      "evidence-clue-1440-viewport.png",
+      "plan-task-1440-viewport.png",
+      "related-group-1440-viewport.png"
+    ],
+    "scope": "source-injection preview",
+    "verdict": "Accepted for encrypted integration: original/translation text is readable, candidate material precedes grouping editor, and task controls sit beside concise plan summaries. Research workspace uses a consistent visual hierarchy. Independent final after phase remains the release gate."
+  },
+  "integrated_release_scope": {
+    "manifest": "manifest-d69bea92e77232e27415.json",
+    "active_assets": 418,
+    "reused_from_baseline": 411,
+    "changed_visual_sources": 7,
+    "data_backend_auth_query_preserved": 1012,
+    "style_load_order": [
+      "styles.css",
+      "projects.css",
+      "research.css",
+      "assistant.css"
+    ],
+    "main_visual_review_modules": [
+      "assistant",
+      "projects",
+      "research"
+    ],
+    "previous_complete_review_manifest": "manifest-c43bba536e6b6ee9c83f.json",
+    "final_delta": "evidence-only desktop spacing, research.css",
+    "public_script_sha256": "576339bbc1e80b3d85e2d75afe7649402d42b100883110d3f0775701451fdf04"
+  },
+  "main_final_encrypted_visual_review": {
+    "manifest": "manifest-c43bba536e6b6ee9c83f.json",
+    "actual_browser_screenshots": true,
+    "comparisons": [
+      "integration/final-desktop-comparison.png",
+      "integration/final-mobile-comparison.png",
+      "integration/final-research-contact-sheet.png"
+    ],
+    "reviewed": [
+      "assistant-chat1440/390",
+      "projects-filled1440/390",
+      "changes1440",
+      "plan1440",
+      "evidence-clue1440",
+      "related1440",
+      "coverage1440"
+    ],
+    "findings": "The actual built views reproduce the reviewed hierarchy and spacing. Mobile composer/send and project workspace controls are visible without the old long preamble. Changes results now precede technical metadata. No new visual fix requested for these views.",
+    "functional_acceptance": "pending independent QA final result",
+    "all_seven_routes_visually_reviewed_by_main": true
+  },
+  "final_density_refinement": {
+    "manifest": "manifest-d69bea92e77232e27415.json",
+    "source_changed_since_c43": [
+      "research.css"
+    ],
+    "scope": "evidence only, desktop min821px",
+    "main_inspected": "research/desktop-density-fix/comparison.png",
+    "main_visual_verdict": "accepted; reading content begins sooner without reducing type or column width",
+    "reported_first_original_y": {
+      "1440": 570.5,
+      "1024_clue": 604.5
+    },
+    "mobile_geometry_unchanged": true,
+    "independent_actual_final_target_acceptance": "passed",
+    "main_inspected_actual_before_after": true,
+    "preview_file": "evidence-final-density-comparison.png"
+  },
+  "accepted_final_manifest": "manifest-d69bea92e77232e27415.json",
+  "independent_final_acceptance": {
+    "functional": "passed",
+    "visual": "passed",
+    "report": "reports/research-design-review-20261109.json",
+    "checks_in_final_evidence": 38,
+    "previous_full_review_manifest": "manifest-c43bba536e6b6ee9c83f.json",
+    "final_css_refinement": "Only evidence desktop spacing changed; affected actual encrypted checks repeated with earlier behavior provenance retained.",
+    "page_errors": 0,
+    "model_calls": 0
+  }
+}
