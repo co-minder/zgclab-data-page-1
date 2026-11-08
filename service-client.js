@@ -3,6 +3,8 @@
   "use strict";
   let password = "", token = "", expires = 0, login = null, authEpoch = 0;
   const config = () => root.ZGCLAB_SERVICE_CONFIG || {};
+  const aborted = () => new DOMException("请求已取消", "AbortError");
+  const serviceError = (code, message) => Object.assign(new Error(message), { code });
   function base() {
     const value = String(config().baseUrl || root.ZGCLAB_SERVICE_BASE || location.origin).replace(/\/$/, "");
     const url = new URL(value, location.href);
@@ -10,16 +12,19 @@
     return url.origin;
   }
   async function exchange(value, options = {}) {
+    if (options.signal?.aborted) throw aborted();
     const epoch = authEpoch, controller = new AbortController();
+    let timedOut = false;
     const abort = () => controller.abort();
     if (options.signal?.aborted) controller.abort();
     else options.signal?.addEventListener("abort",abort,{once:true});
-    const timeout = setTimeout(abort,15_000);
+    const timeout = setTimeout(() => { timedOut = true; abort(); },15_000);
     try {
       const response = await fetch(base() + "/api/session", { method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password:value}),signal:controller.signal,cache:"no-store",credentials:"omit" });
       let data;
       try { data = await response.json(); }
       catch(error) { if(error.name === "AbortError")throw error;throw new Error("资料服务尚未连接，请稍后重试"); }
+      if (options.signal?.aborted) throw aborted();
       if (epoch !== authEpoch) throw new DOMException("访问已锁定或登录已更新", "AbortError");
       if (!response.ok) { const error = new Error(data.error?.message || data.message || (typeof data.error === "string" ? data.error : "访问密码验证失败")); error.status=response.status;error.code=data.code||data.error?.code;throw error; }
       token = data.token || data.access_token || "";
@@ -28,10 +33,15 @@
       expires = Number.isFinite(parsed) ? parsed : Date.now() + Number(data.expires_in || 1800) * 1000;
       password = value;
       return {token, expires_at:new Date(expires).toISOString()};
+    } catch (error) {
+      if (options.signal?.aborted) throw aborted();
+      if (timedOut) throw serviceError("TIMEOUT", "资料服务登录超时，请重试");
+      throw error;
     } finally { clearTimeout(timeout);options.signal?.removeEventListener("abort",abort); }
   }
 
   async function session(options = {}) {
+    if (options.signal?.aborted) throw aborted();
     if (token && Date.now() < expires - 30_000) return token;
     if (!password) { const error = new Error("请输入网站访问密码以连接资料服务"); error.status = 401; error.code = "authentication_required"; throw error; }
     if (!login) {
@@ -51,21 +61,26 @@
   }
   async function request(path, options = {}, retried = false) {
     if (!/^\/api\/(?:status|search|chat|changes|snapshot)$/.test(path)) throw new Error("不支持的资料服务请求");
-    const credential = await session(options);
+    if (options.signal?.aborted) throw aborted();
+    const epoch = authEpoch, credential = await session(options);
+    if (options.signal?.aborted || epoch !== authEpoch) throw aborted();
     const controller = new AbortController();
     const abort = () => controller.abort();
     if (options.signal?.aborted) controller.abort();
     else options.signal?.addEventListener("abort", abort, {once:true});
-    const timeout = setTimeout(abort, path === "/api/chat" ? 125_000 : 45_000);
+    let timedOut = false;
+    const timeout = setTimeout(() => { timedOut = true; abort(); }, path === "/api/chat" ? 125_000 : 45_000);
     try {
       const response = await fetch(base() + path, {method:options.method || (options.body ? "POST" : "GET"),headers:{"Authorization":"Bearer " + credential,...(options.body ? {"Content-Type":"application/json"} : {})},body:options.body ? JSON.stringify(options.body) : undefined,signal:controller.signal,cache:"no-store",credentials:"omit"});
-      let data; try { data = await response.json(); } catch (error) { if(error.name==="AbortError")throw error;throw new Error("资料服务返回格式无效，请重试"); }
+      let data; try { data = await response.json(); } catch (error) { if(error.name==="AbortError")throw error;throw serviceError("BAD_RESPONSE", "资料服务返回格式无效，请重试"); }
+      if (options.signal?.aborted || epoch !== authEpoch) throw aborted();
       if (response.status === 401 && !retried) { token="";expires=0;return request(path,options,true); }
       if (!response.ok) { const error = new Error(data.error?.message || data.message || (typeof data.error === "string" ? data.error : "资料请求失败")); error.status=response.status;error.code=data.code || data.error?.code;throw error; }
       return data;
     } catch (error) {
-      if (error.name === "AbortError" && !options.signal?.aborted) throw new Error("资料服务响应超时，可重试或先使用完整正文检索");
-      if (error instanceof TypeError) throw new Error("资料服务暂时无法连接，可重试或先使用完整正文检索");
+      if (options.signal?.aborted || epoch !== authEpoch) throw aborted();
+      if (timedOut) throw serviceError("TIMEOUT", "资料服务响应超时，可重试或先使用完整正文检索");
+      if (error instanceof TypeError) throw serviceError("NETWORK", "资料服务暂时无法连接，可重试或先使用完整正文检索");
       throw error;
     } finally { clearTimeout(timeout);options.signal?.removeEventListener("abort",abort); }
   }

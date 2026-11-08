@@ -1,0 +1,54 @@
+{
+  "original_user_question": "你好，给我看看 近期的就是 对中国最相关的 报道我看看",
+  "expected_behavior": {
+    "intent": "China-related recent report lookup, natural-language chat",
+    "retrieval": "discard greeting/filler/action grammar; retain actual topic/entity/date constraints; no silent date relaxation",
+    "analysis": "Chinese synthesis with C-source references and explicit sample/date limits; SQL-derived counts use aggregate references",
+    "conversation": "inherit user topic and selected institutions for followups; preserve/override axes explicitly",
+    "feedback": "request activity visible, result scroll reachable, cancel/retry and helpful empty response",
+    "dates": "latest available matching snapshot records are not real-time news; explicit days use Asia/Shanghai actual calendar"
+  },
+  "response_compatibility": [
+    "answer",
+    "citations",
+    "aggregate_citations",
+    "plan",
+    "aggregates",
+    "coverage",
+    "model",
+    "usage",
+    "state"
+  ],
+  "optional_new_fields": [
+    "answer_format",
+    "sections",
+    "suggested_questions",
+    "analysis_scope",
+    "time_scope",
+    "search_attempts"
+  ],
+  "required_live_acceptance": [
+    "user exact question useful nonzero",
+    "actual analytical answer, not only verbatim extracts",
+    "institution comparison with evidence for both institutions",
+    "followup exact counts preserve scope",
+    "explicit recent range no-data explanation",
+    "unknown subject honest guidance",
+    "source citation and backup roundtrip",
+    "loading/cancel/retry/mobile use"
+  ],
+  "no_model_sql_execution": true,
+  "source_only_real_records": 6989,
+  "latency_policy": "Resolve obvious grammar, aliases, structured count and bounded query planning without an unnecessary model roundtrip; call model for evidence-grounded synthesis when needed and report actual participation.",
+  "production_unchanged_during_implementation": true,
+  "model_output_policy": {
+    "fixed_model": "auto/deepseek-v4.1-flash",
+    "thinking": "disabled through restricted project relay",
+    "final_content_only": true,
+    "truncated_completions": "reject",
+    "actual_usage_on_protocol_failure": "preserved numeric counters",
+    "source_review": "bounded separate evidence review, no retries or unsupported pass on timeout"
+  },
+  "source_supported_named_entities": "Retain exact handles and person names supplied by cited evidence; do not expand handles into full names or infer affiliations from database institution attribution.",
+  "comparison_completion": "Both institutions have evidence, and the answer explicitly states supported common themes and sample differences or clearly explains why a requested difference cannot be inferred."
+}

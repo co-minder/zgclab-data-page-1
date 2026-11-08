@@ -9,6 +9,8 @@ import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlsplit
 
+API_REVISION = "research-chat-20261109"
+
 from .auth import Auth
 from .chat import Chat
 from .config import Config
@@ -44,7 +46,7 @@ class Application:
         self.semaphore = threading.BoundedSemaphore(config.max_requests)
 
     def status(self, authenticated: bool) -> dict:
-        result = {"service": "zgclab-database", "state": "ready", "authentication_required": True,
+        result = {"service": "zgclab-database", "api_revision": API_REVISION, "state": "ready", "authentication_required": True,
                   "session_ttl": self.config.token_ttl, "dataset": "real", "llm": self.llm.health(),
                   "limits": {"max_body_bytes": self.config.max_body, "message_characters": 1200,
                              "history_characters": 12000, "history_messages": 8, "chat_timeout_seconds": self.config.chat_timeout}}
@@ -71,6 +73,8 @@ class Handler(BaseHTTPRequestHandler):
         pass
 
     def send_json(self, status: int, payload: dict, origin: str = "") -> None:
+        if "api_revision" not in payload:
+            payload = {"api_revision": API_REVISION, **payload}
         body = json.dumps(payload, ensure_ascii=False, allow_nan=False, separators=(",", ":")).encode()
         self.send_response(status)
         self.send_header("Content-Type", "application/json; charset=utf-8")
@@ -194,12 +198,13 @@ class Handler(BaseHTTPRequestHandler):
                 self.quota([("session-issuance:global", 600, 3600)])
                 self.send_json(200, session, origin)
             elif path == "/api/search":
-                if set(body) - {"query", "filters", "expand", "semantic", "relax", "limit"}:
+                if set(body) - {"query", "filters", "expand", "semantic", "relax", "limit", "sort"}:
                     raise InputError("Unknown search field")
                 self.quota([(f"search:{session_id}", c.search_per_minute, 60), ("search:global", c.global_search_per_minute, 60)])
                 result = self.app.search.search(body.get("query", ""), body.get("filters"), expand=body.get("expand", True),
                                                 semantic=body.get("semantic", True), limit=body.get("limit", 12),
-                                                relax=body.get("relax", False), model_guard=lambda: self.model_guard(session_id))
+                                                relax=body.get("relax", False), sort=body.get("sort"),
+                                                model_guard=lambda: self.model_guard(session_id))
                 self.send_json(200, result, origin)
             elif path == "/api/chat":
                 if set(body) - {"message", "history", "filters", "expand", "relax"}:

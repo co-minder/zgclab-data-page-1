@@ -1,0 +1,46 @@
+{
+  "stage": "baseline",
+  "baseline_commit": "e625e61f0196fedced392280f572b762cee75176",
+  "baseline_manifest": "manifest-d69bea92e77232e27415.json",
+  "user_query": "你好，给我看看 近期的就是 对中国最相关的 报道我看看",
+  "reproduced": {
+    "original_topic_and_noise": [
+      "中国",
+      "你好",
+      "看看",
+      "近期的就",
+      "报道我看看"
+    ],
+    "matched_records": 0,
+    "topic_only_china_matched_records": 964,
+    "comparison_noise": [
+      "比较",
+      "关注点"
+    ],
+    "generation_limitation": "verbatim_extracts only; synthesis and analysis currently prohibited"
+  },
+  "preserve": [
+    "real6989",
+    "simulation30000separate/defaultoff",
+    "passwordeveryrefresh",
+    "dark research design",
+    "original source and exact SQL counts",
+    "no server provider/keys",
+    "existing model routing"
+  ],
+  "source_sha256": {
+    "service/app.py": "3cd7ed803eb1b6554869136f9ce35739564e5b831c5bf983944b6eb03a82c1ca",
+    "service/config.py": "2287232d0b89ff0cacc6cebc3aa95d2799018bf949c232a0b32887764eb31e1b",
+    "service/llm.py": "b1fe6e880e44433b10a2798768e6d4f097fbd654d998d10baf9315a0639f0874",
+    "app.js": "32020367e78eaa53f81f8c9c5515cde7d44194e21df25bd2657b38799a3294b0",
+    "index.html": "8ae9411494e4b9189d364c96ab66e5594370b1c6fb2b6320e9750c064bddf2a2",
+    "serve.py": "05129fb2a0509e84578df3a086ad0332d249f89262bb4e977b295b2b99e67e56",
+    "styles.css": "41896959f7d96a9666a2363ae7cf35e8b7fa86a5f0ea6e0a90d2becadae0b124",
+    "research.js": "a104bfc59abc6bdfe379803ec60b8b1a67e1b2035f04cbbbfb7b7e67f9c2dd6f",
+    "projects.js": "18f12fd02d8f7e5f4265b475f0cd2215a8894c848f5062b4043cc258f5eafbd4",
+    "service-client.js": "201a607659ca1a7b2337e4b59871c3bfec4f6292240123fcff25aa78e61ffa7a",
+    "assistant.js": "9982bf4b7dd128a3573911354ecdb570bdfc27abec65e5bcb9063acd6aeb7260",
+    "assistant.css": "b448e0a5139792ac4cb9761552af8dcf628dfd82e7b5d5ca0af65ee63ef58705"
+  },
+  "started_at": "2026-11-08T17:51:49.396257+00:00"
+}

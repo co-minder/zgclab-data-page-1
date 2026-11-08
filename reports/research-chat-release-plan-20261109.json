@@ -1,0 +1,113 @@
+{
+  "machine": "social",
+  "authoritative_project": "/home/ubuntu/zgclab-1-web",
+  "baseline_commit": "e625e61f0196fedced392280f572b762cee75176",
+  "baseline_public_manifest": "manifest-d69bea92e77232e27415.json",
+  "isolated_preview": {
+    "frontend": "http://127.0.0.1:8790/",
+    "api": "http://127.0.0.1:8792/",
+    "artifacts": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/protected-preview",
+    "production_api_unchanged_until_acceptance": true
+  },
+  "acceptance": [
+    "module source freeze and bounded regression checks",
+    "actual encrypted isolated frontend+API",
+    "real model original question, synthesis and comparison answers inspected",
+    "deterministic exact count/date/no-result checks",
+    "independent browser workflow and answer-quality review",
+    "same public website/backend update",
+    "published real conversation acceptance",
+    "new immutable release and screenshot archive"
+  ],
+  "publish_url": "https://co-minder.github.io/zgclab-data-page-1/",
+  "future_archive": "cos:ai-lab-archive-1-1410628711/work-disk-1/zgclab-1/outputs/web-chat-release-20261109/",
+  "no_backend_reingestion": true,
+  "no_model_provider_change": true,
+  "runtime_identity": {
+    "status_field": "api_revision",
+    "required_revision": "research-chat-20261109",
+    "public_api_verification": "Require new backend revision as well as the final encrypted frontend manifest; a new website with an old API is not accepted."
+  },
+  "independent_review_prepared": true,
+  "initial_actual_model_calls": 1,
+  "actual_acceptance_questions": [
+    "你好，给我看看 近期的就是 对中国最相关的 报道我看看",
+    "归纳这些涉华资料的主要议题，各给出来源，并说明只是样本分析。",
+    "比较CSIS和兰德对中国的关注点，列出异同和各自的证据。",
+    "这两家各有多少条资料？",
+    "查询近30天与中国相关的报道",
+    "查询 qazxunknownplanet47399 对中国的量子合作政策"
+  ],
+  "actual_model_probe_budget": "Repairs are verified with one purpose-limited real conversation by analysis owner; reuse a successful exact original capture, then MAIN summary/comparison, QA1 actual encrypted UI, public1 actual original. No blind repeated calls.",
+  "actual_live_calls_so_far": {
+    "original_baseline_planner": 1,
+    "first_new_original_generation_failed_truncated": 1,
+    "protocol_structural_diagnostic": 1,
+    "second_new_original_generation_and_timedout_review": 2,
+    "independent_extra_model_turns": 0
+  },
+  "current_blocker": "Final evidence review latency: actual complete generation now works; compact response/review refinement pending.",
+  "qa_actual_completed": {
+    "social_count_followup": "PASS:404scoped/44matched;CSIS44/RAND0;noLLM",
+    "encrypted_ui_readonly": "10PASS/0pageerrors/0modelturns;failureanswerlabelledretrieval_only",
+    "source_integrity": "418activecipher/source+1002preservedPASS",
+    "good_generated_conversations": "PASS exact final3 and independent source reading",
+    "encrypted_ui_live": {
+      "passed": 9,
+      "failed": 0,
+      "actual_extra_model_turns": 1,
+      "total_tokens": 5047,
+      "source_injected": false
+    }
+  },
+  "final_public_verification_artifacts": {
+    "ui_report": "reports/research-chat-public-20261109.json",
+    "all_active_assets": "reports/research-chat-public-assets-20261109.json",
+    "runtime_source_identity": "reports/research-chat-runtime-verification-20261109.json"
+  },
+  "central_actual_probes": {
+    "original": {
+      "seconds": 14.21,
+      "capture": "integration/live-original-20261108T185421Z.json",
+      "state": "answered",
+      "format": "grounded_summary"
+    },
+    "summary": {
+      "seconds": 20.01,
+      "capture": "integration/live-summary-20261108T185441Z.json",
+      "state": "answered",
+      "format": "grounded_summary"
+    },
+    "comparison": {
+      "seconds": 11.17,
+      "capture": "integration/live-comparison-20261108T185452Z.json",
+      "state": "answered",
+      "format": "grounded_analysis",
+      "comparison_complete": true,
+      "common": true,
+      "contrast": true
+    }
+  },
+  "independent_content_review": {
+    "verdict": "PASS final original/summary/comparison + actual encrypted UI",
+    "evidence": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T184935Z-3389074/manual-source-review.json",
+    "observed": [
+      "unsupported handle-to-person-name expansion in original and summary",
+      "institution comparison lacked explicit similarities and differences"
+    ],
+    "passed": [
+      "citation identities and exact quotes",
+      "actual readonly SQL/A2 counts",
+      "summary has two supported topics",
+      "irrelevant China literal match excluded"
+    ]
+  },
+  "runtime_restart_scope": "Only project research-api:0 pane%1705 onsocial, after accepted commit; existing tunnel/static services preserved. Mac project relay13427 was restarted only for exact supported thinking toggle.",
+  "no_database_ingestion": true,
+  "original_data_auth_preservation": 1002,
+  "final_regression_passed": 197,
+  "comparison_evidence_policy": "Grounded similarities/differences compare one selected core source per institution, labelled sample analysis; exact full scope counts stay SQL-derived and are not inferred from these samples.",
+  "entity_policy": "No expansion of source handles into unsupported full names or inferred affiliations.",
+  "archive_evidence_policy": "Final committed source, exact good actual conversation captures, independent complete-source quality receipt, encrypted UI screenshots, all public active bytes and runtime source proof; preserve earlier failures transparently without counting them as success.",
+  "phase": "accepted preview; promote and public verification"
+}

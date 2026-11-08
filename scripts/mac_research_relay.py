@@ -68,6 +68,8 @@ class Handler(BaseHTTPRequestHandler):
                     return self.reply(400, {"error": "Invalid message"})
                 bounded.append({"role": item["role"], "content": item["content"]})
             payload = {"model": MODEL, "messages": bounded, "stream": False, "max_tokens": min(4096, max(128, int(source.get("max_tokens", 2048))))}
+            if source.get("thinking") == {"type": "disabled"}:
+                payload["thinking"] = {"type": "disabled"}
             if source.get("response_format") == {"type": "json_object"}:
                 payload["response_format"] = {"type": "json_object"}
             if not BOUND.acquire(blocking=False):

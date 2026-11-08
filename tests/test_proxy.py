@@ -120,12 +120,20 @@ class ProxyTests(unittest.TestCase):
         class Observe(serve.Handler):
             def handle(self):
                 observed.append(self.connection.gettimeout());entered.set()
-        server=serve.Server(("127.0.0.1",0),Observe)
+        finished=threading.Event()
+        class ObserveServer(serve.Server):
+            def process_request_thread(self, request, client_address):
+                try:
+                    super().process_request_thread(request, client_address)
+                finally:
+                    finished.set()
+        server=ObserveServer(("127.0.0.1",0),Observe)
         thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
         try:
             with socket.create_connection(server.server_address,timeout=2):
                 self.assertTrue(entered.wait(2))
             self.assertEqual(observed,[12.0])
+            self.assertTrue(finished.wait(2), "The observed request must release its slot before checking capacity")
             acquired=[server.slots.acquire(blocking=False) for _ in range(49)]
             self.assertEqual(sum(acquired),48)
             for success in acquired:

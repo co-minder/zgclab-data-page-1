@@ -7,6 +7,8 @@
   const MAX_TURNS = 12;
   const MAX_HISTORY_MESSAGES = 8;
   const MAX_QUERY = 1200;
+  const MAX_ANSWER = 30000;
+  const MAX_SECTIONS = 24;
   const MAX_SAVED_SESSIONS = 32;
   const MAX_EVIDENCE = 100;
   const LOCAL_LIMIT = 20;
@@ -108,6 +110,7 @@
       dateOrigin: text(raw.date_origin || raw.dateOrigin, 60),
       translation: text(raw.translation_status || raw.translation, 100),
       score: finite(raw.score),
+      quotes: (Array.isArray(raw.quotes) ? raw.quotes : []).slice(0, 20).map((quote) => text(typeof quote === "string" ? quote : object(quote).quote, 4000)).filter(Boolean),
       entry: null,
     };
   }
@@ -183,12 +186,30 @@
     return { total: count(data.total), by_angle: Object.fromEntries(ANGLES.map((angle) => [angle, count(object(data.by_angle)[angle])])), by_institution: (Array.isArray(data.by_institution) ? data.by_institution : []).slice(0, 20).map(object).map((item) => ({ ktid: text(item.ktid, 20), cn: text(item.cn, 200), count: count(item.count) })), by_platform: (Array.isArray(data.by_platform) ? data.by_platform : []).slice(0, 20).map(object).map((item) => ({ platform: text(item.platform, 100), count: count(item.count) })) };
   }
 
+  function analyticsEntries(value) {
+    return (Array.isArray(value) ? value : []).slice(0, 40).map(object).map((row) => ({ ktid: text(row.ktid, 20), cn: text(row.cn, 200), platform: text(row.platform, 100), angle: ANGLES.includes(row.angle) ? row.angle : "", count: Number.isSafeInteger(row.count) && row.count >= 0 ? row.count : null, percent: typeof row.percent === "number" && Number.isFinite(row.percent) && row.percent >= 0 && row.percent <= 100 ? row.percent : null }));
+  }
+
+  function normalizedShares(value) {
+    const v = object(value);
+    if (!Object.keys(v).length) return null;
+    return { denominator: Number.isSafeInteger(v.denominator) && v.denominator >= 0 ? v.denominator : null, basis: text(v.basis, 160), unit: v.unit === "percent" ? "percent" : "", by_institution: analyticsEntries(v.by_institution), by_platform: analyticsEntries(v.by_platform), by_angle: analyticsEntries(v.by_angle) };
+  }
+
+  function normalizedRanking(value) {
+    const v = object(value);
+    if (!Object.keys(v).length) return null;
+    return { dimension: ["institution", "platform", "angle"].includes(v.dimension) ? v.dimension : "", order: ["ascending", "descending"].includes(v.order) ? v.order : "", metric: text(v.metric, 100), denominator: Number.isSafeInteger(v.denominator) && v.denominator >= 0 ? v.denominator : null, ties_included: v.ties_included === true, entries: analyticsEntries(v.entries) };
+  }
+
   function normalizeAggregate(raw, index) {
     raw = object(raw);
     const scope = object(raw.scope), sourceFilters = object(scope.filters);
     const label = raw.citation_id || raw.label || "A" + (index + 1);
     if (!/^A\d{1,3}$/.test(label)) return null;
-    return { label, kind: "database_aggregate", scoped: countData(raw.scoped), matched: countData(raw.matched), scope: { source_version: text(scope.source_version, 100), date_field: ["published_at", "published_effective_at", "collected_at"].includes(scope.date_field) ? scope.date_field : "published_at", strategy: text(scope.strategy, 100), terms: expansionTerms(Array.isArray(scope.term_match) ? scope.term_match.flat() : scope.terms), filters: { ...normalizeFilters(sourceFilters), angles: list(sourceFilters.angles || sourceFilters.angle).filter((a) => ANGLES.includes(a)) }, timezone: text(scope.timezone || "Asia/Shanghai", 60), date_semantics: text(scope.date_semantics, 500) } };
+    const dateRange = object(raw.date_range || raw.dateRange);
+    const count = (v) => Number.isSafeInteger(v) && v >= 0 ? v : null;
+    return { label, kind: "database_aggregate", scoped: countData(raw.scoped), matched: countData(raw.matched), scope: { source_version: text(scope.source_version, 100), date_field: ["published_at", "published_effective_at", "collected_at"].includes(scope.date_field) ? scope.date_field : "published_at", strategy: text(scope.strategy, 100), terms: expansionTerms(Array.isArray(scope.term_match) ? scope.term_match.flat() : scope.terms), excluded: list(scope.excluded_terms || scope.excluded).slice(0, 20), sort: ["recent", "relevance"].includes(scope.sort) ? scope.sort : "", asOf: text(scope.as_of || scope.asOf, 60), filters: { ...normalizeFilters(sourceFilters), angles: list(sourceFilters.angles || sourceFilters.angle).filter((a) => ANGLES.includes(a)) }, timezone: text(scope.timezone || "Asia/Shanghai", 60), date_semantics: text(scope.date_semantics, 500) }, dateRange: { min: text(dateRange.min, 100), max: text(dateRange.max, 100), max_nonfuture: text(dateRange.max_nonfuture, 100), dated: count(dateRange.dated_records ?? dateRange.dated), undated: count(dateRange.undated_records ?? dateRange.undated), future: count(dateRange.future_dated_records ?? dateRange.future) }, byMonth: (Array.isArray(raw.by_month || raw.byMonth) ? raw.by_month || raw.byMonth : []).slice(0, 2400).map(object).filter((row) => /^\d{4}-\d{2}$/.test(row.month || "") && count(row.count) !== null).map((row) => ({ month: row.month, count: row.count })), method: text(raw.method, 100), latestReturnedDate: text(raw.latest_returned_date || raw.latestReturnedDate, 100), shares: normalizedShares(raw.shares), ranking: normalizedRanking(raw.ranking) };
   }
 
   function planTerms(value) {
@@ -196,11 +217,66 @@
     return expansionTerms([...(Array.isArray(plan.terms) ? plan.terms.flat() : []), ...(Array.isArray(plan.model_terms) ? plan.model_terms : []), ...(Array.isArray(object(plan.model).applied_groups) ? plan.model.applied_groups.flatMap((group) => Array.isArray(object(group).terms) ? group.terms : []) : []), ...(Array.isArray(plan.fuzzy_terms) ? plan.fuzzy_terms.map((item) => item && item.term) : [])]);
   }
 
+  function dateFieldLabel(value) {
+    return { published_at: "原始发布时间", published_effective_at: "含有恢复依据的发布时间", collected_at: "采集或发现时间" }[value] || "服务指定日期";
+  }
+
+  function normalizedTime(value) {
+    const v = object(value);
+    return { mode: text(v.mode, 60), from: text(v.date_from || v.from, 30), to: text(v.date_to || v.to, 30), asOf: text(v.as_of || v.asOf, 60), timezone: text(v.timezone, 60), expressions: list(v.expressions).slice(0, 8) };
+  }
+
+  function normalizedIntent(value) {
+    const v = object(value);
+    return { task: text(v.task || v.kind || v.query_kind, 60), topic: text(v.topics_query || v.topic || v.normalized_query, MAX_QUERY), exact: list(v.exact_phrases || v.exact).slice(0, 12), excluded: list(v.excluded_terms || v.excluded).slice(0, 12) };
+  }
+
+  function normalizedSections(value) {
+    return (Array.isArray(value) ? value : []).slice(0, MAX_SECTIONS).map(object).map((v) => ({ kind: v.kind === "analysis" ? "analysis" : "fact", text: text(v.text, 4000), citations: list(v.citations).filter((label) => /^[CA]\d{1,3}$/.test(label)).slice(0, 30), quotes: (Array.isArray(v.quotes) ? v.quotes : []).slice(0, 12).map(object).map((q) => ({ citation_id: /^[CA]\d{1,3}$/.test(q.citation_id || "") ? q.citation_id : "", quote: text(q.quote, 4000) })).filter((q) => q.citation_id && q.quote) })).filter((v) => v.text);
+  }
+
+  function normalizedSuggestions(value) {
+    return (Array.isArray(value) ? value : []).slice(0, 8).map((v) => {
+      if (typeof v === "string") return { kind: "question", label: text(v, 220), question: text(v, MAX_QUERY) };
+      v = object(v);
+      const question = text(v.question || v.query || v.message || v.text, MAX_QUERY);
+      const kind = v.kind === "remove_date_bounds" ? v.kind : ["question", "retry", "ask"].includes(v.kind) || !v.kind ? "question" : "note";
+      return { kind, label: text(v.label || question, 220), question };
+    }).filter((v) => v.label);
+  }
+
+  function normalizedAnalysisScope(value) {
+    const v = object(value), count = (number) => Number.isSafeInteger(number) && number >= 0 ? number : null;
+    return { scope: Object.keys(object(v.scope)).length ? normalizeAggregate({ scope: v.scope }, 0).scope : null, boundedSample: v.bounded_sample === true || v.boundedSample === true, exhaustive: v.exhaustive === true, realtime: v.realtime === true, limitation: text(v.limitation, 1200), comparisonComplete: typeof v.comparison_complete === "boolean" ? v.comparison_complete : typeof v.comparisonComplete === "boolean" ? v.comparisonComplete : null, evidenceRecords: count(v.evidence_records ?? v.evidenceRecords), evidenceParagraphs: count(v.evidence_paragraphs ?? v.evidenceParagraphs), citedRecords: count(v.cited_records ?? v.citedRecords), citedParagraphs: count(v.cited_paragraphs ?? v.citedParagraphs), asOf: text(v.as_of || v.asOf, 60), dateRange: normalizeAggregate({ date_range: v.date_range || v.dateRange }, 0).dateRange };
+  }
+
+  function responseContext(value) {
+    const v = object(value), plan = object(v.plan);
+    return { answerKind: text(v.answerKind || v.answer_kind, 60), intent: normalizedIntent(v.intent || plan.intent || plan.request_intent), timeScope: normalizedTime(v.timeScope || plan.time_scope || object(v.coverage).time_scope), suggestions: normalizedSuggestions([...(Array.isArray(v.search_suggestions) ? v.search_suggestions : []), ...(Array.isArray(v.suggestions) ? v.suggestions : [])]), suggestedQuestions: list(v.suggestedQuestions || v.suggested_questions).map((q) => q.slice(0, MAX_QUERY)).slice(0, 8), sections: normalizedSections(v.sections), analysisScope: normalizedAnalysisScope(v.analysisScope || v.analysis_scope), validation: { level: text(object(v.validation).level, 100), semanticEntailment: text(object(v.validation).semantic_entailment || object(v.validation).semanticEntailment, 100), acceptedClaims: finite(object(v.validation).accepted_claims ?? object(v.validation).acceptedClaims), rejectedClaims: finite(object(v.validation).rejected_claims ?? object(v.validation).rejectedClaims), sourceTruthVerified: object(v.validation).source_truth_verified === true || object(v.validation).sourceTruthVerified === true } };
+  }
+
+  function answerHeading(turn) {
+    if (turn.answerKind === "guidance") return "可以这样使用资料对话";
+    if (turn.kind === "database") return "数据库精确统计 · 未调用大模型";
+    if (turn.kind !== "answer" || !normalizedModel(turn.modelInfo).used) return turn.mode === "no_results" ? "当前范围没有匹配资料 · 无模型答案" : "资料检索摘录 · 无模型答案";
+    return { verbatim_extracts: "模型选取的原文摘录", grounded_analysis: "基于数据库资料的分析", grounded_summary: "基于数据库资料的归纳" }[turn.answerFormat] || "基于数据库资料的回答";
+  }
+
+  function answerExplanation(turn) {
+    if (turn.answerKind === "guidance") return "可直接查询资料、精确统计或分析议题；当前尚未生成研究结论。";
+    if (turn.source === "local") return "本地索引，未调用大模型；仅关键词与字面近似匹配。";
+    if (turn.kind === "answer" && normalizedModel(turn.modelInfo).used) {
+      const prefix = "实际模型：" + (turn.model || "服务未报告") + " · ";
+      return prefix + (turn.answerFormat === "verbatim_extracts" ? "模型选取来源中的逐字摘录；请结合原文核对含义与上下文。" : "根据本次检索资料整理回答，来源陈述与分析仍需结合原文判断；不代表全库或实时结论。");
+    }
+    return modelExplanation(turn.modelInfo, turn.kind === "database" ? "database" : "chat");
+  }
+
   function sanitizedTurn(raw) {
     raw = object(raw);
     const model = normalizedModel(raw.modelInfo || raw.model);
     const kind = raw.kind === "database" || raw.mode === "database_answer" ? "database" : raw.kind === "answer" && model.used ? "answer" : "retrieval";
-    return { id: /^as-[\w-]{1,100}$/.test(raw.id || "") ? raw.id : makeID(), question: text(raw.question, MAX_QUERY), answer: text(raw.answer, 12000), created_at: text(raw.created_at, 50), kind, model: model.id || text(raw.model, 140), modelInfo: model, mode: text(raw.mode, 100), answerFormat: ["verbatim_extracts", "database_aggregate", "retrieval_extracts"].includes(raw.answerFormat || raw.answer_format) ? raw.answerFormat || raw.answer_format : "", source: raw.source === "local" ? "local" : "service", coverage: text(raw.coverage, 900), query: text(raw.query, MAX_QUERY), expansions: expansionTerms(raw.expansions), requestedExpand: raw.requestedExpand !== false, requestedSemantic: raw.requestedSemantic !== false, filters: normalizeFilters(raw.filters), items: (Array.isArray(raw.items) ? raw.items : []).slice(0, 30).map(normalizeEvidence).filter(Boolean).map((item) => { const { entry, ...safe } = item; return safe; }), aggregates: (Array.isArray(raw.aggregates) ? raw.aggregates : []).slice(0, 5).map(normalizeAggregate).filter(Boolean) };
+    return { id: /^as-[\w-]{1,100}$/.test(raw.id || "") ? raw.id : makeID(), question: text(raw.question, MAX_QUERY), answer: text(raw.answer, MAX_ANSWER), created_at: text(raw.created_at, 50), kind, model: model.id || text(raw.model, 140), modelInfo: model, mode: text(raw.mode, 100), answerFormat: text(raw.answerFormat || raw.answer_format, 100), source: raw.source === "local" ? "local" : "service", coverage: text(raw.coverage, 900), query: text(raw.query, MAX_QUERY), expansions: expansionTerms(raw.expansions), requestedExpand: raw.requestedExpand !== false, requestedSemantic: raw.requestedSemantic !== false, filters: normalizeFilters(raw.filters), items: (Array.isArray(raw.items) ? raw.items : []).slice(0, MAX_EVIDENCE).map(normalizeEvidence).filter(Boolean).map((item) => { const { entry, ...safe } = item; return safe; }), aggregates: (Array.isArray(raw.aggregates) ? raw.aggregates : []).slice(0, 5).map(normalizeAggregate).filter(Boolean), ...responseContext(raw) };
   }
 
   function validatedSessions(value) {
@@ -210,7 +286,7 @@
       if (!raw || typeof raw !== "object" || raw.kind !== "assistant" || !/^as-[\w-]{1,130}$/.test(raw.id || "") || ids.has(raw.id) || !Array.isArray(raw.turns) || raw.turns.length > MAX_TURNS) throw new Error("资料对话备份格式不正确。");
       ids.add(raw.id);
       for (const turn of raw.turns) {
-        if (!turn || !/^as-[\w-]{1,100}$/.test(turn.id || "") || typeof turn.question !== "string" || !turn.question.trim() || turn.question.length > MAX_QUERY || typeof turn.answer !== "string" || turn.answer.length > 12000 || !Array.isArray(turn.items) || turn.items.length > 30 || turn.aggregates && (!Array.isArray(turn.aggregates) || turn.aggregates.length > 5)) throw new Error("资料对话备份超出内容或引用限制。");
+        if (!turn || !/^as-[\w-]{1,100}$/.test(turn.id || "") || typeof turn.question !== "string" || !turn.question.trim() || turn.question.length > MAX_QUERY || typeof turn.answer !== "string" || turn.answer.length > MAX_ANSWER || !Array.isArray(turn.items) || turn.items.length > MAX_EVIDENCE || turn.aggregates && (!Array.isArray(turn.aggregates) || turn.aggregates.length > 5)) throw new Error("资料对话备份超出内容或引用限制。");
       }
       return { kind: "assistant", schema: 1, id: raw.id, title: text(raw.title, 70), created_at: text(raw.created_at, 50), updated_at: text(raw.updated_at, 50), filters: normalizeFilters(raw.filters), turns: raw.turns.map(sanitizedTurn) };
     });
@@ -349,19 +425,20 @@
       to: validDay(range.to || params.get("to")) ? range.to || params.get("to") : "",
     };
     const state = {
-      mode: ["chat", "dialogue"].includes(params.get("mode")) ? "chat" : "search",
+      mode: params.get("mode") === "search" ? "search" : "chat",
       filters, expand: params.get("expand") !== "0", semantic: params.get("semantic") !== "0" && params.get("expand") !== "0", query: text(params.get("q") || params.get("query"), MAX_QUERY),
       turns: [], result: null, status: null, connection: "checking", error: "", busy: false,
       keep: object(workspace.assistantPreferences).keepHistory === true,
       sessionId: makeID(), createdAt: new Date().toISOString(), lastRequest: null,
     };
-    let activeRequest = null, statusRequest = null, requestSerial = 0, statusSerial = 0;
+    let activeRequest = null, statusRequest = null, requestSerial = 0, statusSerial = 0, progressTimer = null;
     let entriesPromise = null, entryMap = new Map();
     let resolvedClient = api.serviceClient || window.ZGCLAB_SERVICE_CLIENT || null;
     const textCache = new WeakMap();
 
     function dispose() {
       ownController.abort();
+      window.clearInterval(progressTimer);
       if (activeRequest) activeRequest.abort();
       if (statusRequest) statusRequest.abort();
       const dialog = view.querySelector("#asPasswordDialog");
@@ -387,10 +464,10 @@
       <div class="as-layout"><div class="as-main">
         <div class="as-workspace-head"><div class="as-modebar" role="tablist" aria-label="资料助手模式"><button type="button" id="asSearchTab" role="tab" aria-controls="asSearchPanel" data-as-mode="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>资料检索</button><button type="button" id="asChatTab" role="tab" aria-controls="asChatPanel" data-as-mode="chat"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a8 8 0 0 1-8 8H4l1.7-4.2A8 8 0 1 1 20 11.5Z"/><path d="M8 10h8M8 14h5"/></svg>资料对话</button></div><p class="as-intro" id="asModeHelp"></p></div>
         <details class="as-session-area" id="asSessionArea" hidden><summary>会话与保存 <span id="asSessionState">仅保留在本页</span></summary><div class="as-session-tools"><label class="as-check"><input id="asKeep" type="checkbox" ${state.keep ? "checked" : ""}>在本浏览器保存</label><label class="as-saved-label"><span class="as-sr-only">已保存会话</span><select id="asSessions" aria-label="打开已保存的会话"></select></label><button class="btn" type="button" id="asNew">新对话</button><button class="as-text-button" type="button" id="asClear">清空当前对话</button></div><p id="asStorageStatus" class="as-note" role="status"></p></details>
-        <div class="as-reading" id="asReading"><div class="as-compose-dock" id="asComposeDock"><form id="asForm" class="as-composer"><div class="as-compose-label"><label for="asQuestion" id="asQuestionLabel">检索问题</label><span id="asQuestionLimit">最多 1200 字符</span></div><textarea id="asQuestion" name="question" rows="3" maxlength="1200" required placeholder="描述研究主题、机构或你想了解的问题…" aria-describedby="asKeyboardHelp asHistoryHelp asQuestionLimit">${esc(state.query)}</textarea><div class="as-compose-actions"><span id="asKeyboardHelp"><kbd>Enter</kbd> 发送 <span aria-hidden="true">·</span> Shift + Enter 换行</span><div><button class="btn" id="asCancel" type="button" hidden>取消请求</button><button class="btn primary" id="asSubmit" type="submit">检索资料</button></div></div></form><div class="as-progress" id="asProgress" role="status" aria-live="polite"></div><div class="as-error" id="asError" role="alert" hidden><p id="asErrorText"></p><div class="as-actions"><button class="btn" type="button" id="asRetry">重试请求</button><button class="btn" type="button" id="asUseLocal">使用本地索引检索</button></div></div></div>
-        <section class="as-start" id="asWelcome" aria-labelledby="asWelcomeTitle"><div class="as-start-intro"><span class="as-start-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4h6c1.2 0 2 .8 2 2v14c0-1.2-.8-2-2-2H4V4Zm16 0h-6c-1.2 0-2 .8-2 2v14c0-1.2.8-2 2-2h6V4Z"/><path d="M7 8h2m-2 4h2m6-4h2m-2 4h2"/></svg></span><div><h2 id="asWelcomeTitle">从一个研究问题开始</h2><p id="asWelcomeHelp">选择一个示例，或在上方描述你要查找的资料。</p></div></div><div class="as-examples" aria-label="中文问题示例">${[["主题探索", "人工智能安全", "有哪些关于人工智能安全的资料？"], ["定向查找", "国土安全与网络安全", "查找国土安全部的网络安全相关记录"], ["机构研究", "CSIS 对华议题", "CSIS 最近关注了哪些对华议题？"]].map(([label, title, q], i) => `<button type="button" data-as-example="${esc(q)}"><span class="as-example-category"><span>${esc(label)}</span><span aria-hidden="true">0${i + 1}</span></span><strong>${esc(title)}</strong><span class="as-example-question">${esc(q)}</span><span class="as-example-open" aria-hidden="true">使用此问题 <span>↗</span></span></button>`).join("")}</div><p class="as-start-footnote">每条结果保留命中片段、原始来源和可核对的引用。</p></section>
+        <div class="as-reading" id="asReading"><div class="as-compose-dock" id="asComposeDock"><form id="asForm" class="as-composer"><div class="as-compose-label"><label for="asQuestion" id="asQuestionLabel">检索问题</label><span id="asQuestionLimit">最多 1200 字符</span></div><textarea id="asQuestion" name="question" rows="3" maxlength="1200" required placeholder="描述研究主题、机构或你想了解的问题…" aria-describedby="asKeyboardHelp asHistoryHelp asQuestionLimit">${esc(state.query)}</textarea><div class="as-compose-actions"><span id="asKeyboardHelp"><kbd>Enter</kbd> 发送 <span aria-hidden="true">·</span> Shift + Enter 换行</span><div><button class="btn" id="asCancel" type="button" hidden>取消请求</button><button class="btn primary" id="asSubmit" type="submit">检索资料</button></div></div></form><div class="as-progress" id="asProgress" role="status" aria-live="polite" aria-atomic="true"></div><div id="asElapsed" class="as-elapsed" aria-live="off" hidden></div><div class="as-error" id="asError" role="alert" hidden><p id="asErrorText"></p><div class="as-actions"><button class="btn" type="button" id="asRetry">重试请求</button><button class="btn" type="button" id="asUseLocal">使用本地索引检索</button></div></div></div>
+        <section class="as-start" id="asWelcome" aria-labelledby="asWelcomeTitle"><div class="as-start-intro"><span class="as-start-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4h6c1.2 0 2 .8 2 2v14c0-1.2-.8-2-2-2H4V4Zm16 0h-6c-1.2 0-2 .8-2 2v14c0-1.2.8-2 2-2h6V4Z"/><path d="M7 8h2m-2 4h2m6-4h2m-2 4h2"/></svg></span><div><h2 id="asWelcomeTitle">从一个研究问题开始</h2><p id="asWelcomeHelp">选择一个示例，或在上方描述你要查找的资料。</p></div></div><div class="as-examples" aria-label="中文问题示例">${[["资料归纳", "近期涉华报道", "看看近期与中国相关的报道，归纳主要议题"], ["对比分析", "CSIS 与兰德", "比较CSIS和兰德的涉华关注点"], ["精确统计", "阿肯色州立大学", "阿肯色州立大学有多少条资料？"]].map(([label, title, q], i) => `<button type="button" data-as-example="${esc(q)}" aria-label="填入问题：${esc(q)}"><span class="as-example-category"><span>${esc(label)}</span><span aria-hidden="true">0${i + 1}</span></span><strong>${esc(title)}</strong><span class="as-example-question">${esc(q)}</span><span class="as-example-open" aria-hidden="true">填入问题 <span>↗</span></span></button>`).join("")}</div><div class="as-capabilities" aria-label="可用能力"><span>资料查询</span><span>精确统计</span><span>对比分析</span><span>连续追问</span></div><p class="as-start-footnote">点击示例只填入问题，发送后查询当前资料库；回答保留来源与引用。</p></section>
         <div class="as-output-tools" id="asOutputTools" hidden><span id="asOutputLabel">检索结果</span><div class="as-actions"><button class="btn" type="button" id="asCopy" disabled>复制 Markdown</button><button class="btn" type="button" id="asExport" disabled>导出 Markdown</button></div></div>
-        <section id="asSearchPanel" role="tabpanel" aria-labelledby="asSearchTab"><div id="asSearchResults" class="as-results"></div></section><section id="asChatPanel" role="tabpanel" aria-labelledby="asChatTab" hidden><div id="asTranscript" class="as-transcript" aria-label="对话记录"></div></section></div>
+        <section id="asSearchPanel" role="tabpanel" aria-labelledby="asSearchTab"><div id="asSearchResults" class="as-results"></div></section><section id="asChatPanel" role="tabpanel" aria-labelledby="asChatTab" hidden><div id="asTranscript" class="as-transcript" aria-label="对话记录"></div><div id="asPending" class="as-pending" hidden><p class="as-pending-question"></p><p class="as-note">正在检索并整理资料，完成后会在这里显示回答。</p></div></section></div>
       </div><aside class="as-sidebar" aria-label="资料范围与服务状态">
         <details class="as-card as-scope" id="asScope" open><summary class="as-scope-summary"><span class="as-scope-heading">资料范围 <span class="as-scope-badge" id="asScopeCount">全部</span></span><span class="as-scope-description" id="asFilterSummary"></span></summary><div class="as-scope-body"><div class="as-card-head"><span>限定本次检索与对话</span><button type="button" class="as-text-button" id="asResetFilters">重置</button></div><label class="as-field">采集角度<select id="asAngle">${options([["all", "全部角度"], ...ANGLES.map((angle) => [angle, angleName(angle)])], filters.angle)}</select></label>
         <details class="as-filter-disclosure" ${filters.ids.length ? "open" : ""}><summary>机构 <span id="asInstCount"></span></summary><div class="as-institution-options">${institutions.map((item) => `<label class="as-check"><input type="checkbox" data-as-inst="${esc(item.ktid)}" ${filters.ids.includes(String(item.ktid)) ? "checked" : ""}>${esc(item.cn)}</label>`).join("")}</div></details>
@@ -555,12 +632,13 @@
       }
       $("#asSearchPanel").hidden = mode !== "search";
       $("#asChatPanel").hidden = mode !== "chat";
-      $("#asModeHelp").textContent = mode === "search" ? "描述主题，定位相关资料与原文片段。" : "围绕证据连续提问，逐条核对引用。";
+      $("#asModeHelp").textContent = mode === "search" ? "按关键词和筛选定位资料；需要归纳或对比时可用资料对话。" : "直接提问：查资料、精确统计、归纳议题或比较机构。";
       $("#asSessionArea").hidden = mode !== "chat";
       $("#asSemantic").closest("label").hidden = mode === "chat";
       $("#asQuestionLabel").textContent = mode === "search" ? "检索问题" : "研究问题或追问";
       $("#asSubmit").textContent = mode === "search" ? "检索资料" : "发送问题";
       $("#asHistoryHelp").textContent = mode === "chat" ? "最多发送最近 4 轮历史（合计不超过 12000 字符）；当前会话保留最近 12 轮。" : "仅查询真实资料，模拟记录不作为问答证据。";
+      $("#asQuestion").placeholder = mode === "chat" ? "例如：看看近期与中国相关的报道，归纳主要议题…" : "输入主题、机构或中英文关键词…";
       updateOutputButtons(); synchronizeUrl();
     }
 
@@ -575,7 +653,10 @@
       $("#asNew").disabled = busy;
       $("#asSessions").disabled = busy;
       view.querySelectorAll("[data-as-mode]").forEach((button) => { button.disabled = busy; });
-      view.querySelectorAll("[data-as-withdraw]").forEach((button) => { button.disabled = busy; });
+      view.querySelectorAll("[data-as-withdraw], [data-as-suggestion], [data-as-analyze], [data-as-example]").forEach((button) => { button.disabled = busy; });
+      $("#asResetFilters").disabled = busy;
+      view.querySelectorAll("[data-as-inst], [data-as-platform], #asAngle, #asFrom, #asTo, #asExpand, #asLimit").forEach((input) => { input.disabled = busy; });
+      $("#asSemantic").disabled = busy || !state.expand;
     }
 
     function showError(message) {
@@ -684,7 +765,7 @@
       const items = [...new Map(rows.slice(0, MAX_EVIDENCE).map(normalizeEvidence).filter(Boolean).map((item) => [item.label, item])).values()];
       await verifyEvidence(items, requestSignal);
       const aggregates = object(payload.aggregates), plan = object(payload.plan);
-      return { items, total: finite(object(aggregates.matched).total ?? payload.total), returned: rows.length, returnedRecords: new Set(items.map((item) => item.id)).size, omitted: rows.length - items.length, limit: request.limit, expansions: planTerms(plan), coverage: coverageText(payload.coverage), source: "service", query: text(payload.query || request.question, MAX_QUERY), originalQuery: request.question, filters: request.filters, requestedExpand: request.expand, requestedSemantic: request.semantic, modelInfo: normalizedModel(payload.model || plan.model), strategy: text(plan.strategy, 100), modelQuery: text(plan.model_query || object(plan.model).rewritten_query, MAX_QUERY), aggregates: aggregates.scope ? [normalizeAggregate({ citation_id: "A1", ...aggregates }, 0)].filter(Boolean) : [] };
+      return { items, total: finite(object(aggregates.matched).total ?? payload.total), returned: rows.length, returnedRecords: new Set(items.map((item) => item.id)).size, omitted: rows.length - items.length, limit: request.limit, expansions: planTerms(plan), coverage: coverageText(payload.coverage), source: "service", query: text(payload.query || request.question, MAX_QUERY), originalQuery: request.question, filters: request.filters, requestedExpand: request.expand, requestedSemantic: request.semantic, modelInfo: normalizedModel(payload.model || plan.model), strategy: text(plan.strategy, 100), modelQuery: text(plan.model_query || object(plan.model).rewritten_query, MAX_QUERY), aggregates: aggregates.scope ? [normalizeAggregate({ citation_id: "A1", ...aggregates }, 0)].filter(Boolean) : [], ...responseContext(payload) };
     }
 
     async function remoteChat(request, requestSignal) {
@@ -692,11 +773,11 @@
       const rows = Array.isArray(payload.citations) ? payload.citations : Array.isArray(payload.results) ? payload.results : [];
       const items = [...new Map(rows.slice(0, MAX_EVIDENCE).map(normalizeEvidence).filter(Boolean).map((item) => [item.label, item])).values()];
       await verifyEvidence(items, requestSignal);
-      const answer = text(payload.answer || payload.content), model = normalizedModel(payload.model);
+      const answer = text(payload.answer || payload.content, MAX_ANSWER), model = normalizedModel(payload.model);
       const mode = text(payload.state || payload.mode, 100), plan = object(payload.plan);
       if (!answer && !rows.length && payload.answer === undefined) throw errorWith("BAD_RESPONSE");
       const aggregates = (Array.isArray(payload.aggregate_citations) ? payload.aggregate_citations : []).slice(0, 5).map(normalizeAggregate).filter(Boolean);
-      return { id: request.replaceTurn || makeID(), question: request.question, created_at: new Date().toISOString(), kind: mode === "database_answer" || model.reason === "exact_database_aggregate" ? "database" : model.used && mode === "answered" ? "answer" : "retrieval", answer, items, aggregates, model: model.id, modelInfo: model, mode, answerFormat: text(payload.answer_format, 60), source: "service", coverage: coverageText(payload.coverage), expansions: planTerms(plan), query: text(plan.model_query || object(plan.model).rewritten_query || payload.query, MAX_QUERY), filters: request.filters, requestedExpand: request.expand, requestedSemantic: request.semantic };
+      return { id: request.replaceTurn || makeID(), question: request.question, created_at: new Date().toISOString(), kind: mode === "database_answer" || model.reason === "exact_database_aggregate" ? "database" : model.used && mode === "answered" ? "answer" : "retrieval", answer, items, aggregates, model: model.id, modelInfo: model, mode, answerFormat: text(payload.answer_format, 100), source: "service", coverage: coverageText(payload.coverage), expansions: planTerms(plan), query: text(plan.model_query || object(plan.model).rewritten_query || payload.query, MAX_QUERY), filters: request.filters, requestedExpand: request.expand, requestedSemantic: request.semantic, ...responseContext(payload) };
     }
 
     function countText(result) {
@@ -706,6 +787,48 @@
       return total + " · 本次返回 " + fmt(returned) + " 段证据 / " + fmt(distinct) + " 条记录" + (result.limit ? " · 本次上限 " + fmt(result.limit) + " 段" : "") + (returned !== result.items.length ? " · 不展示模拟或无效记录，界面最多 100 段" : "");
     }
 
+    function renderAnalyticsAggregate(article, item) {
+      const range = item.dateRange || {}, count = (value) => value === null || value === undefined ? "未提供" : fmt(value);
+      const title = document.createElement("p"); title.className = "as-note"; title.textContent = "资料日期与月度统计 · 按同一筛选和关键词口径，由数据库计算"; article.appendChild(title);
+      const info = document.createElement("dl"); info.className = "as-date-coverage";
+      for (const [label, value] of [["命中记录", count(item.matched.total) + " 条"], ["有日期", count(range.dated) + " 条"], ["无可用日期", count(range.undated) + " 条"], ["本次返回的最新非未来日期", item.latestReturnedDate || "未提供"], ["统计范围最新非未来日期", range.max_nonfuture || "未提供"], ["统计范围最早日期", range.min || "未提供"], ["统计范围最大日期", range.max || "未提供"]]) {
+        const row = document.createElement("div"), dt = document.createElement("dt"), dd = document.createElement("dd"); dt.textContent = label; dd.textContent = value; row.append(dt, dd); info.appendChild(row);
+      }
+      article.appendChild(info);
+      if (range.future > 0) { const warning = document.createElement("p"); warning.className = "as-warning"; warning.textContent = count(range.future) + " 条记录的所存日期晚于当前日期基准；不代表未来事件已经发生，最大日期不能作为近期覆盖截止。"; article.appendChild(warning); }
+      if (item.byMonth && item.byMonth.length) {
+        const details = document.createElement("details"); details.className = "as-aggregate-details";
+        const summary = document.createElement("summary"); summary.textContent = "查看按月记录数（" + item.byMonth.length + " 个月份）"; details.appendChild(summary);
+        const wrapper = document.createElement("div"); wrapper.className = "as-aggregate-table";
+        const table = document.createElement("table");
+        const caption = document.createElement("caption"); caption.textContent = "按" + dateFieldLabel(item.scope.date_field) + "的北京时间月份计数；记录数量不表示立场或全网关注程度。"; table.appendChild(caption);
+        const head = document.createElement("thead"), row = document.createElement("tr");
+        for (const label of ["月份", "真实记录数"]) { const th = document.createElement("th"); th.scope = "col"; th.textContent = label; row.appendChild(th); } head.appendChild(row); table.appendChild(head);
+        const body = document.createElement("tbody");
+        for (const value of item.byMonth) { const tr = document.createElement("tr"), month = document.createElement("th"), total = document.createElement("td"); month.scope = "row"; month.textContent = value.month; total.textContent = fmt(value.count); tr.append(month, total); body.appendChild(tr); } table.appendChild(body); wrapper.appendChild(table); details.appendChild(wrapper); article.appendChild(details);
+      }
+    }
+
+    function analyticsEntryName(row) {
+      return row.cn || (row.ktid ? instName(row.ktid) : "") || row.platform || (row.angle ? angleName(row.angle) : "") || "未标注";
+    }
+
+    function renderRankShares(article, item) {
+      const shares = object(item.shares), ranking = object(item.ranking);
+      const shareGroups = [["机构", shares.by_institution], ["采集角度", shares.by_angle], ["平台", shares.by_platform]].filter(([, rows]) => rows && rows.length);
+      if (!shareGroups.length && !(ranking.entries || []).length) return;
+      const details = document.createElement("details"); details.className = "as-rank-shares";
+      const summary = document.createElement("summary"); summary.textContent = "查看记录数量排名与份额"; details.appendChild(summary);
+      const paragraph = (value) => { const p = document.createElement("p"); p.className = "as-note"; p.textContent = value; details.appendChild(p); };
+      if ((ranking.entries || []).length) {
+        const order = ranking.order === "ascending" ? "由少到多" : "由多到少";
+        paragraph("按记录数" + order + "的返回结果：" + ranking.entries.map((row) => analyticsEntryName(row) + " " + (row.count === null ? "未提供" : fmt(row.count)) + " 条").join("；") + (ranking.ties_included ? "（包含并列）" : "") + "。分母 " + (ranking.denominator === null ? "未提供" : fmt(ranking.denominator)) + " 条。");
+      }
+      for (const [label, rows] of shareGroups) paragraph(label + "份额（分母 " + (shares.denominator === null ? "未提供" : fmt(shares.denominator)) + " 条）：" + rows.map((row) => analyticsEntryName(row) + " " + (row.percent === null ? "比例未提供" : row.percent.toLocaleString("zh-CN", { maximumFractionDigits: 4 }) + "%") + " / " + (row.count === null ? "未提供" : fmt(row.count)) + " 条").join("；"));
+      paragraph("份额只表示同一筛选与关键词范围内的入库记录比例，排名和份额不表示机构影响力、立场或全网关注程度。");
+      article.appendChild(details);
+    }
+
     function renderAggregates(parent, aggregates, scopeID) {
       for (const item of aggregates || []) {
         const article = document.createElement("article"); article.className = "as-aggregate as-evidence"; article.tabIndex = -1; article.dataset.asCitation = item.label;
@@ -713,14 +836,23 @@
         const scope = item.scope, filters = scope.filters;
         const filterLabel = [filters.ids.length ? filters.ids.map(instName).join("、") : "全部机构", filters.angles && filters.angles.length ? filters.angles.map(angleName).join("、") : "全部角度", filters.platforms.length ? filters.platforms.join("、") : "全部平台", (filters.from || "不限") + " 至 " + (filters.to || "不限")].join(" · ");
         const count = (value) => value === null ? "未提供" : fmt(value);
-        article.innerHTML = `<div class="as-evidence-top"><b class="as-evidence-label">[${esc(item.label)}]</b><span>数据库精确统计</span><span class="as-aggregate-tag">真实记录去重</span></div><div class="as-aggregate-overview"><div><span>检索规则命中</span><strong>${count(item.matched.total)} <small>条</small></strong></div><div><span>结构化筛选范围</span><strong>${count(item.scoped.total)} <small>条</small></strong></div></div><p class="as-note as-aggregate-boundary">仅覆盖已入库快照；不以返回段落估算，不代表全网数量或实时覆盖。</p><details class="as-aggregate-details"><summary>查看统计口径与角度分布</summary><h3>按真实记录去重计数</h3><p class="as-note">结构化筛选范围：${esc(filterLabel)}</p><p class="as-note">资料版本 ${esc(scope.source_version || "未提供")} · 时间字段 ${esc(scope.date_field)} · ${esc(scope.timezone || "Asia/Shanghai")}</p><div class="as-aggregate-table"><table><caption>范围总数与按检索规则命中数；均不以返回段落数量估算</caption><thead><tr><th scope="col">口径</th><th scope="col">全部</th>${ANGLES.map((angle) => `<th scope="col">${esc(angleName(angle))}</th>`).join("")}</tr></thead><tbody>${[["结构化范围", item.scoped], ["检索规则命中", item.matched]].map(([label, value]) => `<tr><th scope="row">${label}</th><td>${count(value.total)}</td>${ANGLES.map((angle) => `<td>${count(value.by_angle[angle])}</td>`).join("")}</tr>`).join("")}</tbody></table></div><p class="as-note">检索规则 ${esc(scope.strategy || "未提供")}；检索词 ${esc(scope.terms.join("、") || "无额外关键词")}</p></details>`;
-        const params = new URLSearchParams(); params.set("angle", filters.angle);
+        article.innerHTML = `<div class="as-evidence-top"><b class="as-evidence-label">[${esc(item.label)}]</b><span>数据库精确统计</span><span class="as-aggregate-tag">真实记录去重</span></div><div class="as-aggregate-overview"><div><span>检索规则命中</span><strong>${count(item.matched.total)} <small>条</small></strong></div><div><span>结构化筛选范围</span><strong>${count(item.scoped.total)} <small>条</small></strong></div></div><p class="as-note as-aggregate-boundary">仅覆盖已入库快照；不以返回段落估算，不代表全网数量或实时覆盖。</p><details class="as-aggregate-details"><summary>查看统计口径与角度分布</summary><h3>按真实记录去重计数</h3><p class="as-note">结构化筛选范围：${esc(filterLabel)}</p><p class="as-note">资料版本 ${esc(scope.source_version || "未提供")} · 日期口径 ${esc(dateFieldLabel(scope.date_field))} · ${esc(scope.timezone || "Asia/Shanghai")}</p><div class="as-aggregate-table"><table><caption>范围总数与按检索规则命中数；均不以返回段落数量估算</caption><thead><tr><th scope="col">口径</th><th scope="col">全部</th>${ANGLES.map((angle) => `<th scope="col">${esc(angleName(angle))}</th>`).join("")}</tr></thead><tbody>${[["结构化范围", item.scoped], ["检索规则命中", item.matched]].map(([label, value]) => `<tr><th scope="row">${label}</th><td>${count(value.total)}</td>${ANGLES.map((angle) => `<td>${count(value.by_angle[angle])}</td>`).join("")}</tr>`).join("")}</tbody></table></div><p class="as-note">检索规则 ${esc(scope.strategy || "未提供")}；检索词 ${esc(scope.terms.join("、") || "无额外关键词")}</p></details>`;
+        if (item.method || item.byMonth && item.byMonth.length || item.dateRange && item.dateRange.max) {
+          article.querySelector('.as-aggregate-overview').remove();
+          article.querySelector('.as-aggregate-details').hidden = item.scoped.total === null;
+          renderAnalyticsAggregate(article, item);
+        }
+        renderRankShares(article, item);
+        if (scope.excluded && scope.excluded.length) { const note = document.createElement('p'); note.className = 'as-note'; note.textContent = '排除词：' + scope.excluded.join('、'); article.appendChild(note); }
+        const params = new URLSearchParams(); params.set("angle", filters.angles && filters.angles.length === 1 ? filters.angles[0] : filters.angle);
         if (filters.ids.length) params.set("ids", filters.ids.join(","));
         if (filters.platforms.length) params.set("platforms", filters.platforms.join(","));
         if (filters.from) params.set("from", filters.from);
         if (filters.to) params.set("to", filters.to);
         const link = document.createElement("a"); link.href = "#/explore?" + params; link.textContent = "在数据浏览查看结构化范围 →"; article.appendChild(link);
         if (scope.date_field !== "published_at" || filters.angles && filters.angles.length > 1) { const note = document.createElement("p"); note.className = "as-warning"; note.textContent = "此链接只带入数据浏览支持的条件；多角度、服务日期口径和关键词规则请以上方统计说明为准。"; article.appendChild(note); }
+        const hasKeywords = scope.terms.length || scope.excluded && scope.excluded.length;
+        if (hasKeywords) { const note = document.createElement('p'); note.className = 'as-note'; note.textContent = '数据浏览链接只带入结构化筛选；本次关键词、排除词与命中数量请以此统计引用为准。'; article.appendChild(note); }
         if (item.matched.by_institution.length || item.matched.by_platform.length) {
           const details = document.createElement("details"), summary = document.createElement("summary"); summary.textContent = "查看命中记录的机构与平台分布"; details.appendChild(summary);
           const paragraph = document.createElement("p"); paragraph.className = "as-note"; paragraph.textContent = item.matched.by_institution.map((row) => (row.cn || instName(row.ktid)) + " " + count(row.count) + " 条").join("；") + "。平台：" + item.matched.by_platform.map((row) => (row.platform || "未标注") + " " + count(row.count) + " 条").join("；"); details.appendChild(paragraph); article.appendChild(details);
@@ -784,6 +916,12 @@
         article.id = "as-evidence-" + scope + "-" + item.label;
         const record = recordUrl(item);
         article.innerHTML = `<div class="as-evidence-top"><b class="as-evidence-label">[${esc(item.label)}]</b><span>${esc(angleName(item.angle))}</span>${item.ktid ? `<span>${esc(instName(item.ktid))}</span>` : ""}${Number.isFinite(item.score) ? `<span class="as-score" title="检索排序分数，不是事实置信度">排序分 ${esc(Number(item.score).toFixed(2))}</span>` : ""}</div><h3>${record ? `<a href="${esc(record)}">${esc(item.title)}</a>` : esc(item.title)}</h3><p class="as-paragraph">${esc(item.paragraph ? (item.field ? item.field + " · " : "") + (/^\d+$/.test(item.paragraph) ? (item.paragraphScheme === "service_field_chunks_v1" ? "服务分段 " + item.paragraph + "（服务按字段切分，非原网页段落号）" : "段落 " + item.paragraph) : item.paragraph) : "服务未提供段落编号")}</p><blockquote class="as-excerpt"></blockquote><div class="as-evidence-links">${record ? `<a href="${esc(record)}">查看本站记录 →</a>` : '<span class="as-warning">当前快照未找到该记录；请核对服务资料版本。</span>'}${item.source_url ? `<a href="${esc(item.source_url)}" target="_blank" rel="noopener noreferrer">打开原文 ↗</a>` : '<span class="as-note">原文链接未提供或无效</span>'}</div>`;
+        if (item.quotes && item.quotes.length) {
+          const quotes = document.createElement("details"); quotes.className = "as-body-preview";
+          const summary = document.createElement("summary"); summary.textContent = "查看回答使用的来源摘录"; quotes.appendChild(summary);
+          for (const value of item.quotes) { const quote = document.createElement("blockquote"); quote.className = "as-excerpt"; quote.textContent = value; quotes.appendChild(quote); }
+          article.appendChild(quotes);
+        }
         if (item.version || item.dateOrigin || item.translation) {
           const metadata = document.createElement("p"); metadata.className = "as-note";
           const dateLabel = { missing: "原始发布时间缺失", recovered: "日期有恢复依据，默认筛选仍按原始发布时间", provided: "原始发布时间已提供" }[item.dateOrigin] || item.dateOrigin;
@@ -814,6 +952,137 @@
       parent.appendChild(button);
     }
 
+    function filterDescription(value) {
+      const f = normalizeFilters(value);
+      return [f.ids.length ? f.ids.map(instName).join("、") : "全部机构", f.angle === "all" ? "全部角度" : angleName(f.angle), f.platforms.length ? f.platforms.join("、") : "", f.from || f.to ? (f.from || "不限") + " 至 " + (f.to || "不限") : "未指定日期"].filter(Boolean).join(" · ");
+    }
+
+    function timeDescription(value) {
+      const t = object(value);
+      if (t.from || t.to) return (t.from || "不限") + " 至 " + (t.to || "不限") + "（北京时间）";
+      if (t.mode === "snapshot_recent") return "按快照内日期由近到远排列；未自动设定近 7 天或近 30 天窗口";
+      return "未限定日期窗口";
+    }
+
+    function renderContext(parent, value) {
+      const intent = object(value.intent), temporal = object(value.timeScope), scope = object(value.analysisScope);
+      const task = { lookup: "查找资料", summary: "资料归纳", analysis: "议题分析", comparison: "机构对比", trend: "趋势查看", count: "精确统计", guidance: "补充问题" }[intent.task || value.answerKind];
+      const lines = [intent.topic ? "识别主题：" + intent.topic : "", task ? "问题用途：" + task : "", temporal.mode ? "时间范围：" + timeDescription(temporal) : "", intent.exact && intent.exact.length ? "精确短语：" + intent.exact.join("、") : "", intent.excluded && intent.excluded.length ? "排除词：" + intent.excluded.join("、") : "", scope.limitation || "", scope.comparisonComplete === false ? "本次可用引用未覆盖全部比较机构，不能形成完整机构对比。" : ""];
+      if (scope.evidenceRecords !== null && scope.evidenceRecords !== undefined) lines.push("检索样本：" + fmt(scope.evidenceRecords) + " 条记录 / " + fmt(scope.evidenceParagraphs || 0) + " 段；回答引用：" + fmt(scope.citedRecords || 0) + " 条记录 / " + fmt(scope.citedParagraphs || 0) + " 段。");
+      const validation = object(value.validation);
+      if (validation.semanticEntailment === "model_reviewed_not_proven") lines.push("回答经过来源摘录对应与模型复核；这不能证明语义推断或来源陈述必然正确，仍需人工核对。");
+      if (validation.rejectedClaims > 0) lines.push("服务省略了 " + fmt(validation.rejectedClaims) + " 条证据不足或未通过检查的候选结论。");
+      for (const line of lines.filter(Boolean)) { const p = document.createElement("p"); p.className = "as-note"; p.textContent = line; parent.appendChild(p); }
+    }
+
+    function fillQuestion(question) {
+      $("#asQuestion").value = text(question, MAX_QUERY);
+      $("#asForm").scrollIntoView({ behavior: "auto", block: "center" });
+      $("#asQuestion").focus({ preventScroll: true });
+      $("#asProgress").textContent = "已填入问题，可修改后点击发送。";
+    }
+
+    function renderSuggestions(parent, value, allowDateAction) {
+      const suggestions = [...(value.suggestions || []).filter((s) => allowDateAction || s.kind !== "remove_date_bounds"), ...(value.suggestedQuestions || []).map((q) => ({ kind: "question", question: q, label: q }))];
+      const seen = new Set();
+      const unique = suggestions.filter((s) => { const key = s.kind + ":" + (s.question || s.label); if (seen.has(key)) return false; seen.add(key); return true; }).slice(0, 6);
+      if (!unique.length) return;
+      const container = document.createElement("div"); container.className = "as-suggestions";
+      const label = document.createElement("p"); label.className = "as-note"; label.textContent = unique.some((s) => s.kind === "remove_date_bounds") ? "可选择的重试方式 · 日期只会在点击重查后清除" : "可继续研究 · 点击问题只填入输入框"; container.appendChild(label);
+      const buttons = document.createElement("div"); buttons.className = "as-actions";
+      for (const suggestion of unique) {
+        if (suggestion.kind === "remove_date_bounds") {
+          // A change of date scope always needs this explicit user action.
+          const action = document.createElement("button"); action.type = "button"; action.className = "btn"; action.dataset.asSuggestion = "date";
+          action.textContent = "清除日期后重查（其余筛选保留）"; action.disabled = state.busy;
+          action.onclick = () => {
+            const f = { ...normalizeFilters(value.filters), from: "", to: "" };
+            applyFilters(f);
+            runRequest({ mode: state.mode, question: suggestion.question || value.question || value.originalQuery || value.query, filters: f, expand: value.requestedExpand !== false, semantic: value.requestedSemantic !== false });
+          };
+          buttons.appendChild(action);
+        } else if (suggestion.kind === "question" && suggestion.question) {
+          const button = document.createElement("button"); button.type = "button"; button.className = "as-suggestion"; button.dataset.asSuggestion = "question";
+          button.textContent = suggestion.label; button.setAttribute("aria-label", "填入追问：" + suggestion.question); button.disabled = state.busy;
+          button.onclick = () => { setMode("chat"); fillQuestion(suggestion.question); }; buttons.appendChild(button);
+        } else { const p = document.createElement("p"); p.className = "as-note"; p.textContent = suggestion.label; buttons.appendChild(p); }
+      }
+      container.appendChild(buttons); parent.appendChild(container);
+    }
+
+    function renderNoResults(parent, value, mode) {
+      const empty = document.createElement("div"); empty.className = "as-empty";
+      const matched = finite(value.total ?? object((value.aggregates || [])[0]).matched?.total);
+      const title = document.createElement("h3"); title.textContent = matched > 0 ? "命中记录，但本次没有可展示的引用片段" : "当前问题与资料范围没有匹配资料"; empty.appendChild(title);
+      const query = value.question || value.originalQuery || value.query;
+      const explicitDates = normalizeFilters(value.filters);
+      const lines = ["原问题：" + query, "资料范围：" + filterDescription(value.filters), object(value.intent).topic ? "识别主题：" + value.intent.topic : "检索主题以本次问题与检索词为准。", "时间处理：" + (explicitDates.from || explicitDates.to ? (explicitDates.from || "不限") + " 至 " + (explicitDates.to || "不限") + "（保留明确筛选）" : timeDescription(value.timeScope)), value.coverage || "本页快照 " + (META.version || "未提供版本") + " · 记录日期 " + snapshotRange, "零结果只描述当前资料与条件，不能据此判断近期全网没有相关报道。"];
+      for (const line of lines.filter(Boolean)) { const p = document.createElement("p"); p.className = "as-note"; p.textContent = line; empty.appendChild(p); }
+      const actions = document.createElement("div"); actions.className = "as-actions";
+      if (mode === "search") {
+        const button = document.createElement("button"); button.type = "button"; button.className = "btn primary"; button.dataset.asAnalyze = "1"; button.textContent = "围绕这个问题分析"; button.disabled = state.busy;
+        button.onclick = () => { applyFilters(value.filters); setMode("chat"); $("#asQuestion").value = query; runRequest({ mode: "chat", question: query, filters: value.filters, expand: value.requestedExpand !== false, semantic: value.requestedSemantic !== false }); };
+        actions.appendChild(button);
+        const note = document.createElement("p"); note.className = "as-note"; note.textContent = "点击后将保留原问题与筛选，调用资料对话；可能使用模型服务。"; empty.appendChild(note);
+      }
+      const edit = document.createElement("button"); edit.type = "button"; edit.className = "btn"; edit.dataset.asSuggestion = "edit"; edit.textContent = "修改原问题后重试"; edit.disabled = state.busy; edit.onclick = () => fillQuestion(query); actions.appendChild(edit);
+      const full = document.createElement("a"); full.textContent = "在完整正文中查找 →";
+      const p = new URLSearchParams(); p.set("q", query); const scope = normalizeFilters(value.filters); if (scope.ids.length) p.set("ids", scope.ids.join(",")); if (scope.angle !== "all") p.set("angle", scope.angle); if (scope.platforms.length) p.set("platforms", scope.platforms.join(",")); if (scope.from) p.set("from", scope.from); if (scope.to) p.set("to", scope.to); full.href = "#/fulltext?" + p.toString(); actions.appendChild(full);
+      empty.appendChild(actions); renderSuggestions(empty, value, true); parent.appendChild(empty);
+    }
+
+    function activateCitation(article, label) {
+      const element = [...article.querySelectorAll("[data-as-citation]")].find((node) => node.dataset.asCitation === label);
+      if (!element) return;
+      for (let ancestor = element.parentElement; ancestor && ancestor !== article; ancestor = ancestor.parentElement) if (ancestor.tagName === "DETAILS") ancestor.open = true;
+      element.scrollIntoView({ behavior: "auto", block: "center" }); element.focus({ preventScroll: true });
+    }
+
+    function readableAnswer(turn) {
+      return turn.answer.split("\n").map((line) => {
+        if (/^(?:日期口径|时间口径)：/.test(line)) {
+          const descriptions = { "Original source publication dates only; recovered dates do not change this scope": "只按原始发布时间；恢复日期不替代原值", "Includes verified recovered dates; original values and recovery basis remain in citations": "包含有依据的恢复日期，原值与恢复依据保留在引用中", "Source collection/discovery timestamps; not publication dates": "按采集或发现时间，区别于发布时间", "Original source publication field only; recovered dates do not replace it": "只按原始发布时间；恢复日期不替代原值" };
+          for (const [raw, description] of Object.entries(descriptions)) line = line.replace(raw, description);
+          for (const field of ["published_effective_at", "published_at", "collected_at"]) line = line.replace(field, dateFieldLabel(field));
+          line = line.replace("Asia/Shanghai", "北京时间");
+        }
+        if (/^(?:数据库精确统计|数据库范围)：/.test(line)) line = line.replace(/角度=([a-z, ]+)/, (match, values) => "角度=" + values.split(/[, ]+/).filter(Boolean).map((angle) => ANGLES.includes(angle) ? angleName(angle) : angle).join("、"));
+        return line;
+      }).join("\n");
+    }
+
+    function renderSections(parent, turn, article) {
+      if (!(turn.sections || []).length) return;
+      const details = document.createElement("details"); details.className = "as-claim-details as-process";
+      const summary = document.createElement("summary"); summary.textContent = "查看来源陈述、分析与对应摘录"; details.appendChild(summary);
+      for (const section of turn.sections) {
+        const block = document.createElement("div"); block.className = "as-claim";
+        const label = document.createElement("span"); label.className = "as-claim-label"; label.textContent = section.kind === "analysis" ? "分析" : "来源陈述"; block.appendChild(label);
+        const body = document.createElement("div"); body.className = "as-markdown";
+        renderMarkdown(body, section.text + " " + section.citations.map((c) => "[" + c + "]").join(""), [...turn.items, ...(turn.aggregates || [])], (c) => activateCitation(article, c)); block.appendChild(body);
+        for (const q of section.quotes) { const quote = document.createElement("blockquote"); quote.className = "as-excerpt"; quote.textContent = "[" + q.citation_id + "] " + q.quote; block.appendChild(quote); }
+        details.appendChild(block);
+      }
+      parent.appendChild(details);
+    }
+
+    function revealAnswer(id) {
+      const turn = [...view.querySelectorAll("[data-as-turn]")].find((node) => node.dataset.asTurn === id);
+      const answer = turn && turn.querySelector(".as-answer");
+      if (answer) answer.scrollIntoView({ behavior: "auto", block: "start" });
+    }
+
+    function startProgress(request) {
+      const started = Date.now();
+      const label = request.forceLocal ? "正在检索本地快照索引…" : request.mode === "chat" ? "正在检索并整理资料…" : "正在检索数据库资料…";
+      $("#asProgress").textContent = label;
+      $("#asElapsed").hidden = false; $("#asElapsed").textContent = "已等待 0 秒 · 可随时取消";
+      progressTimer = window.setInterval(() => { if (live()) $("#asElapsed").textContent = "已等待 " + Math.floor((Date.now() - started) / 1000) + " 秒 · 可随时取消"; }, 1000);
+      if (request.mode === "chat") { $("#asPending").hidden = false; $("#asPending .as-pending-question").textContent = request.question; }
+      updateOutputButtons();
+      $("#asComposeDock").scrollIntoView({ behavior: "auto", block: "center" });
+    }
+
     function renderSearch() {
       const parent = $("#asSearchResults"); parent.replaceChildren();
       if (!state.result) { updateOutputButtons(); return; }
@@ -827,17 +1096,18 @@
       const summary = document.createElement("summary"); summary.textContent = "查看检索过程、扩展词与覆盖范围"; process.appendChild(summary);
       if (result.modelQuery) { const planNote = document.createElement("p"); planNote.className = "as-note"; planNote.textContent = "模型检索式：" + result.modelQuery; process.appendChild(planNote); }
       if (result.strategy) { const strategy = document.createElement("p"); strategy.className = "as-note"; strategy.textContent = "实际检索规则：" + result.strategy + (result.strategy === "fts5_or_fallback" ? "（全部条件未命中后放宽为任一词组匹配）" : ""); process.appendChild(strategy); }
+      renderContext(process, result);
       if (result.coverage) { const coverage = document.createElement("p"); coverage.className = "as-note"; coverage.textContent = result.coverage; process.appendChild(coverage); }
       renderExpansions(process, result.expansions, { ...state.lastRequest, mode: "search", question: result.originalQuery || result.query, expand: result.requestedExpand, semantic: result.requestedSemantic, filters: result.filters, source: result.source }, null);
       header.appendChild(process);
       const tools = document.createElement("div"); tools.className = "as-result-actions";
       addProjectButton(tools, result.items, result.query); header.appendChild(tools); parent.appendChild(header);
+      if (!result.items.length) renderNoResults(parent, result, "search");
       renderAggregates(parent, result.aggregates || [], "search");
       if (result.items.length) {
         const sources = document.createElement("h3"); sources.className = "as-sources-heading"; sources.textContent = "相关资料 · " + result.items.length + " 段证据"; parent.appendChild(sources);
         renderEvidence(parent, result.items, "search");
       }
-      else { const empty = document.createElement("div"); empty.className = "as-empty"; empty.textContent = "当前范围没有匹配记录。可减少筛选、换用机构简称或中英文关键词，再尝试完整正文检索。"; parent.appendChild(empty); }
       updateOutputButtons();
     }
 
@@ -850,22 +1120,18 @@
         const label = document.createElement("span"); label.className = "as-note"; label.textContent = "研究问题";
         const content = document.createElement("p"); content.textContent = turn.question; question.append(label, content); article.appendChild(question);
         const answer = document.createElement("div"); answer.className = "as-answer";
-        const heading = document.createElement("h2"); heading.textContent = turn.kind === "database" ? "数据库精确统计 · 未调用大模型" : turn.kind === "retrieval" ? "资料检索摘录 · 无模型答案" : turn.answerFormat === "verbatim_extracts" ? "模型选取的原文摘录" : "资料回答"; answer.appendChild(heading);
+        const guidance = turn.answerKind === "guidance";
+        const heading = document.createElement("h2"); heading.textContent = answerHeading(turn); answer.appendChild(heading);
         const meta = document.createElement("p"); meta.className = "as-note";
-        meta.textContent = turn.source === "local" ? "本地索引，未调用大模型；仅关键词与字面近似匹配。" : turn.answerFormat === "verbatim_extracts" ? "实际模型：" + (turn.model || "服务未报告") + " · 模型选取来源中的逐字摘录；请结合原文核对含义与上下文。" : modelExplanation(turn.modelInfo, turn.kind === "database" ? "database" : "chat");
+        meta.textContent = answerExplanation(turn);
         answer.appendChild(meta);
         if (turn.answer) {
           const body = document.createElement("div"); body.className = "as-markdown";
-          renderMarkdown(body, turn.answer, [...turn.items, ...(turn.aggregates || [])], (citationLabel) => {
-            const element = [...article.querySelectorAll("[data-as-citation]")].find((node) => node.dataset.asCitation === citationLabel);
-            if (element) {
-              for (let ancestor = element.parentElement; ancestor && ancestor !== article; ancestor = ancestor.parentElement) if (ancestor.tagName === "DETAILS") ancestor.open = true;
-              element.scrollIntoView({ behavior: "auto", block: "center" }); element.focus({ preventScroll: true });
-            }
-          });
+          renderMarkdown(body, readableAnswer(turn), [...turn.items, ...(turn.aggregates || [])], (citationLabel) => activateCitation(article, citationLabel));
           answer.appendChild(body);
+          renderSections(answer, turn, article);
           const unknown = [...turn.answer.matchAll(/\[([CA]\d{1,3})\]/g)].some((match) => ![...turn.items, ...(turn.aggregates || [])].some((item) => item.label === match[1]));
-          if ((!turn.items.length && !(turn.aggregates || []).length) || unknown) {
+          if (!guidance && ((!turn.items.length && !(turn.aggregates || []).length) || unknown)) {
             const warning = document.createElement("p"); warning.className = "as-warning";
             warning.textContent = !turn.items.length && !(turn.aggregates || []).length ? "服务未返回可核对的引用，请勿将此回答当作已证实结论。" : "回答包含没有对应资料的引用标记，请人工核对。"; answer.appendChild(warning);
           }
@@ -873,19 +1139,22 @@
         const process = document.createElement("details"); process.className = "as-process";
         const summary = document.createElement("summary"); summary.textContent = "查看检索过程与资料范围"; process.appendChild(summary);
         if (turn.coverage) { const coverage = document.createElement("p"); coverage.className = "as-note"; coverage.textContent = turn.coverage; process.appendChild(coverage); }
+        renderContext(process, turn);
         if (turn.query) { const query = document.createElement("p"); query.className = "as-note"; query.textContent = "服务检索式：" + turn.query; process.appendChild(query); }
         renderExpansions(process, turn.expansions || [], { mode: "chat", question: turn.question, filters: turn.filters, expand: turn.requestedExpand, semantic: turn.requestedSemantic, limit: 20, source: turn.source }, turn.id);
-        answer.appendChild(process);
+        if (!guidance) answer.appendChild(process);
         const tools = document.createElement("div"); tools.className = "as-actions as-turn-tools";
         const copy = document.createElement("button"); copy.type = "button"; copy.className = "btn"; copy.textContent = "复制本轮与引用"; copy.onclick = () => copyMarkdown(turnMarkdown(turn)); tools.appendChild(copy);
         addProjectButton(tools, turn.items, turn.question);
         const followUp = document.createElement("button"); followUp.type = "button"; followUp.className = "as-text-button"; followUp.textContent = "继续追问 ↓";
         followUp.onclick = () => { $("#asForm").scrollIntoView({ behavior: "auto", block: "center" }); $("#asQuestion").focus({ preventScroll: true }); }; tools.appendChild(followUp);
         answer.appendChild(tools);
-        renderAggregates(answer, turn.aggregates || [], turn.id);
-        if (turn.items.length) {
+        if (guidance || turn.items.length || turn.kind !== "retrieval") renderSuggestions(answer, turn, false);
+        else renderNoResults(answer, turn, "chat");
+        if (!guidance) renderAggregates(answer, turn.aggregates || [], turn.id);
+        if (!guidance && turn.items.length) {
           const title = document.createElement("h3"); title.className = "as-sources-heading"; title.textContent = "引用资料 · " + turn.items.length + " 段证据"; answer.appendChild(title); renderEvidence(answer, turn.items, turn.id, 3);
-        } else if (turn.kind === "retrieval") { const empty = document.createElement("div"); empty.className = "as-empty"; empty.textContent = "当前范围没有匹配资料，请缩小问题或减少筛选后重试。"; answer.appendChild(empty); }
+        }
         article.appendChild(answer); parent.appendChild(article);
       }
       updateOutputButtons();
@@ -897,10 +1166,10 @@
       $("#asCopy").disabled = !available; $("#asExport").disabled = !available;
       $("#asOutputTools").hidden = !available;
       $("#asOutputLabel").textContent = state.mode === "search" ? "检索结果" : "当前对话 · " + state.turns.length + " 轮";
-      $("#asWelcome").hidden = available;
+      $("#asWelcome").hidden = available || state.busy;
       $("#asWelcomeTitle").textContent = state.mode === "search" ? "从一个研究问题开始" : "让资料成为对话的起点";
       $("#asWelcomeHelp").textContent = state.mode === "search" ? "选择一个示例，或在上方描述你要查找的资料。" : "从研究问题出发，回答和引用会保留在同一段对话中。";
-      const followUp = state.mode === "chat" && available;
+      const followUp = state.mode === "chat" && (available || state.busy);
       $(".as-main").classList.toggle("as-has-conversation", followUp);
       $("#asQuestionLabel").textContent = state.mode === "search" ? "检索问题" : followUp ? "继续追问" : "研究问题或追问";
       const reading = $("#asReading"), dock = $("#asComposeDock"), sessions = $("#asSessionArea");
@@ -949,8 +1218,19 @@
       await verifyEvidence(turns.flatMap((turn) => turn.items), signal);
       if (!live()) return;
       state.sessionId = saved.id; state.createdAt = text(saved.created_at, 50) || new Date().toISOString(); state.turns = turns;
+      applyFilters(saved.filters || turns.at(-1)?.filters);
+      if (turns.length) { state.expand = turns.at(-1).requestedExpand; state.semantic = turns.at(-1).requestedSemantic; $("#asExpand").checked = state.expand; $("#asSemantic").checked = state.semantic; $("#asSemantic").disabled = !state.expand; }
       state.keep = true; $("#asKeep").checked = true; state.lastRequest = null; showError("");
-      renderTranscript(); persistConversation(); $("#asProgress").textContent = "已打开本浏览器保存的会话；资料引用按当前快照重新核对。";
+      setMode("chat"); renderTranscript(); persistConversation(); $("#asProgress").textContent = "已打开保存的会话与筛选；当前可打开的记录按本页快照核对，原回答未重新生成。";
+    }
+
+    function applyFilters(value) {
+      state.filters = sanitizeFilters(value);
+      const f = state.filters;
+      view.querySelectorAll("[data-as-inst]").forEach((input) => { input.checked = f.ids.includes(input.dataset.asInst); });
+      view.querySelectorAll("[data-as-platform]").forEach((input) => { input.checked = f.platforms.includes(input.dataset.asPlatform); });
+      $("#asAngle").value = f.angle; $("#asFrom").value = f.from; $("#asTo").value = f.to;
+      updateFilterSummary();
     }
 
     function sanitizeFilters(value) {
@@ -976,13 +1256,26 @@
       }).join("\n\n");
     }
 
+    function analyticsMarkdown(item) {
+      const range = item.dateRange || {};
+      const lines = ["- [" + item.label + "] 数据库资料日期与月度统计：命中 " + (item.matched.total ?? "未提供") + " 条。", "  - 资料版本：" + markdownText(item.scope.source_version) + "；日期口径：" + dateFieldLabel(item.scope.date_field) + "；时区：" + markdownText(item.scope.timezone), "  - 机构、角度与日期：" + markdownText(filterDescription(item.scope.filters)), "  - 检索词：" + item.scope.terms.map(markdownText).join("、") + "；排除词：" + (item.scope.excluded || []).map(markdownText).join("、"), "  - 统计范围日期：" + markdownText(range.min || "未提供") + " 至 " + markdownText(range.max || "未提供"), "  - 有日期 " + (range.dated ?? "未提供") + " 条，无可用日期 " + (range.undated ?? "未提供") + " 条；日期晚于当前基准 " + (range.future ?? "未提供") + " 条。", "  - 本次返回的最新非未来日期：" + markdownText(item.latestReturnedDate || "未提供")];
+      if (range.max_nonfuture) lines.push("  - 统计范围最新非未来日期：" + markdownText(range.max_nonfuture));
+      if (item.ranking) lines.push("  - 记录数量排名：维度 " + markdownText(item.ranking.dimension) + "；顺序 " + markdownText(item.ranking.order) + "；分母 " + (item.ranking.denominator ?? "未提供") + " 条；" + item.ranking.entries.map((row) => markdownText(analyticsEntryName(row)) + " " + (row.count ?? "未提供") + " 条").join("；"));
+      if (item.shares) {
+        for (const [dimension, rows] of [["机构", item.shares.by_institution], ["角度", item.shares.by_angle], ["平台", item.shares.by_platform]]) if (rows.length) lines.push("  - " + dimension + "份额（分母 " + (item.shares.denominator ?? "未提供") + " 条）：" + rows.map((row) => markdownText(analyticsEntryName(row)) + " " + (row.percent === null ? "比例未提供" : row.percent + "%") + " / " + (row.count ?? "未提供") + " 条").join("；"));
+      }
+      if ((item.byMonth || []).length) lines.push("  - 逐月记录：" + item.byMonth.map((row) => row.month + " " + row.count + " 条").join("；"));
+      lines.push("  - 仅覆盖已入库真实快照，记录数量不表示机构立场或全网关注程度；未来存储日期不表示事件已经发生。");
+      return lines.join("\n");
+    }
+
     function aggregateMarkdown(items) {
-      return (items || []).map((item) => "- [" + item.label + "] 数据库精确统计：结构化范围 " + (item.scoped.total ?? "未提供") + " 条；检索规则命中 " + (item.matched.total ?? "未提供") + " 条。\n  - 资料版本：" + markdownText(item.scope.source_version) + "；时间字段：" + markdownText(item.scope.date_field) + "；时区：" + markdownText(item.scope.timezone || "Asia/Shanghai") + "；规则：" + markdownText(item.scope.strategy) + "\n  - 机构：" + item.scope.filters.ids.map(instName).map(markdownText).join("、") + "；角度：" + (item.scope.filters.angles || []).map(angleName).map(markdownText).join("、") + "；平台：" + item.scope.filters.platforms.map(markdownText).join("、") + "；日期：" + (item.scope.filters.from || "不限") + " 至 " + (item.scope.filters.to || "不限") + "\n  - 检索词：" + item.scope.terms.map(markdownText).join("、") + "\n  - 统计仅覆盖已入库真实快照，不代表全网总量。").join("\n\n");
+      return (items || []).map((item) => item.method || item.byMonth && item.byMonth.length || item.dateRange && item.dateRange.max ? analyticsMarkdown(item) : "- [" + item.label + "] 数据库精确统计：结构化范围 " + (item.scoped.total ?? "未提供") + " 条；检索规则命中 " + (item.matched.total ?? "未提供") + " 条。\n  - 资料版本：" + markdownText(item.scope.source_version) + "；时间字段：" + markdownText(item.scope.date_field) + "；时区：" + markdownText(item.scope.timezone || "Asia/Shanghai") + "；规则：" + markdownText(item.scope.strategy) + "\n  - 机构：" + item.scope.filters.ids.map(instName).map(markdownText).join("、") + "；角度：" + (item.scope.filters.angles || []).map(angleName).map(markdownText).join("、") + "；平台：" + item.scope.filters.platforms.map(markdownText).join("、") + "；日期：" + (item.scope.filters.from || "不限") + " 至 " + (item.scope.filters.to || "不限") + "\n  - 检索词：" + item.scope.terms.map(markdownText).join("、") + "\n  - 统计仅覆盖已入库真实快照，不代表全网总量。").join("\n\n");
     }
 
     function turnMarkdown(turn) {
-      const heading = turn.kind === "database" ? "数据库精确统计（未调用大模型）" : turn.kind === "answer" ? (turn.answerFormat === "verbatim_extracts" ? "模型选取的原文摘录" : "资料回答") : "资料检索摘录（无模型答案）";
-      return "## 问题\n\n" + markdownText(turn.question) + "\n\n## " + heading + "\n\n" + (turn.answer ? turn.answer.replace(/</g, "&lt;").replace(/>/g, "&gt;") + "\n\n" : "请结合以下资料人工阅读。\n\n") + (turn.source === "local" ? "本地索引，未调用大模型。" : markdownText(turn.answerFormat === "verbatim_extracts" ? "实际模型：" + turn.model + "；模型选取来源逐字摘录，请核对原文上下文。" : modelExplanation(turn.modelInfo, turn.kind === "database" ? "database" : "chat"))) + "\n\n" + (turn.coverage ? markdownText(turn.coverage) + "\n\n" : "") + ((turn.expansions || []).length ? "检索词 / 扩展词：" + turn.expansions.map(markdownText).join("、") + "\n\n" : "") + "### 引用资料与统计依据\n\n" + ([citationsMarkdown(turn.items), aggregateMarkdown(turn.aggregates)].filter(Boolean).join("\n\n") || "未返回可核对引用。") + "\n";
+      const heading = answerHeading(turn);
+      return "## 问题\n\n" + markdownText(turn.question) + "\n\n## " + heading + "\n\n" + (turn.answer ? turn.answer.replace(/</g, "&lt;").replace(/>/g, "&gt;") + "\n\n" : "请结合以下资料人工阅读。\n\n") + (turn.source === "local" ? "本地索引，未调用大模型。" : markdownText(answerExplanation(turn))) + "\n\n" + (turn.coverage ? markdownText(turn.coverage) + "\n\n" : "") + ((turn.expansions || []).length ? "检索词 / 扩展词：" + turn.expansions.map(markdownText).join("、") + "\n\n" : "") + "### 引用资料与统计依据\n\n" + ([citationsMarkdown(turn.items), aggregateMarkdown(turn.aggregates)].filter(Boolean).join("\n\n") || "未返回可核对引用。") + "\n";
     }
 
     function exportMarkdown() {
@@ -1016,8 +1309,10 @@
       const serial = ++requestSerial, controller = new AbortController(); activeRequest = controller;
       let timedOut = false;
       const timeout = window.setTimeout(() => { timedOut = true; controller.abort(); }, 135000);
+      if (request.mode !== state.mode) setMode(request.mode);
+      applyFilters(request.filters);
       state.query = question; state.lastRequest = request; showError(""); setBusy(true); synchronizeUrl();
-      $("#asProgress").textContent = request.forceLocal ? "正在检索本地快照索引…" : request.mode === "chat" ? "正在查找资料并等待研究服务回答…" : "正在检索研究服务资料…";
+      startProgress(request);
       try {
         let result, turn;
         if (!request.expand) request.semantic = false;
@@ -1038,26 +1333,29 @@
           }
         }
         if (!live() || serial !== requestSerial || controller.signal.aborted) return;
-        if (request.mode === "search") { state.result = result; renderSearch(); }
+        if (request.mode === "search") { state.result = result; renderSearch(); $("#asSearchResults").scrollIntoView({ behavior: "auto", block: "start" }); }
         else {
           if (!turn) turn = { id: request.replaceTurn || makeID(), question, created_at: new Date().toISOString(), kind: "retrieval", answer: "", items: result.items, source: result.source, model: "", mode: "local_retrieval", coverage: countText(result) + " · " + result.coverage, expansions: result.expansions, filters: request.filters, requestedExpand: request.expand, requestedSemantic: request.semantic, aggregates: [], modelInfo: { used: false, attempted: false } };
           if (request.replaceTurn && state.turns.some((item) => item.id === request.replaceTurn)) state.turns = state.turns.map((item) => item.id === request.replaceTurn ? turn : item);
           else state.turns = [...state.turns, turn].slice(-MAX_TURNS);
           state.lastRequest = { ...request, replaceTurn: turn.id };
-          renderTranscript(); persistConversation();
+          renderTranscript(); persistConversation(); revealAnswer(turn.id);
         }
-        $("#asProgress").textContent = request.mode === "search" ? (result.items.length ? "资料检索完成。" : "检索完成，当前范围没有匹配资料。") : turn.kind === "database" ? "数据库统计已返回，可点击 [A1] 核对范围与口径。" : turn.kind === "retrieval" ? "已展示资料检索摘录，无模型生成答案。" : "回答已返回，请逐条核对引用。";
+        $("#asProgress").textContent = request.mode === "search" ? (result.items.length ? "资料检索完成。" : "检索完成，当前范围没有匹配资料。") : turn.answerKind === "guidance" ? "可选择示例，或继续提出具体研究问题。" : turn.kind === "database" ? "数据库统计已返回，可点击 [A1] 核对范围与口径。" : turn.kind === "retrieval" ? "已展示资料检索摘录，无模型生成答案。" : "回答已返回，请逐条核对引用。";
         if (request.mode === "chat") $("#asQuestion").value = "";
       } catch (error) {
         if (!live() || serial !== requestSerial) return;
-        if (controller.signal.aborted && !timedOut || error.name === "AbortError" && !timedOut) $("#asProgress").textContent = "请求已取消，可以修改问题后重新发送。";
-        else {
+        if (controller.signal.aborted && !timedOut || error.name === "AbortError" && !timedOut) {
+          $("#asQuestion").value = request.question; showError("请求已取消；可以重试原问题，也可以修改后发送。");
+          $("#asProgress").textContent = "请求已取消。";
+        } else {
           showError(timedOut ? failureMessage(errorWith("TIMEOUT")) : error.code === "INDEX" ? "本地索引加载失败。请重试，或重新登录后再加载资料。" : failureMessage(error));
           $("#asProgress").textContent = "请求未完成，可重试。";
         }
       } finally {
         window.clearTimeout(timeout);
-        if (live() && serial === requestSerial) { activeRequest = null; setBusy(false); }
+        window.clearInterval(progressTimer); progressTimer = null;
+        if (live() && serial === requestSerial) { activeRequest = null; setBusy(false); $("#asPending").hidden = true; $("#asElapsed").hidden = true; updateOutputButtons(); }
       }
     }
 
@@ -1114,7 +1412,7 @@
         event.preventDefault(); const next = event.key === "Home" ? "search" : event.key === "End" ? "chat" : state.mode === "search" ? "chat" : "search"; setMode(next); $(next === "search" ? "#asSearchTab" : "#asChatTab").focus();
       };
     });
-    view.querySelectorAll("[data-as-example]").forEach((button) => { button.onclick = () => { $("#asQuestion").value = button.dataset.asExample; $("#asQuestion").focus(); }; });
+    view.querySelectorAll("[data-as-example]").forEach((button) => { button.onclick = () => { setMode("chat"); fillQuestion(button.dataset.asExample); }; });
     view.querySelectorAll("[data-as-inst], [data-as-platform], #asAngle, #asFrom, #asTo, #asExpand, #asSemantic").forEach((input) => { input.onchange = () => { readFilters(); synchronizeUrl(); }; });
     $("#asResetFilters").onclick = () => {
       view.querySelectorAll("[data-as-inst], [data-as-platform]").forEach((input) => { input.checked = false; });
@@ -1125,7 +1423,7 @@
     // Keep the mobile range control discoverable without pushing the composer below it.
     $("#asScope").open = !window.matchMedia("(max-width: 1279px)").matches;
     readFilters(); updateSessionPicker(); setMode(state.mode); updateServiceStatus(); storageNotice(true);
-    const savedID = params.get("session") || (state.keep ? object(workspace.assistantPreferences).lastSessionId : "");
+    const savedID = params.get("session") || (state.keep && state.mode === "chat" ? object(workspace.assistantPreferences).lastSessionId : "");
     if (savedID) openSession(savedID).catch(() => { if (live()) toast("保存的会话暂时无法打开，可开始新对话。"); });
     refreshStatus();
   };

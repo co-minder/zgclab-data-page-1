@@ -25,7 +25,9 @@ MODEL_EQUIVALENTS = (
     ("出口管制", "export control", "export controls"),
     ("移民", "immigration"),
     ("朝鲜", "North Korea", "DPRK"),
-    ("中国", "China", "PRC"),
+    ("中国", "China", "Chinese", "PRC", "对华", "涉华"),
+    ("中美", "美中", "U.S.-China", "US China", "China US", "Sino-American"),
+    ("政策", "policy", "policies"),
     ("无人机", "drone", "drones", "UAV"),
     ("比赛", "game", "match", "matchup", "contest"),
     ("比分", "score", "final score"),
@@ -72,11 +74,11 @@ class SearchEngine:
         self.retriever, self.llm = retriever, llm
 
     def search(self, query, filters=None, expand=True, semantic=True, limit=12, relax=False,
-               history=None, deadline=None, model_guard=None, record_ids=None) -> dict:
+               history=None, deadline=None, model_guard=None, record_ids=None, sort=None) -> dict:
         if not isinstance(semantic, bool):
             raise InputError("semantic must be boolean")
         started = time.monotonic()
-        result = self.retriever.search(query, filters, expand, limit, relax=relax, record_ids=record_ids)
+        result = self.retriever.search(query, filters, expand, limit, relax=relax, record_ids=record_ids, sort=sort)
         model = {"id": self.llm.model, "used": False, "attempted": False, "reason": None}
         detail = {"attempted": False, "used": False, "reason": None, "original_query": result["query"],
                   "rewritten_query": None, "applied_groups": []}
@@ -91,6 +93,8 @@ class SearchEngine:
             reason = "semantic_disabled"
         elif not query.strip():
             reason = "empty_query"
+        elif not result["coverage"]["scoped_records"]:
+            reason = "empty_structured_scope"
         elif not result["plan"]["terms"]:
             reason = "structured_scope_only"
         else:
@@ -98,13 +102,21 @@ class SearchEngine:
         if reason:
             model["reason"] = detail["reason"] = reason
             return result
-        if not self.llm.health()["available"]:
-            model["reason"] = detail["reason"] = "model_unreachable"
-            return result
         groups = result["plan"]["terms"]
         anchors = [{"anchor": group[0], "existing": group,
                     "verified_aliases": sorted({term for terms in MODEL_EQUIVALENTS for term in terms if validated_alias(group[0], term)})}
                    for group in groups]
+        exact = set(result["plan"].get("exact_phrases", []))
+        useful_aliases = any(item["anchor"] not in exact and any(normalize(term) not in {normalize(value) for value in item["existing"]} for term in item["verified_aliases"]) for item in anchors)
+        if not useful_aliases:
+            # semantic=True authorizes bounded planning; it does not require an
+            # otherwise empty model request when every allowed alias is local.
+            model["reason"] = detail["reason"] = "deterministic_query_plan"
+            result["plan"]["duration_ms"] = round((time.monotonic() - started) * 1000)
+            return result
+        if not self.llm.health()["available"]:
+            model["reason"] = detail["reason"] = "model_unreachable"
+            return result
         system = (
             "你是中英文资料数据库检索规划器。只返回JSON对象，键必须为query和groups。"
             "query是保持机构、主题与限制的简短独立问题，最多300字；"
@@ -114,6 +126,9 @@ class SearchEngine:
             "未知专有名称或标识符必须保留原词，不得替换成安全、政策等泛词；没有可验证别名就返回空terms。"
             "如人工智能安全必须同时保留AI和safety两个概念，不能只搜索AI或the等停用词。"
             "输入normalized_query已把回答要求、引用要求、会话指代与主体概念分开。"
+            "request_intent.kind给出lookup/analysis/comparison/trend/count，topic为实际检索主题；"
+            "time_scope和sort是确定性解析出的范围与排序，不能把近期解释成擅自增加日期或实时数据。"
+            "exact_phrases中的逐字短语不得添加别名或删除词；excluded_terms保持原排除约束。"
             "groups逐一覆盖输入anchors；anchor必须原样，不能把引用要求或回答指令重新加成主题词。"
             "每组只补充精确等价别名；实际检索使用这些别名和原概念，query仅用于展示意图。"
             "不修改机构、角度、平台、日期scope，不生成SQL或shell，不回答问题。"
@@ -132,13 +147,16 @@ class SearchEngine:
             ], 1800, timeout=budget)
             add_usage(result["usage"], usage)
             payload = json_object(content)
-            merged, rewrite, applied = self.validate_plan(payload, groups, result["plan"]["filters"])
+            merged, rewrite, applied = self.validate_plan(payload, groups, result["plan"]["filters"], result["plan"].get("exact_phrases"))
             original_plan = result["plan"]
             # Preserve original query and locked filters. Only validated aliases enter
             # OR groups, with AND across every original concept.
             updated = self.retriever.search(query, {k: v for k, v in result["plan"]["filters"].items() if k != "record_ids"}, expand, limit,
-                                            relax=relax, term_groups=merged, record_ids=record_ids)
+                                            relax=relax, term_groups=merged, record_ids=record_ids, sort=result["plan"]["sort"])
             updated["plan"]["inferred_filters"] = original_plan["inferred_filters"]
+            updated["plan"]["intent"] = updated["plan"]["request_intent"] = original_plan["request_intent"]
+            updated["plan"]["time_scope"] = original_plan["time_scope"]
+            updated["coverage"]["time_scope"] = original_plan["time_scope"]
             detail.update(used=True, rewritten_query=rewrite, applied_groups=applied)
             model.update(used=True)
             updated["plan"]["model"] = detail
@@ -150,7 +168,7 @@ class SearchEngine:
         result["plan"]["duration_ms"] = round((time.monotonic() - started) * 1000)
         return result
 
-    def validate_plan(self, payload: dict, original: list[list[str]], scope: dict):
+    def validate_plan(self, payload: dict, original: list[list[str]], scope: dict, exact_phrases=None):
         if set(payload) != {"query", "groups"}:
             raise ModelUnavailable("invalid_model_plan")
         query = payload["query"]
@@ -181,6 +199,8 @@ class SearchEngine:
                 if set(self.retriever.detect_institutions(term)) - set(scope.get("institution", [])):
                     raise ModelUnavailable("invalid_model_scope")
                 if normalize(term) not in {normalize(t) for t in merged[index]}:
+                    if original[index][0] in (exact_phrases or []):
+                        raise ModelUnavailable("exact_phrase_expansion_rejected")
                     if not validated_alias(original[index][0], term):
                         raise ModelUnavailable("unverified_model_alias")
                     merged[index].append(term)

@@ -1,0 +1,19 @@
+{
+  "baseline_commit": "e625e61f0196fedced392280f572b762cee75176",
+  "source_data_sha256": {
+    "data/meta.js": "f60f741e00af35aaa21d725ca1dd2890277ec774d1fe0fb36376a963b932c9de",
+    "data/research.js": "78efd219508d19677fa539dc22cb3f42c9a8f6f31b04638310dcd191200daf01",
+    "data/news.js": "4cee9500144eab12b469a15c8387f47bbb0a15bfdb1572ee3992cadc8370658c",
+    "data/clue.js": "a9a4d1e3e094860cc46308c75c9919960a1b61539bd61bf409bb0a94a9289256",
+    "data/social.js": "7cff82ab564f1fc75ce7529c978da669151d141f69ffb4470b535e91fc02b78a",
+    "data/simulation/meta.js": "e0efd80b09d66c6d113a74144be129fde67d59e3eb3449c0035d5adc8ebc3c0e"
+  },
+  "runtime_database": {
+    "records": 6989,
+    "paragraphs": 348116,
+    "source_version": "f064c896c123cbf4",
+    "research_version": "a8acd9d0b712fbe06a65"
+  },
+  "runtime_policy": "read-only database; no reingestion required for research-chat behavior upgrade",
+  "scope": "query/analysis/API/frontend; preserve original sources, authentication and existing workspaces"
+}

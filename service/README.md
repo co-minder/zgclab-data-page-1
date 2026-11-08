@@ -121,8 +121,10 @@ filesystem paths.
 ```
 
 `query` can be empty to browse/count a structured scope. `semantic` defaults to
-`true` and calls DeepSeek Flash to propose bounded aliases for each original
-concept. `semantic:false` uses local retrieval only. `expand:false` takes
+`true` and permits DeepSeek Flash to propose bounded verified aliases when local
+planning has an applicable missing alias. Already complete local concepts and
+unknown names without a verified alias use a deterministic plan, without a model
+call. `semantic:false` always uses local retrieval only. `expand:false` takes
 precedence and disables model rewriting, synonym expansion and spelling fuzziness.
 Exact institution aliases still resolve structured scope. `relax` defaults to
 `false`; setting it true permits an explicitly reported OR relaxation only when
@@ -277,11 +279,17 @@ Default quotas are 24 searches/minute and 8 chats/minute per session, plus 180
 searches/minute and 40 chats/minute globally. Model planning/generation calls are
 limited to 10/minute per session and 180/hour globally, with concurrency 2. These
 quotas are process-local and reset on service restart. Session issuance has a
-120/hour global quota and failed-password quotas, plus bounded password-validation concurrency. Correct
+600/hour global quota and independent failed-password quotas, plus bounded password-validation concurrency. Correct
 credentials are compared even while failed attempts from the shared peer are throttled. Fresh sessions cannot bypass global model quotas. Return 429 for quota
 exhaustion; no credential or session identifiers are logged.
 
-The total chat budget is 95 seconds, including planning and generation. Proxy
+The fixed DeepSeek Chat request passes `thinking:{type:disabled}` through the
+restricted Mac project relay so its output limit is available for the final
+answer. A length-truncated completion is rejected as `model_output_truncated`;
+reasoning content is never used as an answer. Failed calls retain only sanitized
+numeric usage, without remote error text or reasoning.
+
+The total chat budget is 95 seconds, including planning, generation and evidence review. Proxy
 and frontend timeouts should be 120 and 125 seconds respectively. The 65,536-byte
 body limit is independent of the character limits: 12,000 Chinese history
 characters plus a 1,200-character message fit when sent as normal UTF-8 JSON;
@@ -292,13 +300,37 @@ actual configured threshold.
 ## Answer evidence policy
 
 `state` remains `answered`, `database_answer`, `retrieval_only`, or `no_results`.
-The optional `answer_format` is `verbatim_extracts`, `database_aggregate`, or
-`retrieval_extracts`. With the current conservative policy, `answered` means
-DeepSeek Flash selected relevant verbatim evidence excerpts. It does **not** mean
-an independently verified factual synthesis. Each claim's text and quote must be
-identical continuous substrings of every cited snippet. A real citation attached
-to an unrelated, paraphrased conclusion is rejected. The UI labels the answer as
-source excerpts; semantic correctness of the source itself is not asserted.
+The optional `answer_format` is `grounded_summary`, `grounded_analysis`,
+`verbatim_extracts`, `database_aggregate`, `retrieval_extracts`, or `guidance`.
+Chinese synthesis and comparison distinguish source statements (`fact`) from
+sample interpretation (`analysis`). Every claim must use known citation IDs and
+exact supporting source quotes; numbers must occur in the cited evidence.
+Paraphrases and inferences receive at most one bounded batch model review.
+Unsupported claims are removed, with a useful retrieval fallback if no answer
+survives. The returned `validation` describes the actual checks: quote identity
+and model review are limited evidence checks, not proof of semantic truth.
+Legacy verbatim answer validation remains available. Source handles and person
+names must retain forms supported by the cited material; a handle is not expanded
+into an unsupported full name. For an institution comparison,
+`analysis_scope.comparison_complete:true` requires validated similarities and
+differences supported by evidence from both institutions. Core sample analysis
+does not imply exhaustive institutional coverage.
+
+A1 references exact scoped/matched counts. A2 adds exact date/month analytics,
+shares and rankings with their actual scope and denominator. Optional `sections`,
+`answer_kind`, `analysis_scope`, `analytics`, `suggested_questions`, and
+`search_suggestions` support the research chat while core response fields remain
+compatible. Query planning uses bounded local grammar and verified aliases where
+possible; an unnecessary model planning roundtrip is skipped and reported as
+`deterministic_query_plan` with `attempted:false` and no token usage.
+
+Vague recent/latest requests sort matching snapshot records by their dates;
+explicit day/month ranges use the actual Asia/Shanghai calendar and retain zero
+results. Future-dated events are identified separately. A separate suggested
+action can remove date bounds after user selection; primary scope never silently
+broadens. `POST /api/search` accepts optional `sort:recent|relevance`. Every JSON
+response includes `api_revision:research-chat-20261109` to identify the loaded
+backend independently of the encrypted frontend version.
 
 Multi-turn scope is rebuilt from all retained user messages (at most eight total
 messages), using the last explicit institution/angle mention on each axis. An

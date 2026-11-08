@@ -51,7 +51,7 @@ assert.equal(workspace.chatSessions[0],old);
 assert.match(workspace.chatSessions[1].id,/-import-/);
 assert.equal(assistant.mergeBackup({chatSessions:[changed]},workspace).skipped,1);
 const before=JSON.stringify(workspace);
-for (const invalid of [null,{},[saved(),saved()],Array.from({length:33},(_,i)=>({...saved(),id:'as-'+i})),[{...saved(),turns:[{...turn(),question:'x'.repeat(1201)}]}],[{...saved(),turns:[{...turn(),items:Array.from({length:31},()=>turn().items[0])}]}]]) {
+for (const invalid of [null,{},[saved(),saved()],Array.from({length:33},(_,i)=>({...saved(),id:'as-'+i})),[{...saved(),turns:[{...turn(),question:'x'.repeat(1201)}]}],[{...saved(),turns:[{...turn(),items:Array.from({length:101},()=>turn().items[0])}]}]]) {
   assert.throws(()=>assistant.mergeBackup({chatSessions:invalid},workspace));
   assert.equal(JSON.stringify(workspace),before,'failed validation must be atomic');
 }

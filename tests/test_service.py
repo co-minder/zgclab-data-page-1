@@ -326,9 +326,11 @@ class ServiceFixture(unittest.TestCase):
             response = self.engine.search(unknown, scope)
             self.assertEqual(response["coverage"]["matched_records"], 0)
             self.assertEqual(response["results"], [])
-            self.assertTrue(response["model"]["attempted"])
+            self.assertFalse(response["model"]["attempted"])
             self.assertFalse(response["model"]["used"])
-            self.assertEqual(response["model"]["reason"], "unverified_model_alias")
+            self.assertEqual(response["model"]["reason"], "deterministic_query_plan")
+            self.assertEqual(response["usage"], {})
+            self.assertEqual(MockOpenAI.calls, [])
             self.assertTrue(any(unknown.lower() in group or unknown in group for group in response["plan"]["terms"]))
             self.assertFalse(response["plan"]["relaxed"])
 
@@ -611,6 +613,18 @@ class HTTPService(unittest.TestCase):
         self.assertEqual(p["snapshot"]["total"], 9)
         self.assertEqual(p["limits"]["max_body_bytes"], 65536)
 
+    def test_http_search_sort_and_runtime_revision(self):
+        status, result, _ = self.request("POST", "/api/search", {"query": "AI safety", "sort": "recent", "semantic": False}, token=self.token)
+        self.assertEqual(status, 200)
+        self.assertEqual(result["api_revision"], "research-chat-20261109")
+        self.assertEqual(result["plan"]["sort"], "recent")
+        self.assertGreater(result["coverage"]["matched_records"], 0)
+        self.assertFalse(result["model"]["attempted"])
+        status, result, _ = self.request("POST", "/api/search", {"query": "AI", "sort": "recent; DROP TABLE news"}, token=self.token)
+        self.assertEqual(status, 400)
+        self.assertEqual(result["error"]["code"], "invalid_input")
+        self.assertEqual(result["api_revision"], "research-chat-20261109")
+
     def test_http_original_natural_question_and_same_source_followup(self):
         question = "请概括 Arkansas State 对阵 South Alabama 的比赛结果，并给出原文引用。"
         scope = {"institution": [1002550], "angle": ["social"], "date_field": "published_at"}
@@ -639,7 +653,10 @@ class HTTPService(unittest.TestCase):
         self.assertEqual(response["results"], [])
         self.assertEqual(response["coverage"]["matched_records"], 0)
         self.assertFalse(response["model"]["used"])
-        self.assertEqual(response["model"]["reason"], "unverified_model_alias")
+        self.assertEqual(response["model"]["reason"], "deterministic_query_plan")
+        self.assertFalse(response["model"]["attempted"])
+        self.assertEqual(response["usage"], {})
+        self.assertEqual(MockOpenAI.calls, [])
 
     def test_http_utf8_body_history_and_invalid_json(self):
         # A valid >32KiB UTF-8 history must fit the unified 64KiB transport limit.

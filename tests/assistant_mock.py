@@ -28,7 +28,7 @@ window.client={
 window.ZGCLAB_PROJECTS={addEntries:async(rows,givenApi)=>{if(givenApi!==api||!givenApi.workspace||!givenApi.saveWorkspace)throw new Error('wrong projects API');calls.project.push(rows.map(e=>e.r.id));return {added:rows.length};}};
 window.api={META,Q:ZGCLAB_QUERY,view:document.querySelector('#view'),workspace,serviceClient:client,entriesFor:async()=>entries,ensureDetail:async()=>({fields:{content_cn:'人工智能安全研究的完整正文第一段。\n\n第二段保持真实。'}}),titleOf:(a,r)=>r.title_cn||r.title,instName:id=>META.institutions.find(i=>i.ktid===Number(id))?.cn||String(id),showToast:m=>document.querySelector('#notice').textContent=m,saveWorkspace:()=>{if(window.storageBlocked)return false;localStorage.setItem('assistant-test',JSON.stringify(workspace));return true;}};
 window.controller=new AbortController();window.mount=p=>{controller.abort();controller=new AbortController();api.signal=controller.signal;return ZGCLAB_ASSISTANT(new URLSearchParams(p||''),api);};
-mount('q=人工智能');
+mount('mode=search&q=人工智能');
 </script></body></html>'''
 
 
@@ -89,6 +89,7 @@ def run():
         page.get_by_role("button", name="加入专题（1 条）").click()
         assert page.evaluate("calls.project[0]") == ["news-1"]
         check("semantic search/filter schema, real counts, stable C3, evidence safety/detail, complete projects API")
+        page.locator("#asSearchResults .as-process > summary").click()
         page.get_by_role("button", name="撤回扩展并重查").click()
         page.wait_for_function("calls.search.length===2 && document.querySelector('#asForm').getAttribute('aria-busy')==='false'")
         assert page.evaluate("calls.search.at(-1).semantic===false && calls.search.at(-1).expand===false")
@@ -97,6 +98,7 @@ def run():
         check("withdraw sends semantic=false and expand=false; unused model is clearly labelled")
         page.locator("#asChatTab").click()
         page.locator("#asExpand").check()
+        page.locator("#asSessionArea > summary").click()
         page.locator("#asKeep").check()
         submit("人工智能研究有什么结论？")
         assert page.locator(".as-turn").count() == 1
@@ -164,7 +166,7 @@ def run():
         page.locator("#asSearchTab").click()
         page.evaluate("window.mockMode='empty'")
         submit("没有该主题")
-        assert "没有匹配记录" in page.locator("#asSearchResults").inner_text()
+        assert "没有匹配资料" in page.locator("#asSearchResults").inner_text()
         page.evaluate("window.mockMode='normal';window.latency=1000")
         page.locator("#asQuestion").fill("取消测试")
         page.locator("#asSubmit").click()

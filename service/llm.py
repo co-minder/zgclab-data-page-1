@@ -8,9 +8,40 @@ import urllib.request
 from urllib.parse import urlsplit
 
 
+def token_usage(value) -> dict:
+    """Keep the existing public token counters; never carry remote error text."""
+    return {key: item for key, item in value.items()
+            if key in {"prompt_tokens", "completion_tokens", "total_tokens"}
+            and isinstance(item, int) and not isinstance(item, bool) and item >= 0} if isinstance(value, dict) else {}
+
+
+def protocol_metadata(result: dict) -> dict:
+    """Structural diagnostics only: no generated text, reasoning, URLs or IDs."""
+    choices = result.get("choices")
+    choice = choices[0] if isinstance(choices, list) and choices else None
+    message = choice.get("message") if isinstance(choice, dict) else None
+    finish = choice.get("finish_reason") if isinstance(choice, dict) else None
+    metadata = {"choices_type": type(choices).__name__, "message_type": type(message).__name__,
+                "finish_reason": finish if isinstance(finish, str) and finish in {"stop", "length", "tool_calls", "function_call", "content_filter"} else "absent" if finish is None else "other"}
+    if isinstance(message, dict):
+        for key in ("content", "reasoning_content"):
+            value = message.get(key)
+            metadata[key + "_type"] = type(value).__name__
+            if isinstance(value, (str, list)):
+                metadata[key + "_length"] = len(value)
+    usage = result.get("usage")
+    details = usage.get("completion_tokens_details") if isinstance(usage, dict) else None
+    reasoning_tokens = details.get("reasoning_tokens") if isinstance(details, dict) else None
+    if isinstance(reasoning_tokens, int) and not isinstance(reasoning_tokens, bool) and reasoning_tokens >= 0:
+        metadata["reasoning_tokens"] = reasoning_tokens
+    return metadata
+
+
 class ModelUnavailable(RuntimeError):
-    def __init__(self, reason: str):
+    def __init__(self, reason: str, *, usage=None, diagnostics=None):
         self.reason = reason
+        self.usage = token_usage(usage)
+        self.diagnostics = diagnostics or {}
         super().__init__(reason)
 
 
@@ -98,7 +129,11 @@ class LLMClient:
         if not self.semaphore.acquire(blocking=False):
             raise ModelUnavailable("model_busy")
         try:
-            payload = {"model": self.model, "messages": messages, "max_tokens": min(max_tokens, 4096), "temperature": 0, "stream": False}
+            # DeepSeek Chat defaults to high thinking, which consumes max_tokens
+            # before final content. The fixed model supports this documented toggle;
+            # the restricted project relay must allowlist it through to magpie.
+            payload = {"model": self.model, "messages": messages, "max_tokens": min(max_tokens, 4096),
+                       "temperature": 0, "stream": False, "thinking": {"type": "disabled"}}
             request = urllib.request.Request(self.base_url + "/chat/completions", data=json.dumps(payload, ensure_ascii=False).encode(), headers={"Content-Type": "application/json", "Accept": "application/json"}, method="POST")
             budget = min(self.timeout, timeout if timeout is not None else self.timeout)
             if budget <= 0:
@@ -108,22 +143,38 @@ class LLMClient:
                 with self.opener.open(request, timeout=budget) as response:
                     body = self.bounded_response(response, 786432, request_deadline)
                     result = json.loads(body)
-            except (OSError, ValueError, urllib.error.URLError, RecursionError):
+            except TimeoutError:
+                raise ModelUnavailable("model_timeout") from None
+            except urllib.error.URLError as error:
                 # Never expose remote error bodies or headers, which may contain private config.
+                reason = "model_timeout" if isinstance(error.reason, TimeoutError) else "model_unreachable"
+                raise ModelUnavailable(reason) from None
+            except (OSError, ValueError, RecursionError):
                 raise ModelUnavailable("model_unreachable") from None
             if not isinstance(result, dict):
                 raise ModelUnavailable("invalid_model_response")
             served = result.get("model", "")
-            if served not in {self.model, "deepseek-v4.1-flash"}:
+            if not isinstance(served, str) or served not in {self.model, "deepseek-v4.1-flash"}:
                 raise ModelUnavailable("model_mismatch")
-            try:
-                text = result["choices"][0]["message"]["content"]
-            except (KeyError, IndexError, TypeError):
-                raise ModelUnavailable("invalid_model_response") from None
+            safe_usage = token_usage(result.get("usage"))
+            diagnostics = protocol_metadata(result)
+            choices = result.get("choices")
+            if not isinstance(choices, list) or len(choices) != 1 or not isinstance(choices[0], dict):
+                raise ModelUnavailable("invalid_model_response", usage=safe_usage, diagnostics=diagnostics)
+            choice = choices[0]
+            message = choice.get("message")
+            if not isinstance(message, dict):
+                raise ModelUnavailable("invalid_model_response", usage=safe_usage, diagnostics=diagnostics)
+            # A length stop can contain a partial JSON string or reasoning alone.
+            # Neither is a complete answer, even if some final content is present.
+            if choice.get("finish_reason") == "length":
+                raise ModelUnavailable("model_output_truncated", usage=safe_usage, diagnostics=diagnostics)
+            if choice.get("finish_reason") not in (None, "stop") or message.get("role", "assistant") != "assistant" or message.get("tool_calls") or message.get("function_call") or message.get("refusal"):
+                raise ModelUnavailable("invalid_model_response", usage=safe_usage, diagnostics=diagnostics)
+            text = message.get("content")
+            # reasoning_content is deliberately never an alternate final channel.
             if not isinstance(text, str) or not text.strip() or len(text) > 30000:
-                raise ModelUnavailable("invalid_model_response")
-            usage = result.get("usage", {})
-            safe_usage = {key: value for key, value in usage.items() if key in {"prompt_tokens", "completion_tokens", "total_tokens"} and isinstance(value, int) and not isinstance(value, bool) and value >= 0} if isinstance(usage, dict) else {}
+                raise ModelUnavailable("invalid_model_response", usage=safe_usage, diagnostics=diagnostics)
             return text, safe_usage
         finally:
             self.semaphore.release()

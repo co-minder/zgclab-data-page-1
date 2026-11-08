@@ -1,0 +1,102 @@
+{
+  "stage": "actual_baseline_api_reproduction",
+  "recorded_at": "2026-11-08T17:53:41.971843+00:00",
+  "question": "你好，给我看看 近期的就是 对中国最相关的 报道我看看",
+  "seconds": 12.91,
+  "state": "retrieval",
+  "model": {
+    "id": "auto/deepseek-v4.1-flash",
+    "used": true,
+    "attempted": true,
+    "reason": null
+  },
+  "usage": {
+    "prompt_tokens": 579,
+    "completion_tokens": 782,
+    "total_tokens": 1361
+  },
+  "plan": {
+    "query": "你好，给我看看 近期的就是 对中国最相关的 报道我看看",
+    "filters": {},
+    "inferred_filters": {},
+    "locked_scope": {},
+    "terms": [
+      [
+        "中国",
+        "China",
+        "Chinese",
+        "PRC"
+      ],
+      [
+        "你好"
+      ],
+      [
+        "看看"
+      ],
+      [
+        "近期的就"
+      ],
+      [
+        "报道我看看"
+      ]
+    ],
+    "request_intent": {
+      "enabled": true,
+      "normalized_query": "你好 给我看看 近期的就是 对中国最相关的 报道我看看",
+      "removed_request_phrases": [],
+      "citation_requested": false,
+      "same_source_requested": false,
+      "referential": false,
+      "source_reference": false,
+      "requested_attributes": []
+    },
+    "expansion_enabled": true,
+    "fuzzy_terms": [],
+    "strategy": "fts5_and",
+    "relaxed": false,
+    "relax_allowed": false,
+    "model": {
+      "attempted": true,
+      "used": true,
+      "reason": null,
+      "original_query": "你好，给我看看 近期的就是 对中国最相关的 报道我看看",
+      "rewritten_query": "近期与中国最相关的报道有哪些？",
+      "applied_groups": [
+        {
+          "anchor": "中国",
+          "terms": []
+        },
+        {
+          "anchor": "你好",
+          "terms": []
+        },
+        {
+          "anchor": "看看",
+          "terms": []
+        },
+        {
+          "anchor": "近期的就",
+          "terms": []
+        },
+        {
+          "anchor": "报道我看看",
+          "terms": []
+        }
+      ]
+    },
+    "semantic_requested": true,
+    "duration_ms": 12903
+  },
+  "coverage": {
+    "dataset": "real",
+    "source_version": "f064c896c123cbf4",
+    "database_total": 6989,
+    "scoped_records": 6989,
+    "matched_records": 0,
+    "returned_records": 0,
+    "returned_paragraphs": 0,
+    "exhaustive": true,
+    "warning": "Counts describe the stored real snapshot, not the entire web; retrieved paragraphs are a bounded sample."
+  },
+  "results_count": 0
+}

@@ -295,7 +295,7 @@
     return {META, REAL_META, CORE, Q:window.ZGCLAB_QUERY, view, esc, fmt, entriesFor, ensureDetail, ensureResearch, recCard, bindRecords, pager, bindPager, exportEntries, downloadCsv, copyText, titleOf, snippetOf, dateOf, instName, recordLink, workspace, saveWorkspace, isRead, markRead, showToast, serviceClient:window.ZGCLAB_SERVICE_CLIENT, serviceSession:options=>window.ZGCLAB_SERVICE_CLIENT.session(options), version:routeVersion, currentVersion:()=>routeVersion, signal:routeController.signal};
   }
   async function viewResearch(name, params) {
-    const titles = {projects:"专题资料夹",assistant:"资料对话与模糊查询",evidence:"证据阅读与引用",related:"相关材料",changes:"新增与变化",coverage:"来源与时间覆盖","collection-plan":"未来采集建议"};
+    const titles = {projects:"专题资料夹",assistant:"数据库研究助手",evidence:"证据阅读与引用",related:"相关材料",changes:"新增与变化",coverage:"来源与时间覆盖","collection-plan":"未来采集建议"};
     setActive(name);setCrumb(`<b>${esc(titles[name])}</b>`);
     const version = routeVersion;
     if (name !== "assistant" && name !== "projects") {
@@ -1164,7 +1164,7 @@
         <div class="r-top" style="margin-bottom:12px">${angleDot(angle)}<span class="tag ${angle}">${esc(ANG[angle].name)}</span>${badgeOf(angle, r)}
           <span class="date" style="margin-left:auto">${esc(day(dateOf(angle, r)) || "时间未标注")}</span></div>
         <div class="modal-tools"><button class="btn" id="favoriteRecord">${isFavorite(angle,id) ? "★ 已收藏" : "☆ 收藏记录"}</button><button class="btn" id="toggleReadRecord">${isRead(angle,id) ? "标为未读" : "标为已读"}</button><button class="btn" id="copyRecordLink">复制记录链接</button>
-          <button class="btn" id="downloadRecord">下载记录 CSV</button><button class="btn" id="downloadRecordJson">下载 JSON</button><button class="btn" id="addRecordProject">加入专题</button><a class="btn research-record-link" href="#/evidence?${esc(new URLSearchParams({angle,id:r.id}).toString())}">对照阅读与引用</a><a class="btn research-record-link" href="#/related?${esc(new URLSearchParams({angle,id:r.id}).toString())}">相关材料</a><a class="btn research-record-link" href="#/assistant?${esc(new URLSearchParams({angle,ids:r.ktid,q:titleOf(angle,r).slice(0,160)}).toString())}">基于资料提问</a></div>
+          <button class="btn" id="downloadRecord">下载记录 CSV</button><button class="btn" id="downloadRecordJson">下载 JSON</button><button class="btn" id="addRecordProject">加入专题</button><a class="btn research-record-link" href="#/evidence?${esc(new URLSearchParams({angle,id:r.id}).toString())}">对照阅读与引用</a><a class="btn research-record-link" href="#/related?${esc(new URLSearchParams({angle,id:r.id}).toString())}">相关材料</a><a class="btn research-record-link" href="#/assistant?${esc(new URLSearchParams({mode:"chat",angle,ids:r.ktid,q:titleOf(angle,r).slice(0,160)}).toString())}">基于资料提问</a></div>
         <div class="detail-status" id="detailStatus" role="status">正在加载完整交付字段与正文…</div>
         <label class="empty-toggle" id="emptyToggleWrap" hidden><input type="checkbox" id="showEmptyFields"> 显示未填写字段</label>
         <div id="recordDetails"><dl class="kv">${rows}</dl>${longBlocks}</div>
