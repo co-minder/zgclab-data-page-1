@@ -46,7 +46,7 @@
     "second_new_original_generation_and_timedout_review": 2,
     "independent_extra_model_turns": 0
   },
-  "current_blocker": "Final evidence review latency: actual complete generation now works; compact response/review refinement pending.",
+  "current_blocker": null,
   "qa_actual_completed": {
     "social_count_followup": "PASS:404scoped/44matched;CSIS44/RAND0;noLLM",
     "encrypted_ui_readonly": "10PASS/0pageerrors/0modelturns;failureanswerlabelledretrieval_only",
@@ -109,7 +109,7 @@
   "comparison_evidence_policy": "Grounded similarities/differences compare one selected core source per institution, labelled sample analysis; exact full scope counts stay SQL-derived and are not inferred from these samples.",
   "entity_policy": "No expansion of source handles into unsupported full names or inferred affiliations.",
   "archive_evidence_policy": "Final committed source, exact good actual conversation captures, independent complete-source quality receipt, encrypted UI screenshots, all public active bytes and runtime source proof; preserve earlier failures transparently without counting them as success.",
-  "phase": "final accepted successor promotion",
+  "phase": "published and publicly accepted; archive pending",
   "public_initial_run": {
     "release_commit": "dbc0720224a91cd63e2f10cbb2006de821441dbb",
     "manifest": "manifest-365700f88d660ec861e2.json",
@@ -123,12 +123,9 @@
   "public_render_acceptance": "API completed answer must display within5seconds, with usable citations; never wait for the full snapshot index",
   "next_manifest": "manifest-d15ea4a006bfdb3ba0ad.json",
   "remaining_actions": [
-    "Freeze and test nonblocking frontend source enrichment",
-    "Build successor encrypted preview and verify source integrity",
-    "Independent new UI real original turn and updated receipt",
-    "Publish frontend successor preserving accepted backend",
-    "Public original renders immediately after API response; verify418activeobjects",
-    "Commit final evidence and archive with full remote readback"
+    "Commit final evidence without changing accepted implementation",
+    "Build and upload immutable release archive",
+    "Verify full bytes/SHA256 of every remote object"
   ],
   "backend_public_verification": "PASS 3 endpoints, same accepted source hash, actual public original answered13.61s",
   "first_public_ui_status": "Rendering wait failed after actual API success; explicit regression tracked",
@@ -179,19 +176,47 @@
   },
   "next_publish_artifact": "manifest-d15ea4a006bfdb3ba0ad.json",
   "final_backend_guard_sha256": "492eb24de610a436a122002394896dc83354ac57479c156a4f890a812368f0ca",
-  "final_runtime_switch_required": true,
+  "final_runtime_switch_required": false,
   "final_original_tokens": 5711,
   "final_original_accepted_claims": 6,
   "final_original_rejected_claims": 0,
   "final_frontend_actual_answer_render_ms": 7.851,
   "final_completion_boundary": "Finish after accepted final source/frontend publication, actual public model answer and render timing, full active bytes, immutable archive remote hashes; no additional feature work.",
   "implementation_complete": true,
-  "publication_complete": false,
+  "publication_complete": true,
   "final_independent_incremental_receipt": {
     "verdict": "PASS",
     "sha256": "994b05fbff54547412753251f41fc4f4405cdc803b4b1703913675f81581aacf",
     "acceptance_mode": "bounded_incremental_actual_api_and_same_frontend",
     "new_qa_model_calls": 0,
     "final_public_actual_required": true
-  }
+  },
+  "public_release_commit": "af295c7307af24427c73fdd2633ed2d992a68ac3",
+  "final_manifest": "manifest-d15ea4a006bfdb3ba0ad.json",
+  "final_public_validation": {
+    "verdict": "PASS",
+    "checks_passed": 18,
+    "failed": 0,
+    "actual_model_seconds": 14.26,
+    "api_to_render_seconds": 0.04,
+    "tokens": 5312,
+    "source_claims": 4,
+    "page_errors": [],
+    "public_report": "reports/research-chat-public-20261109.json",
+    "public_report_sha256": "31531521658661366c577ca9938adcf8f4078b041e3a7b64893ead1045e11ab6",
+    "independent_source_review": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T194208Z-public-final-3459514/manual-source-review-public-final.json",
+    "independent_source_review_sha256": "d7dd0c073610133b920a4806d5325c5de8489dfb230b5b5aabf4e4b379ddcf0b",
+    "assets_report": "reports/research-chat-public-assets-20261109.json",
+    "active_encrypted_objects": 418,
+    "all_public_files": 423,
+    "readback_bytes": 29379964,
+    "committed_source_review_report": "reports/research-chat-public-source-review-20261109.json"
+  },
+  "final_runtime": {
+    "verdict": "PASS",
+    "process": "research-api:0 3450206 python3",
+    "source_sha256": "492eb24de610a436a122002394896dc83354ac57479c156a4f890a812368f0ca",
+    "endpoints_verified": 3
+  },
+  "updated_at": "2026-11-08T19:43:25.110693+00:00"
 }

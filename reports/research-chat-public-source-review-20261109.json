@@ -1,0 +1,993 @@
+{
+  "task": "CHAT-QA-20261109",
+  "reviewer": "CHAT-QA-20261109 independent execution subagent",
+  "reviewed_at": "2026-11-08T19:42:08.894846+00:00",
+  "verdict": "PASS",
+  "failed": 0,
+  "review_scope": "Read-only independent source/claim/SQL review of exact completed final public test capture; no repetition of UI workflows, no browser, no new HTTP or model request",
+  "release_commit": "af295c7307af24427c73fdd2633ed2d992a68ac3",
+  "manifest": "d15ea4a006bfdb3ba0ad",
+  "api_revision": "research-chat-20261109",
+  "public_target": "https://co-minder.github.io/zgclab-data-page-1/",
+  "public_report": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/public/20261108T193818Z/results.json",
+  "public_report_sha256": "31531521658661366c577ca9938adcf8f4078b041e3a7b64893ead1045e11ab6",
+  "repository_public_report_copy": "/home/ubuntu/zgclab-1-web/reports/research-chat-public-20261109.json",
+  "repository_copy_sha256": "31531521658661366c577ca9938adcf8f4078b041e3a7b64893ead1045e11ab6",
+  "report_copy_exact_bytes": true,
+  "current_source_sha256": {
+    "assistant.js": "74eb1795bcbd5191cd4b38a130a5561378cfba5e90459143625a24dd20471176",
+    "assistant.css": "2e352aac6ccb801d19a1b900d5a4e3893a690241b3f7be4d537f2b9134e2239f",
+    "service-client.js": "6f0d1d13ce6490ef64a771e79406c3f0c752a8a56955ac368dffa8e2daf2f65c",
+    "app.js": "e950ab675cd9c59b0dd63ccb977382e3c14382c02ebcdcfe7bdd456369793789",
+    "index.html": "c3bcf0d7ed35fb3cad369aa963a6422dd7649cf4fb4ee1a29399e00755a83409",
+    "service/research_chat.py": "492eb24de610a436a122002394896dc83354ac57479c156a4f890a812368f0ca",
+    "service/chat.py": "b5bfed832e8136346f46f5b941da8f210db52eeb83a3ed8ce166f4f95e0b4bc6",
+    "service/retrieval.py": "81b579721ae34911ad4c49168e62356dd4428c86b25ed203b0b21cc70225fde1",
+    "service/intent.py": "f2cbe2b02f4de482d59dce96897f74854dc2a54ebb4c6f206e9f8d605c511865",
+    "service/planner.py": "3967a0b07e7e16a0e0846ae9239c852ef066ae00d5fce42fd8d27af1fa933a7c",
+    "service/app.py": "dc9c131e54c64a65abcb16e84033aec956cfa0d6b6370419461c0f4e248324c9",
+    "service/analytics.py": "0d5fbca6238a3b90e05c7c0e2c8b97c5cf3638f45cbd646dfe13b7cc708ddd2e",
+    "service/llm.py": "3d9b49d5d423d73b3e6a3d031a7bed5c82c66628201fd747c599fa830d842507",
+    "tests/chat_acceptance.py": "9a7c39d16efb6f5bd4dba21e56bc99ec32d27bd80155f859308cc97dabc6c572"
+  },
+  "regression_reference": {
+    "path": "/home/ubuntu/zgclab-1-web/reports/research-chat-frozen-regression-20261109.json",
+    "sha256": "f770ca93c226a55fb8aceb45f2cd5212b5df235fd9b54e7a7cecfdd86cc89953",
+    "verdict": "PASS",
+    "passed": 199,
+    "source_hashes_match_current": true,
+    "independently_rerun": false
+  },
+  "reported_public_execution": {
+    "passed": 18,
+    "failed": 0,
+    "source_injected": false,
+    "page_errors": [],
+    "original_seconds": 14.26,
+    "answer_render_delay_after_api_seconds": 0.04,
+    "actual_model": {
+      "id": "auto/deepseek-v4.1-flash",
+      "used": true,
+      "attempted": true,
+      "reason": null
+    },
+    "actual_usage": {
+      "prompt_tokens": 4436,
+      "completion_tokens": 876,
+      "total_tokens": 5312
+    },
+    "state": "answered",
+    "answer_format": "grounded_summary",
+    "validation": {
+      "level": "exact_quotes_and_model_review",
+      "semantic_entailment": "model_reviewed_not_proven",
+      "accepted_claims": 4,
+      "rejected_claims": [
+        {
+          "claim_id": "K5",
+          "reason": "insufficient"
+        }
+      ],
+      "source_truth_verified": false,
+      "review_status": "completed"
+    },
+    "note": "These execution metrics come from the immutable MAIN public run; QA independently reviews its captured source content and SQL, without launching another browser."
+  },
+  "original_answer_sha256": "c1ec70dff1ca120433a6bc306281e890e992e651bb821a44e12e461d028d37ac",
+  "original_answer_json_hash_scheme": "SHA-256 of sorted-key compact UTF-8 JSON for original_answer object",
+  "claim_findings": [
+    {
+      "claim_index": 1,
+      "citation_ids": [
+        "C1"
+      ],
+      "record_ids": [
+        "social-7"
+      ],
+      "verdict": "PASS",
+      "claim": "美国外交关系协会转发评论称，特朗普对华政策最令人担忧之处不是前所未有，而是与前任错误相似。",
+      "finding": "原文直接将特朗普对华政策与其前任错误作比较，回答保留“转发评论称”的来源归属，没有将评论当成独立证实事实或补全作者身份。",
+      "supporting_quote": "@jonczin写道：“特朗普的对华政策最令人担忧的地方，不在于它前所未有，而在于它与前任们的错误看起来多么相似。”https://t.co/vuFaTDFkhT"
+    },
+    {
+      "claim_index": 2,
+      "citation_ids": [
+        "C5"
+      ],
+      "record_ids": [
+        "social-15"
+      ],
+      "verdict": "PASS",
+      "claim": "大西洋理事会相关文章称，普京未能获得北京对“西伯利亚力量二号”管道的支持，并称这强化了乌克兰入侵使俄罗斯沦为中国的“小伙伴”的看法。",
+      "finding": "原文明确提及北京未支持西伯利亚力量二号管道，以及俄罗斯因侵乌沦为中国junior partner的国际看法。回答保留文章观点归属，没有添加中国已正式拒绝项目等更强结论。",
+      "supporting_quote": "普京无法获得北京对“西伯利亚力量二号”管道的支持，这强化了国际社会的看法：乌克兰入侵已使俄罗斯沦为中国的“小伙伴”。@zaharhryniv撰文。阅读更多：https://t.co/JklqpWCU1Q"
+    },
+    {
+      "claim_index": 3,
+      "citation_ids": [
+        "C6"
+      ],
+      "record_ids": [
+        "social-22"
+      ],
+      "verdict": "PASS",
+      "claim": "保卫民主基金会的Craig Singleton表示，延长贸易休战让美国有机会检验中国是否履行购买美国农产品的承诺，并称重点在于让中国赢得下一次延期。",
+      "finding": "完整原文与译文直接提供FDD的Craig Singleton姓名、贸易休战延期、购买美国农产品承诺及“赢得下一次延期”的表述；回答未增加数字或把采购承诺说成已经履行。",
+      "supporting_quote": "FDD的Craig Singleton对@AP表示，延长贸易休战让美国有机会检验中国是否履行购买美国农产品的承诺：“这与购买两个月的平静关系不大，而是要让中国赢得下一次延期。”https://t.co/90Zqf8QQRF"
+    },
+    {
+      "claim_index": 4,
+      "citation_ids": [
+        "C7"
+      ],
+      "record_ids": [
+        "news-33"
+      ],
+      "verdict": "PASS",
+      "claim": "卡隆公司刊出与国防情报局前代理局长大卫·谢德的炉边谈话预告，聚焦特朗普与习近平北京峰会后的美中战略竞争及中国情报和工业间谍活动。",
+      "finding": "完整网页标题及正文提供Shedd前DIA代理局长身份，邀请文字直接说明峰会后战略竞争、情报和工业间谍活动的讨论主题。回答描述已刊出的谈话预告，没有编造谈话结论或政策已经实施。",
+      "supporting_quote": "特朗普总统与习近平主席在北京举行峰会数日后，欢迎参加我们与国防情报局前代理局长大卫·谢德的炉边谈话。谢德先生将解读这次会晤对美中战略竞争下一阶段释放的信号，并将其与中国持续数十年的情报和工业间谍活动联系起来。",
+      "timing_limit": "原网页完整文本写明录制于2026-05-20，资料元数据发布时间为2026-09-24；本次将其作为归档的活动介绍评阅，不证明当前仍是即将举行的活动。"
+    }
+  ],
+  "full_source_checks": [
+    {
+      "citation_id": "C1",
+      "id": "social-7",
+      "source_field": "chinese_translation",
+      "source_sha256": "acb539657e33c3cbdf4b5c519a8381182bfc19f6b695733489917b54997c8ebd",
+      "snippet_sha256": "acb539657e33c3cbdf4b5c519a8381182bfc19f6b695733489917b54997c8ebd",
+      "source_version": "f064c896c123cbf4",
+      "quotes_verified": 1,
+      "verdict": "PASS",
+      "complete_original_translation_reviewed": true,
+      "full_fields_sha256": "7b248e1a6de91dd23e1ad05a9e5d1da15904e1b66538705bd3c1c31f5c005462",
+      "source_url": "https://x.com/ForeignAffairs/status/2103433080761409594",
+      "published_at": "2026-09-25T10:35:01+00:00",
+      "full_original": {
+        "field": "original_content",
+        "chars": 178,
+        "sha256": "c3abc150c3890bad537488053887dda2a4a867d2b8bff3762ce932d11498bafe",
+        "text": "“What is most alarming about Trump’s China policy is not how unprecedented it is but how similar it looks to his predecessors’ mistakes,” writes @jonczin.\nhttps://t.co/vuFaTDFkhT"
+      },
+      "full_translation": {
+        "field": "chinese_translation",
+        "chars": 81,
+        "sha256": "acb539657e33c3cbdf4b5c519a8381182bfc19f6b695733489917b54997c8ebd",
+        "text": "@jonczin写道：“特朗普的对华政策最令人担忧的地方，不在于它前所未有，而在于它与前任们的错误看起来多么相似。”https://t.co/vuFaTDFkhT"
+      },
+      "metadata_hashes": {
+        "title": "c3677fdfb19863e1780d83180ac4fbd456db2ef4fcf0c644b71388a82856882b",
+        "account_name": "31d2d16019105ef379d3441aec8414ae65ee34bdce858a8c24a4e1cafc279e17",
+        "account_handle": "84cc9d9b3a538630a0a5d3e8b60c09d10bebeb2731cefbd00d6e3492b6287a92",
+        "raw_json": "7dc1a3497f08ae96141c05d5f2f95ed0467d7d8effc734a9233cd3ed70550545"
+      }
+    },
+    {
+      "citation_id": "C5",
+      "id": "social-15",
+      "source_field": "chinese_translation",
+      "source_sha256": "13cd5620284cf167df18669e56ccde6de5d29d27bbf917866062e213d8b4daed",
+      "snippet_sha256": "13cd5620284cf167df18669e56ccde6de5d29d27bbf917866062e213d8b4daed",
+      "source_version": "f064c896c123cbf4",
+      "quotes_verified": 1,
+      "verdict": "PASS",
+      "complete_original_translation_reviewed": true,
+      "full_fields_sha256": "751a34b8d31d39049b868b2bc58626a9090a76d7e2e0e41b24208c89948ac9fa",
+      "source_url": "https://x.com/AtlanticCouncil/status/2103247106949476598",
+      "published_at": "2026-09-24T22:16:01+00:00",
+      "full_original": {
+        "field": "original_content",
+        "chars": 273,
+        "sha256": "da9935f9e7d1e6892f4caa2790bd34259b57e1479e0cc41470b54c983216e55d",
+        "text": "Putin’s inability to secure Beijing’s backing for the Power of Siberia-2 pipeline is strengthening international perceptions that the invasion of Ukraine has reduced Russia to the status of China’s junior partner, writes @zaharhryniv.\n\nRead more ⤵️ \nhttps://t.co/JklqpWCU1Q"
+      },
+      "full_translation": {
+        "field": "chinese_translation",
+        "chars": 101,
+        "sha256": "13cd5620284cf167df18669e56ccde6de5d29d27bbf917866062e213d8b4daed",
+        "text": "普京无法获得北京对“西伯利亚力量二号”管道的支持，这强化了国际社会的看法：乌克兰入侵已使俄罗斯沦为中国的“小伙伴”。@zaharhryniv撰文。阅读更多：https://t.co/JklqpWCU1Q"
+      },
+      "metadata_hashes": {
+        "title": "5e528f8316f0d3d1125bafe06520ea6da071eb012e1e93a35b5a5ffbe11791b3",
+        "account_name": "9c5bff41eea4beff8326c92f35fe2988c811fbe03821af967a07b4c0430ddf46",
+        "account_handle": "fed4558ab085c87beae592d1e4f4764540bc4fe5c283b1d33ffd90cf0c709efa",
+        "raw_json": "3e72af2a32a290bf744f47a0635e116b674349b9ce2f5d6786375d693aa641ab"
+      }
+    },
+    {
+      "citation_id": "C6",
+      "id": "social-22",
+      "source_field": "chinese_translation",
+      "source_sha256": "19f0afe34aa46c6220b948b0990bf8bf74780c5da8c69a59c0d761d34409325a",
+      "snippet_sha256": "19f0afe34aa46c6220b948b0990bf8bf74780c5da8c69a59c0d761d34409325a",
+      "source_version": "f064c896c123cbf4",
+      "quotes_verified": 1,
+      "verdict": "PASS",
+      "complete_original_translation_reviewed": true,
+      "full_fields_sha256": "4556e979e9a4cc7ec1dcfd9c20ae0a853dd81068c6d767170d831e5d52281b33",
+      "source_url": "https://x.com/FDD/status/2103230754855563603",
+      "published_at": "2026-09-24T21:11:02+00:00",
+      "full_original": {
+        "field": "original_content",
+        "chars": 283,
+        "sha256": "e5d931469dd4ee3aac06a6238c49dfbdf87da305b9550e502f516d40e5ed7061",
+        "text": "Keeping the extension of the trade truce gives the U.S. a chance to test whether China delivers on its promises to buy U.S. farm goods, FDD's Craig Singleton tells @AP: “This is less about buying two months of calm than making China earn the next extension.” \nhttps://t.co/90Zqf8QQRF"
+      },
+      "full_translation": {
+        "field": "chinese_translation",
+        "chars": 111,
+        "sha256": "19f0afe34aa46c6220b948b0990bf8bf74780c5da8c69a59c0d761d34409325a",
+        "text": "FDD的Craig Singleton对@AP表示，延长贸易休战让美国有机会检验中国是否履行购买美国农产品的承诺：“这与购买两个月的平静关系不大，而是要让中国赢得下一次延期。”https://t.co/90Zqf8QQRF"
+      },
+      "metadata_hashes": {
+        "title": "ebb00e58a8e418323ce4c5fe8ec59de1ded6ef4db48e25084d50e2617bbabe57",
+        "account_name": "4cb13ecaaca95087ab3b52b5217dcc621026c792881f8b5e5fd6865a89300b02",
+        "account_handle": "4cb13ecaaca95087ab3b52b5217dcc621026c792881f8b5e5fd6865a89300b02",
+        "raw_json": "980809c2ba83d5fe9d96b9ccb0956aa3f308151ac9bbf8135aacd289b5981bdf"
+      }
+    },
+    {
+      "citation_id": "C7",
+      "id": "news-33",
+      "source_field": "content_cn",
+      "source_sha256": "74bdbe4d0fffa21bee5fbfb374d27ff6720dac24f07cac8892eb42584cf28b66",
+      "snippet_sha256": "f0865ea8ca9dd1c40dc27acb429d45bc869729e4e440844c56b8da48e12ff3de",
+      "source_version": "f064c896c123cbf4",
+      "quotes_verified": 1,
+      "verdict": "PASS",
+      "complete_original_translation_reviewed": true,
+      "full_fields_sha256": "7c1cd4d2ca9702e35b147e8d55cf62f73536a6d062d78fff7b0520cb3df613dd",
+      "source_url": "https://www.kharon.com/events/inside-the-heist",
+      "published_at": "2026-09-24T18:00:00+00:00",
+      "full_original": {
+        "field": "content",
+        "chars": 3013,
+        "sha256": "dde919a1600d1cd7fbf4565bb67223d936b31ddb461bc62f8ae97e9ee848ad7c",
+        "text": "| About 30 minutesInside the HeistA Fireside Chat with Former DIA Acting Director David Shedd on Trump’s Beijing Trip, China's Industrial Espionage, and What Comes Next| About 30 minutesrecorded onWednesday, May 20, 2026About this webinarDays after President Trump's summit with President Xi in Beijing, join us for a fireside chat with David Shedd, former Acting Director of the Defense Intelligence Agency. Mr. Shedd will unpack what the meeting signals for the next phase of U.S.-China strategic competition — and connect it to China's decades-long intelligence and industrial espionage campaign.\nDavid Shedd spent nearly 33 years inside the U.S. national security and intelligence apparatus, much of that time tracking China. Last December, he co-authored The Great Heist with Andrew Badger, drawing on intelligence cases, corporate breaches, and firsthand experience at the decision-making level to examine how the Chinese Communist Party built a \"whole-of-society\" system to acquire foreign technology, strategic intelligence, and industrial capabilities. From aerospace and defense primes to leading technology and electric vehicle companies, the book traces how these efforts have accelerated China's technological rise while exposing deep vulnerabilities across the U.S. innovation and defense ecosystem.\nMr. Shedd joins Jane Tang of The Brief for a conversation on what these developments mean at a pivotal moment — coming on the heels of the Trump-Xi summit, ahead of Section 1260H's June 30 prohibition on new DoD contracts, and amid continued tightening across export controls and adversarial-capital screening.\nWhat we will discuss:\nHow the current policy moment — the Trump–Xi summit, Section 1260H taking effect June 30, and ongoing Entity List ac...read moreMEUWebinarSpeakersJane TangReporter, The BriefKharonDavid SheddFormer Acting DirectorDefense Intelligence Agency (DIA)ShareMore webinarsRisk Signals Hidden in Plain SightWhen the EU sanctioned Yangzhou Yangjie in April 2026, the move seemed sudden—but the risk had been visible for years. Join Kharon and Z2 to learn how network intelligence and supply chain visibility can uncover risk.SanctionsSupply ChainSafeguarding Aerospace & Defense Supply ChainsAerospace and defense teams face increasingly complex sanctions, export control, and supply chain risks. Join Kharon and Descartes to see how network-level intelligence can uncover hidden exposure in existing workflows.EvasionSanctionsDefense Industrial BaseThe U.S. Proposes to Cut Off Banque MisrKharon experts will analyze FinCEN's action against Banque Misr's UAE branches under Operation Economic Outcast and provide strategies for compliance teams to identify and manage risk across Iran's shadow banking networks.Financial CrimesThe Sanctions Control TestDiscussion with experts from Kharon and Hogan Lovells Cadwalader, where we will move past the basic regulations to discuss the high-stakes \"grey zones\" where legal theory meets the reality of control-related risk.Sanctions"
+      },
+      "full_translation": {
+        "field": "content_cn",
+        "chars": 1025,
+        "sha256": "74bdbe4d0fffa21bee5fbfb374d27ff6720dac24f07cac8892eb42584cf28b66",
+        "text": "| 约30分钟\n劫案内幕\n与前国防情报局代理局长大卫·谢德炉边谈话：特朗普的北京之行、中国的工业间谍活动及未来走向\n| 约30分钟\n录制于2026年5月20日，星期三\n关于本次网络研讨会\n特朗普总统与习近平主席在北京举行峰会数日后，欢迎参加我们与国防情报局前代理局长大卫·谢德的炉边谈话。谢德先生将解读这次会晤对美中战略竞争下一阶段释放的信号，并将其与中国持续数十年的情报和工业间谍活动联系起来。\n\n谢德先生在美国国家安全和情报机构内部工作了近33年，其中大部分时间都在追踪中国。去年12月，他与安德鲁·巴杰合著了《大劫案》，借助情报案件、企业入侵事件以及在决策层的亲身经历，考察中国共产党如何建立一个“全社会”体系，以获取外国技术、战略情报和工业能力。从航空航天与国防主承包商，到领先的科技和电动汽车公司，本书追溯了这些努力如何加速中国的技术崛起，同时暴露出美国创新和国防生态系统中的深层漏洞。\n\n在这一关键时刻，谢德先生将与《简报》的简·唐展开对话，讨论这些发展意味着什么——当前正值特朗普与习近平峰会之后、1260H条款将于6月30日生效并禁止新的国防部合同之际，同时出口管制和针对对手资本的审查也在持续收紧。\n\n我们将讨论：\n当前政策时刻——特朗普与习近平峰会、1260H条款于6月30日生效，以及持续推进的实体清单措施……查看更多\n\nMEU网络研讨会\n演讲嘉宾\n简·唐\n记者，《简报》\nKharon\n大卫·谢德\n前代理局长\n国防情报局（DIA）\n\n分享\n更多网络研讨会\n\n显而易见之处隐藏的风险信号\n欧盟于2026年4月制裁扬州扬杰时，这一举措似乎很突然——但风险多年来一直可见。加入Kharon和Z2，了解网络情报和供应链可视性如何揭示风险。\n制裁\n供应链\n\n保障航空航天与国防供应链\n航空航天和国防团队面临日益复杂的制裁、出口管制和供应链风险。加入Kharon和笛卡尔，了解网络级情报如何在现有工作流程中发现隐性暴露。\n规避\n制裁\n国防工业基础\n\n美国拟切断对埃及米斯尔银行的业务\nKharon专家将分析金融犯罪执法网络（FinCEN）依据“经济弃儿行动”针对埃及米斯尔银行阿联酋分行采取的行动，并为合规团队提供识别和管理伊朗影子银行网络风险的策略。\n金融犯罪\n\n制裁控制测试\n与Kharon及Hogan Lovells Cadwalader的专家讨论，我们将超越基本法规，探讨法律理论与控制相关风险现实相遇的高风险“灰色地带”。\n制裁"
+      },
+      "metadata_hashes": {
+        "title_en": "1ca84a7eda812d3643ca178d3c7db0980b5614dbb734012792cbecb50e42407a",
+        "title_cn": "15ea97aab25cb33da6e4cda683ab85bf162a6a483ce644c32b12616672828d31"
+      }
+    }
+  ],
+  "original_SQL": {
+    "sql_reference": {
+      "scoped": {
+        "total": 6989,
+        "by_angle": {
+          "news": 3675,
+          "clue": 1468,
+          "social": 1846
+        },
+        "by_institution": {
+          "1056514": 37,
+          "1000580": 516,
+          "1001350": 36,
+          "1000480": 290,
+          "2572960": 25,
+          "1000490": 1317,
+          "1000110": 1688,
+          "1055920": 50,
+          "2575920": 30,
+          "1001140": 1672,
+          "1001270": 164,
+          "1002550": 221,
+          "1000760": 66,
+          "1001150": 18,
+          "1001290": 99,
+          "1056587": 39,
+          "5775050": 36,
+          "1001190": 386,
+          "1056630": 27,
+          "1001210": 272
+        },
+        "by_platform": {
+          "Google News RSS (deep pilot)": 881,
+          "Google via Apify": 34,
+          "Google": 15,
+          "official_web": 1468,
+          "X": 1189,
+          "Facebook": 615,
+          "Bing News RSS": 125,
+          "Google News RSS discovery": 1664,
+          "Google News RSS + Yahoo title resolution via Reader": 9,
+          "legacy_cache_import": 1,
+          "LinkedIn": 42,
+          "Google News RSS": 946
+        }
+      },
+      "matched": {
+        "total": 987,
+        "by_angle": {
+          "news": 529,
+          "clue": 362,
+          "social": 96
+        },
+        "by_institution": {
+          "1000480": 56,
+          "2572960": 9,
+          "1056514": 5,
+          "1000580": 34,
+          "1001190": 24,
+          "1001350": 9,
+          "1000490": 321,
+          "1001290": 34,
+          "1056587": 7,
+          "5775050": 8,
+          "1000110": 162,
+          "2575920": 9,
+          "1055920": 23,
+          "1001140": 122,
+          "1001270": 127,
+          "1002550": 2,
+          "1056630": 3,
+          "1001210": 32
+        },
+        "by_platform": {
+          "Google News RSS (deep pilot)": 119,
+          "Google via Apify": 16,
+          "Google": 2,
+          "official_web": 362,
+          "X": 72,
+          "Facebook": 21,
+          "Bing News RSS": 19,
+          "Google News RSS discovery": 310,
+          "LinkedIn": 3,
+          "Google News RSS": 63
+        }
+      }
+    },
+    "scope": {
+      "dataset": "real",
+      "filters": {
+        "date_field": "published_at"
+      },
+      "source_version": "f064c896c123cbf4",
+      "date_field": "published_at",
+      "timezone": "Asia/Shanghai",
+      "excluded_terms": [],
+      "sort": "recent",
+      "relaxed": false,
+      "term_match": [
+        [
+          "中国",
+          "China",
+          "Chinese",
+          "PRC",
+          "对华",
+          "涉华",
+          "中美",
+          "美中"
+        ]
+      ],
+      "strategy": "fts5_and",
+      "date_semantics": "Original source publication dates only; recovered dates do not change this scope"
+    },
+    "fts_expression": "(\"中国\" OR \"china\" OR \"chinese\" OR \"prc\" OR \"对华\" OR \"涉华\" OR \"中美\" OR \"美中\")",
+    "exclude_fts_expression": "",
+    "count_unit": "distinct stored real records; returned evidence and snapshot/web totals are separate"
+  },
+  "original_A2": {
+    "A1": "independent scoped/matched SQL checked",
+    "A2": "independent dates/months/shares/ranking checked; scoped not required",
+    "date_range_reference": {
+      "min": "1999-02-01T12:00:00+00:00",
+      "max": "2026-11-12T18:00:00+00:00",
+      "max_nonfuture": "2026-09-25T10:35:01+00:00",
+      "dated_records": 896,
+      "undated_records": 91,
+      "future_dated_records": 1,
+      "date_origins": {
+        "provided": 896,
+        "missing": 69,
+        "recovered": 22
+      }
+    },
+    "monthly_reference": [
+      {
+        "month": "1999-02",
+        "count": 1
+      },
+      {
+        "month": "2000-07",
+        "count": 1
+      },
+      {
+        "month": "2004-09",
+        "count": 1
+      },
+      {
+        "month": "2004-12",
+        "count": 1
+      },
+      {
+        "month": "2005-01",
+        "count": 1
+      },
+      {
+        "month": "2005-02",
+        "count": 1
+      },
+      {
+        "month": "2005-03",
+        "count": 1
+      },
+      {
+        "month": "2005-04",
+        "count": 1
+      },
+      {
+        "month": "2005-06",
+        "count": 1
+      },
+      {
+        "month": "2005-09",
+        "count": 1
+      },
+      {
+        "month": "2006-07",
+        "count": 1
+      },
+      {
+        "month": "2007-04",
+        "count": 1
+      },
+      {
+        "month": "2007-10",
+        "count": 1
+      },
+      {
+        "month": "2008-01",
+        "count": 3
+      },
+      {
+        "month": "2008-02",
+        "count": 1
+      },
+      {
+        "month": "2008-04",
+        "count": 1
+      },
+      {
+        "month": "2008-05",
+        "count": 1
+      },
+      {
+        "month": "2008-07",
+        "count": 1
+      },
+      {
+        "month": "2008-09",
+        "count": 1
+      },
+      {
+        "month": "2008-10",
+        "count": 1
+      },
+      {
+        "month": "2009-01",
+        "count": 1
+      },
+      {
+        "month": "2009-02",
+        "count": 1
+      },
+      {
+        "month": "2009-04",
+        "count": 1
+      },
+      {
+        "month": "2009-05",
+        "count": 2
+      },
+      {
+        "month": "2009-07",
+        "count": 1
+      },
+      {
+        "month": "2009-08",
+        "count": 1
+      },
+      {
+        "month": "2009-10",
+        "count": 3
+      },
+      {
+        "month": "2009-11",
+        "count": 1
+      },
+      {
+        "month": "2010-04",
+        "count": 1
+      },
+      {
+        "month": "2010-05",
+        "count": 1
+      },
+      {
+        "month": "2010-10",
+        "count": 1
+      },
+      {
+        "month": "2010-11",
+        "count": 1
+      },
+      {
+        "month": "2010-12",
+        "count": 1
+      },
+      {
+        "month": "2011-01",
+        "count": 2
+      },
+      {
+        "month": "2011-06",
+        "count": 1
+      },
+      {
+        "month": "2011-07",
+        "count": 1
+      },
+      {
+        "month": "2011-08",
+        "count": 1
+      },
+      {
+        "month": "2011-09",
+        "count": 1
+      },
+      {
+        "month": "2011-10",
+        "count": 1
+      },
+      {
+        "month": "2011-11",
+        "count": 1
+      },
+      {
+        "month": "2012-01",
+        "count": 1
+      },
+      {
+        "month": "2012-02",
+        "count": 1
+      },
+      {
+        "month": "2012-03",
+        "count": 1
+      },
+      {
+        "month": "2012-07",
+        "count": 1
+      },
+      {
+        "month": "2012-09",
+        "count": 2
+      },
+      {
+        "month": "2012-10",
+        "count": 1
+      },
+      {
+        "month": "2013-04",
+        "count": 2
+      },
+      {
+        "month": "2013-06",
+        "count": 1
+      },
+      {
+        "month": "2013-07",
+        "count": 2
+      },
+      {
+        "month": "2013-10",
+        "count": 1
+      },
+      {
+        "month": "2013-11",
+        "count": 1
+      },
+      {
+        "month": "2013-12",
+        "count": 1
+      },
+      {
+        "month": "2014-04",
+        "count": 2
+      },
+      {
+        "month": "2014-05",
+        "count": 1
+      },
+      {
+        "month": "2014-07",
+        "count": 1
+      },
+      {
+        "month": "2014-10",
+        "count": 1
+      },
+      {
+        "month": "2014-11",
+        "count": 1
+      },
+      {
+        "month": "2015-01",
+        "count": 3
+      },
+      {
+        "month": "2015-03",
+        "count": 1
+      },
+      {
+        "month": "2015-04",
+        "count": 1
+      },
+      {
+        "month": "2015-06",
+        "count": 1
+      },
+      {
+        "month": "2015-07",
+        "count": 1
+      },
+      {
+        "month": "2015-09",
+        "count": 2
+      },
+      {
+        "month": "2015-10",
+        "count": 2
+      },
+      {
+        "month": "2016-01",
+        "count": 2
+      },
+      {
+        "month": "2016-03",
+        "count": 2
+      },
+      {
+        "month": "2018-06",
+        "count": 1
+      },
+      {
+        "month": "2018-07",
+        "count": 1
+      },
+      {
+        "month": "2021-10",
+        "count": 1
+      },
+      {
+        "month": "2023-05",
+        "count": 1
+      },
+      {
+        "month": "2023-12",
+        "count": 1
+      },
+      {
+        "month": "2024-05",
+        "count": 1
+      },
+      {
+        "month": "2024-06",
+        "count": 2
+      },
+      {
+        "month": "2024-07",
+        "count": 1
+      },
+      {
+        "month": "2024-08",
+        "count": 7
+      },
+      {
+        "month": "2024-09",
+        "count": 15
+      },
+      {
+        "month": "2024-10",
+        "count": 9
+      },
+      {
+        "month": "2024-11",
+        "count": 7
+      },
+      {
+        "month": "2024-12",
+        "count": 17
+      },
+      {
+        "month": "2025-01",
+        "count": 18
+      },
+      {
+        "month": "2025-02",
+        "count": 14
+      },
+      {
+        "month": "2025-03",
+        "count": 18
+      },
+      {
+        "month": "2025-04",
+        "count": 18
+      },
+      {
+        "month": "2025-05",
+        "count": 16
+      },
+      {
+        "month": "2025-06",
+        "count": 20
+      },
+      {
+        "month": "2025-07",
+        "count": 29
+      },
+      {
+        "month": "2025-08",
+        "count": 21
+      },
+      {
+        "month": "2025-09",
+        "count": 28
+      },
+      {
+        "month": "2025-10",
+        "count": 38
+      },
+      {
+        "month": "2025-11",
+        "count": 27
+      },
+      {
+        "month": "2025-12",
+        "count": 33
+      },
+      {
+        "month": "2026-01",
+        "count": 37
+      },
+      {
+        "month": "2026-02",
+        "count": 34
+      },
+      {
+        "month": "2026-03",
+        "count": 48
+      },
+      {
+        "month": "2026-04",
+        "count": 23
+      },
+      {
+        "month": "2026-05",
+        "count": 63
+      },
+      {
+        "month": "2026-06",
+        "count": 33
+      },
+      {
+        "month": "2026-07",
+        "count": 58
+      },
+      {
+        "month": "2026-08",
+        "count": 92
+      },
+      {
+        "month": "2026-09",
+        "count": 81
+      },
+      {
+        "month": "2026-11",
+        "count": 1
+      }
+    ],
+    "denominator": 987,
+    "ranking": null
+  },
+  "database_count_review": {
+    "verdict": "PASS",
+    "answer": "数据库精确统计：阿肯色州立大学共 221 条，其中新闻舆情 100 条、官网线索 120 条、社交媒体 1 条。[A1]\n日期口径：published_at，Asia/Shanghai；Original source publication dates only; recovered dates do not change this scope。\n统计范围：已入库真实快照 f064c896c123cbf4；模拟数据未计入，不能据此推断全网总量。",
+    "scope": {
+      "dataset": "real",
+      "filters": {
+        "date_field": "published_at",
+        "institution": [
+          1002550
+        ]
+      },
+      "source_version": "f064c896c123cbf4",
+      "date_field": "published_at",
+      "timezone": "Asia/Shanghai",
+      "excluded_terms": [],
+      "sort": "relevance",
+      "relaxed": false,
+      "term_match": [],
+      "strategy": "structured_filters",
+      "date_semantics": "Original source publication dates only; recovered dates do not change this scope"
+    },
+    "model": {
+      "id": "auto/deepseek-v4.1-flash",
+      "used": false,
+      "attempted": false,
+      "reason": "exact_database_aggregate"
+    },
+    "usage": {},
+    "independent_SQL": {
+      "sql_reference": {
+        "scoped": {
+          "total": 221,
+          "by_angle": {
+            "news": 100,
+            "clue": 120,
+            "social": 1
+          },
+          "by_institution": {
+            "1002550": 221
+          },
+          "by_platform": {
+            "X": 1,
+            "Bing News RSS": 2,
+            "Google News RSS discovery": 98,
+            "official_web": 120
+          }
+        },
+        "matched": {
+          "total": 221,
+          "by_angle": {
+            "news": 100,
+            "clue": 120,
+            "social": 1
+          },
+          "by_institution": {
+            "1002550": 221
+          },
+          "by_platform": {
+            "X": 1,
+            "Bing News RSS": 2,
+            "Google News RSS discovery": 98,
+            "official_web": 120
+          }
+        }
+      },
+      "scope": {
+        "dataset": "real",
+        "filters": {
+          "date_field": "published_at",
+          "institution": [
+            1002550
+          ]
+        },
+        "source_version": "f064c896c123cbf4",
+        "date_field": "published_at",
+        "timezone": "Asia/Shanghai",
+        "excluded_terms": [],
+        "sort": "relevance",
+        "relaxed": false,
+        "term_match": [],
+        "strategy": "structured_filters",
+        "date_semantics": "Original source publication dates only; recovered dates do not change this scope"
+      },
+      "fts_expression": "",
+      "exclude_fts_expression": "",
+      "count_unit": "distinct stored real records; returned evidence and snapshot/web totals are separate"
+    },
+    "independent_A2": {
+      "A1": "independent scoped/matched SQL checked",
+      "A2": "independent dates/months/shares/ranking checked; scoped not required",
+      "date_range_reference": {
+        "min": "2025-10-16T00:00:00+00:00",
+        "max": "2026-10-09T05:15:31+00:00",
+        "max_nonfuture": "2026-10-09T05:15:31+00:00",
+        "dated_records": 107,
+        "undated_records": 114,
+        "future_dated_records": 0,
+        "date_origins": {
+          "provided": 107,
+          "missing": 114
+        }
+      },
+      "monthly_reference": [
+        {
+          "month": "2025-10",
+          "count": 1
+        },
+        {
+          "month": "2025-11",
+          "count": 1
+        },
+        {
+          "month": "2025-12",
+          "count": 4
+        },
+        {
+          "month": "2026-01",
+          "count": 5
+        },
+        {
+          "month": "2026-02",
+          "count": 11
+        },
+        {
+          "month": "2026-03",
+          "count": 13
+        },
+        {
+          "month": "2026-04",
+          "count": 21
+        },
+        {
+          "month": "2026-05",
+          "count": 19
+        },
+        {
+          "month": "2026-06",
+          "count": 6
+        },
+        {
+          "month": "2026-07",
+          "count": 8
+        },
+        {
+          "month": "2026-08",
+          "count": 6
+        },
+        {
+          "month": "2026-09",
+          "count": 11
+        },
+        {
+          "month": "2026-10",
+          "count": 1
+        }
+      ],
+      "denominator": 221,
+      "ranking": null
+    },
+    "quantity_unit": "stored real records, not displayed paragraphs; news100/clue120/social1=221"
+  },
+  "unsupported_claims": [],
+  "new_qa_model_calls": 0,
+  "new_browser_calls": 0,
+  "new_HTTP_requests": 0,
+  "prior_QA_actual_model_turn_budget": {
+    "used": 2,
+    "maximum": 2,
+    "changed": false
+  },
+  "protected_inputs_before_sha256": {
+    "/home/ubuntu/log/zgclab-chat-upgrade-20261109/public/20261108T193818Z/results.json": "31531521658661366c577ca9938adcf8f4078b041e3a7b64893ead1045e11ab6",
+    "/home/ubuntu/zgclab-1-web/reports/research-chat-public-20261109.json": "31531521658661366c577ca9938adcf8f4078b041e3a7b64893ead1045e11ab6",
+    "/home/ubuntu/zgclab-1-web/reports/research-chat-acceptance-20261109.json": "994b05fbff54547412753251f41fc4f4405cdc803b4b1703913675f81581aacf",
+    "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T193027Z-3445594/manual-source-review-incremental-final.json": "fcd8c19dfd044263ca41ed8bba6decafe64399d18c06f78ee4481dd3797fbc38"
+  },
+  "limitations": [
+    "External source statements are reviewed for faithful representation, not independently proved true; source testimony and opinion retain attribution.",
+    "987 is the disclosed lexical FTS concept match count in6989 real records, not a semantic guarantee that every match substantively concernsChina or an objective importance ranking.",
+    "The answer summarizes four cited source samples; it does not establish complete current web coverage, institutional positions, trend causality or whole-corpus topic proportions.",
+    "Original published_at and Asia/Shanghai date semantics were used; missing dates, future source date and archived recording/publication differences are preserved rather than silently normalized.",
+    "UI/public transport checks and reported timings are not rerun by this review. Parallel418assetreadback is outside this review and was not polled or marked complete."
+  ],
+  "protected_inputs_unchanged": true,
+  "protected_inputs_after_sha256": {
+    "/home/ubuntu/log/zgclab-chat-upgrade-20261109/public/20261108T193818Z/results.json": "31531521658661366c577ca9938adcf8f4078b041e3a7b64893ead1045e11ab6",
+    "/home/ubuntu/zgclab-1-web/reports/research-chat-public-20261109.json": "31531521658661366c577ca9938adcf8f4078b041e3a7b64893ead1045e11ab6",
+    "/home/ubuntu/zgclab-1-web/reports/research-chat-acceptance-20261109.json": "994b05fbff54547412753251f41fc4f4405cdc803b4b1703913675f81581aacf",
+    "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261108T193027Z-3445594/manual-source-review-incremental-final.json": "fcd8c19dfd044263ca41ed8bba6decafe64399d18c06f78ee4481dd3797fbc38"
+  }
+}

@@ -1,6 +1,6 @@
 {
-  "restarted_at": "2026-11-08T19:00:52.723773+00:00",
-  "release_commit": "dbc0720224a91cd63e2f10cbb2006de821441dbb",
+  "restarted_at": "2026-11-08T19:34:20.998516+00:00",
+  "release_commit": "af295c7307af24427c73fdd2633ed2d992a68ac3",
   "acceptance": "reports/research-chat-acceptance-20261109.json",
   "pane": "%1705",
   "session": "research-api:0",
@@ -17,7 +17,7 @@
     "service/limits.py": "7abce0d6e226a2e2727a8f092028c52077784674612248af4c98bc91073a64af",
     "service/llm.py": "3d9b49d5d423d73b3e6a3d031a7bed5c82c66628201fd747c599fa830d842507",
     "service/planner.py": "3967a0b07e7e16a0e0846ae9239c852ef066ae00d5fce42fd8d27af1fa933a7c",
-    "service/research_chat.py": "745e5a29ad71b8ede0c2ce085eae2f5e806451063ef77d9bdddc5b1d40b65113",
+    "service/research_chat.py": "492eb24de610a436a122002394896dc83354ac57479c156a4f890a812368f0ca",
     "service/retrieval.py": "81b579721ae34911ad4c49168e62356dd4428c86b25ed203b0b21cc70225fde1",
     "service/text.py": "0cde4d0275975c8ed981e21dc006082ebab7cbabae5c289526e9aca5805da9d2",
     "service/verify_live.py": "2b305eb1c890cd905a124c564c1023ec13ef437a413d0dfeb756638e42b2738d",
