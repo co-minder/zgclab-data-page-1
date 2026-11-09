@@ -841,6 +841,28 @@ class ChatAnalysisTests(unittest.TestCase):
         self.assertIn("不代表全库占比", response["answer"])
         self.assertEqual(len(model.calls), 2)
 
+    def test_broad_chat_variants_use_bounded_sample(self):
+        messages = [
+            "随便跟我聊聊，你在数据库里看到过什么有意思的东西？",
+            "如果让你推荐三篇最值得看的资料，你会选哪三篇？为什么？",
+            "用一句话概括整个数据库。",
+            "最近有什么瓜可以吃？",
+            "这些资料里最离谱的是什么？",
+            "给我讲讲你最喜欢的一条资料，为什么？",
+            "中国最近在干什么？",
+            "这些机构里谁最厉害？",
+        ]
+        for message in messages:
+            with self.subTest(message=message):
+                chat, model = self.chat()
+                response = chat.answer(message)
+                self.assertEqual(response["state"], "answered", (response.get("answer") or "")[:220])
+                self.assertTrue(response["coverage"].get("sample_fallback"))
+                self.assertTrue(response["model"]["used"])
+                self.assertTrue(response["citations"])
+                self.assertIn("抽样", response["answer"])
+                self.assertEqual(len(model.calls), 2)
+
     def test_broad_sample_legacy_verbatim_claims_still_report_grounded_summary(self):
         class LegacyModel(AnalysisModel):
             def complete(self, messages, max_tokens, timeout=None):

@@ -17,11 +17,12 @@ CITATION = re.compile(r"\[C(\d+)\]")
 # when the literal database query has zero matches. Specific topics, dates,
 # counts, comparisons, exclusions and unknown entities stay literal.
 BROAD_SAMPLE = re.compile(
-    r"你认为|你觉得|你看来|您认为|最有特点|有特点|特点|值得关注|值得一看|值得推荐|"
-    r"推荐(?:几|一|些|下|点)|说说|讲讲|聊聊|谈谈|给我说|汇报|印象最深|主要动态|"
-    r"动态|看点|亮点|值得注意|有什么值得|哪些值得|哪个|哪篇|哪几篇|最好|最佳|最值得|"
-    r"有意思|有趣|精彩|突出|亮眼|好看|overview|highlights?|recommend|"
-    r"most\s+(?:notable|interesting|memorable)|what(?:'s| is)\s+worth|tell\s+me\s+about",
+    r"你好|您好|嗨|哈喽|hello|hi|hey|心情|聊天|聊聊|随便|说说|讲讲|谈谈|看看|看下|看一下|"
+    r"推荐|值得|概括|总结|介绍|概述|概览|喜欢|离谱|奇怪|有趣|有意思|印象|动态|热点|新鲜事|瓜|"
+    r"什么|哪些|哪个|哪篇|哪几篇|谁|怎么|怎样|如何|为什么|为何|"
+    r"最厉害|厉害|更强|谁更强|最好|最佳|最值得|最反华|反华|"
+    r"干什么|做什么|发生什么|发生了什么|怎么样|"
+    r"overview|highlights?|recommend|tell\s+me|what(?:'s| is)?|why|how",
     re.I,
 )
 BROAD_TERM = re.compile(
@@ -34,6 +35,16 @@ BROAD_TERM = re.compile(
 )
 BROAD_TOPIC = re.compile(
     r"中国|China|Chinese|PRC|对华|涉华|中美|美中|美国|U\.S\.|United\s+States|America",
+    re.I,
+)
+CHAT_FILLER = re.compile(
+    r"数据库|资料库|资料|记录|报道|信息|内容|东西|文章|报告|汇报|新闻|机构|单位|组织|整个|全部|所有|"
+    r"这些|那些|这个|那个|一句话|三篇|几篇|一条|一篇|一个|如果|让|选|哪|谁|什么|怎么|怎样|如何|为什么|为何|"
+    r"干|做|发生|看到过|看到|看过|随便|跟|和|与|在|最近|当前|现在|今天|心情|聊天|聊聊|说说|讲讲|谈谈|看看|看下|看一下|"
+    r"喜欢|最|厉害|强|更|离谱|奇怪|有趣|有意思|印象|动态|热点|新鲜事|瓜|概括|总结|介绍|概述|概览|推荐|值得|"
+    r"(?:资料|记录|数据库|内容|信息|东西|文章|报告|机构|单位|组织)(?:里|中)|"
+    r"活动|项目|研究|工作|情况|方面|相关|有关|一下|我|你|您|的|了|过|吗|呢|啊|吧|呀|哦|嘛|呗|啦|请|帮|给我|"
+    r"看|会|说|认为|觉得|家|编",
     re.I,
 )
 SAMPLE_FILLER = re.compile(
@@ -151,6 +162,7 @@ class Chat:
             if not group or not isinstance(group[0], str):
                 return True
             residue = SAMPLE_FILLER.sub(" ", BROAD_TERM.sub(" ", group[0]))
+            residue = CHAT_FILLER.sub(" ", residue)
             residue = BROAD_TOPIC.sub(" ", residue)
             if re.search(r"[\u3400-\u9fff]{2,}|[A-Za-z]{3,}|[A-Za-z]*\d[A-Za-z0-9]*", residue):
                 return True
