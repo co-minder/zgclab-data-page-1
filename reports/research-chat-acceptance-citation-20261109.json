@@ -10,8 +10,8 @@
   "source_freeze": {
     "assistant.js": "bd20e5bb1c9496ee4c8a19d0ae56f9f41bb019b80a41995b760b8bfd01c5a886",
     "assistant.css": "9ad4ed742938cc53482a3d192d74031b6ae9f68e6d21eb0eea766ea9082e6cba",
-    "service/chat.py": "518600fc6c34235b592768e4f15ac2927d27b3ba0bfaa334016dc4828272d845",
-    "service/research_chat.py": "035fe97cf151c56e6267f5410def806f5b567e5b17315fe33e5d7dcf7cf74dbe"
+    "service/chat.py": "ac23add6d752696044bc2ebb40416260f6d4a6bce288b5db0d3dea334227437e",
+    "service/research_chat.py": "83a0d93fc584076b8aa2eaa72938104870c098b38856589e1175deebf3c071e6"
   },
   "ui_qa": {
     "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261109T090603Z-ui-citation-qa/ui-citation-qa.json",
@@ -83,6 +83,43 @@
     "total_bytes": 29382657,
     "verdict": "PASS"
   },
-  "public_verification": "PASS: public UI 29/29, broad exact question answered with 12 samples/0 literal matches, 418/423 assets read back",
-  "updated_at": "2026-11-09T09:46:29.771626+00:00"
+  "public_verification": "PASS: public UI 29/29, broad exact question answered with 12 samples/0 literal matches, 418/423 assets read back; 20-question public chat audit: 9 answered, 11 honest no_results, 0 retrieval_only, 0 errors",
+  "updated_at": "2026-11-09T10:54:21.721154+00:00",
+  "absurd20": {
+    "path": "reports/research-chat-absurd-20-20261109.json",
+    "sha256": "ad9564f8a8e0c5cbd150d819a12ef93f4e3547aa9ddc9e9f2bb0f43d845047f1",
+    "counts": {
+      "total": 20,
+      "answered": 9,
+      "no_results": 11,
+      "retrieval_only": 0,
+      "errors": 0,
+      "with_issues": 0
+    },
+    "answered_tags": [
+      "chat",
+      "recommend",
+      "institution_rank",
+      "overview",
+      "gossip",
+      "absurd",
+      "screenshot",
+      "favorite",
+      "china_recent"
+    ],
+    "no_result_tags": [
+      "greeting",
+      "creative",
+      "prediction",
+      "unknown",
+      "sensitive",
+      "poem",
+      "anti_china",
+      "date_zero",
+      "unknown_entity",
+      "compare_opinion",
+      "injection"
+    ],
+    "final_public": true
+  }
 }
