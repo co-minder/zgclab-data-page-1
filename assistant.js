@@ -37,6 +37,8 @@
   const finite = (value) => value !== null && value !== "" && Number.isFinite(Number(value)) ? Number(value) : null;
   const markdownText = (value) => text(value).replace(/[\\`*_{}\[\]<>()#!|]/g, "\\$&");
   const makeID = () => "as-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 9);
+  const labelTone = (label) => /^A/.test(String(label || "")) ? "a" : "c";
+  const labelToneClass = (label) => labelTone(label) === "a" ? "as-label-a" : "as-label-c";
   let disposeCurrent = null;
 
   function safeUrl(value) {
@@ -331,7 +333,7 @@
         const label = value.slice(1, -1);
         const evidence = citations.find((item) => item.label === label);
         const element = document.createElement(evidence ? "button" : "span");
-        element.className = evidence ? "as-citation-ref" : "as-citation-missing";
+        element.className = evidence ? "as-citation-ref as-citation-" + labelTone(label) : "as-citation-missing";
         element.textContent = value;
         if (evidence) {
           element.type = "button";
@@ -446,6 +448,7 @@
       if (statusRequest) statusRequest.abort();
       const dialog = view.querySelector("#asPasswordDialog");
       if (dialog && dialog.open) dialog.close();
+      view.querySelectorAll("dialog.as-dialog[open]").forEach((item) => item.close());
       if (routeSignal) routeSignal.removeEventListener("abort", dispose);
       if (disposeCurrent === dispose) disposeCurrent = null;
     }
@@ -912,7 +915,7 @@
         const scope = item.scope, filters = scope.filters;
         const filterLabel = [filters.ids.length ? filters.ids.map(instName).join("、") : "全部机构", filters.angles && filters.angles.length ? filters.angles.map(angleName).join("、") : "全部角度", filters.platforms.length ? filters.platforms.join("、") : "全部平台", (filters.from || "不限") + " 至 " + (filters.to || "不限")].join(" · ");
         const count = (value) => value === null ? "未提供" : fmt(value);
-        article.innerHTML = `<div class="as-evidence-top"><b class="as-evidence-label">[${esc(item.label)}]</b><span>数据库精确统计</span><span class="as-aggregate-tag">真实记录去重</span></div><div class="as-aggregate-overview"><div><span>检索规则命中</span><strong>${count(item.matched.total)} <small>条</small></strong></div><div><span>结构化筛选范围</span><strong>${count(item.scoped.total)} <small>条</small></strong></div></div><p class="as-note as-aggregate-boundary">仅覆盖已入库快照；不以返回段落估算，不代表全网数量或实时覆盖。</p><details class="as-aggregate-details"><summary>查看统计口径与角度分布</summary><h3>按真实记录去重计数</h3><p class="as-note">结构化筛选范围：${esc(filterLabel)}</p><p class="as-note">资料版本 ${esc(scope.source_version || "未提供")} · 日期口径 ${esc(dateFieldLabel(scope.date_field))} · ${esc(scope.timezone || "Asia/Shanghai")}</p><div class="as-aggregate-table"><table><caption>范围总数与按检索规则命中数；均不以返回段落数量估算</caption><thead><tr><th scope="col">口径</th><th scope="col">全部</th>${ANGLES.map((angle) => `<th scope="col">${esc(angleName(angle))}</th>`).join("")}</tr></thead><tbody>${[["结构化范围", item.scoped], ["检索规则命中", item.matched]].map(([label, value]) => `<tr><th scope="row">${label}</th><td>${count(value.total)}</td>${ANGLES.map((angle) => `<td>${count(value.by_angle[angle])}</td>`).join("")}</tr>`).join("")}</tbody></table></div><p class="as-note">检索规则 ${esc(scope.strategy || "未提供")}；检索词 ${esc(scope.terms.join("、") || "无额外关键词")}</p></details>`;
+        article.innerHTML = `<div class="as-evidence-top"><b class="as-evidence-label ${labelToneClass(item.label)}">[${esc(item.label)}]</b><span>数据库精确统计</span><span class="as-aggregate-tag">真实记录去重</span></div><div class="as-aggregate-overview"><div><span>检索规则命中</span><strong>${count(item.matched.total)} <small>条</small></strong></div><div><span>结构化筛选范围</span><strong>${count(item.scoped.total)} <small>条</small></strong></div></div><p class="as-note as-aggregate-boundary">仅覆盖已入库快照；不以返回段落估算，不代表全网数量或实时覆盖。</p><details class="as-aggregate-details"><summary>查看统计口径与角度分布</summary><h3>按真实记录去重计数</h3><p class="as-note">结构化筛选范围：${esc(filterLabel)}</p><p class="as-note">资料版本 ${esc(scope.source_version || "未提供")} · 日期口径 ${esc(dateFieldLabel(scope.date_field))} · ${esc(scope.timezone || "Asia/Shanghai")}</p><div class="as-aggregate-table"><table><caption>范围总数与按检索规则命中数；均不以返回段落数量估算</caption><thead><tr><th scope="col">口径</th><th scope="col">全部</th>${ANGLES.map((angle) => `<th scope="col">${esc(angleName(angle))}</th>`).join("")}</tr></thead><tbody>${[["结构化范围", item.scoped], ["检索规则命中", item.matched]].map(([label, value]) => `<tr><th scope="row">${label}</th><td>${count(value.total)}</td>${ANGLES.map((angle) => `<td>${count(value.by_angle[angle])}</td>`).join("")}</tr>`).join("")}</tbody></table></div><p class="as-note">检索规则 ${esc(scope.strategy || "未提供")}；检索词 ${esc(scope.terms.join("、") || "无额外关键词")}</p></details>`;
         if (item.method || item.byMonth && item.byMonth.length || item.dateRange && item.dateRange.max) {
           article.querySelector('.as-aggregate-overview').remove();
           article.querySelector('.as-aggregate-details').hidden = item.scoped.total === null;
@@ -991,11 +994,11 @@
         const article = document.createElement("article"); article.className = "as-evidence"; article.tabIndex = -1; article.dataset.asCitation = item.label;
         article.id = "as-evidence-" + scope + "-" + item.label;
         const record = recordUrl(item);
-        article.innerHTML = `<div class="as-evidence-top"><b class="as-evidence-label">[${esc(item.label)}]</b><span>${esc(angleName(item.angle))}</span><span data-as-evidence-institution>${item.ktid ? esc(instName(item.ktid)) : ""}</span>${Number.isFinite(item.score) ? `<span class="as-score" title="检索排序分数，不是事实置信度">排序分 ${esc(Number(item.score).toFixed(2))}</span>` : ""}</div><h3>${record ? `<a href="${esc(record)}">${esc(item.title)}</a>` : esc(item.title)}</h3><p class="as-paragraph">${esc(item.paragraph ? (item.field ? item.field + " · " : "") + (/^\d+$/.test(item.paragraph) ? (item.paragraphScheme === "service_field_chunks_v1" ? "服务分段 " + item.paragraph + "（服务按字段切分，非原网页段落号）" : "段落 " + item.paragraph) : item.paragraph) : "服务未提供段落编号")}</p><blockquote class="as-excerpt"></blockquote><div class="as-evidence-links">${record ? `<a data-as-local-record href="${esc(record)}">查看本站记录 →</a>` : `<span class="as-note" data-as-local-record>${esc(evidenceLookupNotice(item))}</span>`}${item.source_url ? `<a data-as-original-source href="${esc(item.source_url)}" target="_blank" rel="noopener noreferrer">打开原文 ↗</a>` : '<span class="as-note" data-as-original-source>原文链接未提供或无效</span>'}</div>`;
+        article.innerHTML = `<div class="as-evidence-top"><b class="as-evidence-label ${labelToneClass(item.label)}">[${esc(item.label)}]</b><span>${esc(angleName(item.angle))}</span><span data-as-evidence-institution>${item.ktid ? esc(instName(item.ktid)) : ""}</span>${Number.isFinite(item.score) ? `<span class="as-score" title="检索排序分数，不是事实置信度">排序分 ${esc(Number(item.score).toFixed(2))}</span>` : ""}</div><h3>${record ? `<a href="${esc(record)}">${esc(item.title)}</a>` : esc(item.title)}</h3><p class="as-paragraph">${esc(item.paragraph ? (item.field ? item.field + " · " : "") + (/^\d+$/.test(item.paragraph) ? (item.paragraphScheme === "service_field_chunks_v1" ? "服务分段 " + item.paragraph + "（服务按字段切分，非原网页段落号）" : "段落 " + item.paragraph) : item.paragraph) : "服务未提供段落编号")}</p><blockquote class="as-excerpt"></blockquote><div class="as-evidence-links">${record ? `<a data-as-local-record href="${esc(record)}">查看本站记录 →</a>` : `<span class="as-note" data-as-local-record>${esc(evidenceLookupNotice(item))}</span>`}${item.source_url ? `<a data-as-original-source href="${esc(item.source_url)}" target="_blank" rel="noopener noreferrer">打开原文 ↗</a>` : '<span class="as-note" data-as-original-source>原文链接未提供或无效</span>'}</div>`;
         if (item.quotes && item.quotes.length) {
           const quotes = document.createElement("details"); quotes.className = "as-body-preview";
           const summary = document.createElement("summary"); summary.textContent = "查看回答使用的来源摘录"; quotes.appendChild(summary);
-          for (const value of item.quotes) { const quote = document.createElement("blockquote"); quote.className = "as-excerpt"; quote.textContent = value; quotes.appendChild(quote); }
+          for (const value of item.quotes) { const quote = document.createElement("blockquote"); quote.className = "as-excerpt as-quote-" + labelTone(item.label); quote.textContent = value; quotes.appendChild(quote); }
           article.appendChild(quotes);
         }
         if (item.version || item.dateOrigin || item.translation) {
@@ -1127,19 +1130,73 @@
       }).join("\n");
     }
 
+    function openDetailDialog(dialog) {
+      view.querySelectorAll("dialog.as-dialog[open]").forEach((other) => { if (other !== dialog) other.close(); });
+      if (!dialog.open) dialog.showModal();
+    }
+
+    function createDetailDialog(parent, options) {
+      const id = "as-detail-" + makeID();
+      const row = document.createElement("details");
+      row.className = "as-process " + (options.rowClass || "");
+      const summary = document.createElement("summary");
+      summary.className = "as-process-trigger";
+      summary.setAttribute("aria-haspopup", "dialog");
+      summary.setAttribute("aria-controls", id);
+      const label = document.createElement("span"); label.className = "as-process-label"; label.textContent = options.label;
+      summary.appendChild(label);
+      if (options.badge) { const badge = document.createElement("span"); badge.className = "as-process-count"; badge.textContent = options.badge; summary.appendChild(badge); }
+      const hint = document.createElement("span"); hint.className = "as-process-hint"; hint.setAttribute("aria-hidden", "true"); hint.textContent = "打开弹窗 ↗";
+      summary.appendChild(hint);
+      row.appendChild(summary);
+
+      const dialog = document.createElement("dialog");
+      dialog.className = "as-dialog " + (options.dialogClass || "");
+      dialog.id = id;
+      dialog.setAttribute("aria-labelledby", id + "-title");
+      const head = document.createElement("div"); head.className = "as-dialog-head";
+      const heading = document.createElement("div"); heading.className = "as-dialog-heading";
+      const kicker = document.createElement("span"); kicker.className = "as-dialog-kicker"; kicker.textContent = options.kicker || "详情";
+      const title = document.createElement("h2"); title.className = "as-dialog-title"; title.id = id + "-title"; title.textContent = options.title || options.label;
+      heading.append(kicker, title);
+      const close = document.createElement("button"); close.type = "button"; close.className = "as-dialog-close"; close.dataset.asDialogClose = "1"; close.setAttribute("aria-label", "关闭弹窗");
+      close.append(document.createTextNode("关闭"));
+      const glyph = document.createElement("span"); glyph.setAttribute("aria-hidden", "true"); glyph.textContent = "×"; close.appendChild(glyph);
+      head.append(heading, close);
+      const body = document.createElement("div"); body.className = "as-dialog-body";
+      dialog.append(head, body);
+
+      let returnFocus = true;
+      summary.onclick = (event) => { event.preventDefault(); returnFocus = true; openDetailDialog(dialog); };
+      close.onclick = () => { returnFocus = true; dialog.close(); };
+      dialog.addEventListener("click", (event) => { if (event.target === dialog) { returnFocus = true; dialog.close(); } });
+      dialog.addEventListener("close", () => { const target = returnFocus ? summary : null; returnFocus = true; if (target && target.isConnected) target.focus({ preventScroll: true }); });
+      parent.append(row, dialog);
+      return {
+        row, summary, dialog, body,
+        closeForCitation() { returnFocus = false; if (dialog.open) dialog.close(); },
+      };
+    }
+
     function renderSections(parent, turn, article) {
       if (!(turn.sections || []).length) return;
-      const details = document.createElement("details"); details.className = "as-claim-details as-process";
-      const summary = document.createElement("summary"); summary.textContent = "查看来源陈述、分析与对应摘录"; details.appendChild(summary);
+      const detail = createDetailDialog(parent, {
+        rowClass: "as-claim-details",
+        label: "查看来源陈述、分析与对应摘录",
+        badge: turn.sections.length + " 组",
+        kicker: "来源核对",
+        title: "来源陈述、分析与对应摘录",
+        dialogClass: "as-source-dialog",
+      });
       for (const section of turn.sections) {
-        const block = document.createElement("div"); block.className = "as-claim";
-        const label = document.createElement("span"); label.className = "as-claim-label"; label.textContent = section.kind === "analysis" ? "分析" : "来源陈述"; block.appendChild(label);
+        const analysis = section.kind === "analysis";
+        const block = document.createElement("div"); block.className = "as-claim" + (analysis ? " is-analysis" : " is-source");
+        const label = document.createElement("span"); label.className = "as-claim-label" + (analysis ? " is-analysis" : " is-source"); label.textContent = analysis ? "分析" : "来源陈述"; block.appendChild(label);
         const body = document.createElement("div"); body.className = "as-markdown";
-        renderMarkdown(body, section.text + " " + section.citations.map((c) => "[" + c + "]").join(""), [...turn.items, ...(turn.aggregates || [])], (c) => activateCitation(article, c)); block.appendChild(body);
-        for (const q of section.quotes) { const quote = document.createElement("blockquote"); quote.className = "as-excerpt"; quote.textContent = "[" + q.citation_id + "] " + q.quote; block.appendChild(quote); }
-        details.appendChild(block);
+        renderMarkdown(body, section.text + " " + section.citations.map((c) => "[" + c + "]").join(""), [...turn.items, ...(turn.aggregates || [])], (c) => { detail.closeForCitation(); activateCitation(article, c); }); block.appendChild(body);
+        for (const q of section.quotes) { const quote = document.createElement("blockquote"); quote.className = "as-excerpt " + (analysis ? "as-quote-a" : "as-quote-c"); quote.textContent = "[" + q.citation_id + "] " + q.quote; block.appendChild(quote); }
+        detail.body.appendChild(block);
       }
-      parent.appendChild(details);
     }
 
     function revealAnswer(id) {
@@ -1168,20 +1225,25 @@
       const count = document.createElement("p"); count.className = "as-note"; count.textContent = countText(result); header.appendChild(count);
       if (result.source === "local") { const notice = document.createElement("p"); notice.className = "as-retrieval-note"; notice.textContent = "采用关键词、显式词表与字面近似匹配；不理解语义，未扫描全部正文。可进入完整正文检索继续核对。"; header.appendChild(notice); }
       if (result.source === "service") { const modelNote = document.createElement("p"); modelNote.className = "as-note"; modelNote.textContent = modelExplanation(result.modelInfo, "search"); header.appendChild(modelNote); }
-      const process = document.createElement("details"); process.className = "as-process";
-      const summary = document.createElement("summary"); summary.textContent = "查看检索过程、扩展词与覆盖范围"; process.appendChild(summary);
-      if (result.modelQuery) { const planNote = document.createElement("p"); planNote.className = "as-note"; planNote.textContent = "模型检索式：" + result.modelQuery; process.appendChild(planNote); }
-      if (result.strategy) { const strategy = document.createElement("p"); strategy.className = "as-note"; strategy.textContent = "实际检索规则：" + result.strategy + (result.strategy === "fts5_or_fallback" ? "（全部条件未命中后放宽为任一词组匹配）" : ""); process.appendChild(strategy); }
-      renderContext(process, result);
-      if (result.coverage) { const coverage = document.createElement("p"); coverage.className = "as-note"; coverage.textContent = result.coverage; process.appendChild(coverage); }
-      renderExpansions(process, result.expansions, { ...state.lastRequest, mode: "search", question: result.originalQuery || result.query, expand: result.requestedExpand, semantic: result.requestedSemantic, filters: result.filters, source: result.source }, null);
-      header.appendChild(process);
+      const process = createDetailDialog(header, {
+        rowClass: "as-retrieval-process",
+        label: "查看检索过程、扩展词与覆盖范围",
+        kicker: "检索过程",
+        title: "检索过程、扩展词与覆盖范围",
+        dialogClass: "as-process-dialog",
+      });
+      if (result.modelQuery) { const planNote = document.createElement("p"); planNote.className = "as-note"; planNote.textContent = "模型检索式：" + result.modelQuery; process.body.appendChild(planNote); }
+      if (result.strategy) { const strategy = document.createElement("p"); strategy.className = "as-note"; strategy.textContent = "实际检索规则：" + result.strategy + (result.strategy === "fts5_or_fallback" ? "（全部条件未命中后放宽为任一词组匹配）" : ""); process.body.appendChild(strategy); }
+      renderContext(process.body, result);
+      if (result.coverage) { const coverage = document.createElement("p"); coverage.className = "as-note"; coverage.textContent = result.coverage; process.body.appendChild(coverage); }
+      renderExpansions(process.body, result.expansions, { ...state.lastRequest, mode: "search", question: result.originalQuery || result.query, expand: result.requestedExpand, semantic: result.requestedSemantic, filters: result.filters, source: result.source }, null);
+      const withdraw = process.body.querySelector("[data-as-withdraw]"); if (withdraw) withdraw.addEventListener("click", () => process.dialog.close());
       const tools = document.createElement("div"); tools.className = "as-result-actions";
       addProjectButton(tools, result.items, result.query); header.appendChild(tools); parent.appendChild(header);
       if (!result.items.length) renderNoResults(parent, result, "search");
       renderAggregates(parent, result.aggregates || [], "search");
       if (result.items.length) {
-        const sources = document.createElement("h3"); sources.className = "as-sources-heading"; sources.textContent = "相关资料 · " + result.items.length + " 段证据"; parent.appendChild(sources);
+        const sources = document.createElement("h3"); sources.className = "as-sources-heading"; sources.append(document.createTextNode("相关资料 · ")); const sourceCount = document.createElement("span"); sourceCount.className = "as-source-count"; sourceCount.textContent = result.items.length + " 段证据"; sources.appendChild(sourceCount); parent.appendChild(sources);
         renderEvidence(parent, result.items, "search");
       }
       updateOutputButtons();
@@ -1212,13 +1274,20 @@
             warning.textContent = !turn.items.length && !(turn.aggregates || []).length ? "服务未返回可核对的引用，请勿将此回答当作已证实结论。" : "回答包含没有对应资料的引用标记，请人工核对。"; answer.appendChild(warning);
           }
         }
-        const process = document.createElement("details"); process.className = "as-process";
-        const summary = document.createElement("summary"); summary.textContent = "查看检索过程与资料范围"; process.appendChild(summary);
-        if (turn.coverage) { const coverage = document.createElement("p"); coverage.className = "as-note"; coverage.textContent = turn.coverage; process.appendChild(coverage); }
-        renderContext(process, turn);
-        if (turn.query) { const query = document.createElement("p"); query.className = "as-note"; query.textContent = "服务检索式：" + turn.query; process.appendChild(query); }
-        renderExpansions(process, turn.expansions || [], { mode: "chat", question: turn.question, filters: turn.filters, expand: turn.requestedExpand, semantic: turn.requestedSemantic, limit: 20, source: turn.source }, turn.id);
-        if (!guidance) answer.appendChild(process);
+        if (!guidance) {
+          const process = createDetailDialog(answer, {
+            rowClass: "as-retrieval-process",
+            label: "查看检索过程与资料范围",
+            kicker: "检索过程",
+            title: "检索过程与资料范围",
+            dialogClass: "as-process-dialog",
+          });
+          if (turn.coverage) { const coverage = document.createElement("p"); coverage.className = "as-note"; coverage.textContent = turn.coverage; process.body.appendChild(coverage); }
+          renderContext(process.body, turn);
+          if (turn.query) { const query = document.createElement("p"); query.className = "as-note"; query.textContent = "服务检索式：" + turn.query; process.body.appendChild(query); }
+          renderExpansions(process.body, turn.expansions || [], { mode: "chat", question: turn.question, filters: turn.filters, expand: turn.requestedExpand, semantic: turn.requestedSemantic, limit: 20, source: turn.source }, turn.id);
+          const withdraw = process.body.querySelector("[data-as-withdraw]"); if (withdraw) withdraw.addEventListener("click", () => process.dialog.close());
+        }
         const tools = document.createElement("div"); tools.className = "as-actions as-turn-tools";
         const copy = document.createElement("button"); copy.type = "button"; copy.className = "btn"; copy.textContent = "复制本轮与引用"; copy.onclick = () => copyMarkdown(turnMarkdown(turn)); tools.appendChild(copy);
         addProjectButton(tools, turn.items, turn.question);
@@ -1229,7 +1298,7 @@
         else renderNoResults(answer, turn, "chat");
         if (!guidance) renderAggregates(answer, turn.aggregates || [], turn.id);
         if (!guidance && turn.items.length) {
-          const title = document.createElement("h3"); title.className = "as-sources-heading"; title.textContent = "引用资料 · " + turn.items.length + " 段证据"; answer.appendChild(title); renderEvidence(answer, turn.items, turn.id, 3);
+          const title = document.createElement("h3"); title.className = "as-sources-heading"; title.append(document.createTextNode("引用资料 · ")); const sourceCount = document.createElement("span"); sourceCount.className = "as-source-count"; sourceCount.textContent = turn.items.length + " 段证据"; title.appendChild(sourceCount); answer.appendChild(title); renderEvidence(answer, turn.items, turn.id, 3);
         }
         article.appendChild(answer); parent.appendChild(article);
       }

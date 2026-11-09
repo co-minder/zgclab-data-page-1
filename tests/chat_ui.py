@@ -37,6 +37,7 @@ client.chat = async (payload, options) => {
   response.aggregate_citations.push({citation_id:'A2',scope:aggregate().scope,matched:aggregate().matched,date_range:{min:'2026-01-01T00:00:00+00:00',max:'2026-11-12T00:00:00+00:00',dated_records:40,undated_records:2,future_dated_records:1},by_month:[{month:'2026-09',count:20},{month:'2026-10',count:22}],method:'parameterized_readonly_sql_distinct_records',latest_returned_date:'2026-09-25T10:35:01+00:00'});
   response.answer+='\n\n日期与月度依据见 [A2]';
   response.sections=uiKind==='analysis'?[{kind:'fact',text:'来源文本中的陈述。',citations:['C1'],quotes:[{citation_id:'C1',quote:'证据原文 <img src=x onerror="window.pwned=1">'}]},{kind:'analysis',text:'基于样本进行比较。',citations:['C5'],quotes:[{citation_id:'C5',quote:'原始引用'}]}]:[];
+  if(uiLong) response.sections.push({kind:'analysis',text:'弹窗滚动验证：'+Array.from({length:80},(_,i)=>'第'+(i+1)+'段滚动核对内容。').join('\n\n'),citations:['C5'],quotes:[{citation_id:'C5',quote:'长摘录：'+'滚动核对来源摘录。'.repeat(120)}]});
   response.suggestions=['比较两家机构共同关注的议题'];response.suggested_questions=['当前材料有哪些局限？'];
   response.analysis_scope={bounded_sample:true,exhaustive:false,realtime:false,limitation:'只覆盖本次引用样本；数量以数据库统计为准。',comparison_complete:false,scope:aggregate().scope};
   response.plan.intent={task:'analysis',topics_query:'中国',exact_phrases:[],excluded_terms:[]};response.plan.time_scope={mode:'snapshot_recent',timezone:'Asia/Shanghai',as_of:'2026-11-09T12:00:00+08:00'};
@@ -136,12 +137,70 @@ def run():
         assert "未来事件已经发生" in analytics.inner_text()
         open_details(page, "[data-as-citation='A2'] .as-aggregate-details:not([hidden])")
         assert "2026-10" in analytics.inner_text() and "22" in analytics.inner_text()
-        open_details(page, ".as-claim-details")
-        assert "来源陈述" in page.locator(".as-claim-details").inner_text()
-        assert "分析" in page.locator(".as-claim-details").inner_text()
+        claim_row = page.locator(".as-turn").first.locator(".as-claim-details")
+        claim_trigger = claim_row.locator(":scope > summary")
+        assert claim_trigger.get_attribute("aria-haspopup") == "dialog"
+        assert claim_trigger.get_attribute("aria-controls") == page.locator(".as-source-dialog").get_attribute("id")
+        assert not claim_row.evaluate("el=>el.open")
+        assert claim_row.locator(".as-claim").count() == 0
+        assert not page.locator(".as-source-dialog").evaluate("el=>el.open")
+        claim_trigger.click()
+        source_dialog = page.locator(".as-source-dialog[open]")
+        source_dialog.wait_for()
+        assert source_dialog.evaluate("el=>el.tagName") == "DIALOG"
+        source_text = source_dialog.inner_text()
+        assert "来源陈述" in source_text and "分析" in source_text
+        assert "来源文本中的陈述" in source_text and "证据原文" in source_text
+        assert "原始引用" in source_text
+        assert source_dialog.locator(".as-claim-label.is-source").count() == 1
+        assert source_dialog.locator(".as-claim-label.is-analysis").count() == 1
+        assert source_dialog.locator(".as-quote-c").count() == 1
+        assert source_dialog.locator(".as-quote-a").count() == 1
+        assert page.evaluate("getComputedStyle(document.querySelector('.as-source-dialog[open] .as-dialog-body')).overflowY") in {"auto", "scroll"}
+        source_dialog.locator("[aria-label='查看引用 C1']").click()
+        page.wait_for_function("!document.querySelector('.as-source-dialog').open")
+        assert page.evaluate("document.activeElement.dataset.asCitation") == "C1"
+        claim_trigger.click(); source_dialog.wait_for()
+        source_dialog.locator("[data-as-dialog-close]").click()
+        page.wait_for_function("!document.querySelector('.as-source-dialog').open")
+        page.wait_for_function("document.activeElement === document.querySelector('.as-claim-details > summary')")
+        claim_trigger.click(); source_dialog.wait_for()
+        page.keyboard.press("Escape")
+        page.wait_for_function("!document.querySelector('.as-source-dialog').open")
+        page.wait_for_function("document.activeElement === document.querySelector('.as-claim-details > summary')")
+        claim_trigger.click(); source_dialog.wait_for()
+        page.mouse.click(4, 4)
+        page.wait_for_function("!document.querySelector('.as-source-dialog').open")
+        page.wait_for_function("document.activeElement === document.querySelector('.as-claim-details > summary')")
+        claim_trigger.focus()
+        page.keyboard.press("Enter")
+        source_dialog.wait_for()
+        assert source_dialog.evaluate("el=>el.open")
+        page.keyboard.press("Escape")
+        page.wait_for_function("!document.querySelector('.as-source-dialog').open")
+        page.wait_for_function("document.activeElement === document.querySelector('.as-claim-details > summary')")
+        claim_row.scroll_into_view_if_needed()
+        page.screenshot(path=str(OUT / "chat-detail-triggers-1440.png"), full_page=False)
         assert page.locator(".as-root img,.as-root script").count() == 0
         assert page.evaluate("window.pwned") is None
-        check("immediate honest loading with elapsed time; cancel/retry; answer visible without focus theft; C5/A1 focus and safe source/analysis details")
+        check("source claims/analysis/quotes stay collapsed inline; native dialog opens with content, closes by button/Escape/backdrop and restores trigger focus")
+        process_row = page.locator(".as-turn").first.locator(".as-retrieval-process")
+        process_trigger = process_row.locator(":scope > summary")
+        assert process_trigger.get_attribute("aria-haspopup") == "dialog"
+        assert not process_row.evaluate("el=>el.open")
+        process_trigger.click()
+        process_dialog = page.locator(".as-process-dialog[open]")
+        process_dialog.wait_for()
+        process_text = process_dialog.inner_text()
+        assert "检索过程与资料范围" in process_text
+        assert "本次检索词 / 扩展与近似词" in process_text
+        assert "artificial intelligence" in process_text
+        assert "索引 6,989" in process_text
+        process_dialog.locator("[data-as-dialog-close]").click()
+        page.wait_for_function("!document.querySelector('.as-process-dialog').open")
+        page.wait_for_function("document.activeElement === document.querySelector('.as-retrieval-process > summary')")
+        check("retrieval process/expansions/coverage open in their own dialog and return focus to the process trigger")
+        check("immediate honest loading with elapsed time; cancel/retry; answer visible without focus theft; C5/A1 focus and safe source/analysis dialog")
         before = page.evaluate("calls.chat.length")
         page.get_by_role("button", name="填入追问：当前材料有哪些局限？", exact=True).click()
         assert page.locator("#asQuestion").input_value() == "当前材料有哪些局限？"
@@ -295,6 +354,15 @@ def run():
         }""")
         page.locator("#asQuestion").fill("中国");page.locator("#asSubmit").click()
         page.wait_for_function("document.querySelector('#asSearchResults .as-evidence[data-as-citation=C3]') && document.querySelector('#asForm').getAttribute('aria-busy')==='false'", timeout=2000)
+        assert not page.locator("#asSearchResults .as-retrieval-process").evaluate("el=>el.open")
+        page.locator("#asSearchResults .as-retrieval-process > summary").click()
+        search_process = page.locator(".as-process-dialog[open]")
+        search_process.wait_for()
+        assert "检索过程、扩展词与覆盖范围" in search_process.inner_text()
+        assert "本次检索词 / 扩展与近似词" in search_process.inner_text()
+        assert "artificial intelligence" in search_process.inner_text()
+        search_process.locator("[data-as-dialog-close]").click()
+        page.wait_for_function("!document.querySelector('.as-process-dialog[open]')")
         assert page.locator("#asSearchResults [data-as-local-record]").get_attribute("href") is None
         page.evaluate("fireIndexDeadline()")
         page.wait_for_function("document.querySelector('#asSearchResults [data-as-local-record]').textContent.includes('索引暂不可用')")
@@ -381,7 +449,39 @@ def run():
             assert g["documentWidth"] <= width + 1 and 60 <= g["answerTop"] < 190, g
             measurements[f"mock-long-followup-{width}"] = g
             page.screenshot(path=str(OUT / f"chat-answer-{width}.png"), full_page=False)
+            viewport_height = 844 if width <= 768 else 1000
+            turn = page.locator(".as-turn").last
+            turn.locator(".as-claim-details > summary").click()
+            source = page.locator(".as-source-dialog[open]")
+            source.wait_for()
+            box = source.bounding_box()
+            assert box and box["x"] >= 0 and box["y"] >= 0, (width, box)
+            assert box["x"] + box["width"] <= width + 1 and box["y"] + box["height"] <= viewport_height + 1, (width, box)
+            assert page.evaluate("getComputedStyle(document.querySelector('.as-source-dialog[open] .as-dialog-body')).overflowY") in {"auto", "scroll"}
+            assert page.evaluate("document.documentElement.scrollWidth") <= width + 1
+            measurements[f"dialog-source-{width}"] = box
+            if width in (390, 1440): page.screenshot(path=str(OUT / f"chat-dialog-source-{width}.png"), full_page=False)
+            scroll = page.evaluate("""()=>{const el=document.querySelector('.as-source-dialog[open] .as-dialog-body');return {scrollable:el.scrollHeight>el.clientHeight,top:el.scrollTop};}""")
+            assert scroll["scrollable"], (width, scroll)
+            page.evaluate("document.querySelector('.as-source-dialog[open] .as-dialog-body').scrollTop=99999")
+            assert page.evaluate("document.querySelector('.as-source-dialog[open] .as-dialog-body').scrollTop") > 0
+            measurements[f"dialog-scroll-{width}"] = scroll
+            page.keyboard.press("Escape")
+            page.wait_for_function("!document.querySelector('.as-source-dialog[open]')")
+            turn.locator(".as-retrieval-process > summary").click()
+            process = page.locator(".as-process-dialog[open]")
+            process.wait_for()
+            box = process.bounding_box()
+            assert box and box["x"] >= 0 and box["y"] >= 0, (width, box)
+            assert box["x"] + box["width"] <= width + 1 and box["y"] + box["height"] <= viewport_height + 1, (width, box)
+            assert page.evaluate("getComputedStyle(document.querySelector('.as-process-dialog[open] .as-dialog-body')).overflowY") in {"auto", "scroll"}
+            assert page.evaluate("document.documentElement.scrollWidth") <= width + 1
+            measurements[f"dialog-process-{width}"] = box
+            if width in (390, 1440): page.screenshot(path=str(OUT / f"chat-dialog-process-{width}.png"), full_page=False)
+            page.keyboard.press("Escape")
+            page.wait_for_function("!document.querySelector('.as-process-dialog[open]')")
         check("360/390/768/1024/1440: no overflow, first-screen send controls, keyboard mode/send/newline and visible long follow-up answer")
+        check("390/768/1024/1440: source and retrieval dialogs stay inside viewport, scroll internally and close with Escape")
         context.close()
 
         # Current owned sources inside the actual protected application; no API model call.
