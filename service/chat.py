@@ -5,7 +5,7 @@ import time
 
 from .llm import LLMClient, ModelUnavailable
 from .analytics import build_analytics
-from .retrieval import InputError, Retriever, bounded_text
+from .retrieval import InputError, Retriever, SYNONYMS, bounded_text
 from .planner import SearchEngine, is_count_query
 from .intent import request_intent
 from .research_chat import COMPARISON_COUNT, GREETING, INJECTION, balance_result, eligible, generate, inherit_filters, kind_for, metadata, scope_text
@@ -67,6 +67,17 @@ SAMPLE_NEGATION = re.compile(
 SAMPLE_UNSAFE = re.compile(
     r"\b(?:select|insert|update|delete|drop|alter|create|truncate|union|exec|execute)\b|"
     r"--|/\*|\*/|(?:'|\")\s*(?:or|and)\s+\d+\s*=\s*\d+",
+    re.I,
+)
+# Strict excerpt fallback is only for broad chat/opinion/report requests.
+# It must never turn creative, predictive, sensitive, comparative, counting
+# or policy-advocacy requests into a patchwork of unrelated source lines.
+STRICT_EXCERPT_EXCLUDE = re.compile(
+    r"编(?:一个|个|写|造)|笑话|写一?首|诗|故事|小说|段子|"
+    r"预测|预言|明天|下周|未来|会涨|会跌|涨停|跌停|股市|股价|上证|指数|汇率|"
+    r"反华|台湾问题|香港问题|新疆问题|西藏问题|天安门|六四|"
+    r"比较|对比|异同|更强|谁更强|区别|排名|排行|榜单|"
+    r"外星人|ufo",
     re.I,
 )
 CHAT_GREETING = re.compile(
@@ -152,6 +163,7 @@ class Chat:
     def _has_unknown_entity(self, plan: dict) -> bool:
         known = {normalize(alias) for aliases in self.retriever.aliases.values() for alias in aliases}
         known.update(normalize(word) for word in self.retriever.vocabulary)
+        known.update(normalize(term) for synonyms in SYNONYMS for term in synonyms)
         for group in plan.get("terms", []):
             for term in group:
                 value = normalize(term)
@@ -204,6 +216,40 @@ class Chat:
         if SAMPLE_NEGATION.search(message):
             return False
         if self._has_unknown_entity(plan) or self._has_specific_topic(plan):
+            return False
+        return True
+
+    def strict_excerpt_allowed(self, message: str, result: dict, expand: bool) -> bool:
+        # A broad chat/report turn may quote exact source excerpts even when the
+        # first model pass could not produce a reviewed paraphrase. This is not
+        # a license to answer creative, predictive, sensitive or comparative
+        # questions, nor to bypass dates, counts or exclusions.
+        if not expand or not result.get("results"):
+            return False
+        if not BROAD_SAMPLE.search(message):
+            return False
+        if INJECTION.search(message) or SAMPLE_UNSAFE.search(message) or STRICT_EXCERPT_EXCLUDE.search(message):
+            return False
+        plan = result["plan"]
+        if plan.get("exact_phrases") or plan.get("excluded_terms"):
+            return False
+        if any(plan.get("filters", {}).get(key) for key in ("date_from", "date_to")):
+            return False
+        if re.search(r"[\"“”「」『』]", message) or re.search(r"[;\t\n\r]", message):
+            return False
+        if re.search(r"(?:^|\s)[A-Za-z0-9_-]+(?:\s*,\s*[A-Za-z0-9_-]+)+", message):
+            return False
+        if re.search(r"多少|几条|几个|几篇|统计|数量|总数|排名|排行|占比|趋势|按月|每月|哪家|谁(?:更|最)?多|最多|最少|比分|得分|胜负", message):
+            return False
+        intent = plan.get("intent", plan.get("request_intent", {}))
+        operations = intent.get("operations", {}) if isinstance(intent, dict) else {}
+        if any(operations.get(key) for key in ("count", "compare", "ranking", "share")):
+            return False
+        if kind_for(message, result) in {"comparison", "count"}:
+            return False
+        if SAMPLE_NEGATION.search(message):
+            return False
+        if self._has_unknown_entity(plan):
             return False
         return True
 

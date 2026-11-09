@@ -375,6 +375,19 @@ REPAIR_SYSTEM = (
     "没有足够未使用来源时返回{{\"claims\":[]}}；绝不能编造、重复已接受来源或用未验证内容凑数。"
     "只返回JSON对象{{\"claims\":[...]}}；不要返回followups或其他字段。"
 )
+STRICT_EXCERPT_TOKENS = 1400
+STRICT_EXCERPT_TIMEOUT = 20.0
+STRICT_EXCERPT_MIN_REMAINING = 35.0
+STRICT_EXCERPT_MAX_CLAIMS = 4
+STRICT_EXCERPT_SYSTEM = (
+    "本次只做来源摘录，不回答问题、不总结、不分析、不排名、不推断因果。"
+    "只从allowed_citation_ids和evidence中选择3至4条与question最相关的完整原句或完整snippet。"
+    "只返回JSON对象：{\"claims\":[{\"kind\":\"fact\",\"text\":\"...\",\"citations\":[\"C1\"],"
+    "\"quotes\":[{\"citation_id\":\"C1\",\"quote\":\"...\"}]}]}。"
+    "claims[].text必须与对应quotes[].quote逐字完全相同；每项恰好1个citation_id和1个quote；kind必须为fact。"
+    "不得改写、缩写、拼接、总结或解释；不得添加quote中不存在的姓名、机构、数字、时间、排名或因果关系。"
+    "只选择完整句子或完整snippet，不得截断否定、条件、时间或归属。证据不足时返回{\"claims\":[]}。"
+)
 
 
 def _review_repair_claims(chat, claims, evidence, comparison, message, result, deadline, usage, steps, model_guard):
@@ -420,6 +433,71 @@ def _review_repair_claims(chat, claims, evidence, comparison, message, result, d
     return claims, rejected, review_status, direct
 
 
+def _strict_excerpt_fallback(chat, result, evidence, model_evidence, allowed, message, deadline,
+                             usage, steps, model_guard, sampling_scope, sampling_system):
+    """One bounded exact-excerpt call; never paraphrases or reviews new facts."""
+    summary = {"attempted": True, "status": "rejected", "accepted": 0, "rejected": 0,
+               "accepted_claims": 0, "rejected_claims": []}
+    step = {"tool": "model_strict_excerpt_fallback", "state": "attempted",
+            "max_claims": STRICT_EXCERPT_MAX_CLAIMS}
+    steps.append(step)
+    try:
+        if deadline - time.monotonic() <= 1.0:
+            raise ModelUnavailable("model_timeout")
+        if model_guard:
+            model_guard()
+        content, call_usage = chat.llm.complete([
+            {"role": "system", "content": STRICT_EXCERPT_SYSTEM + sampling_system
+             + "\n本次唯一允许的引用编号：" + "、".join(allowed) + "。保留这些编号，不得重新排列编号。"},
+            {"role": "user", "content": json.dumps({
+                "question": message, "answer_kind": kind_for(message, result),
+                "allowed_citation_ids": allowed, "evidence": model_evidence,
+                "sampling_scope": sampling_scope,
+                "strict_excerpt": {"max_claims": STRICT_EXCERPT_MAX_CLAIMS, "kind": "fact",
+                                   "require_text_equals_quote": True}}, ensure_ascii=False)},
+        ], STRICT_EXCERPT_TOKENS,
+            timeout=min(STRICT_EXCERPT_TIMEOUT, max(0.1, deadline - time.monotonic() - 2.0)))
+        add_usage(usage, call_usage)
+        step["state"] = "returned"
+        validated, rejected = validate_analysis(json_object(content), evidence)
+        rejected = [dict(item, phase="validate") for item in rejected]
+        accepted, seen = [], set()
+        for claim in validated:
+            reason = None
+            if claim.get("kind") != "fact":
+                reason = "strict_excerpt_not_fact"
+            elif len(claim.get("citations", [])) != 1 or len(claim.get("quotes", [])) != 1:
+                reason = "strict_excerpt_not_single_source"
+            elif (claim["quotes"][0].get("citation_id") != claim["citations"][0]
+                  or claim["quotes"][0].get("quote") != claim["text"]):
+                reason = "strict_excerpt_text_quote_mismatch"
+            elif claim["citations"][0] in seen:
+                reason = "duplicate_strict_excerpt_citation"
+            elif len(accepted) >= STRICT_EXCERPT_MAX_CLAIMS:
+                reason = "strict_excerpt_overflow"
+            if reason:
+                rejected.append({"claim_id": claim.get("claim_id"), "reason": reason, "phase": "strict"})
+            else:
+                accepted.append(claim)
+                seen.add(claim["citations"][0])
+        summary.update(status="accepted" if accepted else "rejected",
+                       accepted=len(accepted), rejected=len(rejected),
+                       accepted_claims=len(accepted), rejected_claims=rejected)
+        step.update(accepted_claims=len(accepted), rejected_claims=len(rejected), status=summary["status"])
+        return accepted, summary
+    except ModelUnavailable as error:
+        add_usage(usage, error.usage)
+        step.update(state="failed", reason=error.reason)
+        summary.update(status="failed", rejected=1,
+                       rejected_claims=[{"reason": error.reason, "phase": "model"}])
+        return [], summary
+    except Exception:
+        step.update(state="failed", reason="strict_excerpt_error")
+        summary.update(status="failed", rejected=1,
+                       rejected_claims=[{"reason": "strict_excerpt_error", "phase": "internal"}])
+        return [], summary
+
+
 def generate(chat, result: dict, message: str, history: list[dict], expand: bool,
              usage: dict, deadline: float, model_guard=None, attempted=False,
              requested_points: int | None = None, sampling: dict | None = None) -> dict:
@@ -435,6 +513,8 @@ def generate(chat, result: dict, message: str, history: list[dict], expand: bool
                        "literal_matched_records": 0, "exhaustive": False,
                        "basis": "representative_records_within_current_filters"} if sampling else None)
     repair_summary = {"attempted": False, "status": "not_needed" if requested else "not_requested",
+                      "accepted_claims": 0, "rejected_claims": []}
+    strict_summary = {"attempted": False, "status": "not_needed", "accepted": 0, "rejected": 0,
                       "accepted_claims": 0, "rejected_claims": []}
     try:
         remaining = deadline - time.monotonic()
@@ -663,9 +743,25 @@ def generate(chat, result: dict, message: str, history: list[dict], expand: bool
                 if repair_summary["status"] in {"skipped_legacy_schema", "skipped_no_slot", "skipped_no_unused_sources", "skipped_deadline"}:
                     steps.append({"tool": "model_repair_generation", "state": "skipped", "reason": repair_summary["status"]})
         if not claims:
+            if not chat.strict_excerpt_allowed(message, result, expand):
+                strict_summary["status"] = "not_allowed"
+            elif deadline - time.monotonic() < STRICT_EXCERPT_MIN_REMAINING:
+                strict_summary["status"] = "skipped_deadline"
+                steps.append({"tool": "model_strict_excerpt_fallback", "state": "skipped", "reason": "deadline"})
+            else:
+                strict_claims, strict_summary = _strict_excerpt_fallback(
+                    chat, result, evidence, model_evidence, allowed, message, deadline, usage, steps,
+                    model_guard, sampling_scope, sampling_system)
+                if strict_claims:
+                    claims = strict_claims
+                    cited = {cid for claim in claims for cid in claim["citations"]}
+                    level = "exact_verbatim"
+                    review_status = "not_needed"
+        if not claims:
             fallback = chat.fallback(result, "ungrounded_model_answer", usage, True)
             fallback["validation"] = {"level": "rejected", "semantic_entailment": "not_established",
                                       "accepted_claims": 0, "rejected_claims": rejected, "source_truth_verified": False,
+                                      "strict_excerpt_fallback": strict_summary,
                                       **({"repair": repair_summary} if requested else {})}
             return fallback
         citations = [dict(c, quotes=list(dict.fromkeys(q["quote"] for claim in claims for q in claim["quotes"] if q["citation_id"] == c["citation_id"])))
@@ -710,6 +806,7 @@ def generate(chat, result: dict, message: str, history: list[dict], expand: bool
                         validation={"level": level, "semantic_entailment": "model_reviewed_not_proven" if level == "exact_quotes_and_model_review" else "exact_text_only",
                                     "accepted_claims": len(claims), "rejected_claims": rejected, "source_truth_verified": False,
                                     "review_status": "not_needed" if legacy else review_status,
+                                    "strict_excerpt_fallback": strict_summary,
                                     **({"repair": repair_summary} if requested else {})})
         response["analysis_scope"]["comparison_complete"] = comparison_complete
         if comparison_dimensions:
@@ -743,4 +840,7 @@ def metadata(result: dict, state: str) -> dict:
                                                                                 result["coverage"].get("matched_records", 0)),
                                "limitation": "分析仅依据可引用样本；精确数量以相同筛选和关键词口径的数据库统计为准。"},
             "validation": {"level": "database_exact" if state == "database_answer" else "not_generated",
-                           "semantic_entailment": "not_applicable", "source_truth_verified": False}}
+                           "semantic_entailment": "not_applicable", "source_truth_verified": False,
+                           "strict_excerpt_fallback": {"attempted": False, "status": "not_needed",
+                                                       "accepted": 0, "rejected": 0, "accepted_claims": 0,
+                                                       "rejected_claims": []}}}
