@@ -29,12 +29,14 @@ client.chat = async (payload, options) => {
   response.answer_format = uiFormat;
   response.state = uiKind === 'unused' ? 'retrieval_only' : uiKind === 'empty' ? 'no_results' : uiKind === 'database' ? 'database_answer' : 'answered';
   response.model = {id:MODEL,used:!['unused','empty','database'].includes(uiKind),attempted:uiKind!=='database',reason:uiKind==='database'?'exact_database_aggregate':uiKind==='unused'?'model_unreachable':uiKind==='empty'?'no_results':null};
-  response.citations = ['empty','database'].includes(uiKind)?[]:Array.from({length:5},(_,i)=>({...citation(),citation_id:'C'+(i+1),id:'news-'+(i+1)}));
+  response.citations = ['empty','database'].includes(uiKind)?[]:Array.from({length:5},(_,i)=>({...citation(),citation_id:'C'+(i+1),id:'news-'+(i+1),quotes:['回答使用的来源摘录 '+(i+1)]}));
   response.answer = uiKind==='empty'?'当前真实数据库及筛选范围内没有匹配资料。':uiKind==='database'?'阿肯色州立大学共 42 条资料。[A1]':'来源陈述：当前样本讨论了中国相关政策。[C1]\n\n分析：机构关注点可继续比较。[C5]\n\n数量请核对数据库统计。[A1]';
   if(uiLong) response.answer+='\n\n'+Array.from({length:38},(_,i)=>'第'+i+'段：这是用于检验新回答定位的资料说明。').join('\n\n');
   response.answer_kind=uiKind==='guidance'?'guidance':uiKind==='database'?'count':'analysis';
   if(uiKind==='guidance') {response.answer='你好，可以直接问我资料查询、统计或分析问题。';response.state='no_results';response.answer_format='guidance';response.citations=[];response.model={id:MODEL,used:false,attempted:false,reason:'greeting'};}
   response.aggregate_citations.push({citation_id:'A2',scope:aggregate().scope,matched:aggregate().matched,date_range:{min:'2026-01-01T00:00:00+00:00',max:'2026-11-12T00:00:00+00:00',dated_records:40,undated_records:2,future_dated_records:1},by_month:[{month:'2026-09',count:20},{month:'2026-10',count:22}],method:'parameterized_readonly_sql_distinct_records',latest_returned_date:'2026-09-25T10:35:01+00:00'});
+  response.aggregate_citations[0].shares={denominator:73,by_institution:[{ktid:1000110,cn:'美国联邦调查局',count:73,percent:100}],by_angle:[{angle:'news',count:73,percent:100}],by_platform:[]};
+  response.aggregate_citations[0].ranking={dimension:'institution',order:'descending',metric:'records',denominator:73,ties_included:false,entries:[{ktid:1000110,cn:'美国联邦调查局',count:73}]};
   response.answer+='\n\n日期与月度依据见 [A2]';
   response.sections=uiKind==='analysis'?[{kind:'fact',text:'来源文本中的陈述。',citations:['C1'],quotes:[{citation_id:'C1',quote:'证据原文 <img src=x onerror="window.pwned=1">'}]},{kind:'analysis',text:'基于样本进行比较。',citations:['C5'],quotes:[{citation_id:'C5',quote:'原始引用'}]}]:[];
   if(uiLong) response.sections.push({kind:'analysis',text:'弹窗滚动验证：'+Array.from({length:80},(_,i)=>'第'+(i+1)+'段滚动核对内容。').join('\n\n'),citations:['C5'],quotes:[{citation_id:'C5',quote:'长摘录：'+'滚动核对来源摘录。'.repeat(120)}]});
@@ -125,18 +127,59 @@ def run():
         assert "逐字摘录" not in page.locator(".as-answer>.as-note").first.inner_text()
         assert 70 <= geometry(page)["answerTop"] < 200
         assert not page.evaluate("document.activeElement.closest('.as-answer')!==null")
-        page.locator(".as-citation-ref", has_text="[C5]").first.click()
-        assert page.locator(".as-more-sources").evaluate("el=>el.open")
-        assert page.evaluate("document.activeElement.dataset.asCitation") == "C5"
-        page.locator(".as-citation-ref", has_text="[A1]").first.click()
-        assert page.evaluate("document.activeElement.dataset.asCitation") == "A1"
-        page.locator(".as-citation-ref", has_text="[A2]").first.click()
-        assert page.evaluate("document.activeElement.dataset.asCitation") == "A2"
+        page.wait_for_function("document.querySelector('[data-as-citation=C1] a[data-as-local-record]')")
+        c1_chip = page.locator(".as-citation-ref", has_text="[C1]").first
+        c1_chip.click()
+        c_dialog = page.locator("dialog.as-citation-dialog-c[open]")
+        c_dialog.wait_for()
+        assert c_dialog.evaluate("el=>el.tagName") == "DIALOG"
+        assert c_dialog.get_attribute("data-as-citation-dialog") == "C1"
+        assert "240, 179, 91" in c_dialog.evaluate("el=>getComputedStyle(el).borderColor")
+        c_text = c_dialog.inner_text()
+        assert "[C1]" in c_text and "新闻舆情" in c_text and "美国联邦调查局" in c_text
+        assert "服务分段 7" in c_text
+        assert "证据原文" in c_text
+        assert "查看回答使用的来源摘录" in c_text and "回答使用的来源摘录 1" in c_text
+        assert c_dialog.locator(".as-citation-clone h3").count() == 1
+        assert c_dialog.locator(".as-citation-clone .as-excerpt").count() >= 2
+        assert c_dialog.locator("a[data-as-local-record]").get_attribute("href") == "#/record/news/news-1"
+        page.screenshot(path=str(OUT / "chat-citation-c-1440.png"), full_page=False)
+        c_dialog.locator("[data-as-dialog-close]").click()
+        page.wait_for_function("!document.querySelector('.as-citation-dialog')")
+        assert c1_chip.evaluate("el=>el===document.activeElement")
+
+        a1_chip = page.locator(".as-citation-ref", has_text="[A1]").first
+        a1_chip.click()
+        a_dialog = page.locator("dialog.as-citation-dialog-a[open]")
+        a_dialog.wait_for()
+        assert a_dialog.get_attribute("data-as-citation-dialog") == "A1"
+        assert "167, 139, 250" in a_dialog.evaluate("el=>getComputedStyle(el).borderColor")
+        a_text = a_dialog.inner_text()
+        assert "数据库精确统计" in a_text and "结构化范围" in a_text and "检索规则命中" in a_text
+        assert "新闻舆情" in a_text and "分母 73 条" in a_text
+        assert a_dialog.locator(".as-aggregate-table table tbody tr").count() == 2
+        page.screenshot(path=str(OUT / "chat-citation-a-1440.png"), full_page=False)
+        page.keyboard.press("Escape")
+        page.wait_for_function("!document.querySelector('.as-citation-dialog')")
+        assert a1_chip.evaluate("el=>el===document.activeElement")
+
+        a2_chip = page.locator(".as-citation-ref", has_text="[A2]").first
+        a2_chip.click()
+        a2_dialog = page.locator("dialog.as-citation-dialog-a[open]")
+        a2_dialog.wait_for()
+        a2_text = a2_dialog.inner_text()
+        assert "统计范围最早日期" in a2_text and "2026-10" in a2_text and "22" in a2_text
+        assert a2_dialog.locator(".as-aggregate-table table tbody tr").count() >= 2
+        page.mouse.click(4, 4)
+        page.wait_for_function("!document.querySelector('.as-citation-dialog')")
+        assert a2_chip.evaluate("el=>el===document.activeElement")
+
         analytics = page.locator("[data-as-citation='A2']")
         assert analytics.locator(".as-aggregate-overview").count() == 0
         assert "未来事件已经发生" in analytics.inner_text()
         open_details(page, "[data-as-citation='A2'] .as-aggregate-details:not([hidden])")
         assert "2026-10" in analytics.inner_text() and "22" in analytics.inner_text()
+        check("C/A inline citation chips open independent evidence and aggregate dialogs; close/Escape/backdrop restore chip focus")
         claim_row = page.locator(".as-turn").first.locator(".as-claim-details")
         claim_trigger = claim_row.locator(":scope > summary")
         assert claim_trigger.get_attribute("aria-haspopup") == "dialog"
@@ -159,7 +202,12 @@ def run():
         assert page.evaluate("getComputedStyle(document.querySelector('.as-source-dialog[open] .as-dialog-body')).overflowY") in {"auto", "scroll"}
         source_dialog.locator("[aria-label='查看引用 C1']").click()
         page.wait_for_function("!document.querySelector('.as-source-dialog').open")
-        assert page.evaluate("document.activeElement.dataset.asCitation") == "C1"
+        source_citation = page.locator("dialog.as-citation-dialog-c[open]")
+        source_citation.wait_for()
+        assert "[C1]" in source_citation.inner_text() and source_citation.locator(".as-citation-clone").count() == 1
+        source_citation.locator("[data-as-dialog-close]").click()
+        page.wait_for_function("!document.querySelector('.as-citation-dialog')")
+        page.wait_for_function("document.activeElement === document.querySelector('.as-claim-details > summary')")
         claim_trigger.click(); source_dialog.wait_for()
         source_dialog.locator("[data-as-dialog-close]").click()
         page.wait_for_function("!document.querySelector('.as-source-dialog').open")
@@ -200,7 +248,7 @@ def run():
         page.wait_for_function("!document.querySelector('.as-process-dialog').open")
         page.wait_for_function("document.activeElement === document.querySelector('.as-retrieval-process > summary')")
         check("retrieval process/expansions/coverage open in their own dialog and return focus to the process trigger")
-        check("immediate honest loading with elapsed time; cancel/retry; answer visible without focus theft; C5/A1 focus and safe source/analysis dialog")
+        check("immediate honest loading with elapsed time; cancel/retry; answer visible without focus theft; safe source/analysis dialog")
         before = page.evaluate("calls.chat.length")
         page.get_by_role("button", name="填入追问：当前材料有哪些局限？", exact=True).click()
         assert page.locator("#asQuestion").input_value() == "当前材料有哪些局限？"
@@ -317,14 +365,26 @@ def run():
         assert "https://api.example.org/news-1" in Path(download.value.path()).read_text()
         measurements["stalled-index-answer-ms"] = elapsed
         page.screenshot(path=str(OUT / "index-stall-answer-visible.png"), full_page=False)
-        page.locator(".as-citation-ref", has_text="[C1]").first.click()
+        c1_chip = page.locator(".as-citation-ref", has_text="[C1]").first
+        c1_chip.click()
+        c_dialog = page.locator("dialog.as-citation-dialog-c[open]")
+        c_dialog.wait_for()
         page.evaluate("window.focusBeforeIndex=document.activeElement;window.scrollBeforeIndex=scrollY;indexResolve(entries)")
         page.wait_for_function("document.querySelector('[data-as-citation=C1] a[data-as-local-record]')")
         assert page.evaluate("document.activeElement===focusBeforeIndex")
         assert abs(page.evaluate("scrollY-scrollBeforeIndex")) < 3
         assert page.locator("[data-as-citation='C1'] h3 a").inner_text() == "人工智能安全研究"
-        assert page.locator("[data-as-citation='C1'] [data-as-local-record]").get_attribute("href") == "#/record/news/news-1"
-        assert page.locator("[data-as-citation='C1'] [data-as-original-source]").get_attribute("href") == "https://example.org/evidence"
+        c_dialog.locator("[data-as-dialog-close]").click()
+        page.wait_for_function("!document.querySelector('.as-citation-dialog')")
+        assert c1_chip.evaluate("el=>el===document.activeElement")
+        c1_chip.click()
+        c_dialog = page.locator("dialog.as-citation-dialog-c[open]")
+        c_dialog.wait_for()
+        assert c_dialog.locator("[data-as-local-record]").get_attribute("href") == "#/record/news/news-1"
+        assert c_dialog.locator("[data-as-original-source]").get_attribute("href") == "https://example.org/evidence"
+        c_dialog.locator("[data-as-dialog-close]").click()
+        page.wait_for_function("!document.querySelector('.as-citation-dialog')")
+        assert c1_chip.evaluate("el=>el===document.activeElement")
         assert page.locator(".as-turn").count() == 1
         page.locator("[data-as-citation='C1'] [data-as-local-record]").click()
         assert page.evaluate("location.hash") == "#/record/news/news-1"
@@ -480,8 +540,36 @@ def run():
             if width in (390, 1440): page.screenshot(path=str(OUT / f"chat-dialog-process-{width}.png"), full_page=False)
             page.keyboard.press("Escape")
             page.wait_for_function("!document.querySelector('.as-process-dialog[open]')")
+            turn.locator(".as-citation-ref.as-citation-c").first.click()
+            citation_c = page.locator("dialog.as-citation-dialog-c[open]")
+            citation_c.wait_for()
+            assert page.locator("dialog.as-dialog[open]").count() == 1
+            box = citation_c.bounding_box()
+            assert box and box["x"] >= 0 and box["y"] >= 0, (width, box)
+            assert box["x"] + box["width"] <= width + 1 and box["y"] + box["height"] <= viewport_height + 1, (width, box)
+            assert page.evaluate("getComputedStyle(document.querySelector('dialog.as-citation-dialog-c[open] .as-dialog-body')).overflowY") in {"auto", "scroll"}
+            assert page.evaluate("document.documentElement.scrollWidth") <= width + 1
+            measurements[f"citation-dialog-c-{width}"] = box
+            if width in (390, 1440): page.screenshot(path=str(OUT / f"chat-citation-c-{width}.png"), full_page=False)
+            page.keyboard.press("Escape")
+            page.wait_for_function("!document.querySelector('.as-citation-dialog')")
+            turn.locator(".as-citation-ref.as-citation-a").first.click()
+            citation_a = page.locator("dialog.as-citation-dialog-a[open]")
+            citation_a.wait_for()
+            assert page.locator("dialog.as-dialog[open]").count() == 1
+            assert citation_a.locator(".as-aggregate-table table tbody tr").count() == 2
+            box = citation_a.bounding_box()
+            assert box and box["x"] >= 0 and box["y"] >= 0, (width, box)
+            assert box["x"] + box["width"] <= width + 1 and box["y"] + box["height"] <= viewport_height + 1, (width, box)
+            assert page.evaluate("getComputedStyle(document.querySelector('dialog.as-citation-dialog-a[open] .as-dialog-body')).overflowY") in {"auto", "scroll"}
+            assert page.evaluate("()=>[...document.querySelectorAll('dialog.as-citation-dialog-a[open] .as-aggregate-table')].every(el=>el.scrollWidth<=el.clientWidth+1)")
+            assert page.evaluate("document.documentElement.scrollWidth") <= width + 1
+            measurements[f"citation-dialog-a-{width}"] = box
+            if width in (390, 1440): page.screenshot(path=str(OUT / f"chat-citation-a-{width}.png"), full_page=False)
+            page.keyboard.press("Escape")
+            page.wait_for_function("!document.querySelector('.as-citation-dialog')")
         check("360/390/768/1024/1440: no overflow, first-screen send controls, keyboard mode/send/newline and visible long follow-up answer")
-        check("390/768/1024/1440: source and retrieval dialogs stay inside viewport, scroll internally and close with Escape")
+        check("390/768/1024/1440: source, retrieval, C evidence and A aggregate dialogs fit, scroll internally and never stack")
         context.close()
 
         # Current owned sources inside the actual protected application; no API model call.

@@ -1,6 +1,6 @@
 {
-  "tested_at": "2026-11-09T08:08:21.200938+00:00",
-  "manifest": "manifest-56f69135b336b68262f4.json",
+  "tested_at": "2026-11-09T09:18:47.503173+00:00",
+  "manifest": "manifest-2da307047bf9dca5b95e.json",
   "encrypted_assets_verified": 418,
   "preserved_files_verified": 1002,
   "baseline_commit": "e625e61f0196fedced392280f572b762cee75176",
@@ -88,15 +88,15 @@
     },
     {
       "source": "assistant.js",
-      "encrypted": "encrypted/eea280ed8945d5a65e644a54882b3f6e04b212fc5b1b6183fb08204ae80baf22.bin",
-      "bytes": 142210,
-      "sha256": "ff4d716e3a57559dbde741ff2379706efb123c98ecbb3da92c6a2fdd8fae9810"
+      "encrypted": "encrypted/d5d1474a169ed0e08072faf2a8921e722824bb47a2bb18ef67043c58205bf731.bin",
+      "bytes": 145701,
+      "sha256": "bd20e5bb1c9496ee4c8a19d0ae56f9f41bb019b80a41995b760b8bfd01c5a886"
     },
     {
       "source": "assistant.css",
-      "encrypted": "encrypted/68e04f0bd1fa7b03c776f02c858fb04954f96fda51cd54c5e9eed9fdb00acd37.bin",
-      "bytes": 35161,
-      "sha256": "058d87a821d7c82c9b3ecaa28c12ceee97fe5dc3443bd27225181d48d3d0c936"
+      "encrypted": "encrypted/f422b0ea26a421a1a68cf70f7cff7c17c51228b38b7fe470145104d54fb23ddb.bin",
+      "bytes": 36154,
+      "sha256": "9ad4ed742938cc53482a3d192d74031b6ae9f68e6d21eb0eea766ea9082e6cba"
     },
     {
       "source": "data/clue.js",
@@ -2522,14 +2522,14 @@
     "service/analytics.py": "0d5fbca6238a3b90e05c7c0e2c8b97c5cf3638f45cbd646dfe13b7cc708ddd2e",
     "service/app.py": "dc9c131e54c64a65abcb16e84033aec956cfa0d6b6370419461c0f4e248324c9",
     "service/auth.py": "bb9b258ec2806bd67a95458819f5ed926517ebaf0c1ed030a1157098d57ae3a2",
-    "service/chat.py": "890ad1a4c2705a42e3160e1202ee58d5794f130ca28ca9525073ba6147607976",
+    "service/chat.py": "b8f910b9942d45b041ee71da2ac12c7c8b4f8c41889f081709daa05aa1e27693",
     "service/config.py": "2287232d0b89ff0cacc6cebc3aa95d2799018bf949c232a0b32887764eb31e1b",
     "service/ingest.py": "245035561f367366679af3a32a9c55da6bd2e7fee35b4b19517047b55435ddcf",
     "service/intent.py": "c0348df1670cfe7617f0c6bb5a0b18fcae69d489b08aedf07de0a582f578fbf1",
     "service/limits.py": "7abce0d6e226a2e2727a8f092028c52077784674612248af4c98bc91073a64af",
     "service/llm.py": "3d9b49d5d423d73b3e6a3d031a7bed5c82c66628201fd747c599fa830d842507",
     "service/planner.py": "3967a0b07e7e16a0e0846ae9239c852ef066ae00d5fce42fd8d27af1fa933a7c",
-    "service/research_chat.py": "025a5506dfe38ab1224204a64fce595623b51321be0fed4a445c35eb931f7191",
+    "service/research_chat.py": "035fe97cf151c56e6267f5410def806f5b567e5b17315fe33e5d7dcf7cf74dbe",
     "service/retrieval.py": "81b579721ae34911ad4c49168e62356dd4428c86b25ed203b0b21cc70225fde1",
     "service/text.py": "0cde4d0275975c8ed981e21dc006082ebab7cbabae5c289526e9aca5805da9d2",
     "service/verify_live.py": "2b305eb1c890cd905a124c564c1023ec13ef437a413d0dfeb756638e42b2738d",

@@ -501,18 +501,27 @@ async def supplemental_checks(page, context, phase, password, args):
     extra=page.locator('.as-more-sources')
     assert not await extra.evaluate('(el)=>el.open')
     assert await page.locator('[data-as-citation="C5"]').is_hidden()
-    await page.get_by_role('button',name='查看引用 C5',exact=True).click()
-    assert await extra.evaluate('(el)=>el.open')
-    assert await page.locator('[data-as-citation="C5"]').is_visible()
-    assert await page.evaluate("document.activeElement.dataset.asCitation")=='C5'
-    assert fixture['items'][4]['excerpt'] in await page.locator('[data-as-citation="C5"]').text_content()
+    c5_chip=page.get_by_role('button',name='查看引用 C5',exact=True)
+    await c5_chip.click()
+    c5_dialog=page.locator('dialog.as-citation-dialog-c[open]')
+    await c5_dialog.wait_for()
+    assert not await extra.evaluate('(el)=>el.open')
+    assert fixture['items'][4]['excerpt'] in await c5_dialog.inner_text()
+    assert await c5_dialog.locator('.as-citation-clone h3').count()==1
+    await c5_dialog.locator('[data-as-dialog-close]').click()
+    await page.wait_for_function("() => !document.querySelector('.as-citation-dialog')")
+    assert await c5_chip.evaluate('(el)=>el===document.activeElement')
     assert await page.locator('#asReading').evaluate("el=>el.lastElementChild.id")=='asComposeDock'
-    passed('collapsed fifth citation auto-opens, receives focus and preserves exact real excerpt; follow-up composer remains last',{'fixture':'saved UI session from five actual snapshot records; no API model call'})
+    passed('C5 chip opens its evidence dialog with exact excerpt and title; inline sources stay folded; composer remains last',{'fixture':'saved UI session from five actual snapshot records; no API model call'})
     for width,height in [(390,844),(1440,1000)]:
         await page.set_viewport_size({'width':width,'height':height})
-        await page.get_by_role('button',name='查看引用 C5',exact=True).click()
-        key=f'assistant-c5-focused-{width}'
+        await c5_chip.click()
+        await c5_dialog.wait_for()
+        key=f'assistant-c5-dialog-{width}'
         phase['snapshots'][key]=await snapshot(page,key,ARTIFACTS/'after',reset_scroll=False)
+        await page.keyboard.press('Escape')
+        await page.wait_for_function("() => !document.querySelector('.as-citation-dialog')")
+        assert await c5_chip.evaluate('(el)=>el===document.activeElement')
     aggregate=page.locator('[data-as-citation="A1"]')
     details=aggregate.locator('.as-aggregate-details')
     assert not await details.evaluate('(el)=>el.open')

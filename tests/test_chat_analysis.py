@@ -798,6 +798,102 @@ class ChatAnalysisTests(unittest.TestCase):
                 self.assertEqual(response["usage"], expected)
                 self.assertEqual(len([call for call in model.calls if "repair" in call["input"]]), 1)
 
+    def test_broad_opinion_with_zero_literal_match_uses_bounded_sample(self):
+        chat, model = self.chat()
+        response = chat.answer("你看看你认为最有特点的汇报，给我说")
+        self.assertEqual(response["state"], "answered")
+        self.assertTrue(response["model"]["attempted"])
+        self.assertTrue(response["model"]["used"])
+        self.assertIn(response["answer_format"], {"grounded_summary", "grounded_analysis"})
+        self.assertTrue(response["citations"])
+        self.assertEqual(response["aggregates"]["matched"]["total"], 0)
+        self.assertEqual(response["coverage"]["matched_records"], 0)
+        self.assertTrue(response["coverage"]["sample_fallback"])
+        self.assertGreaterEqual(response["coverage"]["sample_records"], 8)
+        self.assertLessEqual(response["coverage"]["sample_records"], 12)
+        self.assertFalse(response["coverage"]["exhaustive"])
+        sample = next(step for step in response["plan"]["tool_steps"] if step["tool"] == "database_sample")
+        self.assertEqual(sample["records"], response["coverage"]["sample_records"])
+        self.assertEqual(sample["literal_matched_records"], 0)
+        self.assertIn("抽样", response["answer"])
+        self.assertIn("不代表全库占比", response["answer"])
+        self.assertFalse(response["validation"]["source_truth_verified"])
+        generation = model.calls[0]
+        self.assertTrue(generation["input"]["sampling_scope"]["sample_fallback"])
+        self.assertEqual(generation["input"]["sampling_scope"]["sample_records"],
+                         response["coverage"]["sample_records"])
+        self.assertIn("不是全库检索结果", generation["system"])
+        self.assertIn("不得声称这些是最有特点", generation["system"])
+        self.assertEqual(len(model.calls), 2)
+
+    def test_broad_sample_legacy_verbatim_claims_still_report_grounded_summary(self):
+        class LegacyModel(AnalysisModel):
+            def complete(self, messages, max_tokens, timeout=None):
+                data = json.loads(messages[-1]["content"])
+                if "anchors" in data:
+                    return json.dumps({"query": data["query"][:300], "groups": []}), {"total_tokens": 1}
+                evidence = data["evidence"][0]
+                quote = evidence["snippet"][:500]
+                return json.dumps({"claims": [{"text": quote, "citations": [evidence["citation_id"]],
+                                               "quotes": [{"citation_id": evidence["citation_id"], "quote": quote}]}]},
+                                  ensure_ascii=False), {"total_tokens": 2}
+
+        chat = Chat(self.retriever, LegacyModel())
+        response = chat.answer("你看看你认为最有特点的汇报，给我说")
+        self.assertEqual(response["state"], "answered")
+        self.assertEqual(response["answer_format"], "grounded_summary")
+        self.assertEqual(response["validation"]["level"], "exact_verbatim")
+        self.assertTrue(response["coverage"]["sample_fallback"])
+
+    def test_broad_sample_stays_literal_for_unknown_date_negation_and_exact_phrase(self):
+        chat, model = self.chat()
+        cases = [
+            ("给我说说 qazxunknownplanet47399", None),
+            ("给我说说近30天CSIS中国资料", {"date_from": "2026-11-01", "date_to": "2026-11-09"}),
+            ("给我说说中国 -中国", None),
+            ('给我说说 "imaginary-exact-phrase-838182"', None),
+            ("给我说说 a,b,c", None),
+            ("给我说说 SELECT * FROM records", None),
+            ("给我说说 <script>alert(1)</script>", None),
+        ]
+        for message, filters in cases:
+            with self.subTest(message=message):
+                response = chat.answer(message, filters=filters)
+                self.assertEqual(response["state"], "no_results")
+                self.assertFalse(response["coverage"].get("sample_fallback", False))
+                self.assertFalse(response["model"]["attempted"])
+                self.assertEqual(response["citations"], [])
+        self.assertEqual(model.calls, [])
+
+    def test_broad_sample_does_not_wrap_a_concrete_topic(self):
+        chat, model = self.chat()
+        response = chat.answer("给我说说 CSIS 量子")
+        self.assertEqual(response["state"], "no_results")
+        self.assertFalse(response["coverage"].get("sample_fallback", False))
+        self.assertEqual(response["citations"], [])
+        self.assertEqual(model.calls, [])
+
+    def test_broad_sample_with_insufficient_scope_stays_no_results(self):
+        chat, model = self.chat()
+        response = chat.answer("给我说说值得关注的资料", filters={"angle": ["clue"]})
+        self.assertEqual(response["state"], "no_results")
+        self.assertFalse(response["coverage"].get("sample_fallback", False))
+        self.assertEqual(response["citations"], [])
+        self.assertEqual(model.calls, [])
+
+    def test_broad_sample_model_failure_falls_back_to_honest_retrieval(self):
+        chat, model = self.chat("generation_failure")
+        response = chat.answer("你看看你认为最有特点的汇报，给我说")
+        self.assertEqual(response["state"], "retrieval_only")
+        self.assertFalse(response["model"]["used"])
+        self.assertTrue(response["model"]["attempted"])
+        self.assertTrue(response["coverage"]["sample_fallback"])
+        self.assertGreaterEqual(response["coverage"]["sample_records"], 8)
+        self.assertTrue(response["citations"])
+        self.assertIn("抽样", response["answer"])
+        self.assertIn("不代表全库占比", response["answer"])
+        self.assertNotIn("分析：", response["answer"])
+
 
 class RealCountCompatibility(unittest.TestCase):
     @unittest.skipUnless((ROOT / ".runtime/retrieval.sqlite3").exists(), "real snapshot not available")
@@ -812,6 +908,27 @@ class RealCountCompatibility(unittest.TestCase):
             self.assertFalse(result["model"]["used"])
             self.assertFalse(result["model"]["attempted"])
         self.assertEqual(model.calls, [])
+
+
+class RealSampleFallbackCompatibility(unittest.TestCase):
+    @unittest.skipUnless((ROOT / ".runtime/retrieval.sqlite3").exists(), "real snapshot not available")
+    def test_broad_real_scope_samples_bounded_records_across_angles(self):
+        chat = Chat(Retriever(ROOT / ".runtime/retrieval.sqlite3"), AnalysisModel(available=False))
+        response = chat.answer("你看看你认为最有特点的汇报，给我说")
+        self.assertEqual(response["state"], "retrieval_only")
+        self.assertEqual(response["aggregates"]["matched"]["total"], 0)
+        self.assertEqual(response["aggregates"]["scoped"]["total"], 6989)
+        self.assertEqual(response["coverage"]["matched_records"], 0)
+        self.assertTrue(response["coverage"]["sample_fallback"])
+        self.assertGreaterEqual(response["coverage"]["sample_records"], 8)
+        self.assertLessEqual(response["coverage"]["sample_records"], 12)
+        self.assertFalse(response["coverage"]["exhaustive"])
+        sample = next(step for step in response["plan"]["tool_steps"] if step["tool"] == "database_sample")
+        self.assertEqual(sample["records"], response["coverage"]["sample_records"])
+        self.assertGreaterEqual(sum(1 for count in sample["by_angle"].values() if count), 2)
+        self.assertFalse(response["model"]["used"])
+        self.assertIn("抽样", response["answer"])
+        self.assertIn("不代表全库占比", response["answer"])
 
 
 if __name__ == "__main__":

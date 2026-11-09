@@ -14,7 +14,7 @@ window.META={version:'real-v1',generated_at:'2026-11-05T12:00:00Z',angles:{news:
 window.entries=[{angle:'news',r:{id:'news-1',ktid:1000110,title_cn:'人工智能安全研究',summary_cn:'人工智能安全研究摘要 cybersecurity',url:'https://example.org/evidence',publish_time:'2026-09-01T08:00:00Z'}},{angle:'news',r:{id:'news-2',ktid:1000110,title_cn:'网络安全资料',summary_cn:'网络安全的真实资料',url:'https://example.org/evidence2',publish_time:'2026-09-02T08:00:00Z'}},{angle:'social',r:{id:'social-1',ktid:1001140,title:'DHS cybersecurity',chinese_translation:'国土安全部网络安全资料',platform:'X',source_url:'https://example.org/social',publish_time:'2026-09-03T08:00:00Z'}},{angle:'news',r:{id:'sim-news-1',ktid:1000110,title_cn:'人工智能模拟',_simulation:true}}];
 window.workspace={favorites:[{id:'keep'}],queries:[{name:'keep'}],read:{keep:'yes'},watchlist:[1000110],other:{keep:true}};
 window.calls={search:[],chat:[],auth:[],project:[]};window.mockMode='normal';window.chatMode='answered';window.latency=0;window.statusDelay=0;window.statusCalls=0;
-window.aggregate=()=>({scope:{dataset:'real',filters:{institution:[1000110],angle:['news'],date_from:'2026-01-01',date_field:'published_at'},source_version:'real-v1',date_field:'published_at',term_match:[['人工智能','AI']],strategy:'fts5_and'},scoped:{total:73,by_angle:{news:73,clue:0,social:0},by_institution:[{ktid:1000110,cn:'美国联邦调查局',count:73}],by_platform:[]},matched:{total:42,by_angle:{news:42,clue:0,social:0},by_institution:[{ktid:1000110,cn:'美国联邦调查局',count:42}],by_platform:[]}});
+window.aggregate=()=>({scope:{dataset:'real',filters:{institution:[1000110],angle:['news'],date_from:'2026-01-01',date_field:'published_at'},source_version:'real-v1',date_field:'published_at',term_match:[['人工智能','AI']],strategy:'fts5_and'},scoped:{total:73,by_angle:{news:73,clue:0,social:0},by_institution:[{ktid:1000110,cn:'美国联邦调查局',count:73}],by_platform:[]},matched:{total:42,by_angle:{news:42,clue:0,social:0},by_institution:[{ktid:1000110,cn:'美国联邦调查局',count:42}],by_platform:[]},shares:{denominator:73,by_institution:[{ktid:1000110,cn:'美国联邦调查局',count:73,percent:100}],by_angle:[{angle:'news',count:73,percent:100}],by_platform:[]},ranking:{dimension:'institution',order:'descending',denominator:73,ties_included:false,entries:[{ktid:1000110,cn:'美国联邦调查局',count:73}]}});
 window.citation=()=>({citation_id:'C3',id:'news-1',angle:'news',ktid:1000110,title:'服务端标题',snippet:'证据原文 <img src=x onerror="window.pwned=1">',paragraph:7,paragraph_scheme:'service_field_chunks_v1',field:'translation',source_field:'content_cn',source_url:'javascript:alert(1)',source_version:'real-v1',date_origin:'provided'});
 window.payload=()=>({query:'人工智能',state:'retrieval',results:mockMode==='empty'?[]:[citation()],plan:{terms:[['人工智能','AI']],fuzzy_terms:[{input:'cybersecurty',term:'cybersecurity'}],strategy:'fts5_and',model:{rewritten_query:'artificial intelligence',applied_groups:[{anchor:'人工智能',terms:['artificial intelligence']}]} },model:{id:MODEL,used:true,attempted:true,reason:null},aggregates:aggregate(),coverage:{source_version:'real-v1',database_total:6989,scoped_records:73,matched_records:mockMode==='empty'?0:42,returned_paragraphs:1,exhaustive:false}});
 window.checkFilters=f=>{for(const key of Object.keys(f))if(!['institution','angle','platform','date_from','date_to','date_field'].includes(key))throw new Error('bad filter '+key);};
@@ -22,7 +22,7 @@ window.pause=signal=>new Promise((resolve,reject)=>{const timer=setTimeout(resol
 window.client={
  async status(){window.statusCalls++;if(window.statusDelay)await new Promise(resolve=>setTimeout(resolve,window.statusDelay));if(mockMode==='auth')throw Object.assign(new Error('need password'),{status:401,code:'authentication_required'});return {database:'ready',llm:{available:true,state:'ready',model:MODEL},snapshot:{source_version:'real-v1',total:6989,ingested_at:'2026-11-08'},aggregates:{total:6989}};},
  async search(p,{signal}){calls.search.push(p);checkFilters(p.filters);if(p.limit>30||p.query.length>1200)throw new Error('limits');if(mockMode==='auth')throw Object.assign(new Error('need password'),{status:401,code:'authentication_required'});if(mockMode==='offline')throw new TypeError('network');await pause(signal);const result=payload();result.model={id:MODEL,used:p.semantic&&p.expand,attempted:p.semantic&&p.expand,reason:p.expand?'semantic_disabled':'expansion_disabled'};if(!p.expand){result.plan={terms:[['人工智能']],fuzzy_terms:[],strategy:'fts5_and'};}if(mockMode==='empty')result.aggregates.matched.total=0;return result;},
- async chat(p,{signal}){calls.chat.push(p);checkFilters(p.filters);if(Object.keys(p).some(k=>!['message','history','filters','expand'].includes(k)))throw new Error('unknown chat field');if(p.message.length>1200||p.history.length>8||p.history.some(m=>m.content.length>4000)||p.history.reduce((n,m)=>n+m.content.length,0)>12000)throw new Error('history limit');if(mockMode==='offline')throw new TypeError('network');await pause(signal);const result=payload();result.citations=chatMode==='database'?[]:[citation()];result.aggregate_citations=[{citation_id:'A1',kind:'database_aggregate',...aggregate()}];result.answer=chatMode==='database'?'数据库精确统计共 42 条。[A1]':chatMode==='retrieval'?'当前返回数据库摘录。[C3][A1]':'**资料结论** [C3] <img src=x onerror="window.pwned=1">\n统计口径见 [A1]';result.answer_format=chatMode==='answered'?'verbatim_extracts':chatMode==='database'?'database_aggregate':'retrieval_extracts';result.state=chatMode==='database'?'database_answer':chatMode==='retrieval'?'retrieval_only':'answered';result.model={id:MODEL,used:chatMode==='answered',attempted:chatMode==='answered'||chatMode==='retrieval',reason:chatMode==='database'?'exact_database_aggregate':chatMode==='retrieval'?'model_unreachable':null};return result;},
+ async chat(p,{signal}){calls.chat.push(p);checkFilters(p.filters);if(Object.keys(p).some(k=>!['message','history','filters','expand'].includes(k)))throw new Error('unknown chat field');if(p.message.length>1200||p.history.length>8||p.history.some(m=>m.content.length>4000)||p.history.reduce((n,m)=>n+m.content.length,0)>12000)throw new Error('history limit');if(mockMode==='offline')throw new TypeError('network');await pause(signal);const result=payload();result.citations=chatMode==='database'?[]:[{...citation(),quotes:['回答使用的来源摘录']}];result.aggregate_citations=[{citation_id:'A1',kind:'database_aggregate',...aggregate()}];result.answer=chatMode==='database'?'数据库精确统计共 42 条。[A1]':chatMode==='retrieval'?'当前返回数据库摘录。[C3][A1]':'**资料结论** [C3] <img src=x onerror="window.pwned=1">\n统计口径见 [A1]';result.answer_format=chatMode==='answered'?'verbatim_extracts':chatMode==='database'?'database_aggregate':'retrieval_extracts';result.state=chatMode==='database'?'database_answer':chatMode==='retrieval'?'retrieval_only':'answered';result.model={id:MODEL,used:chatMode==='answered',attempted:chatMode==='answered'||chatMode==='retrieval',reason:chatMode==='database'?'exact_database_aggregate':chatMode==='retrieval'?'model_unreachable':null};return result;},
  async authenticate(password){calls.auth.push(password.length);if(password!=='test-site-password')throw Object.assign(new Error('invalid'),{status:401});mockMode='normal';return {token:'ephemeral-token'};}
 };
 window.ZGCLAB_PROJECTS={addEntries:async(rows,givenApi)=>{if(givenApi!==api||!givenApi.workspace||!givenApi.saveWorkspace)throw new Error('wrong projects API');calls.project.push(rows.map(e=>e.r.id));return {added:rows.length};}};
@@ -103,10 +103,28 @@ def run():
         submit("人工智能研究有什么结论？")
         assert page.locator(".as-turn").count() == 1
         assert "模型选取的原文摘录" in page.locator(".as-turn").inner_text()
-        page.locator(".as-citation-ref", has_text="[C3]").click()
-        assert page.evaluate("document.activeElement.dataset.asCitation") == "C3"
-        page.locator(".as-citation-ref", has_text="[A1]").click()
-        assert page.evaluate("document.activeElement.dataset.asCitation") == "A1"
+        page.wait_for_function("document.querySelector('[data-as-citation=C3] a[data-as-local-record]')")
+        c3_chip = page.locator(".as-citation-ref", has_text="[C3]").first
+        c3_chip.click()
+        c3_dialog = page.locator("dialog.as-citation-dialog-c[open]")
+        c3_dialog.wait_for()
+        assert c3_dialog.evaluate("el=>el.tagName") == "DIALOG"
+        assert "证据原文" in c3_dialog.inner_text() and "回答使用的来源摘录" in c3_dialog.inner_text()
+        assert c3_dialog.locator(".as-citation-clone h3").inner_text().strip()
+        assert c3_dialog.locator("a[data-as-local-record]").get_attribute("href") == "#/record/news/news-1"
+        c3_dialog.locator("[data-as-dialog-close]").click()
+        page.wait_for_function("!document.querySelector('.as-citation-dialog')")
+        assert c3_chip.evaluate("el=>el===document.activeElement")
+        a1_chip = page.locator(".as-citation-ref", has_text="[A1]").first
+        a1_chip.click()
+        a1_dialog = page.locator("dialog.as-citation-dialog-a[open]")
+        a1_dialog.wait_for()
+        a1_text = a1_dialog.inner_text()
+        assert "结构化范围" in a1_text and "检索规则命中" in a1_text and "分母 73 条" in a1_text
+        assert a1_dialog.locator(".as-aggregate-table table tbody tr").count() == 2
+        page.keyboard.press("Escape")
+        page.wait_for_function("!document.querySelector('.as-citation-dialog')")
+        assert a1_chip.evaluate("el=>el===document.activeElement")
         assert page.locator(".as-markdown img,.as-markdown a").count() == 0
         assert page.evaluate("workspace.chatSessions[0].turns[0].items[0].label") == "C3"
         assert page.evaluate("workspace.other.keep && workspace.favorites[0].id==='keep'")
@@ -128,7 +146,7 @@ def run():
         history = page.evaluate("calls.chat.at(-1).history")
         assert len(history) <= 8 and all(len(m["content"]) <= 4000 for m in history)
         assert sum(len(m["content"]) for m in history) <= 12000
-        check("multi-turn citations C3/A1 keyboard focus, database answers, attempted fallback, bounded history and optional persistence")
+        check("multi-turn C3 evidence/A1 statistics dialogs, database answers, attempted fallback, bounded history and optional persistence")
         with page.expect_download() as download_info:
             page.locator("#asExport").click()
         markdown = Path(download_info.value.path()).read_text()

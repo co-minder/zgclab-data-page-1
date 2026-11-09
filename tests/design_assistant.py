@@ -109,12 +109,30 @@ def run():
             assert page.locator("#asWelcome").is_hidden()
             assert page.evaluate("document.querySelector('#asReading').lastElementChild.id") == "asComposeDock"
             assert page.evaluate("document.querySelector('#asForm').getBoundingClientRect().top>document.querySelector('#asTranscript').getBoundingClientRect().bottom")
-            page.locator(".as-citation-ref", has_text="[C3]").click()
-            assert page.evaluate("document.activeElement.dataset.asCitation") == "C3"
-            assert page.locator(".as-evidence>.as-excerpt").inner_text().startswith("证据原文 <img")
+            page.wait_for_function("document.querySelector('[data-as-citation=C3] a[data-as-local-record]')")
+            c3_chip = page.locator(".as-citation-ref", has_text="[C3]").first
+            c3_chip.click()
+            c3_dialog = page.locator("dialog.as-citation-dialog-c[open]")
+            c3_dialog.wait_for()
+            c3_text = c3_dialog.inner_text()
+            assert "证据原文" in c3_text and "回答使用的来源摘录" in c3_text
+            assert c3_dialog.locator(".as-citation-clone h3").inner_text().strip()
+            assert c3_dialog.locator("a[data-as-local-record]").get_attribute("href") == "#/record/news/news-1"
+            assert page.locator("#asTranscript .as-evidence:not(.as-citation-clone)>.as-excerpt").inner_text().startswith("证据原文 <img")
             assert page.locator(".as-root img,.as-markdown script").count() == 0
-            page.locator(".as-citation-ref", has_text="[A1]").click()
-            assert page.evaluate("document.activeElement.dataset.asCitation") == "A1"
+            c3_dialog.locator("[data-as-dialog-close]").click()
+            page.wait_for_function("!document.querySelector('.as-citation-dialog')")
+            assert c3_chip.evaluate("el=>el===document.activeElement")
+            a1_chip = page.locator(".as-citation-ref", has_text="[A1]").first
+            a1_chip.click()
+            a1_dialog = page.locator("dialog.as-citation-dialog-a[open]")
+            a1_dialog.wait_for()
+            a1_text = a1_dialog.inner_text()
+            assert "结构化范围" in a1_text and "检索规则命中" in a1_text and "分母 73 条" in a1_text
+            assert a1_dialog.locator(".as-aggregate-table table tbody tr").count() == 2
+            page.keyboard.press("Escape")
+            page.wait_for_function("!document.querySelector('.as-citation-dialog')")
+            assert a1_chip.evaluate("el=>el===document.activeElement")
             open_details(page, ".as-aggregate-details")
             fit(page, f"mock-answer-expanded-statistics-{width}", measurements)
             page.locator(".as-aggregate-details > summary").click()
@@ -150,7 +168,7 @@ def run():
             fit(page, f"mock-no-results-{width}", measurements)
             page.evaluate("mockMode='normal';workspace.chatSessions=[];workspace.assistantPreferences={};")
         checks.append("360/390/739/768/1024/1440: empty, answer, database, search, expanded statistics and zero-results fit; 40/44px actions; 28/24px titles")
-        checks.append("keyboard tab switching, keyboard disclosure, example focus, C3/A1 citation focus, follow-up composer after transcript")
+        checks.append("keyboard tab switching, keyboard disclosure, example focus, C3 evidence/A1 statistics dialogs, follow-up composer after transcript")
         checks.append("search process dialog, withdraw extension, Markdown download, evidence HTML safety and visible actual state")
         # A fourth source is initially folded; its inline citation must still reveal and focus it.
         page.evaluate("""()=>{
@@ -160,12 +178,18 @@ def run():
         }""")
         submit(page, "多来源引用检查")
         assert not page.locator(".as-more-sources").evaluate("e=>e.open")
-        page.locator(".as-citation-ref", has_text="[C5]").click()
-        assert page.locator(".as-more-sources").evaluate("e=>e.open")
-        assert page.evaluate("document.activeElement.dataset.asCitation") == "C5"
+        c5_chip = page.locator(".as-citation-ref", has_text="[C5]").first
+        c5_chip.click()
+        c5_dialog = page.locator("dialog.as-citation-dialog-c[open]")
+        c5_dialog.wait_for()
+        assert "证据原文" in c5_dialog.inner_text()
+        assert c5_dialog.locator(".as-citation-clone h3").count() == 1
+        c5_dialog.locator("[data-as-dialog-close]").click()
+        page.wait_for_function("!document.querySelector('.as-citation-dialog')")
+        assert c5_chip.evaluate("el=>el===document.activeElement")
         page.get_by_role("button", name="继续追问 ↓").click()
         assert page.evaluate("document.activeElement.id") == "asQuestion"
-        checks.append("inline C5 reveals folded extra sources; continue-question shortcut focuses the composer")
+        checks.append("C5 chip opens its citation dialog; continue-question shortcut focuses the composer")
         context.close()
 
         # Actual protected app, only this module and the latest shared CSS injected.

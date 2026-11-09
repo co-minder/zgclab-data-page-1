@@ -9,9 +9,55 @@ from .retrieval import InputError, Retriever, bounded_text
 from .planner import SearchEngine, is_count_query
 from .intent import request_intent
 from .research_chat import COMPARISON_COUNT, GREETING, INJECTION, balance_result, eligible, generate, inherit_filters, kind_for, metadata, scope_text
+from .text import normalize
 
 UNSAFE_OUTPUT = re.compile(r"<\s*/?\s*[a-z!]|javascript\s*:|data\s*:\s*text/html|!\[|\]\s*\(|https?://|\b(?:curl|wget|bash|powershell|sudo)\s|忽略(?:此前|之前|上面|所有).*指令|ignore\s+(?:all\s+)?(?:previous|prior)\s+instructions", re.I)
 CITATION = re.compile(r"\[C(\d+)\]")
+# A broad/opinion request is the only kind allowed to use a bounded sample
+# when the literal database query has zero matches. Specific topics, dates,
+# counts, comparisons, exclusions and unknown entities stay literal.
+BROAD_SAMPLE = re.compile(
+    r"你认为|你觉得|你看来|您认为|最有特点|有特点|特点|值得关注|值得一看|值得推荐|"
+    r"推荐(?:几|一|些|下|点)|说说|讲讲|聊聊|谈谈|给我说|汇报|印象最深|主要动态|"
+    r"动态|看点|亮点|值得注意|有什么值得|哪些值得|哪个|哪篇|哪几篇|最好|最佳|最值得|"
+    r"有意思|有趣|精彩|突出|亮眼|好看|overview|highlights?|recommend|"
+    r"most\s+(?:notable|interesting|memorable)|what(?:'s| is)\s+worth|tell\s+me\s+about",
+    re.I,
+)
+BROAD_TERM = re.compile(
+    r"你认为|你觉得|你看来|您认为|特点|值得|推荐|说说|讲讲|聊聊|谈谈|给我说|汇报|"
+    r"印象|动态|看点|亮点|主要|近期|最近|最新|当前|现在|资料|报道|信息|内容|"
+    r"关注|什么|哪些|哪个|哪篇|哪几篇|最好|最佳|最值得|有意思|有趣|精彩|突出|亮眼|好看|"
+    r"一下|看看|告诉|介绍|概述|概览|overview|highlight|recommend|"
+    r"tell\s+me|what(?:'s| is)\s+worth",
+    re.I,
+)
+SAMPLE_FILLER = re.compile(
+    r"给我|说说|讲讲|聊聊|谈谈|看看|告诉|你|您|我|的|吧|呢|吗|啊|一下|一点|一些|几篇|几|篇|关于|"
+    r"什么|哪些|哪个|哪篇|哪几篇|请|帮|想要|可以|能否|主要|近期|最近|最新|当前|现在|资料|报道|信息|内容|"
+    r"关注|特点|值得|推荐|汇报|印象|动态|看点|亮点|最好|最佳|最值得|有意思|有趣|精彩|突出|亮眼|好看|"
+    r"概述|概览|about|me|tell|"
+    r"overview|highlight|recommend|worth|what|is|most|notable|interesting|memorable|"
+    r"reports?|articles?|posts?|records?|documents?|items?|stories?|coverage|news|data|database|"
+    r"few|some|any|reading|read|please|thanks|thank|"
+    r"谢谢|多谢|感谢|非常|特别|比较|最|很|较|更",
+    re.I,
+)
+SAMPLE_NEGATION = re.compile(
+    r"(?:不|未|非|无)(?:是|要|含|包括|包含|涉及|关于|支持|赞成|关心|提到|找到|存在)|"
+    r"排除|不含|不包括|没有(?:找到|提到|涉及|包含)|不要|"
+    r"(?<![A-Za-z])(?:not|without|exclude|except|no)\s",
+    re.I,
+)
+SAMPLE_UNSAFE = re.compile(
+    r"\b(?:select|insert|update|delete|drop|alter|create|truncate|union|exec|execute)\b|"
+    r"--|/\*|\*/|(?:'|\")\s*(?:or|and)\s+\d+\s*=\s*\d+",
+    re.I,
+)
+SAMPLE_LIMIT = 12
+SAMPLE_MIN_RECORDS = 8
+SAMPLE_PER_ANGLE = 4
+SAMPLE_SCOPE_KEYS = ("institution", "angle", "platform", "date_field")
 
 
 def validate_history(history) -> list[dict]:
@@ -81,6 +127,129 @@ class Chat:
         elif temporal and current["request_intent"].get("requested_sort") != "relevance" and (comparison_count or current["request_intent"]["referential"] or not current["terms"]):
             pieces.extend(temporal)
         return " ".join(pieces)[:1200] or message
+
+    def _has_unknown_entity(self, plan: dict) -> bool:
+        known = {normalize(alias) for aliases in self.retriever.aliases.values() for alias in aliases}
+        known.update(normalize(word) for word in self.retriever.vocabulary)
+        for group in plan.get("terms", []):
+            for term in group:
+                value = normalize(term)
+                if (re.fullmatch(r"[a-z][a-z0-9_-]{3,}", value) and value not in known
+                        and (any(ch.isdigit() for ch in value) or len(value) >= 12)):
+                    return True
+        return False
+
+    def _has_specific_topic(self, plan: dict) -> bool:
+        # Broad/opinion words do not become a license to sample around a
+        # concrete topic. Strip request grammar, then require no substantive
+        # residual Chinese or Latin term in any actual concept group.
+        for group in plan.get("terms", []):
+            if not group or not isinstance(group[0], str):
+                return True
+            residue = SAMPLE_FILLER.sub(" ", BROAD_TERM.sub(" ", group[0]))
+            if re.search(r"[\u3400-\u9fff]{2,}|[A-Za-z]{3,}|[A-Za-z]*\d[A-Za-z0-9]*", residue):
+                return True
+        return False
+
+    def sampling_allowed(self, message: str, result: dict, expand: bool, count_requested: bool,
+                         source_attribute: bool, source_ids) -> bool:
+        if not expand or source_ids is not None or count_requested or source_attribute:
+            return False
+        if result["results"] or result["aggregates"]["matched"]["total"]:
+            return False
+        if not BROAD_SAMPLE.search(message):
+            return False
+        if INJECTION.search(message) or SAMPLE_UNSAFE.search(message):
+            return False
+        plan = result["plan"]
+        if plan.get("exact_phrases") or plan.get("excluded_terms"):
+            return False
+        if any(plan.get("filters", {}).get(key) for key in ("date_from", "date_to")):
+            return False
+        if re.search(r"[\"“”「」『』]", message) or re.search(r"[;\t\n\r]", message):
+            return False
+        if re.search(r"(?:^|\s)[A-Za-z0-9_-]+(?:\s*,\s*[A-Za-z0-9_-]+)+", message):
+            return False
+        intent = plan.get("intent", plan.get("request_intent", {}))
+        operations = intent.get("operations", {}) if isinstance(intent, dict) else {}
+        if any(operations.get(key) for key in ("count", "compare", "ranking", "share")):
+            return False
+        if kind_for(message, result) in {"comparison", "count"}:
+            return False
+        if re.search(r"比较|对比|异同|排名|排行|占比|多少|几条|统计|趋势|按月|每月|哪家|谁(?:更|最)?多|最多|最少|比分|得分|胜负", message):
+            return False
+        if SAMPLE_NEGATION.search(message):
+            return False
+        if self._has_unknown_entity(plan) or self._has_specific_topic(plan):
+            return False
+        return True
+
+    @staticmethod
+    def diverse_sample(citations: list[dict], limit: int) -> list[dict]:
+        groups, seen = {}, set()
+        for citation in citations:
+            if citation["id"] in seen:
+                continue
+            seen.add(citation["id"])
+            groups.setdefault((citation.get("angle"), citation.get("ktid")), []).append(citation)
+        chosen = []
+        while groups and len(chosen) < limit:
+            for key in list(groups):
+                chosen.append(groups[key].pop(0))
+                if not groups[key]:
+                    del groups[key]
+                if len(chosen) >= limit:
+                    break
+        return chosen
+
+    def sample_scope(self, result: dict, expand: bool) -> dict | None:
+        filters = {key: value for key, value in result["plan"]["filters"].items() if key in SAMPLE_SCOPE_KEYS}
+        batches = []
+        if filters.get("angle"):
+            batches.append(self.retriever.search("", filters, expand=expand, limit=SAMPLE_LIMIT))
+        else:
+            for angle in ("news", "clue", "social"):
+                batches.append(self.retriever.search("", {**filters, "angle": [angle]},
+                                                     expand=expand, limit=SAMPLE_PER_ANGLE))
+        selected, seen = [], set()
+        for batch in batches:
+            for citation in batch["results"]:
+                if citation["id"] in seen or not eligible(citation):
+                    continue
+                seen.add(citation["id"])
+                selected.append(citation)
+        if len(selected) < SAMPLE_LIMIT:
+            fill = self.retriever.search("", filters, expand=expand, limit=SAMPLE_LIMIT)
+            for citation in fill["results"]:
+                if len(selected) >= SAMPLE_LIMIT:
+                    break
+                if citation["id"] in seen or not eligible(citation):
+                    continue
+                seen.add(citation["id"])
+                selected.append(citation)
+        selected = self.diverse_sample(selected, SAMPLE_LIMIT)
+        if len(selected) < SAMPLE_MIN_RECORDS:
+            return None
+        for index, citation in enumerate(selected, 1):
+            citation["citation_id"] = f"C{index}"
+        result["results"] = selected
+        date_field = result["plan"]["filters"].get("date_field", "published_at")
+        sample_dates = [citation.get(date_field) for citation in selected if citation.get(date_field)]
+        result["coverage"].update(
+            returned_records=len(selected), returned_paragraphs=len(selected),
+            sample_fallback=True, sample_records=len(selected), literal_matched_records=0,
+            exhaustive=False, sample_basis="representative_records_within_current_filters",
+            latest_returned_date=max(sample_dates) if sample_dates else None,
+            earliest_returned_date=min(sample_dates) if sample_dates else None,
+        )
+        by_angle = {angle: sum(1 for citation in selected if citation.get("angle") == angle)
+                    for angle in ("news", "clue", "social")}
+        result["plan"].setdefault("tool_steps", []).append(
+            {"tool": "database_sample", "purpose": "bounded_representative_sample_within_current_scope",
+             "filters": filters, "records": len(selected), "paragraphs": len(selected),
+             "by_angle": by_angle, "literal_matched_records": 0, "exhaustive": False})
+        return {"sample_fallback": True, "sample_records": len(selected), "literal_matched_records": 0,
+                "exhaustive": False, "basis": "representative_records_within_current_filters", "by_angle": by_angle}
 
     def conversation_source(self, message: str, history: list[dict], query: str, filters: dict):
         if not request_intent(message)["source_reference"]:
@@ -193,6 +362,10 @@ class Chat:
                 answer += "指定的 DeepSeek V4.1 Flash 暂不可用；可以重试，或继续查看以下真实资料及精确统计。"
             elif reason.startswith("invalid_") or reason in {"ungrounded_model_answer", "unsafe_model_answer", "model_mismatch"}:
                 answer += "候选分析未通过引用与内容校验，仍可查看以下真实资料并重试。"
+            if result.get("coverage", {}).get("sample_fallback"):
+                sample_records = result["coverage"].get("sample_records")
+                answer += (f"\n\n当前筛选范围内没有与问题字面匹配的记录；以下是按当前范围抽样的 "
+                           f"{sample_records} 条资料中的部分记录，不是字面命中，也不代表全库占比、实时覆盖或客观排名。")
             answer += "\n" + scope_text(result, citations)
             if not citations:
                 answer += "\n命中记录中的当前段落不适合作为模型证据，请调整问题或查看完整原文。"
@@ -303,10 +476,14 @@ class Chat:
             return self.response(result, self.database_answer(message, result), [], {}, "database_answer",
                                  {"id": self.llm.model, "used": False, "attempted": False, "reason": "exact_database_aggregate"})
         result = balance_result(self.retriever, result, message, expand, source_ids)
+        sampling = None
+        if not result["results"] and self.sampling_allowed(message, result, expand, count_requested,
+                                                           source_attribute, source_ids):
+            sampling = self.sample_scope(result, expand)
         if not result["results"]:
             return self.fallback(result, "no_results", usage, attempted)
         return generate(self, result, message, history, expand, usage, deadline, model_guard, attempted,
-                        requested_points=message_intent.get("requested_points"))
+                        requested_points=message_intent.get("requested_points"), sampling=sampling)
 
     @staticmethod
     def validate_claims(payload: dict, evidence: list[dict]) -> tuple[list[dict], set[str]]:

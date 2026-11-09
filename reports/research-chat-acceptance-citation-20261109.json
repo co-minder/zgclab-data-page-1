@@ -1,0 +1,50 @@
+{
+  "task": "CHAT-CITATION-BROAD-20261109",
+  "manifest": "manifest-2da307047bf9dca5b95e.json",
+  "verdict": "PASS",
+  "failed": 0,
+  "acceptance_complete": true,
+  "scope": "C/A citation dialogs, broad-query representative sampling, and citation-aware UI; backend sampling accepted by actual preview capture and 215-test freeze.",
+  "ui_source_commit": "4fd29e0d0753187ba38264f9bb177a113ef94dc6 (working tree changes for this release)",
+  "api_revision": "research-chat-20261109",
+  "source_freeze": {
+    "assistant.js": "bd20e5bb1c9496ee4c8a19d0ae56f9f41bb019b80a41995b760b8bfd01c5a886",
+    "assistant.css": "9ad4ed742938cc53482a3d192d74031b6ae9f68e6d21eb0eea766ea9082e6cba",
+    "service/chat.py": "b8f910b9942d45b041ee71da2ac12c7c8b4f8c41889f081709daa05aa1e27693",
+    "service/research_chat.py": "035fe97cf151c56e6267f5410def806f5b567e5b17315fe33e5d7dcf7cf74dbe"
+  },
+  "ui_qa": {
+    "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261109T090603Z-ui-citation-qa/ui-citation-qa.json",
+    "sha256": "25bb1e61c3a09d0e9aae9648d08ac65d72d46c2ba6974ec3f16657d9294f8523",
+    "checks": 76,
+    "passed": 76,
+    "failed": 0,
+    "replay": true,
+    "new_model_calls": 0
+  },
+  "broad_preview": {
+    "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/live-broad-sample-20261109T090512Z.json",
+    "sha256": "b96fe14291114f8d33433c58ef14ca5827aeab7f491cd07ec8a2b44f1f48bd80",
+    "state": "answered",
+    "seconds": 12.67,
+    "sample_records": 12,
+    "matched": 0,
+    "citations": 5
+  },
+  "counts": {
+    "frozen_regression": 215,
+    "ui_contracts": 21,
+    "client": 15,
+    "legacy_unit": 3,
+    "legacy_mock": 10,
+    "design_assistant": 16,
+    "design_acceptance_supplement": 6,
+    "ui_citation_qa": 76
+  },
+  "limitations": [
+    "A1 popup fixture lacks shares/date_range literal; A2 shows denominator/date. UI behavior is verified; data-shape limitation is recorded.",
+    "UI QA used a saved real preview response replay; not a new model call.",
+    "Final public actual verification remains pending."
+  ],
+  "final_public_actual_required": true
+}

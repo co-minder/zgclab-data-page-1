@@ -338,7 +338,8 @@
         if (evidence) {
           element.type = "button";
           element.setAttribute("aria-label", "查看引用 " + label);
-          element.onclick = () => activate(label);
+          element.setAttribute("aria-haspopup", "dialog");
+          element.onclick = () => activate(label, element);
         } else element.title = "服务未提供此引用的来源";
         root.appendChild(element);
       } else {
@@ -1117,6 +1118,56 @@
       element.scrollIntoView({ behavior: "auto", block: "center" }); element.focus({ preventScroll: true });
     }
 
+    function createCitationDialog(article, target, trigger, aggregate) {
+      const label = text(target.dataset.asCitation, 20);
+      const tone = aggregate ? "a" : "c";
+      const id = "as-citation-" + makeID();
+      const dialog = document.createElement("dialog");
+      dialog.className = "as-dialog as-citation-dialog as-citation-dialog-" + tone;
+      dialog.id = id;
+      dialog.dataset.asCitationDialog = label;
+      if (trigger) trigger.setAttribute("aria-controls", id);
+      dialog.setAttribute("aria-labelledby", id + "-title");
+      const head = document.createElement("div"); head.className = "as-dialog-head";
+      const heading = document.createElement("div"); heading.className = "as-dialog-heading";
+      const kicker = document.createElement("span"); kicker.className = "as-dialog-kicker"; kicker.textContent = aggregate ? "数据库聚合统计" : "来源证据";
+      const title = document.createElement("h2"); title.className = "as-dialog-title"; title.id = id + "-title";
+      const targetTitle = text((target.querySelector("h3") || {}).textContent, 300).trim();
+      title.textContent = aggregate ? "[" + label + "] 统计口径与角度分布" : "[" + label + "] " + (targetTitle || "来源证据");
+      heading.append(kicker, title);
+      const close = document.createElement("button"); close.type = "button"; close.className = "as-dialog-close"; close.dataset.asDialogClose = "1"; close.setAttribute("aria-label", "关闭弹窗");
+      close.append(document.createTextNode("关闭"));
+      const glyph = document.createElement("span"); glyph.setAttribute("aria-hidden", "true"); glyph.textContent = "×"; close.appendChild(glyph);
+      head.append(heading, close);
+      const body = document.createElement("div"); body.className = "as-dialog-body";
+      const clone = target.cloneNode(true);
+      clone.removeAttribute("id"); clone.removeAttribute("data-as-citation"); clone.removeAttribute("tabindex");
+      clone.classList.add("as-citation-clone");
+      clone.querySelectorAll("details").forEach((item) => { item.open = true; });
+      clone.querySelectorAll("[data-as-load-paragraph]").forEach((item) => item.remove());
+      body.appendChild(clone);
+      dialog.append(head, body);
+
+      const fallback = article && article.querySelector(".as-claim-details > summary");
+      let returnFocus = true;
+      close.onclick = () => { returnFocus = true; dialog.close(); };
+      dialog.addEventListener("click", (event) => { if (event.target === dialog) { returnFocus = true; dialog.close(); } });
+      dialog.addEventListener("close", () => {
+        const targetFocus = returnFocus ? (trigger && trigger.isConnected && trigger.getClientRects().length ? trigger : fallback && fallback.isConnected && fallback.getClientRects().length ? fallback : null) : null;
+        returnFocus = true;
+        dialog.remove();
+        if (targetFocus) targetFocus.focus({ preventScroll: true });
+      });
+      (article || view).appendChild(dialog);
+      openDetailDialog(dialog);
+    }
+
+    function openCitationDialog(article, label, trigger) {
+      const target = [...article.querySelectorAll("[data-as-citation]")].find((node) => node.dataset.asCitation === label);
+      if (!target) { activateCitation(article, label); return; }
+      createCitationDialog(article, target, trigger, target.classList.contains("as-aggregate"));
+    }
+
     function readableAnswer(turn) {
       return turn.answer.split("\n").map((line) => {
         if (/^(?:日期口径|时间口径)：/.test(line)) {
@@ -1193,7 +1244,7 @@
         const block = document.createElement("div"); block.className = "as-claim" + (analysis ? " is-analysis" : " is-source");
         const label = document.createElement("span"); label.className = "as-claim-label" + (analysis ? " is-analysis" : " is-source"); label.textContent = analysis ? "分析" : "来源陈述"; block.appendChild(label);
         const body = document.createElement("div"); body.className = "as-markdown";
-        renderMarkdown(body, section.text + " " + section.citations.map((c) => "[" + c + "]").join(""), [...turn.items, ...(turn.aggregates || [])], (c) => { detail.closeForCitation(); activateCitation(article, c); }); block.appendChild(body);
+        renderMarkdown(body, section.text + " " + section.citations.map((c) => "[" + c + "]").join(""), [...turn.items, ...(turn.aggregates || [])], (c, trigger) => { detail.closeForCitation(); openCitationDialog(article, c, trigger); }); block.appendChild(body);
         for (const q of section.quotes) { const quote = document.createElement("blockquote"); quote.className = "as-excerpt " + (analysis ? "as-quote-a" : "as-quote-c"); quote.textContent = "[" + q.citation_id + "] " + q.quote; block.appendChild(quote); }
         detail.body.appendChild(block);
       }
@@ -1265,7 +1316,7 @@
         answer.appendChild(meta);
         if (turn.answer) {
           const body = document.createElement("div"); body.className = "as-markdown";
-          renderMarkdown(body, readableAnswer(turn), [...turn.items, ...(turn.aggregates || [])], (citationLabel) => activateCitation(article, citationLabel));
+          renderMarkdown(body, readableAnswer(turn), [...turn.items, ...(turn.aggregates || [])], (citationLabel, trigger) => openCitationDialog(article, citationLabel, trigger));
           answer.appendChild(body);
           renderSections(answer, turn, article);
           const unknown = [...turn.answer.matchAll(/\[([CA]\d{1,3})\]/g)].some((match) => ![...turn.items, ...(turn.aggregates || [])].some((item) => item.label === match[1]));

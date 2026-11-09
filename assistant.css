@@ -159,6 +159,18 @@
 .as-dialog-body .as-markdown{font-size:14px;margin:8px 0 13px}
 .as-dialog-body .as-excerpt{font-size:13px}
 .as-dialog-body .as-note{overflow-wrap:anywhere}
+.as-citation-dialog-c{border-color:var(--as-warm-border)}
+.as-citation-dialog-a{border-color:var(--as-violet-border)}
+.as-citation-dialog-c .as-dialog-kicker{color:var(--as-warm)}
+.as-citation-dialog-a .as-dialog-kicker{color:var(--as-violet)}
+.as-citation-dialog-c .as-dialog-title{border-left-color:var(--as-warm)}
+.as-citation-dialog-a .as-dialog-title{border-left-color:var(--as-violet)}
+.as-citation-dialog .as-citation-clone{min-width:0;margin:0;padding:0;border:0;border-radius:0;background:transparent;scroll-margin-top:0}
+.as-citation-dialog .as-citation-clone.as-aggregate{margin:0;background:transparent}
+.as-citation-dialog .as-citation-clone .as-evidence-links{border-top:1px solid var(--as-border)}
+.as-citation-dialog .as-aggregate table{min-width:0;table-layout:fixed}
+.as-citation-dialog .as-aggregate th,.as-citation-dialog .as-aggregate td{padding:7px 5px;font-size:11px;white-space:normal;overflow-wrap:anywhere}
+.as-citation-dialog .as-aggregate th:first-child{width:30%}
 .as-result-actions{margin-top:12px}
 .as-result-actions:empty{display:none}
 .as-evidence-list{display:flex;flex-direction:column;gap:14px}
