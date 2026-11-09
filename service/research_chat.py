@@ -351,6 +351,66 @@ REQUESTED_POINTS_SYSTEM = (
     "输出前自检：每个citation_id都必须有完整quote，缺quote的项不得输出。"
     "证据不足以形成{points}项不同来源时，少输出，并在回答末尾明确说明证据不足；绝不能编造或重复同一来源。"
 )
+REPAIR_GENERATION_TOKENS = 1800
+REPAIR_GENERATION_TIMEOUT = 20.0
+REPAIR_REVIEW_TOKENS = 1200
+REPAIR_REVIEW_TIMEOUT = 15.0
+# One small generation plus one review plus a safety margin. Below this the
+# answer keeps the honest shortfall instead of risking the 95-second budget.
+REPAIR_MIN_REMAINING = REPAIR_GENERATION_TIMEOUT + REPAIR_REVIEW_TIMEOUT + 10.0
+REPAIR_SYSTEM = (
+    "\n本次是补足生成，不是重写：只补充缺失要点，保留并不得复述、替代或改写已有通过校验的内容；本次项数要求覆盖前面的默认项数。"
+    "只生成最多{missing}条新claims；每项恰好一个citation_id和一个完整quote，不得把同一来源拆成多条，不得输出跨来源总结项。"
+    "新claim的citation_id不得出现在accepted_citation_ids中，其对应记录id也不得出现在accepted_record_ids中；"
+    "只能使用allowed_citation_ids中未使用来源的原始编号，不得重新编号。"
+    "姓名、机构名、账号handle和数字只能逐字来自该项citation的quote或snippet原文；不得用标题、机构元数据、常识或另一条证据补充。"
+    "账号handle（如@AP、@vivekchil）必须原样保留，不得展开为机构名或人名。"
+    "没有足够未使用来源时返回{{\"claims\":[]}}；绝不能编造、重复已接受来源或用未验证内容凑数。"
+    "只返回JSON对象{{\"claims\":[...]}}；不要返回followups或其他字段。"
+)
+
+
+def _review_repair_claims(chat, claims, evidence, comparison, message, result, deadline, usage, steps, model_guard):
+    """Review repair-only claims with the same independent guard as first-pass claims."""
+    direct = [claim for claim in claims if claim["kind"] == "fact" and all(claim["text"] == q["quote"] for q in claim["quotes"])]
+    pending = [claim for claim in claims if claim not in direct]
+    rejected, verdicts, review_status, review_reason, review_step = [], {}, "not_needed", None, None
+    if pending:
+        try:
+            if deadline - time.monotonic() <= 0.5:
+                raise ModelUnavailable("model_timeout")
+            if model_guard:
+                model_guard()
+            review_step = {"tool": "model_repair_review", "state": "attempted", "claims": len(pending)}
+            steps.append(review_step)
+            review_text, review_usage = chat.llm.complete([
+                {"role": "system", "content": REVIEW_SYSTEM + ("\n" + COMPARISON_REVIEW if comparison else "")},
+                {"role": "user", "content": json.dumps({"question": message, "claims": pending,
+                    "evidence": [{"citation_id": c["citation_id"], "institution": c.get("institution"),
+                                  "institution_en": c.get("institution_en"), "title": c.get("title"), "title_en": c.get("title_en"),
+                                  "published_at": c.get("published_at"), "snippet": c["snippet"]}
+                                 for c in evidence if any(c["citation_id"] in claim["citations"] for claim in pending)],
+                    "scope": result["aggregates"]["scope"], "bounded_sample": True}, ensure_ascii=False)},
+            ], REPAIR_REVIEW_TOKENS, timeout=min(REPAIR_REVIEW_TIMEOUT, max(0.1, deadline - time.monotonic() - 1.0)))
+            add_usage(usage, review_usage)
+            verdicts = review_verdicts(json_object(review_text), pending)
+            review_step["state"] = "returned"
+            review_status = "completed" if set(verdicts) == {claim["claim_id"] for claim in pending} else "partial"
+        except ModelUnavailable as error:
+            add_usage(usage, error.usage)
+            review_reason, review_status = error.reason, "failed"
+            if review_step:
+                review_step.update(state="failed", reason=error.reason)
+        retained = {claim["claim_id"] for claim in direct}
+        for claim in pending:
+            status = verdicts.get(claim["claim_id"], "insufficient")
+            if status == "supported":
+                retained.add(claim["claim_id"])
+            else:
+                rejected.append({"claim_id": claim["claim_id"],
+                                 "reason": review_reason or (status if claim["claim_id"] in verdicts else "missing_or_invalid_semantic_verdict")})
+        claims = [claim for claim in claims if claim["claim_id"] in retained]
+    return claims, rejected, review_status, direct
 
 
 def generate(chat, result: dict, message: str, history: list[dict], expand: bool,
@@ -362,6 +422,9 @@ def generate(chat, result: dict, message: str, history: list[dict], expand: bool
     if not chat.llm.health()["available"]:
         return chat.fallback(result, "model_unreachable", usage, attempted)
     steps = result["plan"].setdefault("tool_steps", [])
+    requested = requested_points if isinstance(requested_points, int) and 1 <= requested_points <= 5 else None
+    repair_summary = {"attempted": False, "status": "not_needed" if requested else "not_requested",
+                      "accepted_claims": 0, "rejected_claims": []}
     try:
         remaining = deadline - time.monotonic()
         reserve = min(35.0, max(1.0, remaining - 55.0))
@@ -399,7 +462,6 @@ def generate(chat, result: dict, message: str, history: list[dict], expand: bool
                 comparison_slots = [{"kind": "fact", "institution": c["institution"], "citations": [c["citation_id"]]} for c in pair]
                 comparison_slots.extend([{"kind": "analysis", "text_prefix": prefix, "citations": allowed} for prefix in ("共同点：", "差异：")])
         comparison_system = "\n" + COMPARISON_SYSTEM if comparison and len(comparison_groups) == 2 else ""
-        requested = requested_points if isinstance(requested_points, int) and 1 <= requested_points <= 5 else None
         requested_system = REQUESTED_POINTS_SYSTEM.format(points=requested) if requested else ""
         content, answer_usage = chat.llm.complete([
             {"role": "system", "content": GENERATION_SYSTEM + comparison_system + requested_system + "\n本次唯一允许的引用编号：" + "、".join(allowed) + "。保留这些编号，不得重新排列编号。"},
@@ -467,10 +529,123 @@ def generate(chat, result: dict, message: str, history: list[dict], expand: bool
                 claims = [claim for claim in claims if claim["claim_id"] in retained]
             level = "exact_quotes_and_model_review" if any(claim["claim_id"] not in {c["claim_id"] for c in direct} for claim in claims) else "exact_verbatim"
             cited = {cid for claim in claims for cid in claim["citations"]}
+        # One bounded repair passes through the same structural validation and
+        # independent review. It may only add claims from sources that are new
+        # at both citation and record level; first-round claims are never
+        # replaced. A failed repair leaves the original accepted claims intact.
+        if requested:
+            used_citations = {cid for claim in claims for cid in claim["citations"]}
+            used_records = {c["id"] for c in evidence if c["citation_id"] in used_citations and c.get("id") is not None}
+            shortfall = (len(claims) < requested or len(used_citations) < requested or len(used_records) < requested)
+            if not shortfall:
+                repair_summary["status"] = "not_needed"
+            elif legacy:
+                repair_summary["status"] = "skipped_legacy_schema"
+            else:
+                unused = [c for c in evidence if c["citation_id"] not in used_citations
+                          and c.get("id") is not None and c["id"] not in used_records]
+                missing = min(requested - len(claims), len({c["id"] for c in unused})) if len(claims) < requested else 0
+                if len(claims) >= requested:
+                    repair_summary["status"] = "skipped_no_slot"
+                elif not unused or missing <= 0:
+                    repair_summary["status"] = "skipped_no_unused_sources"
+                elif deadline - time.monotonic() < REPAIR_MIN_REMAINING:
+                    repair_summary["status"] = "skipped_deadline"
+                else:
+                    repair_summary.update(attempted=True, status="attempted", missing_points=missing)
+                    repair_step = {"tool": "model_repair_generation", "state": "attempted", "missing_points": missing}
+                    steps.append(repair_step)
+                    try:
+                        if model_guard:
+                            model_guard()
+                        repair_system = GENERATION_SYSTEM + comparison_system + REPAIR_SYSTEM.format(missing=missing)
+                        repair_text, repair_usage = chat.llm.complete([
+                            {"role": "system", "content": repair_system + "\n本次唯一允许的引用编号：" + "、".join(allowed) + "。保留这些编号，不得重新排列编号。"},
+                            {"role": "user", "content": json.dumps({
+                                "question": message, "history": history[-4:] if expand else [],
+                                "answer_kind": kind_for(message, result), "requested_points": requested,
+                                "repair": {"missing_points": missing,
+                                           "accepted_citation_ids": sorted(used_citations),
+                                           "accepted_record_ids": sorted(used_records)},
+                                "allowed_citation_ids": allowed, "evidence": model_evidence,
+                                "comparison_groups": comparison_groups, "comparison_claim_slots": comparison_slots,
+                                "evidence_scope": {"bounded_sample": True, "records": len({c["id"] for c in evidence}),
+                                                   "paragraphs": len(evidence), "scope": result["aggregates"]["scope"],
+                                                   "as_of": result.get("analytics", {}).get("scope", {}).get("as_of"),
+                                                   "date_range": result.get("analytics", {}).get("date_range", {})}}, ensure_ascii=False)},
+                        ], REPAIR_GENERATION_TOKENS,
+                            timeout=min(REPAIR_GENERATION_TIMEOUT, max(0.1, deadline - time.monotonic() - REPAIR_REVIEW_TIMEOUT - 2.0)))
+                        add_usage(usage, repair_usage)
+                        repair_step["state"] = "returned"
+                        new_claims, repair_rejected = validate_analysis(json_object(repair_text), evidence)
+                        if new_claims:
+                            new_claims, review_rejected, repair_review_status, repair_direct = _review_repair_claims(
+                                chat, new_claims, evidence, comparison, message, result, deadline, usage, steps, model_guard)
+                            repair_rejected.extend(review_rejected)
+                        else:
+                            repair_review_status, repair_direct = "not_needed", []
+                        for item in repair_rejected:
+                            claim_id = item.get("claim_id", "")
+                            repair_summary["rejected_claims"].append(
+                                {"claim_id": "R" + claim_id[1:] if isinstance(claim_id, str) and claim_id.startswith("K") else claim_id,
+                                 "reason": item.get("reason", "repair_rejected")})
+                        direct_ids = {claim["claim_id"] for claim in repair_direct}
+                        existing_ids = {claim["claim_id"] for claim in claims} | {item.get("claim_id") for item in rejected}
+                        next_claim_id = max([0] + [int(cid[1:]) for cid in existing_ids
+                                                   if isinstance(cid, str) and re.fullmatch(r"K\d+", cid)]) + 1
+                        accepted = []
+                        for claim in new_claims:
+                            claim_citations = set(claim["citations"])
+                            claim_records = {c["id"] for c in evidence
+                                             if c["citation_id"] in claim_citations and c.get("id") is not None}
+                            reason = None
+                            if len(claim_citations) != 1 or len(claim["quotes"]) != 1:
+                                reason = "repair_claim_not_single_source"
+                            elif claim_citations & used_citations:
+                                reason = "duplicate_accepted_citation"
+                            elif claim_records & used_records:
+                                reason = "duplicate_accepted_record"
+                            elif len(claims) + len(accepted) >= requested:
+                                reason = "exceeds_requested_points"
+                            if reason:
+                                repair_summary["rejected_claims"].append(
+                                    {"claim_id": "R" + claim["claim_id"][1:], "reason": reason})
+                                continue
+                            merged = dict(claim, claim_id=f"K{next_claim_id}")
+                            next_claim_id += 1
+                            accepted.append((merged, claim["claim_id"] in direct_ids))
+                            used_citations |= claim_citations
+                            used_records |= claim_records
+                        if accepted:
+                            claims.extend([claim for claim, _ in accepted])
+                            direct.extend([claim for claim, is_direct in accepted if is_direct])
+                            repair_summary["accepted_claims"] = len(accepted)
+                            reviewed_accepted = any(not is_direct for _, is_direct in accepted)
+                            level = "exact_quotes_and_model_review" if any(
+                                claim["claim_id"] not in {c["claim_id"] for c in direct} for claim in claims) else "exact_verbatim"
+                            cited = {cid for claim in claims for cid in claim["citations"]}
+                            if reviewed_accepted:
+                                review_status = repair_review_status if repair_review_status in {"completed", "partial"} else "failed"
+                            repair_summary["status"] = "completed"
+                        elif new_claims:
+                            repair_summary["status"] = "no_new_sources"
+                        else:
+                            repair_summary["status"] = "no_accepted_claims"
+                    except Exception as error:  # Optional repair must never erase first-round accepted claims.
+                        if isinstance(error, ModelUnavailable):
+                            add_usage(usage, error.usage)
+                            reason = error.reason
+                        else:
+                            reason = "repair_error"
+                        repair_step.update(state="failed", reason=reason)
+                        repair_summary["status"] = "failed"
+                if repair_summary["status"] in {"skipped_legacy_schema", "skipped_no_slot", "skipped_no_unused_sources", "skipped_deadline"}:
+                    steps.append({"tool": "model_repair_generation", "state": "skipped", "reason": repair_summary["status"]})
         if not claims:
             fallback = chat.fallback(result, "ungrounded_model_answer", usage, True)
             fallback["validation"] = {"level": "rejected", "semantic_entailment": "not_established",
-                                      "accepted_claims": 0, "rejected_claims": rejected, "source_truth_verified": False}
+                                      "accepted_claims": 0, "rejected_claims": rejected, "source_truth_verified": False,
+                                      **({"repair": repair_summary} if requested else {})}
             return fallback
         citations = [dict(c, quotes=list(dict.fromkeys(q["quote"] for claim in claims for q in claim["quotes"] if q["citation_id"] == c["citation_id"])))
                      for c in evidence if c["citation_id"] in cited]
@@ -508,7 +683,8 @@ def generate(chat, result: dict, message: str, history: list[dict], expand: bool
                         answer_format="verbatim_extracts" if legacy else "grounded_analysis" if any(c["kind"] == "analysis" for c in claims) else "grounded_summary",
                         validation={"level": level, "semantic_entailment": "model_reviewed_not_proven" if level == "exact_quotes_and_model_review" else "exact_text_only",
                                     "accepted_claims": len(claims), "rejected_claims": rejected, "source_truth_verified": False,
-                                    "review_status": "not_needed" if legacy else review_status})
+                                    "review_status": "not_needed" if legacy else review_status,
+                                    **({"repair": repair_summary} if requested else {})})
         response["analysis_scope"]["comparison_complete"] = comparison_complete
         if comparison_dimensions:
             response["analysis_scope"]["comparison_dimensions"] = comparison_dimensions

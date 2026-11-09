@@ -67,9 +67,42 @@ class AnalysisModel:
     def health(self):
         return {"available": self.available, "state": "fixture"}
 
+    @staticmethod
+    def repair_text(citation):
+        if "半导体" in citation["snippet"]:
+            return "所引资料讨论中国半导体供应链与出口管制，并说明政策研讨尚未宣布实施全面禁令。"
+        return "所引资料讨论中国军事风险与危机沟通，并说明研究只是评估风险、没有声称冲突发生。"
+
+    def repair_response(self, data):
+        mode = self.mode[len("points_"):] if self.mode.startswith("points_") else self.mode
+        # Generic fixture: keep the first-round claims and report the shortfall
+        # instead of inventing another point in repair.
+        if mode == "good":
+            return json.dumps({"claims": []}), {"total_tokens": 5}
+        accepted = set(data["repair"].get("accepted_citation_ids", []))
+        accepted_records = set(data["repair"].get("accepted_record_ids", []))
+        available = [c for c in data["evidence"] if c["citation_id"] not in accepted and c.get("id") not in accepted_records]
+        if mode == "repair_failure":
+            raise ModelUnavailable("model_timeout", usage={"prompt_tokens": 5, "completion_tokens": 6, "total_tokens": 11})
+        if mode == "repair_exception":
+            raise RuntimeError("fixture repair failure")
+        if mode == "repair_duplicate":
+            citation = next((c for c in data["evidence"] if c["citation_id"] in accepted), data["evidence"][0])
+        else:
+            citation = available[0] if available else data["evidence"][0]
+        text = self.repair_text(citation)
+        quotes = [{"citation_id": citation["citation_id"], "quote": citation["snippet"]}]
+        if mode == "repair_missing_quote":
+            quotes = []
+        elif mode == "repair_unsupported":
+            text = "该资料显示有99999999家企业已经完成转型。"
+        return json.dumps({"claims": [{"kind": "fact", "text": text, "citations": [citation["citation_id"]], "quotes": quotes}]}, ensure_ascii=False), {"total_tokens": 5}
+
     def complete(self, messages, max_tokens, timeout=None):
         data = json.loads(messages[-1]["content"])
-        self.calls.append({"input": data, "timeout": timeout, "system": messages[0]["content"]})
+        self.calls.append({"input": data, "timeout": timeout, "max_tokens": max_tokens, "system": messages[0]["content"]})
+        if "repair" in data:
+            return self.repair_response(data)
         if "anchors" in data:
             return json.dumps({"query": data["query"][:300], "groups": []}), {"total_tokens": 2}
         if "claims" in data:
@@ -108,7 +141,20 @@ class AnalysisModel:
             sources = sources or selected[:1]
             return {"kind": kind, "text": text, "citations": [c["citation_id"] for c in sources],
                     "quotes": [{"citation_id": c["citation_id"], "quote": c["snippet"]} for c in sources]}
-        if self.mode == "points_three":
+        if self.mode == "points_repair_shared_source":
+            citation = evidence[0]
+            claims = [{"kind": "fact", "text": citation["snippet"], "citations": [citation["citation_id"]],
+                       "quotes": [{"citation_id": citation["citation_id"], "quote": citation["snippet"]}]},
+                      {"kind": "analysis", "text": "所引资料把中国议题置于政策或安全风险背景下讨论；这只是对同一来源的有限分析。",
+                       "citations": [citation["citation_id"]],
+                       "quotes": [{"citation_id": citation["citation_id"], "quote": citation["snippet"]}]}]
+        elif self.mode.startswith("points_repair"):
+            claims = []
+            for index, citation in enumerate(evidence[:3]):
+                text = citation["snippet"] if index < 2 else "该资料显示有99999999家企业已经完成转型。"
+                claims.append({"kind": "fact", "text": text, "citations": [citation["citation_id"]],
+                               "quotes": [{"citation_id": citation["citation_id"], "quote": citation["snippet"]}]})
+        elif self.mode == "points_three":
             claims = [{"kind": "fact",
                        "text": "所引资料讨论中国半导体供应链与出口管制，并提及政策研讨，没有宣布已经实施全面禁令。",
                        "citations": [citation["citation_id"]],
@@ -652,6 +698,105 @@ class ChatAnalysisTests(unittest.TestCase):
         self.assertIsNone(model.calls[0]["input"]["requested_points"])
         self.assertIn("默认4至5项", model.calls[0]["system"])
         self.assertIn("3至4条简短报道", model.calls[0]["system"])
+
+    def test_repair_adds_one_missing_distinct_source_and_merges_usage(self):
+        chat, model = self.chat("points_repair_success")
+        response = chat.answer("分析CSIS中国资料，请用三点概括")
+        self.assertEqual(response["state"], "answered")
+        self.assertEqual(len(response["sections"]), 3)
+        self.assertEqual(response["validation"]["accepted_claims"], 3)
+        self.assertEqual(len({citation["id"] for citation in response["citations"]}), 3)
+        self.assertNotIn("证据不足", response["answer"])
+        generation, repair, review = [call for call in model.calls]
+        self.assertEqual(generation["input"]["requested_points"], 3)
+        self.assertEqual(repair["input"]["repair"]["missing_points"], 1)
+        self.assertEqual(repair["input"]["allowed_citation_ids"], generation["input"]["allowed_citation_ids"])
+        self.assertEqual(repair["input"]["evidence"], generation["input"]["evidence"])
+        self.assertEqual(repair["input"]["repair"]["accepted_citation_ids"],
+                         [generation["input"]["evidence"][0]["citation_id"], generation["input"]["evidence"][1]["citation_id"]])
+        self.assertEqual(repair["input"]["repair"]["accepted_record_ids"],
+                         sorted({generation["input"]["evidence"][0]["id"], generation["input"]["evidence"][1]["id"]}))
+        self.assertTrue(review["input"].get("claims"))
+        self.assertLessEqual(repair["max_tokens"], 1800)
+        self.assertLessEqual(repair["timeout"], 20)
+        self.assertLess(repair["max_tokens"], generation["max_tokens"])
+        self.assertEqual(len([call for call in model.calls if "repair" in call["input"]]), 1)
+        self.assertEqual(response["usage"], {"total_tokens": 13})
+        self.assertEqual(response["validation"]["repair"]["status"], "completed")
+        self.assertEqual(response["validation"]["repair"]["accepted_claims"], 1)
+        self.assertEqual(response["validation"]["level"], "exact_quotes_and_model_review")
+        self.assertIn("只生成最多1条", repair["system"])
+        self.assertIn("每项恰好一个citation_id和一个完整quote", repair["system"])
+        self.assertIn("不得展开为机构名或人名", repair["system"])
+        self.assertIn("不得用标题、机构元数据、常识", repair["system"])
+
+    def test_repair_duplicate_unsupported_or_unquoted_claims_keep_shortfall(self):
+        for mode, reason in (("points_repair_duplicate", "duplicate_accepted_citation"),
+                             ("points_repair_unsupported", "unsupported_number"),
+                             ("points_repair_missing_quote", "missing_exact_quotes")):
+            with self.subTest(mode=mode):
+                chat, model = self.chat(mode)
+                response = chat.answer("分析CSIS中国资料，请用三点概括")
+                self.assertEqual(response["state"], "answered")
+                self.assertEqual(len(response["sections"]), 2)
+                self.assertEqual(response["validation"]["accepted_claims"], 2)
+                self.assertTrue(response["validation"]["repair"]["attempted"])
+                self.assertEqual(response["validation"]["repair"]["accepted_claims"], 0)
+                self.assertTrue(any(item["reason"] == reason
+                                    for item in response["validation"]["repair"]["rejected_claims"]))
+                self.assertIn("证据不足", response["answer"])
+                self.assertIn("用户要求 3 项不同来源", response["answer"])
+                self.assertEqual(len([call for call in model.calls if "repair" in call["input"]]), 1)
+                generation = model.calls[0]["input"]
+                self.assertEqual([section["text"] for section in response["sections"]],
+                                 [generation["evidence"][0]["snippet"], generation["evidence"][1]["snippet"]])
+
+    def test_repair_cannot_fix_first_round_duplicate_sources_without_dropping_claims(self):
+        chat, model = self.chat("points_repair_shared_source")
+        response = chat.answer("分析CSIS中国资料，请用三点概括")
+        self.assertEqual(response["state"], "answered")
+        self.assertEqual(len(response["sections"]), 3)
+        self.assertEqual(response["validation"]["accepted_claims"], 3)
+        self.assertEqual(len({citation["id"] for citation in response["citations"]}), 2)
+        self.assertEqual(response["validation"]["repair"]["accepted_claims"], 1)
+        self.assertIn("证据不足", response["answer"])
+        self.assertIn("不同来源为 2 个、要点 3 项", response["answer"])
+        self.assertEqual(len([call for call in model.calls if "repair" in call["input"]]), 1)
+
+    def test_repair_not_called_when_points_met_or_deadline_short(self):
+        chat, model = self.chat("points_three")
+        response = chat.answer("分析CSIS中国资料，请用三点概括")
+        self.assertEqual(len(response["sections"]), 3)
+        self.assertFalse(any("repair" in call["input"] for call in model.calls))
+        self.assertEqual(response["validation"]["repair"]["status"], "not_needed")
+        self.assertEqual(len(model.calls), 2)
+
+        model = AnalysisModel("points_repair_success")
+        chat = Chat(self.retriever, model, timeout=20)
+        response = chat.answer("分析CSIS中国资料，请用三点概括")
+        self.assertEqual(len(response["sections"]), 2)
+        self.assertFalse(any("repair" in call["input"] for call in model.calls))
+        self.assertEqual(response["validation"]["repair"]["status"], "skipped_deadline")
+        self.assertTrue(any(step.get("tool") == "model_repair_generation" and step.get("state") == "skipped"
+                            for step in response["plan"]["tool_steps"]))
+        self.assertIn("证据不足", response["answer"])
+
+    def test_repair_failure_keeps_original_claims_and_usage(self):
+        for mode, total in (("points_repair_failure", 16), ("points_repair_exception", 5)):
+            with self.subTest(mode=mode):
+                chat, model = self.chat(mode)
+                response = chat.answer("分析CSIS中国资料，请用三点概括")
+                self.assertEqual(response["state"], "answered")
+                self.assertEqual(len(response["sections"]), 2)
+                self.assertEqual(response["validation"]["accepted_claims"], 2)
+                self.assertEqual(response["validation"]["repair"]["status"], "failed")
+                self.assertEqual(response["validation"]["repair"]["accepted_claims"], 0)
+                self.assertIn("证据不足", response["answer"])
+                expected = {"total_tokens": total}
+                if mode == "points_repair_failure":
+                    expected.update(prompt_tokens=5, completion_tokens=6)
+                self.assertEqual(response["usage"], expected)
+                self.assertEqual(len([call for call in model.calls if "repair" in call["input"]]), 1)
 
 
 class RealCountCompatibility(unittest.TestCase):
