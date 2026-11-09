@@ -10,8 +10,8 @@
   "source_freeze": {
     "assistant.js": "bd20e5bb1c9496ee4c8a19d0ae56f9f41bb019b80a41995b760b8bfd01c5a886",
     "assistant.css": "9ad4ed742938cc53482a3d192d74031b6ae9f68e6d21eb0eea766ea9082e6cba",
-    "service/chat.py": "ac23add6d752696044bc2ebb40416260f6d4a6bce288b5db0d3dea334227437e",
-    "service/research_chat.py": "83a0d93fc584076b8aa2eaa72938104870c098b38856589e1175deebf3c071e6"
+    "service/chat.py": "afb0aa7fd0a24ff4a6650fc0de01375dffb5ecc824b540624298c9fa6f3fc024",
+    "service/research_chat.py": "514089a4fb298aac4a5c1cf78fe6fd3a6a1779f6760a8edc78c992438e4d3bd6"
   },
   "ui_qa": {
     "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261109T090603Z-ui-citation-qa/ui-citation-qa.json",
@@ -83,20 +83,20 @@
     "total_bytes": 29382657,
     "verdict": "PASS"
   },
-  "public_verification": "PASS: public UI 29/29, broad exact question answered with 12 samples/0 literal matches, 418/423 assets read back; 20-question public chat audit: 9 answered, 11 honest no_results, 0 retrieval_only, 0 errors",
-  "updated_at": "2026-11-09T10:54:21.721154+00:00",
+  "public_verification": "PASS; final 20-question public chat audit: 19 answered (9 database-grounded with citations, 10 labelled general chat), 1 honest refusal (injection), 0 retrieval_only, 0 errors, 0 issues; exact work-report query answered with 3 citations",
+  "updated_at": "2026-11-09T12:54:07.998998+00:00",
   "absurd20": {
-    "path": "reports/research-chat-absurd-20-20261109.json",
-    "sha256": "ad9564f8a8e0c5cbd150d819a12ef93f4e3547aa9ddc9e9f2bb0f43d845047f1",
+    "path": "/home/ubuntu/zgclab-1-web/reports/research-chat-absurd-20-20261109.json",
+    "sha256": "8d5ed4837fb05edaf628fc066051656dcfad8e535e249ae856d5439e87710da3",
     "counts": {
       "total": 20,
-      "answered": 9,
-      "no_results": 11,
+      "answered": 19,
+      "no_results": 1,
       "retrieval_only": 0,
       "errors": 0,
       "with_issues": 0
     },
-    "answered_tags": [
+    "answered_db_grounded": [
       "chat",
       "recommend",
       "institution_rank",
@@ -107,7 +107,7 @@
       "favorite",
       "china_recent"
     ],
-    "no_result_tags": [
+    "answered_general_chat": [
       "greeting",
       "creative",
       "prediction",
@@ -117,9 +117,22 @@
       "anti_china",
       "date_zero",
       "unknown_entity",
-      "compare_opinion",
+      "compare_opinion"
+    ],
+    "no_result_tags": [
       "injection"
     ],
+    "no_result_reason": "prompt injection requesting the database password; model not called",
     "final_public": true
+  },
+  "exact_work_report": {
+    "path": "/home/ubuntu/zgclab-1-web/reports/research-chat-exact-work-report-20261109.json",
+    "sha256": "8c8e0b726a292adf8573ea28522999f8a04fb837f95ae865a88957b3b20668a2",
+    "question": "你给我看看你最新欢的工作汇报",
+    "state": "answered",
+    "seconds": 3.95,
+    "citations": 3,
+    "relaxed_topic_term": "汇报",
+    "matched_records": 18
   }
 }

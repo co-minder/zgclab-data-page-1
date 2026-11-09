@@ -1,0 +1,172 @@
+{
+  "asked_at": "2026-11-09T12:50:53.047238+00:00",
+  "base": "https://bringing-themes-mae-dating.trycloudflare.com",
+  "question": "你给我看看你最新欢的工作汇报",
+  "http_status": 200,
+  "seconds": 3.95,
+  "state": "answered",
+  "model": {
+    "id": "auto/deepseek-v4.1-flash",
+    "used": true,
+    "attempted": true,
+    "reason": null
+  },
+  "citations": [
+    {
+      "citation_id": "C1",
+      "id": "clue-1341",
+      "angle": "clue",
+      "paragraph": 107,
+      "field": "translation",
+      "paragraph_scheme": "service_field_chunks_v1",
+      "paragraph_note": "1-based chunks across title, summary, original and translation fields; not evidence-page paragraph numbers",
+      "snippet": "• 开展一项关于使用吻合钉进行小肠端端吻合的研究项目，并准备汇报",
+      "source_url": "https://www.astate.edu/documents/cvs/scott-reiners-2025.pdf",
+      "title": "scott-reiners-2025.pdf",
+      "title_en": "",
+      "ktid": 1002550,
+      "institution": "阿肯色州立大学",
+      "institution_en": "Arkansas State University",
+      "platform": "official_web",
+      "published_at": "",
+      "collected_at": "2026-09-25T01:45:54+00:00",
+      "source_version": "f064c896c123cbf4",
+      "source_field": "chinese_trans",
+      "published_original": "",
+      "published_effective_at": "",
+      "date_origin": "missing",
+      "matched_concepts_in_chunk": [
+        "汇报"
+      ],
+      "future_dated": false,
+      "evidence_eligible": true,
+      "date_verified": false,
+      "date_basis": [],
+      "translation_status": "available",
+      "quotes": [
+        "• 开展一项关于使用吻合钉进行小肠端端吻合的研究项目，并准备汇报"
+      ]
+    },
+    {
+      "citation_id": "C2",
+      "id": "clue-496",
+      "angle": "clue",
+      "paragraph": 17,
+      "field": "translation",
+      "paragraph_scheme": "service_field_chunks_v1",
+      "paragraph_note": "1-based chunks across title, summary, original and translation fields; not evidence-page paragraph numbers",
+      "snippet": "贝克此前于2015年至2023年担任CNAS董事会成员，获任DIU主任后离任，直接向国防部长汇报。",
+      "source_url": "https://www.cnas.org/press/press-release/doug-beck-returns-to-cnas-board-of-directors",
+      "title": "Doug Beck Returns to CNAS Board of Directors | CNAS",
+      "title_en": "",
+      "ktid": 1001270,
+      "institution": "新美国安全中心",
+      "institution_en": "Center for a New American Security",
+      "platform": "official_web",
+      "published_at": "2025-10-23T18:34:00+00:00",
+      "collected_at": "2026-09-16T10:28:41+00:00",
+      "source_version": "f064c896c123cbf4",
+      "source_field": "chinese_trans",
+      "published_original": "2025-10-23 18:34:00+00:00",
+      "published_effective_at": "2025-10-23T18:34:00+00:00",
+      "date_origin": "provided",
+      "matched_concepts_in_chunk": [
+        "汇报"
+      ],
+      "future_dated": false,
+      "evidence_eligible": true,
+      "date_verified": false,
+      "date_basis": [
+        "publish_time"
+      ],
+      "translation_status": "available",
+      "quotes": [
+        "贝克此前于2015年至2023年担任CNAS董事会成员，获任DIU主任后离任，直接向国防部长汇报。"
+      ]
+    },
+    {
+      "citation_id": "C3",
+      "id": "clue-444",
+      "angle": "clue",
+      "paragraph": 47,
+      "field": "translation",
+      "paragraph_scheme": "service_field_chunks_v1",
+      "paragraph_note": "1-based chunks across title, summary, original and translation fields; not evidence-page paragraph numbers",
+      "snippet": "预期产出包括阶段性汇报、综合性最终报告、政策简报，以及传播研究结果，为服务提供商、委托方和更广泛的利益相关方提供实用、可操作的指导。",
+      "source_url": "https://www.rand.org/randeurope/research/projects/2025/preventing-health-related-job-loss.html",
+      "title": "Preventing health-related job loss | RAND",
+      "title_en": "",
+      "ktid": 1000480,
+      "institution": "兰德公司",
+      "institution_en": "RAND Corporation",
+      "platform": "official_web",
+      "published_at": "2025-11-26T15:20:32+00:00",
+      "collected_at": "2026-09-16T16:44:55+00:00",
+      "source_version": "f064c896c123cbf4",
+      "source_field": "chinese_trans",
+      "published_original": "2025-11-26 15:20:32.308000+00:00",
+      "published_effective_at": "2025-11-26T15:20:32+00:00",
+      "date_origin": "provided",
+      "matched_concepts_in_chunk": [
+        "汇报"
+      ],
+      "future_dated": false,
+      "evidence_eligible": true,
+      "date_verified": false,
+      "date_basis": [
+        "publish_time"
+      ],
+      "translation_status": "available",
+      "quotes": [
+        "预期产出包括阶段性汇报、综合性最终报告、政策简报，以及传播研究结果，为服务提供商、委托方和更广泛的利益相关方提供实用、可操作的指导。"
+      ]
+    }
+  ],
+  "coverage": {
+    "dataset": "real",
+    "source_version": "f064c896c123cbf4",
+    "database_total": 6989,
+    "scoped_records": 6989,
+    "matched_records": 18,
+    "returned_records": 12,
+    "returned_paragraphs": 12,
+    "time_scope": {
+      "mode": "unrestricted",
+      "timezone": "Asia/Shanghai",
+      "as_of": "2026-11-09T20:50:49+08:00",
+      "date_from": null,
+      "date_to": null,
+      "expressions": [],
+      "basis": "actual_clock",
+      "date_field": "published_at",
+      "policy": "Vague recent means ordering within the loaded snapshot; explicit calendar bounds remain locked"
+    },
+    "sort": "relevance",
+    "latest_returned_date": "2026-04-21T23:36:00+00:00",
+    "earliest_returned_date": "2016-02-01T12:00:00+00:00",
+    "future_dated_returned_records": 0,
+    "snapshot_generated_at": "2026-11-05T15:10:46+00:00",
+    "exhaustive": false,
+    "warning": "Counts describe the stored real snapshot, not the entire web; retrieved paragraphs are a bounded sample.",
+    "original_matched_records": 0,
+    "relaxed_topic_match": true,
+    "relaxed_topic_term": "汇报"
+  },
+  "validation": {
+    "level": "exact_verbatim",
+    "semantic_entailment": "exact_text_only",
+    "accepted_claims": 3,
+    "rejected_claims": [],
+    "source_truth_verified": false,
+    "review_status": "not_needed",
+    "strict_excerpt_fallback": {
+      "attempted": false,
+      "status": "not_needed",
+      "accepted": 0,
+      "rejected": 0,
+      "accepted_claims": 0,
+      "rejected_claims": []
+    }
+  },
+  "answer": "• 开展一项关于使用吻合钉进行小肠端端吻合的研究项目，并准备汇报 [C1]\n\n预期产出包括阶段性汇报、综合性最终报告、政策简报，以及传播研究结果，为服务提供商、委托方和更广泛的利益相关方提供实用、可操作的指导。 [C3]\n\n贝克此前于2015年至2023年担任CNAS董事会成员，获任DIU主任后离任，直接向国防部长汇报。 [C2]\n\n放宽检索：原始问题没有精确匹配，改用主题词“汇报”找到 18 条资料；以下为该放宽范围的证据。\n数据库范围：全部真实资料；结构化筛选共 6,989 条，按实际关键词规则命中 18 条（记录去重）。[A1]\n时间口径：published_at，Asia/Shanghai；依据已加载真实快照，非实时报道。本次返回的非未来日期资料中，最新记录日期为 2026-04-21T23:36:00+00:00。[A2]该统计范围的资料记录日期最大值为 2026-04-21T23:36:00+00:00。[A2]当前日期基准为 2026-11-09。分析仅涉及所引证据样本，不能据此估计全库议题占比或机构全部立场。"
+}
