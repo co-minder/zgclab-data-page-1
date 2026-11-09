@@ -76,7 +76,7 @@ STRICT_EXCERPT_EXCLUDE = re.compile(
     r"编(?:一个|个|写|造)|笑话|写一?首|诗|故事|小说|段子|"
     r"预测|预言|明天|下周|未来|会涨|会跌|涨停|跌停|股市|股价|上证|指数|汇率|"
     r"反华|台湾问题|香港问题|新疆问题|西藏问题|天安门|六四|"
-    r"比较|对比|异同|更强|谁更强|区别|排名|排行|榜单|"
+    r"比较|对比|异同|更强|谁更强|区别|"
     r"外星人|ufo",
     re.I,
 )
@@ -239,7 +239,7 @@ class Chat:
             return False
         if re.search(r"(?:^|\s)[A-Za-z0-9_-]+(?:\s*,\s*[A-Za-z0-9_-]+)+", message):
             return False
-        if re.search(r"多少|几条|几个|几篇|统计|数量|总数|排名|排行|占比|趋势|按月|每月|哪家|谁(?:更|最)?多|最多|最少|比分|得分|胜负", message):
+        if re.search(r"多少|几条|几个|几篇|统计|数量|总数|占比|趋势|按月|每月|谁(?:更|最)?多|最多|最少|比分|得分|胜负", message):
             return False
         intent = plan.get("intent", plan.get("request_intent", {}))
         operations = intent.get("operations", {}) if isinstance(intent, dict) else {}

@@ -101,9 +101,12 @@ class AnalysisModel:
     def strict_response(self, data):
         if self.mode == "strict_failure":
             raise ModelUnavailable("model_timeout", usage={"prompt_tokens": 5, "completion_tokens": 2, "total_tokens": 7})
+        if self.mode == "strict_empty":
+            return json.dumps({"claims": []}), {"total_tokens": 7}
         evidence = data["evidence"]
+        count = 1 if self.mode == "strict_one" else 2 if self.mode == "strict_two" else 3
         claims = []
-        for citation in evidence[:3]:
+        for citation in evidence[:count]:
             text = "所引资料讨论中国议题。" if self.mode == "strict_invalid" else citation["snippet"]
             claims.append({"kind": "fact", "text": text, "citations": [citation["citation_id"]],
                            "quotes": [{"citation_id": citation["citation_id"], "quote": citation["snippet"]}]})
@@ -970,6 +973,50 @@ class ChatAnalysisTests(unittest.TestCase):
         self.assertTrue(chat.strict_excerpt_allowed("中国最近怎么样？", result, True))
         self.assertTrue(chat.strict_excerpt_allowed(
             "如果让你推荐三篇最值得看的资料，你会选哪三篇？为什么？", result, True))
+        self.assertTrue(chat.strict_excerpt_allowed("这些机构里谁最厉害？", result, True))
+        self.assertTrue(chat.strict_excerpt_allowed("哪个机构排名最高？", result, True))
+
+    def test_strict_excerpt_fallback_accepts_one_or_two_recommendation_excerpts(self):
+        message = "如果让你推荐三篇最值得看的资料，你会选哪三篇？为什么？"
+        for mode, count in (("strict_one", 1), ("strict_two", 2)):
+            with self.subTest(mode=mode):
+                chat, model = self.chat(mode)
+                response = chat.answer(message)
+                self.assertEqual(response["state"], "answered")
+                self.assertEqual(len(response["citations"]), count)
+                self.assertEqual(len(response["sections"]), count)
+                strict = response["validation"]["strict_excerpt_fallback"]
+                self.assertTrue(strict["attempted"])
+                self.assertEqual(strict["status"], "accepted")
+                self.assertEqual(strict["accepted"], count)
+                self.assertIn("只是样本摘录，不是排名", response["answer"])
+                self.assertEqual(len(model.calls), 2)
+
+    def test_strict_excerpt_fallback_empty_result_stays_retrieval_only(self):
+        chat, model = self.chat("strict_empty")
+        response = chat.answer("如果让你推荐三篇最值得看的资料，你会选哪三篇？为什么？")
+        self.assertEqual(response["state"], "retrieval_only")
+        self.assertFalse(response["model"]["used"])
+        strict = response["validation"]["strict_excerpt_fallback"]
+        self.assertTrue(strict["attempted"])
+        self.assertEqual(strict["status"], "rejected")
+        self.assertEqual(strict["accepted"], 0)
+        self.assertEqual(strict["rejected"], 0)
+        self.assertEqual(len(response["citations"]), 5)
+        self.assertEqual(len(model.calls), 2)
+
+    def test_strict_excerpt_system_allows_recommendation_excerpts_without_ranking(self):
+        chat, model = self.chat("strict_two")
+        response = chat.answer("如果让你推荐三篇最值得看的资料，你会选哪三篇？为什么？")
+        self.assertEqual(response["state"], "answered")
+        strict_call = next(call for call in model.calls if "strict_excerpt" in call["input"])
+        system = strict_call["system"]
+        self.assertLess(system.index("本次没有检索到与问题字面匹配的记录"),
+                        system.index("本次只做来源摘录"))
+        self.assertIn("推荐", system)
+        self.assertIn("不是排名", system)
+        self.assertIn("有2条也应回答2条", system)
+        self.assertIn("不得因为无法判断主观优劣而返回空claims", system)
 
     def test_strict_excerpt_fallback_respects_deadline_budget(self):
         chat = Chat(self.retriever, AnalysisModel("strict_good"), timeout=20)

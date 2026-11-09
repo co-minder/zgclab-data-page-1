@@ -1,5 +1,5 @@
 {
-  "verified_at": "2026-11-09T10:44:22.016208+00:00",
+  "verified_at": "2026-11-09T10:51:14.787502+00:00",
   "verdict": "PASS",
   "api_revision": "research-chat-20261109",
   "source_freeze": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/integrated-freeze.json",
@@ -8,14 +8,14 @@
     "service/analytics.py": "0d5fbca6238a3b90e05c7c0e2c8b97c5cf3638f45cbd646dfe13b7cc708ddd2e",
     "service/app.py": "dc9c131e54c64a65abcb16e84033aec956cfa0d6b6370419461c0f4e248324c9",
     "service/auth.py": "bb9b258ec2806bd67a95458819f5ed926517ebaf0c1ed030a1157098d57ae3a2",
-    "service/chat.py": "ddb2aaec0ca622cced41c0e3ab2e7bb29a88bdb9b63f5a63631a48f1d7cbacb4",
+    "service/chat.py": "ac23add6d752696044bc2ebb40416260f6d4a6bce288b5db0d3dea334227437e",
     "service/config.py": "2287232d0b89ff0cacc6cebc3aa95d2799018bf949c232a0b32887764eb31e1b",
     "service/ingest.py": "245035561f367366679af3a32a9c55da6bd2e7fee35b4b19517047b55435ddcf",
     "service/intent.py": "c0348df1670cfe7617f0c6bb5a0b18fcae69d489b08aedf07de0a582f578fbf1",
     "service/limits.py": "7abce0d6e226a2e2727a8f092028c52077784674612248af4c98bc91073a64af",
     "service/llm.py": "3d9b49d5d423d73b3e6a3d031a7bed5c82c66628201fd747c599fa830d842507",
     "service/planner.py": "3967a0b07e7e16a0e0846ae9239c852ef066ae00d5fce42fd8d27af1fa933a7c",
-    "service/research_chat.py": "c056284e6984546dcaa3b2e46f37337cc015c6ff3805e03e593209b2a33f4c75",
+    "service/research_chat.py": "83a0d93fc584076b8aa2eaa72938104870c098b38856589e1175deebf3c071e6",
     "service/retrieval.py": "81b579721ae34911ad4c49168e62356dd4428c86b25ed203b0b21cc70225fde1",
     "service/text.py": "0cde4d0275975c8ed981e21dc006082ebab7cbabae5c289526e9aca5805da9d2",
     "service/verify_live.py": "2b305eb1c890cd905a124c564c1023ec13ef437a413d0dfeb756638e42b2738d",
@@ -31,13 +31,13 @@
     {
       "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/service-final.log",
       "tests_passed": 39,
-      "sha256": "4d313ef31d42710f2af401c8845162af887bd7f229d387291539ab1ab343de5f",
+      "sha256": "809d3a95ef4b654b027c5430c478b3f9994e6d95faf9324300e46277ae377bf4",
       "status": "PASS"
     },
     {
       "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/chat-final.log",
-      "tests_passed": 85,
-      "sha256": "356146a9b7195f0cd5ba669969756286028bfe8a6057fe9e05c4f89ea28c8122",
+      "tests_passed": 88,
+      "sha256": "fd92dce61b00e422870bb6600a73021185e17ec5239c804b5ab608a9be63196d",
       "status": "PASS"
     },
     {
@@ -49,7 +49,7 @@
     {
       "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/security-final.log",
       "tests_passed": 14,
-      "sha256": "c44e59e17306a73dd1c59b70746b62ca0ba900b5e1f3f8adb39a0c0c6cfaddb9",
+      "sha256": "5c2d1bb5b5d6f1e8052b0396282144c7e358222ac037a4e265003950fafa0371",
       "status": "PASS"
     },
     {
@@ -95,7 +95,7 @@
       "status": "PASS"
     }
   ],
-  "total_tests_passed": 226,
+  "total_tests_passed": 229,
   "model_calls_in_regressions": 0,
   "actual_model_quality": "Accepted separately by independent captured-answer/source review and encrypted live UI"
 }

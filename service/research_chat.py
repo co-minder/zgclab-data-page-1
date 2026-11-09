@@ -380,13 +380,17 @@ STRICT_EXCERPT_TIMEOUT = 20.0
 STRICT_EXCERPT_MIN_REMAINING = 35.0
 STRICT_EXCERPT_MAX_CLAIMS = 4
 STRICT_EXCERPT_SYSTEM = (
-    "本次只做来源摘录，不回答问题、不总结、不分析、不排名、不推断因果。"
-    "只从allowed_citation_ids和evidence中选择3至4条与question最相关的完整原句或完整snippet。"
+    "本次只做来源摘录，不回答主观问题、不总结、不分析、不给出客观排名、不推断因果。"
+    "从allowed_citation_ids和evidence中选择1至4条与question最相关的完整原句或完整snippet。"
+    "对推荐、最值得、排名或谁最厉害类问题，禁止声称某条资料客观最优、最重要或给出排名；"
+    "但仍必须从evidence中选择1至4条（优先3条）样本摘录，不得因为无法判断主观优劣而返回空claims。"
+    "只有evidence少于1条或完全无法摘录时才返回空claims；有2条也应回答2条。"
+    "不要把摘录写成排名结论；系统会另行注明这些只是样本摘录、不是排名。"
     "只返回JSON对象：{\"claims\":[{\"kind\":\"fact\",\"text\":\"...\",\"citations\":[\"C1\"],"
     "\"quotes\":[{\"citation_id\":\"C1\",\"quote\":\"...\"}]}]}。"
     "claims[].text必须与对应quotes[].quote逐字完全相同；每项恰好1个citation_id和1个quote；kind必须为fact。"
     "不得改写、缩写、拼接、总结或解释；不得添加quote中不存在的姓名、机构、数字、时间、排名或因果关系。"
-    "只选择完整句子或完整snippet，不得截断否定、条件、时间或归属。证据不足时返回{\"claims\":[]}。"
+    "只选择完整句子或完整snippet，不得截断否定、条件、时间或归属。"
 )
 
 
@@ -447,7 +451,7 @@ def _strict_excerpt_fallback(chat, result, evidence, model_evidence, allowed, me
         if model_guard:
             model_guard()
         content, call_usage = chat.llm.complete([
-            {"role": "system", "content": STRICT_EXCERPT_SYSTEM + sampling_system
+            {"role": "system", "content": sampling_system + STRICT_EXCERPT_SYSTEM
              + "\n本次唯一允许的引用编号：" + "、".join(allowed) + "。保留这些编号，不得重新排列编号。"},
             {"role": "user", "content": json.dumps({
                 "question": message, "answer_kind": kind_for(message, result),
@@ -777,6 +781,9 @@ def generate(chat, result: dict, message: str, history: list[dict], expand: bool
             answer += (f"\n\n说明：当前筛选范围内没有找到与问题字面匹配的记录；以上仅基于抽样的 "
                        f"{sampling['sample_records']} 条资料归纳，不代表全库占比、实时覆盖或客观排名；"
                        "引用与数字仍限于所引样本。[A1]")
+        if (strict_summary.get("status") == "accepted"
+                and re.search(r"推荐|最值得|排名|排行|最厉害|最强|谁更|哪家最", message)):
+            answer += "\n\n以上只是样本摘录，不是排名，也不代表客观最优。"
         answer += "\n\n" + scope_text(result, citations)
         expected = result["plan"]["filters"].get("institution", [])
         used_institutions = {citation.get("ktid") for citation in citations}
