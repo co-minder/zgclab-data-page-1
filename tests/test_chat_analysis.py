@@ -108,7 +108,13 @@ class AnalysisModel:
             sources = sources or selected[:1]
             return {"kind": kind, "text": text, "citations": [c["citation_id"] for c in sources],
                     "quotes": [{"citation_id": c["citation_id"], "quote": c["snippet"]} for c in sources]}
-        if self.mode == "number":
+        if self.mode == "points_three":
+            claims = [{"kind": "fact",
+                       "text": "所引资料讨论中国半导体供应链与出口管制，并提及政策研讨，没有宣布已经实施全面禁令。",
+                       "citations": [citation["citation_id"]],
+                       "quotes": [{"citation_id": citation["citation_id"], "quote": citation["snippet"]}]}
+                      for citation in evidence[:3]]
+        elif self.mode == "number":
             claims = [claim("该资料显示有99999999家企业已经完成转型。")]
         elif self.mode == "aggregate_borrow":
             claims = [claim("数据库全部记录共有20条，足以代表全网报道。")]
@@ -615,6 +621,37 @@ class ChatAnalysisTests(unittest.TestCase):
             with self.assertRaises(ModelUnavailable):
                 review_verdicts(payload, [claim])
         self.assertEqual(kind_for("这条资料里双方比分是多少？"), "lookup")
+
+    def test_requested_points_are_explicit_for_generation_and_shortfall_is_truthful(self):
+        chat, model = self.chat("points_three")
+        response = chat.answer("分析CSIS中国资料，请用三点概括")
+        self.assertEqual(response["state"], "answered")
+        self.assertGreaterEqual(response["validation"]["accepted_claims"], 3)
+        self.assertEqual(len(response["sections"]), 3)
+        self.assertEqual(len({citation["id"] for citation in response["citations"]}), 3)
+        generation = model.calls[0]
+        self.assertEqual(generation["input"]["requested_points"], 3)
+        self.assertIn("恰好3项", generation["system"])
+        self.assertIn("每项只引用一个来源", generation["system"])
+        self.assertIn("不得把同一来源拆成多条凑数", generation["system"])
+        self.assertIn("不得额外生成跨来源总结项", generation["system"])
+        self.assertIn("每个citation_id都必须有完整quote", generation["system"])
+        self.assertIn("不得展开为机构名或人名", generation["system"])
+        self.assertIn("@AP", generation["system"])
+        self.assertIn("@AP", model.calls[1]["system"])
+        self.assertNotIn("证据不足", response["answer"])
+
+        chat, model = self.chat("good")
+        response = chat.answer("分析CSIS中国资料，请用三点概括")
+        self.assertLess(response["validation"]["accepted_claims"], 3)
+        self.assertIn("用户要求 3 项不同来源", response["answer"])
+        self.assertIn("证据不足", response["answer"])
+
+        chat, model = self.chat()
+        chat.answer("分析CSIS中国资料")
+        self.assertIsNone(model.calls[0]["input"]["requested_points"])
+        self.assertIn("默认4至5项", model.calls[0]["system"])
+        self.assertIn("3至4条简短报道", model.calls[0]["system"])
 
 
 class RealCountCompatibility(unittest.TestCase):

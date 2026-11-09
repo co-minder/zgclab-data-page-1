@@ -41,18 +41,44 @@ BOUNDED_CITATION = re.compile(OUTPUT_LEAD + r"(?:(?:(?:分别|逐项|各|各自|
 BOUNDED_COMPARISON = re.compile(OUTPUT_LEAD + r"(?:列出|说明|总结|归纳|展示|比较|对比)?(?:各自(?:的)?)?(?:异同|共同点和差异|相同点和不同点)(?:(?:和|与|及)(?:各自|双方)?(?:的)?(?:证据|来源|原文引用))?")
 BOUNDED_SAMPLE = re.compile(OUTPUT_LEAD + r"(?:说明|注明|标明|提醒)?(?:(?:这|以上|以下|上述)(?:只是|仅是)|只是|仅是|仅为|只为|只基于|仅基于|只根据|仅根据)?(?:这些|这批|上述)?(?:资料|记录|证据)?(?:的)?样本(?:进行)?(?:分析|归纳|总结)|" + OUTPUT_LEAD + r"(?:请勿|不要|不应|不得|不能|不可)(?:将(?:样本|样本分析)(?:结果)?)?外推(?:到(?:总体|全库|全网)|至(?:总体|全库|全网)|为(?:总体结论|全库结论|全网结论))?")
 # Numbered output requests such as 请用三点概括 are instructions, not topics.
-# A trailing noun (for example 列出三点建议) is deliberately not consumed.
+# Removal is limited to unambiguous whole directives or an unambiguous adverbial
+# prefix; a following noun (for example 列出三点说明) stays as search content.
+NUMBERED_QUANTITY = r"(?:\d{1,2}|[一二两三四五六七八九十]{1,3})\s*(?:点|个要点|条要点|点内容|点结论)"
 BOUNDED_NUMBERED_OUTPUT = re.compile(
     OUTPUT_LEAD
     + r"(?:(?:请|请你|帮我|麻烦|给我)\s*)?(?:用|分|按)\s*"
-    + r"(?:\d{1,2}|[一二两三四五六七八九十]{1,3})\s*(?:点|个要点|条要点|点内容|点结论)\s*"
-    + r"(?:概括|总结|归纳|说明|列出|回答|呈现|写出)?"
+    + NUMBERED_QUANTITY
+    + r"\s*(?:概括|总结|归纳|说明|列出|回答|呈现|写出)?\s*(?:一下|一下子)?"
     + r"|"
     + OUTPUT_LEAD
-    + r"(?:(?:请|请你|帮我|麻烦|给我)\s*)?(?:给出|列出|写成|概括为|总结为)\s*"
-    + r"(?:\d{1,2}|[一二两三四五六七八九十]{1,3})\s*(?:点|个要点|条要点|点内容|点结论)\s*"
-    + r"(?:概括|总结|归纳|说明|回答|呈现|写出)"
+    + r"(?:(?:请|请你|帮我|麻烦|给我)\s*)?(?:给出|列出)\s*"
+    + NUMBERED_QUANTITY
+    + r"(?:\s*(?:结论|要点))?"
+    + r"|"
+    + OUTPUT_LEAD
+    + r"(?:(?:请|请你|帮我|麻烦|给我)\s*)?(?:写成|写出|概括为|总结为)\s*"
+    + NUMBERED_QUANTITY
 )
+# When a substantive subject follows, remove only the adverbial prefix.
+BOUNDED_NUMBERED_PREFIX = re.compile(
+    r"^(?:(?:请|请你|帮我|麻烦|给我)\s*)?(?:用|分|按)\s*"
+    + NUMBERED_QUANTITY
+    + r"\s*(?:概括|总结|归纳|说明|列出|回答|呈现|写出)\s*(?:一下|一下子)?\s*(?=\S)"
+)
+NUMBERED_QUANTITY_RE = re.compile(
+    r"(\d{1,2}|[一二两三四五六七八九十]{1,3})\s*(?:点|个要点|条要点|点内容|点结论)"
+)
+CHINESE_POINT_VALUES = {"一": 1, "二": 2, "两": 2, "三": 3, "四": 4, "五": 5}
+
+
+def requested_point_count(text: str) -> int | None:
+    """Return an explicit 1-5 point count; out-of-range or absent means unconstrained."""
+    match = NUMBERED_QUANTITY_RE.search(text)
+    if not match:
+        return None
+    raw = match.group(1)
+    value = int(raw) if raw.isdigit() else CHINESE_POINT_VALUES.get(raw)
+    return value if value is not None and 1 <= value <= 5 else None
 
 
 def clock_now() -> dt.datetime:
@@ -131,7 +157,7 @@ def temporal_intent(text: str, now: dt.datetime | None = None):
 
 def request_intent(query: str, enabled: bool = True, now: dt.datetime | None = None) -> dict:
     result = {"enabled": enabled, "normalized_query": query, "topics_query": query,
-              "removed_request_phrases": [], "citation_requested": False,
+              "removed_request_phrases": [], "citation_requested": False, "requested_points": None,
               "same_source_requested": bool(SAME_SOURCE.search(query)),
               "referential": bool(FOLLOWUP.search(query) or REFERENCE.search(query)),
               "source_reference": bool(REFERENCE.search(query) or SAME_SOURCE.search(query)
@@ -276,9 +302,20 @@ def request_intent(query: str, enabled: bool = True, now: dt.datetime | None = N
             result["removed_request_phrases"].append({"text": clause, "reason": "sample_analysis_instruction"})
             result["sample_only_requested"] = True
             continue
-        if BOUNDED_NUMBERED_OUTPUT.fullmatch(clause):
+        numbered = BOUNDED_NUMBERED_OUTPUT.fullmatch(clause)
+        if numbered:
             result["removed_request_phrases"].append({"text": clause, "reason": "numbered_output_instruction"})
+            points = requested_point_count(clause)
+            if points is not None and result["requested_points"] is None:
+                result["requested_points"] = points
             continue
+        numbered_prefix = BOUNDED_NUMBERED_PREFIX.match(clause)
+        if numbered_prefix:
+            result["removed_request_phrases"].append({"text": numbered_prefix.group(), "reason": "numbered_output_instruction"})
+            points = requested_point_count(numbered_prefix.group())
+            if points is not None and result["requested_points"] is None:
+                result["requested_points"] = points
+            clause = clause[numbered_prefix.end():]
         if BOUNDED_COMPARISON.fullmatch(clause):
             result["removed_request_phrases"].append({"text": clause, "reason": "comparison_output_instruction"})
             if re.search(r"证据|来源|引用", clause):

@@ -305,7 +305,8 @@ class Chat:
         result = balance_result(self.retriever, result, message, expand, source_ids)
         if not result["results"]:
             return self.fallback(result, "no_results", usage, attempted)
-        return generate(self, result, message, history, expand, usage, deadline, model_guard, attempted)
+        return generate(self, result, message, history, expand, usage, deadline, model_guard, attempted,
+                        requested_points=message_intent.get("requested_points"))
 
     @staticmethod
     def validate_claims(payload: dict, evidence: list[dict]) -> tuple[list[dict], set[str]]:

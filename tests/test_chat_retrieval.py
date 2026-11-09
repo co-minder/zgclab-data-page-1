@@ -162,6 +162,43 @@ class IntentGrammar(unittest.TestCase):
         self.assertIn("请用三点概括", quoted["normalized_query"])
         self.assertEqual(request_intent(query, enabled=False)["normalized_query"], query)
 
+    def test_requested_points_only_from_unambiguous_numbered_directives(self):
+        for directive, points, normalized in [
+            ("请用三点概括", 3, ""),
+            ("分三点说明", 3, ""),
+            ("用3点总结", 3, ""),
+            ("按三个要点概括", 3, ""),
+            ("给出三点结论", 3, ""),
+            ("请用三点概括中美关系的走向", 3, "中美关系的走向"),
+            ("用三点列出涉华报道的主要议题", 3, "涉华"),
+            ("请用三点概括一下中美关系", 3, "中美关系"),
+        ]:
+            with self.subTest(directive=directive):
+                value = request_intent(directive)
+                self.assertEqual(value["requested_points"], points)
+                self.assertEqual(value["normalized_query"], normalized)
+                self.assertTrue(any(item["reason"] == "numbered_output_instruction"
+                                    for item in value["removed_request_phrases"]))
+        unknown = request_intent("归纳Zyx量子foo的观点，请用三点概括")
+        self.assertEqual(unknown["requested_points"], 3)
+        self.assertIn("Zyx量子foo", unknown["normalized_query"])
+        for clause in ("列出三点建议", "列出三点说明", "写出三点说明"):
+            with self.subTest(clause=clause):
+                value = request_intent(clause)
+                self.assertIsNone(value["requested_points"])
+                self.assertIn(clause[-2:], value["normalized_query"])
+                self.assertFalse(any(item["reason"] == "numbered_output_instruction"
+                                     for item in value["removed_request_phrases"]))
+        self.assertIsNone(request_intent("请用六点概括")["requested_points"])
+        quoted = request_intent('归纳"请用三点概括"')
+        self.assertIsNone(quoted["requested_points"])
+        self.assertEqual(quoted["exact_phrases"], ["请用三点概括"])
+        self.assertIn("请用三点概括", quoted["normalized_query"])
+        disabled = request_intent("请用三点概括", enabled=False)
+        self.assertIsNone(disabled["requested_points"])
+        self.assertEqual(disabled["normalized_query"], "请用三点概括")
+        self.assertEqual(disabled["removed_request_phrases"], [])
+
     def test_output_cleanup_preserves_unknown_negative_quoted_and_disabled(self):
         query = "归纳Zyx量子foo的观点，各给出来源，只基于样本分析，不要外推。"
         self.assertIn("Zyx量子foo", request_intent(query)["normalized_query"])

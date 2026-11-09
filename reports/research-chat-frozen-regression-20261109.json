@@ -1,5 +1,5 @@
 {
-  "verified_at": "2026-11-09T06:42:00.441272+00:00",
+  "verified_at": "2026-11-09T07:06:06.706604+00:00",
   "verdict": "PASS",
   "api_revision": "research-chat-20261109",
   "source_freeze": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/integrated-freeze.json",
@@ -8,14 +8,14 @@
     "service/analytics.py": "0d5fbca6238a3b90e05c7c0e2c8b97c5cf3638f45cbd646dfe13b7cc708ddd2e",
     "service/app.py": "dc9c131e54c64a65abcb16e84033aec956cfa0d6b6370419461c0f4e248324c9",
     "service/auth.py": "bb9b258ec2806bd67a95458819f5ed926517ebaf0c1ed030a1157098d57ae3a2",
-    "service/chat.py": "b5bfed832e8136346f46f5b941da8f210db52eeb83a3ed8ce166f4f95e0b4bc6",
+    "service/chat.py": "890ad1a4c2705a42e3160e1202ee58d5794f130ca28ca9525073ba6147607976",
     "service/config.py": "2287232d0b89ff0cacc6cebc3aa95d2799018bf949c232a0b32887764eb31e1b",
     "service/ingest.py": "245035561f367366679af3a32a9c55da6bd2e7fee35b4b19517047b55435ddcf",
-    "service/intent.py": "1f4b72a0b3298bd59021d0bc272bca0795c7c2eb72cbfbb25c73086ccb64829c",
+    "service/intent.py": "c0348df1670cfe7617f0c6bb5a0b18fcae69d489b08aedf07de0a582f578fbf1",
     "service/limits.py": "7abce0d6e226a2e2727a8f092028c52077784674612248af4c98bc91073a64af",
     "service/llm.py": "3d9b49d5d423d73b3e6a3d031a7bed5c82c66628201fd747c599fa830d842507",
     "service/planner.py": "3967a0b07e7e16a0e0846ae9239c852ef066ae00d5fce42fd8d27af1fa933a7c",
-    "service/research_chat.py": "492eb24de610a436a122002394896dc83354ac57479c156a4f890a812368f0ca",
+    "service/research_chat.py": "888c5432b9fb730ffeb3f4b38cccf83437013b49629e20ec50e3cc50fc337d5e",
     "service/retrieval.py": "81b579721ae34911ad4c49168e62356dd4428c86b25ed203b0b21cc70225fde1",
     "service/text.py": "0cde4d0275975c8ed981e21dc006082ebab7cbabae5c289526e9aca5805da9d2",
     "service/verify_live.py": "2b305eb1c890cd905a124c564c1023ec13ef437a413d0dfeb756638e42b2738d",
@@ -31,37 +31,37 @@
     {
       "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/service-final.log",
       "tests_passed": 39,
-      "sha256": "96ae0293ebc15ce27cd2a0fb54997a5ffc642eee351a02ccc1f22c168e5f16aa",
+      "sha256": "4113e9506b32254e8d43fc687c385491d184fa2bc242f508a4dc55dcf33e27b5",
       "status": "PASS"
     },
     {
       "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/chat-final.log",
-      "tests_passed": 60,
-      "sha256": "00e759ae5237756ff0ed9f95a42d90db2c6e111656254773d4867cf8e28bd697",
+      "tests_passed": 62,
+      "sha256": "438ef65ddd243ae755a37c03cac3b3d8c3274037403f653d90655f2ae3eac7e3",
       "status": "PASS"
     },
     {
       "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/proxy-final.log",
       "tests_passed": 8,
-      "sha256": "873ad6c8f0b031f02baed756801eccd50123de44fd171b530a1f08d0d35785ef",
+      "sha256": "c3d0fee44762f9b47488d9dab5f0b8ec955f582d364173fe1c12418cd067b925",
       "status": "PASS"
     },
     {
       "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/security-final.log",
       "tests_passed": 14,
-      "sha256": "34fdc8b2458a5c078941f7a9cc1f30fdd1ed8baa63785bbd9a8e7a062dcf9f1f",
+      "sha256": "a5d2f9f8d7ea104fdfa807c32bb44e60348ab376ea67e01174cf8b06aeed7b50",
       "status": "PASS"
     },
     {
       "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/security-reference-final.log",
       "tests_passed": 4,
-      "sha256": "b975f21fc36900d09e02e66ed5b8b90f29685e9d834e49485dc354245946626f",
+      "sha256": "b0cb919dd9e7b3a3111fdcca0f4aeadb37d4aa2266bb816d65d7b2090f85c280",
       "status": "PASS"
     },
     {
       "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/security-research-final.log",
       "tests_passed": 18,
-      "sha256": "bb99ac62ad08a095c5dd17f6192798841d5ab34164277a69f41cb2c1d56110cb",
+      "sha256": "818afe80d9ccee7920d435d4930999e7c3f6895b9ecf322a7ad338c6e8a5b8f8",
       "status": "PASS"
     },
     {
@@ -91,11 +91,11 @@
     {
       "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/protocol-final.log",
       "tests_passed": 13,
-      "sha256": "159ee7fa3e2b71a1e5994364cff2871b6e4a7ffa09bf2a49b0af84e59e12e35d",
+      "sha256": "7b3cb39ada117f4146c780a43301525cf315181f9ef99a7b35fd274fb2172fbf",
       "status": "PASS"
     }
   ],
-  "total_tests_passed": 201,
+  "total_tests_passed": 203,
   "model_calls_in_regressions": 0,
   "actual_model_quality": "Accepted separately by independent captured-answer/source review and encrypted live UI"
 }
