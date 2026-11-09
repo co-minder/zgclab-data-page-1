@@ -8,7 +8,7 @@ from .analytics import build_analytics
 from .retrieval import InputError, Retriever, SYNONYMS, bounded_text
 from .planner import SearchEngine, is_count_query
 from .intent import request_intent
-from .research_chat import COMPARISON_COUNT, GREETING, INJECTION, balance_result, eligible, generate, inherit_filters, kind_for, metadata, scope_text
+from .research_chat import COMPARISON_COUNT, GREETING, INJECTION, balance_result, eligible, general_chat, generate, inherit_filters, kind_for, metadata, scope_text
 from .text import normalize
 
 UNSAFE_OUTPUT = re.compile(r"<\s*/?\s*[a-z!]|javascript\s*:|data\s*:\s*text/html|!\[|\]\s*\(|https?://|\b(?:curl|wget|bash|powershell|sudo)\s|忽略(?:此前|之前|上面|所有).*指令|ignore\s+(?:all\s+)?(?:previous|prior)\s+instructions", re.I)
@@ -80,6 +80,22 @@ STRICT_EXCERPT_EXCLUDE = re.compile(
     r"外星人|ufo",
     re.I,
 )
+RELAX_FILLER = re.compile(
+    r"你好|您好|嗨|哈喽|hello|hi|hey|请|麻烦|帮我|给我|让我|我想|我要|"
+    r"看看|看一下|看下|瞧瞧|说说|讲讲|聊聊|谈谈|告诉|你们|我们|你|您|我|的|了|"
+    r"吗|呢|啊|吧|呀|哦|嘛|呗|啦|一下|一点|一些|最近|最新|近期|现在|今天|当前|目前|"
+    r"有什么|哪些|什么|怎么|怎样|如何|为什么|为何|这些|那些|这个|那个|"
+    r"能|可以|能否|是否|谢谢|多谢|感谢|如果|让|选|会|敢|想|要|看到过|看到|看过|见过|找过|关于|对于|针对|哪|"
+    r"资料|数据库|记录|信息|内容|东西|文章|报告|认为|觉得|看法|感觉|看起来|"
+    r"最好|最值得|值得|离谱|奇怪|有趣|有意思|喜欢|热点|动态|新鲜事|瓜|心情|感受|特点|"
+    r"随便|跟|里|最|一条|一篇|一份|几篇|几|篇|整个|一句|句话|概括|总结|介绍|概述|推荐",
+    re.I,
+)
+GENERAL_CHAT_UNSAFE = re.compile(
+    r"密码|password|passwd|凭据|credential|api.?key|密钥|secret|token",
+    re.I,
+)
+RELAX_MAX_CANDIDATES = 36
 CHAT_GREETING = re.compile(
     r"^(?:你好|您好|嗨|哈[啰喽]|hello|hi|hey|早上好|下午好|晚上好)[呀啊哦嘛]?[！!。.,，\s]*"
     r"(?:(?:今天|最近|现在)\s*)?(?:心情|感觉|怎么样|好吗|在吗|忙吗|聊聊天|随便聊聊|聊聊|说说)"
@@ -226,7 +242,7 @@ class Chat:
         # questions, nor to bypass dates, counts or exclusions.
         if not expand or not result.get("results"):
             return False
-        if not BROAD_SAMPLE.search(message):
+        if not (BROAD_SAMPLE.search(message) or result.get("relaxed_topic_match")):
             return False
         if INJECTION.search(message) or SAMPLE_UNSAFE.search(message) or STRICT_EXCERPT_EXCLUDE.search(message):
             return False
@@ -252,6 +268,130 @@ class Chat:
         if self._has_unknown_entity(plan):
             return False
         return True
+
+    def relaxed_topic_candidates(self, message: str) -> list[str]:
+        cleaned = RELAX_FILLER.sub(" ", message)
+        cleaned = re.sub(r"[^\u3400-\u9fffA-Za-z0-9_-]+", " ", cleaned)
+        candidates, order = [], {}
+        def add(value: str) -> None:
+            value = value.strip()
+            if len(value) < 2 or value.isdigit() or value in order:
+                return
+            order[value] = len(order)
+            candidates.append(value)
+        for run in re.findall(r"[\u3400-\u9fff]+", cleaned):
+            for size in range(min(6, len(run)), 1, -1):
+                add(run[:size])
+                if size < len(run):
+                    add(run[-size:])
+        for token in re.findall(r"[A-Za-z][A-Za-z0-9_-]{1,11}", cleaned):
+            add(token)
+        candidates = [value for value in candidates if not RELAX_FILLER.fullmatch(value)]
+        candidates.sort(key=lambda value: (-len(value),
+                                           self.retriever.vocabulary.get(normalize(value), 10 ** 9),
+                                           order[value]))
+        return candidates[:RELAX_MAX_CANDIDATES]
+
+    def relaxed_topic_search(self, message: str, filters: dict, expand: bool):
+        candidates = self.relaxed_topic_candidates(message)
+        for size in sorted({len(value) for value in candidates}, reverse=True):
+            best = None
+            for candidate in (value for value in candidates if len(value) == size):
+                try:
+                    result = self.retriever.search(candidate, filters, expand=expand, limit=12)
+                except InputError:
+                    continue
+                if not result["results"]:
+                    continue
+                matched = result["aggregates"]["matched"]["total"]
+                if best is None or matched < best[2]:
+                    best = (candidate, result, matched)
+            if best is not None:
+                return best[0], best[1]
+        return None, None
+
+    def relaxed_topic_allowed(self, message: str, result: dict, expand: bool,
+                              count_requested: bool, source_ids) -> bool:
+        if not expand or result["results"] or count_requested or source_ids is not None:
+            return False
+        if INJECTION.search(message) or SAMPLE_UNSAFE.search(message) or GENERAL_CHAT_UNSAFE.search(message):
+            return False
+        plan = result["plan"]
+        if plan.get("exact_phrases") or plan.get("excluded_terms"):
+            return False
+        if any(plan.get("filters", {}).get(key) for key in ("date_from", "date_to")):
+            return False
+        if re.search(r"[\"“”「」『』]", message) or re.search(r"[;\t\n\r]", message):
+            return False
+        if re.search(r"(?:^|\s)[A-Za-z0-9_-]+(?:\s*,\s*[A-Za-z0-9_-]+)+", message):
+            return False
+        if STRICT_EXCERPT_EXCLUDE.search(message) or re.search(r"排名|排行|榜单|最厉害|最强|谁更|哪家最", message):
+            return False
+        intent = plan.get("intent", plan.get("request_intent", {}))
+        operations = intent.get("operations", {}) if isinstance(intent, dict) else {}
+        if any(operations.get(key) for key in ("count", "compare", "ranking", "share")):
+            return False
+        if kind_for(message, result) in {"comparison", "count"}:
+            return False
+        if SAMPLE_NEGATION.search(message):
+            return False
+        if self._has_unknown_entity(plan):
+            return False
+        return bool(self.relaxed_topic_candidates(message))
+
+    def general_chat_allowed(self, message: str, result: dict, expand: bool,
+                             count_requested: bool, source_ids, source_basis=None) -> bool:
+        if not expand or result["results"] or count_requested:
+            return False
+        if INJECTION.search(message) or SAMPLE_UNSAFE.search(message) or GENERAL_CHAT_UNSAFE.search(message):
+            return False
+        if source_basis in {"missing_topic", "previous_source_missing", "previous_source_ambiguous"}:
+            return False
+        if source_ids not in (None, []):
+            return False
+        plan = result["plan"]
+        if plan.get("exact_phrases") or plan.get("excluded_terms"):
+            return False
+        if re.search(r"(?:^|\s)[A-Za-z0-9_-]+(?:\s*,\s*[A-Za-z0-9_-]+)+", message):
+            return False
+        message_intent = request_intent(message, enabled=expand)
+        if message_intent.get("citation_requested") or message_intent.get("source_reference"):
+            return False
+        intent = plan.get("intent", plan.get("request_intent", {}))
+        operations = intent.get("operations", {}) if isinstance(intent, dict) else {}
+        if any(operations.get(key) for key in ("count", "compare", "ranking", "share")):
+            return False
+        if kind_for(message, result) in {"comparison", "count"}:
+            return False
+        return True
+
+    def adopt_relaxed_result(self, original: dict, relaxed: dict, query: str, candidate: str) -> dict:
+        conversation = original["plan"].get("conversation")
+        steps = list(original["plan"].get("tool_steps", []))
+        relaxed["query"] = query
+        relaxed["plan"]["conversation"] = conversation
+        relaxed["plan"]["relaxed_query"] = candidate
+        relaxed["plan"]["relaxed_topic_match"] = True
+        relaxed["plan"]["tool_steps"] = steps + [{
+            "tool": "database_relaxed_topic_search", "term": candidate,
+            "matched_records": relaxed["aggregates"]["matched"]["total"],
+            "returned_paragraphs": len(relaxed["results"]),
+        }]
+        relaxed["plan"]["model"] = original["plan"].get("model", {})
+        relaxed["model"] = original.get("model", {"id": self.llm.model, "used": False,
+                                                  "attempted": False, "reason": "relaxed_topic_lookup"})
+        relaxed["usage"] = dict(original.get("usage", {}))
+        relaxed["relaxed_topic_match"] = True
+        relaxed["relaxed_topic_term"] = candidate
+        relaxed["coverage"].update(original_matched_records=0, relaxed_topic_match=True,
+                                   relaxed_topic_term=candidate)
+        relaxed["aggregates"]["scope"].update(relaxed_topic_match=True, relaxed_topic_term=candidate,
+                                              original_matched_records=0)
+        if conversation:
+            conversation = dict(conversation)
+            conversation["relaxed_topic"] = {"term": candidate, "original_matched_records": 0}
+            relaxed["plan"]["conversation"] = conversation
+        return relaxed
 
     @staticmethod
     def diverse_sample(citations: list[dict], limit: int) -> list[dict]:
@@ -466,12 +606,15 @@ class Chat:
                                         "shares": analytics.get("shares", {}), "ranking": analytics.get("ranking"),
                                         "latest_returned_date": max((c.get(analytics["scope"]["date_field"]) for c in result.get("results", [])
                                                                      if not c.get("future_dated") and c.get(analytics["scope"]["date_field"])), default=None)})
-        return {"answer": answer, "citations": citations, "aggregate_citations": aggregate_citations,
-                "analytics": result.get("analytics", {}),
-                "query": result["query"], "plan": result["plan"], "aggregates": result["aggregates"],
-                "coverage": result["coverage"], "model": model, "usage": usage, "state": state,
-                "answer_format": "verbatim_extracts" if state == "answered" else "database_aggregate" if state == "database_answer" else "retrieval_extracts",
-                **metadata(result, state)}
+        response = {"answer": answer, "citations": citations, "aggregate_citations": aggregate_citations,
+                    "analytics": result.get("analytics", {}),
+                    "query": result["query"], "plan": result["plan"], "aggregates": result["aggregates"],
+                    "coverage": result["coverage"], "model": model, "usage": usage, "state": state,
+                    "answer_format": "verbatim_extracts" if state == "answered" else "database_aggregate" if state == "database_answer" else "retrieval_extracts",
+                    **metadata(result, state)}
+        if result.get("relaxed_topic_match"):
+            response.update(relaxed_topic_match=True, relaxed_topic_term=result.get("relaxed_topic_term"))
+        return response
 
     def answer(self, message, history=None, filters=None, expand=True, relax=False, model_guard=None) -> dict:
         deadline = time.monotonic() + self.timeout
@@ -546,7 +689,14 @@ class Chat:
                                                      "basis": source_basis, "record_ids": source_ids})
         attempted = result["model"]["attempted"]
         if source_ids == []:
+            if (source_basis == "greeting"
+                    and self.general_chat_allowed(message, result, expand, count_requested, source_ids, source_basis)):
+                return general_chat(self, result, message, history, usage, deadline, model_guard, attempted)
             return self.fallback(result, source_basis, usage, attempted)
+        if not result["results"] and self.relaxed_topic_allowed(message, result, expand, count_requested, source_ids):
+            candidate, relaxed = self.relaxed_topic_search(message, result["plan"]["filters"], expand)
+            if relaxed is not None:
+                result = self.adopt_relaxed_result(result, relaxed, query, candidate)
         result["analytics"] = build_analytics(self.retriever, result)
         result["plan"]["tool_steps"].append({"tool": "database_analytics", "purpose": "exact_dates_and_dimensions"})
         if count_requested:
@@ -558,6 +708,9 @@ class Chat:
         if not result["results"] and self.sampling_allowed(message, result, expand, count_requested,
                                                            source_attribute, source_ids):
             sampling = self.sample_scope(result, expand)
+        if not result["results"] and self.general_chat_allowed(
+                message, result, expand, count_requested, source_ids, source_basis):
+            return general_chat(self, result, message, history, usage, deadline, model_guard, attempted)
         if not result["results"]:
             return self.fallback(result, "no_results", usage, attempted)
         return generate(self, result, message, history, expand, usage, deadline, model_guard, attempted,
