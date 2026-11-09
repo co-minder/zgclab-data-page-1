@@ -10,7 +10,7 @@
   "source_freeze": {
     "assistant.js": "bd20e5bb1c9496ee4c8a19d0ae56f9f41bb019b80a41995b760b8bfd01c5a886",
     "assistant.css": "9ad4ed742938cc53482a3d192d74031b6ae9f68e6d21eb0eea766ea9082e6cba",
-    "service/chat.py": "b8f910b9942d45b041ee71da2ac12c7c8b4f8c41889f081709daa05aa1e27693",
+    "service/chat.py": "518600fc6c34235b592768e4f15ac2927d27b3ba0bfaa334016dc4828272d845",
     "service/research_chat.py": "035fe97cf151c56e6267f5410def806f5b567e5b17315fe33e5d7dcf7cf74dbe"
   },
   "ui_qa": {
@@ -39,12 +39,50 @@
     "legacy_mock": 10,
     "design_assistant": 16,
     "design_acceptance_supplement": 6,
-    "ui_citation_qa": 76
+    "ui_citation_qa": 76,
+    "public_ui": 29,
+    "public_assets_objects": 418
   },
   "limitations": [
-    "A1 popup fixture lacks shares/date_range literal; A2 shows denominator/date. UI behavior is verified; data-shape limitation is recorded.",
-    "UI QA used a saved real preview response replay; not a new model call.",
-    "Final public actual verification remains pending."
+    "Broad sampling is a bounded sample, not full-corpus coverage; public exact answer retained 1 source claim and explicitly disclosed limitations.",
+    "A1 popup fixture lacks shares/date_range literal; A2 shows denominator/date.",
+    "UI QA used replay; public UI was a separate actual model run."
   ],
-  "final_public_actual_required": true
+  "final_public_actual_required": false,
+  "public_ui": {
+    "path": "reports/research-chat-public-citation-20261109.json",
+    "sha256": "4046a7a548cdf6fe8dbecb17cf606b803261abe44e899023bcd3fa20332633bf",
+    "checks": 29,
+    "failed": 0,
+    "manifest": "manifest-2da307047bf9dca5b95e.json",
+    "release_commit": "ef88fd7939c0333b3ba8248b8c25cadb7f9b6f71",
+    "original_seconds": 10.96,
+    "render_after_api_seconds": 0.06
+  },
+  "public_broad": {
+    "path": "reports/research-chat-public-broad-20261109.json",
+    "sha256": "6bfd53e2460e1f34875b33e121f6f80c5276c4c8fb3a8f4a3ec078ea530bf981",
+    "question": "你好，看看近期关于中国的 汇报，我看下?",
+    "seconds": 20.65,
+    "state": "answered",
+    "sample_records": 12,
+    "matched": 0,
+    "citations": 1,
+    "model_used": true,
+    "usage": {
+      "prompt_tokens": 4996,
+      "completion_tokens": 1151,
+      "total_tokens": 6147
+    }
+  },
+  "public_assets": {
+    "path": "reports/research-chat-public-assets-citation-20261109.json",
+    "sha256": "5f8cde6437768d6c35b1450f509f66ff89f9851d3979ac07bf3da402f297858b",
+    "active_encrypted_objects": 418,
+    "public_files": 423,
+    "total_bytes": 29382657,
+    "verdict": "PASS"
+  },
+  "public_verification": "PASS: public UI 29/29, broad exact question answered with 12 samples/0 literal matches, 418/423 assets read back",
+  "updated_at": "2026-11-09T09:46:29.771626+00:00"
 }

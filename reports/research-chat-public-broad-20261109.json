@@ -1,0 +1,1600 @@
+{
+  "question": "你好，看看近期关于中国的 汇报，我看下?",
+  "http_status": 200,
+  "seconds": 20.65,
+  "recorded_at": "2026-11-09T09:45:47.623516+00:00",
+  "transport": "actual public authenticated API after topic-aware broad sampling",
+  "status": {
+    "api_revision": "research-chat-20261109",
+    "records": 6989,
+    "llm": {
+      "available": true,
+      "state": "ready",
+      "model": "auto/deepseek-v4.1-flash",
+      "checked_at": 1794217516,
+      "health_scope": "relay_health"
+    }
+  },
+  "response": {
+    "api_revision": "research-chat-20261109",
+    "answer": "所引样本提到，美国对华农产品出口在2022年达到创纪录的364亿美元，中国当时成为美国农产品最大市场；但2023年随需求走弱下降24%。 [C1]\n\n说明：当前筛选范围内没有找到与问题字面匹配的记录；以上仅基于抽样的 12 条资料归纳，不代表全库占比、实时覆盖或客观排名；引用与数字仍限于所引样本。[A1]\n\n数据库范围：全部真实资料；结构化筛选共 6,989 条，按实际关键词规则命中 0 条（记录去重）。[A1]\n时间口径：published_at，Asia/Shanghai；依据已加载真实快照，非实时报道。本次返回的非未来日期资料中，最新记录日期为 2026-09-23T18:16:54+00:00。[A2]当前日期基准为 2026-11-09。分析仅涉及所引证据样本，不能据此估计全库议题占比或机构全部立场。\n部分候选结论缺少充分证据，已省略。",
+    "citations": [
+      {
+        "citation_id": "C1",
+        "id": "news-2921",
+        "angle": "news",
+        "paragraph": 64,
+        "field": "translation",
+        "paragraph_scheme": "service_field_chunks_v1",
+        "paragraph_note": "1-based chunks across title, summary, original and translation fields; not evidence-page paragraph numbers",
+        "snippet": "东亚，尤其是中国，是北美集团以外最大的出口市场。2020年至2024年间，美国31%的农产品销往东亚市场，主要包括油籽、谷物和肉类。2022年，美国对华农产品出口达到创纪录的364亿美元，使中国当时成为美国农产品最大的市场。然而，随着需求走弱，美国对华农产品出口在2023年下降了24%。",
+        "source_url": "https://www.csis.org/analysis/growing-together-north-american-agricultural-powerhouse",
+        "title": "共同成长：北美农业强国",
+        "title_en": "Growing Together: The North American Agricultural Powerhouse",
+        "ktid": 1000490,
+        "institution": "战略与国际研究中心",
+        "institution_en": "Center for Strategic and International Studies",
+        "platform": "Google News RSS discovery",
+        "published_at": "2025-04-28T12:00:00+00:00",
+        "collected_at": "2026-09-24T21:47:55+00:00",
+        "source_version": "f064c896c123cbf4",
+        "source_field": "content_cn",
+        "published_original": "2025-04-28T12:00:00+00:00",
+        "published_effective_at": "2025-04-28T12:00:00+00:00",
+        "date_origin": "provided",
+        "matched_concepts_in_chunk": [
+          "中国"
+        ],
+        "future_dated": false,
+        "evidence_eligible": true,
+        "date_verified": false,
+        "date_basis": [
+          "publish_time"
+        ],
+        "translation_status": "available",
+        "quotes": [
+          "东亚，尤其是中国，是北美集团以外最大的出口市场。2020年至2024年间，美国31%的农产品销往东亚市场，主要包括油籽、谷物和肉类。2022年，美国对华农产品出口达到创纪录的364亿美元，使中国当时成为美国农产品最大的市场。然而，随着需求走弱，美国对华农产品出口在2023年下降了24%。"
+        ]
+      }
+    ],
+    "aggregate_citations": [
+      {
+        "citation_id": "A1",
+        "kind": "database_aggregate",
+        "scope": {
+          "dataset": "real",
+          "filters": {},
+          "source_version": "f064c896c123cbf4",
+          "date_field": "published_at",
+          "timezone": "Asia/Shanghai",
+          "excluded_terms": [],
+          "sort": "recent",
+          "relaxed": false,
+          "term_match": [
+            [
+              "中国",
+              "China",
+              "Chinese",
+              "PRC",
+              "对华",
+              "涉华",
+              "中美",
+              "美中"
+            ],
+            [
+              "汇报"
+            ],
+            [
+              "我看下"
+            ]
+          ],
+          "strategy": "fts5_and",
+          "date_semantics": "Original source publication dates only; recovered dates do not change this scope"
+        },
+        "scoped": {
+          "total": 6989,
+          "by_angle": {
+            "news": 3675,
+            "clue": 1468,
+            "social": 1846
+          },
+          "by_institution": [
+            {
+              "ktid": 1000110,
+              "cn": "美国联邦调查局",
+              "en": "Federal Bureau of Investigation",
+              "count": 1688,
+              "by_angle": {
+                "news": 1446,
+                "clue": 6,
+                "social": 236
+              }
+            },
+            {
+              "ktid": 1001140,
+              "cn": "美国国土安全部",
+              "en": "United States Department of Homeland Security",
+              "count": 1672,
+              "by_angle": {
+                "news": 1185,
+                "clue": 3,
+                "social": 484
+              }
+            },
+            {
+              "ktid": 1000490,
+              "cn": "战略与国际研究中心",
+              "en": "Center for Strategic and International Studies",
+              "count": 1317,
+              "by_angle": {
+                "news": 225,
+                "clue": 727,
+                "social": 365
+              }
+            },
+            {
+              "ktid": 1000580,
+              "cn": "克劳德斯特赖克公司",
+              "en": "CrowdStrike Holdings, Inc.",
+              "count": 516,
+              "by_angle": {
+                "news": 368,
+                "clue": 75,
+                "social": 73
+              }
+            },
+            {
+              "ktid": 1001190,
+              "cn": "大西洋理事会",
+              "en": "Atlantic Council",
+              "count": 386,
+              "by_angle": {
+                "news": 15,
+                "clue": 20,
+                "social": 351
+              }
+            },
+            {
+              "ktid": 1000480,
+              "cn": "兰德公司",
+              "en": "RAND Corporation",
+              "count": 290,
+              "by_angle": {
+                "news": 2,
+                "clue": 249,
+                "social": 39
+              }
+            },
+            {
+              "ktid": 1001210,
+              "cn": "布鲁金斯学会",
+              "en": "Brookings Institution",
+              "count": 272,
+              "by_angle": {
+                "news": 7,
+                "clue": 58,
+                "social": 207
+              }
+            },
+            {
+              "ktid": 1002550,
+              "cn": "阿肯色州立大学",
+              "en": "Arkansas State University",
+              "count": 221,
+              "by_angle": {
+                "news": 100,
+                "clue": 120,
+                "social": 1
+              }
+            },
+            {
+              "ktid": 1001270,
+              "cn": "新美国安全中心",
+              "en": "Center for a New American Security",
+              "count": 164,
+              "by_angle": {
+                "news": 35,
+                "clue": 120,
+                "social": 9
+              }
+            },
+            {
+              "ktid": 1001290,
+              "cn": "美国外交关系协会（对外关系委员会）",
+              "en": "Council on Foreign Relations (CFR)",
+              "count": 99,
+              "by_angle": {
+                "news": 18,
+                "clue": 62,
+                "social": 19
+              }
+            },
+            {
+              "ktid": 1000760,
+              "cn": "洛克希德·马丁公司",
+              "en": "Lockheed Martin Corporation",
+              "count": 66,
+              "by_angle": {
+                "news": 40,
+                "clue": 15,
+                "social": 11
+              }
+            },
+            {
+              "ktid": 1055920,
+              "cn": "卡隆公司",
+              "en": "Kharon",
+              "count": 50,
+              "by_angle": {
+                "news": 38,
+                "clue": 1,
+                "social": 11
+              }
+            },
+            {
+              "ktid": 1056587,
+              "cn": "英特尔",
+              "en": "Intel",
+              "count": 39,
+              "by_angle": {
+                "news": 36,
+                "clue": 2,
+                "social": 1
+              }
+            },
+            {
+              "ktid": 1056514,
+              "cn": "摩根大通",
+              "en": "JP Morgan",
+              "count": 37,
+              "by_angle": {
+                "news": 35,
+                "clue": 1,
+                "social": 1
+              }
+            },
+            {
+              "ktid": 1001350,
+              "cn": "保卫民主基金会",
+              "en": "Foundation for Defense of Democracies",
+              "count": 36,
+              "by_angle": {
+                "news": 15,
+                "clue": 2,
+                "social": 19
+              }
+            },
+            {
+              "ktid": 5775050,
+              "cn": "OpenAI",
+              "en": "OpenAI",
+              "count": 36,
+              "by_angle": {
+                "news": 33,
+                "clue": 2,
+                "social": 1
+              }
+            },
+            {
+              "ktid": 2575920,
+              "cn": "霍尼韦尔",
+              "en": "Honeywell",
+              "count": 30,
+              "by_angle": {
+                "news": 27,
+                "clue": 2,
+                "social": 1
+              }
+            },
+            {
+              "ktid": 1056630,
+              "cn": "IBM",
+              "en": "IBM",
+              "count": 27,
+              "by_angle": {
+                "news": 25,
+                "clue": 1,
+                "social": 1
+              }
+            },
+            {
+              "ktid": 2572960,
+              "cn": "思科",
+              "en": "Cisco",
+              "count": 25,
+              "by_angle": {
+                "news": 23,
+                "clue": 1,
+                "social": 1
+              }
+            },
+            {
+              "ktid": 1001150,
+              "cn": "美国国务院",
+              "en": "United States Department of State (DOS)",
+              "count": 18,
+              "by_angle": {
+                "news": 2,
+                "clue": 1,
+                "social": 15
+              }
+            }
+          ],
+          "by_platform": [
+            {
+              "platform": "Google News RSS discovery",
+              "count": 1664
+            },
+            {
+              "platform": "official_web",
+              "count": 1468
+            },
+            {
+              "platform": "X",
+              "count": 1189
+            },
+            {
+              "platform": "Google News RSS",
+              "count": 946
+            },
+            {
+              "platform": "Google News RSS (deep pilot)",
+              "count": 881
+            },
+            {
+              "platform": "Facebook",
+              "count": 615
+            },
+            {
+              "platform": "Bing News RSS",
+              "count": 125
+            },
+            {
+              "platform": "LinkedIn",
+              "count": 42
+            },
+            {
+              "platform": "Google via Apify",
+              "count": 34
+            },
+            {
+              "platform": "Google",
+              "count": 15
+            },
+            {
+              "platform": "Google News RSS + Yahoo title resolution via Reader",
+              "count": 9
+            },
+            {
+              "platform": "legacy_cache_import",
+              "count": 1
+            }
+          ]
+        },
+        "matched": {
+          "total": 0,
+          "by_angle": {
+            "news": 0,
+            "clue": 0,
+            "social": 0
+          },
+          "by_institution": [],
+          "by_platform": []
+        }
+      },
+      {
+        "citation_id": "A2",
+        "kind": "database_aggregate",
+        "scope": {
+          "dataset": "real",
+          "filters": {},
+          "source_version": "f064c896c123cbf4",
+          "date_field": "published_at",
+          "timezone": "Asia/Shanghai",
+          "excluded_terms": [],
+          "sort": "recent",
+          "relaxed": false,
+          "term_match": [
+            [
+              "中国",
+              "China",
+              "Chinese",
+              "PRC",
+              "对华",
+              "涉华",
+              "中美",
+              "美中"
+            ],
+            [
+              "汇报"
+            ],
+            [
+              "我看下"
+            ]
+          ],
+          "strategy": "fts5_and",
+          "date_semantics": "Original source publication dates only; recovered dates do not change this scope",
+          "dimensions": [
+            "institution",
+            "angle",
+            "platform",
+            "month"
+          ],
+          "as_of": "2026-11-09T17:45:27+08:00",
+          "date_basis": "Original source publication field only; recovered dates do not replace it"
+        },
+        "matched": {
+          "total": 0,
+          "by_angle": {
+            "news": 0,
+            "clue": 0,
+            "social": 0
+          },
+          "by_institution": [],
+          "by_platform": []
+        },
+        "date_range": {
+          "date_field": "published_at",
+          "timezone": "Asia/Shanghai",
+          "basis": "Original source publication field only; recovered dates do not replace it",
+          "min": null,
+          "max": null,
+          "max_nonfuture": null,
+          "dated_records": 0,
+          "undated_records": 0,
+          "future_dated_records": 0,
+          "date_origins": {}
+        },
+        "by_month": [],
+        "method": "parameterized_readonly_sql_distinct_records",
+        "shares": {
+          "denominator": 0,
+          "basis": "matched_records_within_current_filters_and_terms",
+          "unit": "percent",
+          "by_institution": [],
+          "by_angle": [
+            {
+              "angle": "news",
+              "count": 0,
+              "percent": null
+            },
+            {
+              "angle": "clue",
+              "count": 0,
+              "percent": null
+            },
+            {
+              "angle": "social",
+              "count": 0,
+              "percent": null
+            }
+          ],
+          "by_platform": []
+        },
+        "ranking": null,
+        "latest_returned_date": "2026-09-23T18:16:54+00:00"
+      }
+    ],
+    "analytics": {
+      "scope": {
+        "dataset": "real",
+        "filters": {},
+        "source_version": "f064c896c123cbf4",
+        "date_field": "published_at",
+        "timezone": "Asia/Shanghai",
+        "excluded_terms": [],
+        "sort": "recent",
+        "relaxed": false,
+        "term_match": [
+          [
+            "中国",
+            "China",
+            "Chinese",
+            "PRC",
+            "对华",
+            "涉华",
+            "中美",
+            "美中"
+          ],
+          [
+            "汇报"
+          ],
+          [
+            "我看下"
+          ]
+        ],
+        "strategy": "fts5_and",
+        "date_semantics": "Original source publication dates only; recovered dates do not change this scope",
+        "dimensions": [
+          "institution",
+          "angle",
+          "platform",
+          "month"
+        ],
+        "as_of": "2026-11-09T17:45:27+08:00",
+        "date_basis": "Original source publication field only; recovered dates do not replace it"
+      },
+      "matched": {
+        "total": 0,
+        "by_angle": {
+          "news": 0,
+          "clue": 0,
+          "social": 0
+        },
+        "by_institution": [],
+        "by_platform": []
+      },
+      "total": 0,
+      "by_month": [],
+      "date_range": {
+        "date_field": "published_at",
+        "timezone": "Asia/Shanghai",
+        "basis": "Original source publication field only; recovered dates do not replace it",
+        "min": null,
+        "max": null,
+        "max_nonfuture": null,
+        "dated_records": 0,
+        "undated_records": 0,
+        "future_dated_records": 0,
+        "date_origins": {}
+      },
+      "by_institution": [],
+      "by_angle": {
+        "news": 0,
+        "clue": 0,
+        "social": 0
+      },
+      "by_platform": [],
+      "method": "parameterized_readonly_sql_distinct_records",
+      "warning": "Counts describe records in the stored real snapshot. Monthly record volume is not a measure of institutional stance or web-wide attention.",
+      "shares": {
+        "denominator": 0,
+        "basis": "matched_records_within_current_filters_and_terms",
+        "unit": "percent",
+        "by_institution": [],
+        "by_angle": [
+          {
+            "angle": "news",
+            "count": 0,
+            "percent": null
+          },
+          {
+            "angle": "clue",
+            "count": 0,
+            "percent": null
+          },
+          {
+            "angle": "social",
+            "count": 0,
+            "percent": null
+          }
+        ],
+        "by_platform": []
+      },
+      "scoped": {
+        "total": 6989,
+        "by_angle": {
+          "news": 3675,
+          "clue": 1468,
+          "social": 1846
+        },
+        "by_institution": [
+          {
+            "ktid": 1000110,
+            "cn": "美国联邦调查局",
+            "en": "Federal Bureau of Investigation",
+            "count": 1688,
+            "by_angle": {
+              "news": 1446,
+              "clue": 6,
+              "social": 236
+            }
+          },
+          {
+            "ktid": 1001140,
+            "cn": "美国国土安全部",
+            "en": "United States Department of Homeland Security",
+            "count": 1672,
+            "by_angle": {
+              "news": 1185,
+              "clue": 3,
+              "social": 484
+            }
+          },
+          {
+            "ktid": 1000490,
+            "cn": "战略与国际研究中心",
+            "en": "Center for Strategic and International Studies",
+            "count": 1317,
+            "by_angle": {
+              "news": 225,
+              "clue": 727,
+              "social": 365
+            }
+          },
+          {
+            "ktid": 1000580,
+            "cn": "克劳德斯特赖克公司",
+            "en": "CrowdStrike Holdings, Inc.",
+            "count": 516,
+            "by_angle": {
+              "news": 368,
+              "clue": 75,
+              "social": 73
+            }
+          },
+          {
+            "ktid": 1001190,
+            "cn": "大西洋理事会",
+            "en": "Atlantic Council",
+            "count": 386,
+            "by_angle": {
+              "news": 15,
+              "clue": 20,
+              "social": 351
+            }
+          },
+          {
+            "ktid": 1000480,
+            "cn": "兰德公司",
+            "en": "RAND Corporation",
+            "count": 290,
+            "by_angle": {
+              "news": 2,
+              "clue": 249,
+              "social": 39
+            }
+          },
+          {
+            "ktid": 1001210,
+            "cn": "布鲁金斯学会",
+            "en": "Brookings Institution",
+            "count": 272,
+            "by_angle": {
+              "news": 7,
+              "clue": 58,
+              "social": 207
+            }
+          },
+          {
+            "ktid": 1002550,
+            "cn": "阿肯色州立大学",
+            "en": "Arkansas State University",
+            "count": 221,
+            "by_angle": {
+              "news": 100,
+              "clue": 120,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 1001270,
+            "cn": "新美国安全中心",
+            "en": "Center for a New American Security",
+            "count": 164,
+            "by_angle": {
+              "news": 35,
+              "clue": 120,
+              "social": 9
+            }
+          },
+          {
+            "ktid": 1001290,
+            "cn": "美国外交关系协会（对外关系委员会）",
+            "en": "Council on Foreign Relations (CFR)",
+            "count": 99,
+            "by_angle": {
+              "news": 18,
+              "clue": 62,
+              "social": 19
+            }
+          },
+          {
+            "ktid": 1000760,
+            "cn": "洛克希德·马丁公司",
+            "en": "Lockheed Martin Corporation",
+            "count": 66,
+            "by_angle": {
+              "news": 40,
+              "clue": 15,
+              "social": 11
+            }
+          },
+          {
+            "ktid": 1055920,
+            "cn": "卡隆公司",
+            "en": "Kharon",
+            "count": 50,
+            "by_angle": {
+              "news": 38,
+              "clue": 1,
+              "social": 11
+            }
+          },
+          {
+            "ktid": 1056587,
+            "cn": "英特尔",
+            "en": "Intel",
+            "count": 39,
+            "by_angle": {
+              "news": 36,
+              "clue": 2,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 1056514,
+            "cn": "摩根大通",
+            "en": "JP Morgan",
+            "count": 37,
+            "by_angle": {
+              "news": 35,
+              "clue": 1,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 1001350,
+            "cn": "保卫民主基金会",
+            "en": "Foundation for Defense of Democracies",
+            "count": 36,
+            "by_angle": {
+              "news": 15,
+              "clue": 2,
+              "social": 19
+            }
+          },
+          {
+            "ktid": 5775050,
+            "cn": "OpenAI",
+            "en": "OpenAI",
+            "count": 36,
+            "by_angle": {
+              "news": 33,
+              "clue": 2,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 2575920,
+            "cn": "霍尼韦尔",
+            "en": "Honeywell",
+            "count": 30,
+            "by_angle": {
+              "news": 27,
+              "clue": 2,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 1056630,
+            "cn": "IBM",
+            "en": "IBM",
+            "count": 27,
+            "by_angle": {
+              "news": 25,
+              "clue": 1,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 2572960,
+            "cn": "思科",
+            "en": "Cisco",
+            "count": 25,
+            "by_angle": {
+              "news": 23,
+              "clue": 1,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 1001150,
+            "cn": "美国国务院",
+            "en": "United States Department of State (DOS)",
+            "count": 18,
+            "by_angle": {
+              "news": 2,
+              "clue": 1,
+              "social": 15
+            }
+          }
+        ],
+        "by_platform": [
+          {
+            "platform": "Google News RSS discovery",
+            "count": 1664
+          },
+          {
+            "platform": "official_web",
+            "count": 1468
+          },
+          {
+            "platform": "X",
+            "count": 1189
+          },
+          {
+            "platform": "Google News RSS",
+            "count": 946
+          },
+          {
+            "platform": "Google News RSS (deep pilot)",
+            "count": 881
+          },
+          {
+            "platform": "Facebook",
+            "count": 615
+          },
+          {
+            "platform": "Bing News RSS",
+            "count": 125
+          },
+          {
+            "platform": "LinkedIn",
+            "count": 42
+          },
+          {
+            "platform": "Google via Apify",
+            "count": 34
+          },
+          {
+            "platform": "Google",
+            "count": 15
+          },
+          {
+            "platform": "Google News RSS + Yahoo title resolution via Reader",
+            "count": 9
+          },
+          {
+            "platform": "legacy_cache_import",
+            "count": 1
+          }
+        ]
+      }
+    },
+    "query": "你好，看看近期关于中国的 汇报，我看下?",
+    "plan": {
+      "query": "你好，看看近期关于中国的 汇报，我看下?",
+      "filters": {},
+      "inferred_filters": {},
+      "locked_scope": {},
+      "terms": [
+        [
+          "中国",
+          "China",
+          "Chinese",
+          "PRC",
+          "对华",
+          "涉华",
+          "中美",
+          "美中"
+        ],
+        [
+          "汇报"
+        ],
+        [
+          "我看下"
+        ]
+      ],
+      "request_intent": {
+        "enabled": true,
+        "normalized_query": "关于中国的 汇报 我看下",
+        "topics_query": "关于中国的 汇报 我看下",
+        "removed_request_phrases": [
+          {
+            "text": "你好",
+            "reason": "greeting"
+          },
+          {
+            "text": "近期",
+            "reason": "recent_order"
+          },
+          {
+            "text": "看看 ",
+            "reason": "answer_directive"
+          }
+        ],
+        "citation_requested": false,
+        "requested_points": null,
+        "same_source_requested": false,
+        "referential": false,
+        "source_reference": false,
+        "requested_attributes": [],
+        "task": "lookup",
+        "kind": "lookup",
+        "query_kind": "lookup",
+        "topic": "中国 汇报 我看下",
+        "dimensions": [],
+        "requested_sort": "recent",
+        "exact_phrases": [],
+        "excluded_terms": [],
+        "operations": {
+          "count": false,
+          "compare": false,
+          "trend": false,
+          "ranking": false,
+          "share": false
+        },
+        "requires_history": false,
+        "time_scope": {
+          "mode": "snapshot_recent",
+          "timezone": "Asia/Shanghai",
+          "as_of": "2026-11-09T17:45:27+08:00",
+          "date_from": null,
+          "date_to": null,
+          "expressions": [
+            "近期"
+          ],
+          "basis": "snapshot_order",
+          "date_field": "published_at",
+          "policy": "Vague recent means ordering within the loaded snapshot; explicit calendar bounds remain locked",
+          "evidence_policy": "Selected original date descending; missing dates sort last. Future-dated rows remain in exact counts but are excluded from recent evidence"
+        }
+      },
+      "intent": {
+        "enabled": true,
+        "normalized_query": "关于中国的 汇报 我看下",
+        "topics_query": "关于中国的 汇报 我看下",
+        "removed_request_phrases": [
+          {
+            "text": "你好",
+            "reason": "greeting"
+          },
+          {
+            "text": "近期",
+            "reason": "recent_order"
+          },
+          {
+            "text": "看看 ",
+            "reason": "answer_directive"
+          }
+        ],
+        "citation_requested": false,
+        "requested_points": null,
+        "same_source_requested": false,
+        "referential": false,
+        "source_reference": false,
+        "requested_attributes": [],
+        "task": "lookup",
+        "kind": "lookup",
+        "query_kind": "lookup",
+        "topic": "中国 汇报 我看下",
+        "dimensions": [],
+        "requested_sort": "recent",
+        "exact_phrases": [],
+        "excluded_terms": [],
+        "operations": {
+          "count": false,
+          "compare": false,
+          "trend": false,
+          "ranking": false,
+          "share": false
+        },
+        "requires_history": false,
+        "time_scope": {
+          "mode": "snapshot_recent",
+          "timezone": "Asia/Shanghai",
+          "as_of": "2026-11-09T17:45:27+08:00",
+          "date_from": null,
+          "date_to": null,
+          "expressions": [
+            "近期"
+          ],
+          "basis": "snapshot_order",
+          "date_field": "published_at",
+          "policy": "Vague recent means ordering within the loaded snapshot; explicit calendar bounds remain locked",
+          "evidence_policy": "Selected original date descending; missing dates sort last. Future-dated rows remain in exact counts but are excluded from recent evidence"
+        }
+      },
+      "time_scope": {
+        "mode": "snapshot_recent",
+        "timezone": "Asia/Shanghai",
+        "as_of": "2026-11-09T17:45:27+08:00",
+        "date_from": null,
+        "date_to": null,
+        "expressions": [
+          "近期"
+        ],
+        "basis": "snapshot_order",
+        "date_field": "published_at",
+        "policy": "Vague recent means ordering within the loaded snapshot; explicit calendar bounds remain locked",
+        "evidence_policy": "Selected original date descending; missing dates sort last. Future-dated rows remain in exact counts but are excluded from recent evidence"
+      },
+      "sort": "recent",
+      "exact_phrases": [],
+      "excluded_terms": [],
+      "expansion_enabled": true,
+      "fuzzy_terms": [],
+      "strategy": "fts5_and",
+      "relaxed": false,
+      "relax_allowed": false,
+      "model": {
+        "attempted": false,
+        "used": false,
+        "reason": "semantic_disabled",
+        "original_query": "你好，看看近期关于中国的 汇报，我看下?",
+        "rewritten_query": null,
+        "applied_groups": []
+      },
+      "semantic_requested": false,
+      "conversation": {
+        "history_used": false,
+        "original_message": "你好，看看近期关于中国的 汇报，我看下?",
+        "same_source_requested": false,
+        "scope_basis": "bounded_user_history_and_current_filters",
+        "source_record_ids": null,
+        "source_basis": null,
+        "request_intent": {
+          "enabled": true,
+          "normalized_query": "关于中国的 汇报 我看下",
+          "topics_query": "关于中国的 汇报 我看下",
+          "removed_request_phrases": [
+            {
+              "text": "你好",
+              "reason": "greeting"
+            },
+            {
+              "text": "近期",
+              "reason": "recent_order"
+            },
+            {
+              "text": "看看 ",
+              "reason": "answer_directive"
+            }
+          ],
+          "citation_requested": false,
+          "requested_points": null,
+          "same_source_requested": false,
+          "referential": false,
+          "source_reference": false,
+          "requested_attributes": [],
+          "task": "lookup",
+          "kind": "lookup",
+          "query_kind": "lookup",
+          "topic": "关于中国的 汇报 我看下",
+          "dimensions": [],
+          "requested_sort": "recent",
+          "exact_phrases": [],
+          "excluded_terms": [],
+          "operations": {
+            "count": false,
+            "compare": false,
+            "trend": false,
+            "ranking": false,
+            "share": false
+          },
+          "requires_history": false,
+          "time_scope": {
+            "mode": "snapshot_recent",
+            "timezone": "Asia/Shanghai",
+            "as_of": "2026-11-09T17:45:27+08:00",
+            "date_from": null,
+            "date_to": null,
+            "expressions": [
+              "近期"
+            ],
+            "basis": "snapshot_order"
+          }
+        }
+      },
+      "tool_steps": [
+        {
+          "tool": "database_evidence",
+          "purpose": "question_scope",
+          "filters": {},
+          "returned_paragraphs": 0
+        },
+        {
+          "tool": "database_aggregate",
+          "purpose": "exact_scoped_and_matched_counts"
+        },
+        {
+          "tool": "database_analytics",
+          "purpose": "exact_dates_and_dimensions"
+        },
+        {
+          "tool": "database_sample",
+          "purpose": "bounded_representative_sample_within_current_scope",
+          "filters": {},
+          "topic_query": "中国",
+          "records": 12,
+          "paragraphs": 12,
+          "by_angle": {
+            "news": 4,
+            "clue": 4,
+            "social": 4
+          },
+          "literal_matched_records": 0,
+          "exhaustive": false
+        },
+        {
+          "tool": "model_generation",
+          "state": "returned"
+        },
+        {
+          "tool": "model_evidence_review",
+          "state": "returned",
+          "claims": 3
+        }
+      ]
+    },
+    "aggregates": {
+      "scope": {
+        "dataset": "real",
+        "filters": {},
+        "source_version": "f064c896c123cbf4",
+        "date_field": "published_at",
+        "timezone": "Asia/Shanghai",
+        "excluded_terms": [],
+        "sort": "recent",
+        "relaxed": false,
+        "term_match": [
+          [
+            "中国",
+            "China",
+            "Chinese",
+            "PRC",
+            "对华",
+            "涉华",
+            "中美",
+            "美中"
+          ],
+          [
+            "汇报"
+          ],
+          [
+            "我看下"
+          ]
+        ],
+        "strategy": "fts5_and",
+        "date_semantics": "Original source publication dates only; recovered dates do not change this scope"
+      },
+      "scoped": {
+        "total": 6989,
+        "by_angle": {
+          "news": 3675,
+          "clue": 1468,
+          "social": 1846
+        },
+        "by_institution": [
+          {
+            "ktid": 1000110,
+            "cn": "美国联邦调查局",
+            "en": "Federal Bureau of Investigation",
+            "count": 1688,
+            "by_angle": {
+              "news": 1446,
+              "clue": 6,
+              "social": 236
+            }
+          },
+          {
+            "ktid": 1001140,
+            "cn": "美国国土安全部",
+            "en": "United States Department of Homeland Security",
+            "count": 1672,
+            "by_angle": {
+              "news": 1185,
+              "clue": 3,
+              "social": 484
+            }
+          },
+          {
+            "ktid": 1000490,
+            "cn": "战略与国际研究中心",
+            "en": "Center for Strategic and International Studies",
+            "count": 1317,
+            "by_angle": {
+              "news": 225,
+              "clue": 727,
+              "social": 365
+            }
+          },
+          {
+            "ktid": 1000580,
+            "cn": "克劳德斯特赖克公司",
+            "en": "CrowdStrike Holdings, Inc.",
+            "count": 516,
+            "by_angle": {
+              "news": 368,
+              "clue": 75,
+              "social": 73
+            }
+          },
+          {
+            "ktid": 1001190,
+            "cn": "大西洋理事会",
+            "en": "Atlantic Council",
+            "count": 386,
+            "by_angle": {
+              "news": 15,
+              "clue": 20,
+              "social": 351
+            }
+          },
+          {
+            "ktid": 1000480,
+            "cn": "兰德公司",
+            "en": "RAND Corporation",
+            "count": 290,
+            "by_angle": {
+              "news": 2,
+              "clue": 249,
+              "social": 39
+            }
+          },
+          {
+            "ktid": 1001210,
+            "cn": "布鲁金斯学会",
+            "en": "Brookings Institution",
+            "count": 272,
+            "by_angle": {
+              "news": 7,
+              "clue": 58,
+              "social": 207
+            }
+          },
+          {
+            "ktid": 1002550,
+            "cn": "阿肯色州立大学",
+            "en": "Arkansas State University",
+            "count": 221,
+            "by_angle": {
+              "news": 100,
+              "clue": 120,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 1001270,
+            "cn": "新美国安全中心",
+            "en": "Center for a New American Security",
+            "count": 164,
+            "by_angle": {
+              "news": 35,
+              "clue": 120,
+              "social": 9
+            }
+          },
+          {
+            "ktid": 1001290,
+            "cn": "美国外交关系协会（对外关系委员会）",
+            "en": "Council on Foreign Relations (CFR)",
+            "count": 99,
+            "by_angle": {
+              "news": 18,
+              "clue": 62,
+              "social": 19
+            }
+          },
+          {
+            "ktid": 1000760,
+            "cn": "洛克希德·马丁公司",
+            "en": "Lockheed Martin Corporation",
+            "count": 66,
+            "by_angle": {
+              "news": 40,
+              "clue": 15,
+              "social": 11
+            }
+          },
+          {
+            "ktid": 1055920,
+            "cn": "卡隆公司",
+            "en": "Kharon",
+            "count": 50,
+            "by_angle": {
+              "news": 38,
+              "clue": 1,
+              "social": 11
+            }
+          },
+          {
+            "ktid": 1056587,
+            "cn": "英特尔",
+            "en": "Intel",
+            "count": 39,
+            "by_angle": {
+              "news": 36,
+              "clue": 2,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 1056514,
+            "cn": "摩根大通",
+            "en": "JP Morgan",
+            "count": 37,
+            "by_angle": {
+              "news": 35,
+              "clue": 1,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 1001350,
+            "cn": "保卫民主基金会",
+            "en": "Foundation for Defense of Democracies",
+            "count": 36,
+            "by_angle": {
+              "news": 15,
+              "clue": 2,
+              "social": 19
+            }
+          },
+          {
+            "ktid": 5775050,
+            "cn": "OpenAI",
+            "en": "OpenAI",
+            "count": 36,
+            "by_angle": {
+              "news": 33,
+              "clue": 2,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 2575920,
+            "cn": "霍尼韦尔",
+            "en": "Honeywell",
+            "count": 30,
+            "by_angle": {
+              "news": 27,
+              "clue": 2,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 1056630,
+            "cn": "IBM",
+            "en": "IBM",
+            "count": 27,
+            "by_angle": {
+              "news": 25,
+              "clue": 1,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 2572960,
+            "cn": "思科",
+            "en": "Cisco",
+            "count": 25,
+            "by_angle": {
+              "news": 23,
+              "clue": 1,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 1001150,
+            "cn": "美国国务院",
+            "en": "United States Department of State (DOS)",
+            "count": 18,
+            "by_angle": {
+              "news": 2,
+              "clue": 1,
+              "social": 15
+            }
+          }
+        ],
+        "by_platform": [
+          {
+            "platform": "Google News RSS discovery",
+            "count": 1664
+          },
+          {
+            "platform": "official_web",
+            "count": 1468
+          },
+          {
+            "platform": "X",
+            "count": 1189
+          },
+          {
+            "platform": "Google News RSS",
+            "count": 946
+          },
+          {
+            "platform": "Google News RSS (deep pilot)",
+            "count": 881
+          },
+          {
+            "platform": "Facebook",
+            "count": 615
+          },
+          {
+            "platform": "Bing News RSS",
+            "count": 125
+          },
+          {
+            "platform": "LinkedIn",
+            "count": 42
+          },
+          {
+            "platform": "Google via Apify",
+            "count": 34
+          },
+          {
+            "platform": "Google",
+            "count": 15
+          },
+          {
+            "platform": "Google News RSS + Yahoo title resolution via Reader",
+            "count": 9
+          },
+          {
+            "platform": "legacy_cache_import",
+            "count": 1
+          }
+        ]
+      },
+      "matched": {
+        "total": 0,
+        "by_angle": {
+          "news": 0,
+          "clue": 0,
+          "social": 0
+        },
+        "by_institution": [],
+        "by_platform": []
+      }
+    },
+    "coverage": {
+      "dataset": "real",
+      "source_version": "f064c896c123cbf4",
+      "database_total": 6989,
+      "scoped_records": 6989,
+      "matched_records": 0,
+      "returned_records": 12,
+      "returned_paragraphs": 12,
+      "time_scope": {
+        "mode": "snapshot_recent",
+        "timezone": "Asia/Shanghai",
+        "as_of": "2026-11-09T17:45:27+08:00",
+        "date_from": null,
+        "date_to": null,
+        "expressions": [
+          "近期"
+        ],
+        "basis": "snapshot_order",
+        "date_field": "published_at",
+        "policy": "Vague recent means ordering within the loaded snapshot; explicit calendar bounds remain locked",
+        "evidence_policy": "Selected original date descending; missing dates sort last. Future-dated rows remain in exact counts but are excluded from recent evidence"
+      },
+      "sort": "recent",
+      "latest_returned_date": "2026-09-23T18:16:54+00:00",
+      "earliest_returned_date": "2008-01-01T12:00:00+00:00",
+      "future_dated_returned_records": 0,
+      "snapshot_generated_at": "2026-11-05T15:10:46+00:00",
+      "exhaustive": false,
+      "warning": "Counts describe the stored real snapshot, not the entire web; retrieved paragraphs are a bounded sample.",
+      "sample_fallback": true,
+      "sample_records": 12,
+      "literal_matched_records": 0,
+      "sample_basis": "representative_records_within_current_filters"
+    },
+    "model": {
+      "id": "auto/deepseek-v4.1-flash",
+      "used": true,
+      "attempted": true,
+      "reason": null
+    },
+    "usage": {
+      "prompt_tokens": 4996,
+      "completion_tokens": 1151,
+      "total_tokens": 6147
+    },
+    "state": "answered",
+    "answer_format": "grounded_summary",
+    "answer_kind": "lookup",
+    "sections": [
+      {
+        "kind": "fact",
+        "text": "所引样本提到，美国对华农产品出口在2022年达到创纪录的364亿美元，中国当时成为美国农产品最大市场；但2023年随需求走弱下降24%。",
+        "citations": [
+          "C1"
+        ],
+        "quotes": [
+          {
+            "citation_id": "C1",
+            "quote": "东亚，尤其是中国，是北美集团以外最大的出口市场。2020年至2024年间，美国31%的农产品销往东亚市场，主要包括油籽、谷物和肉类。2022年，美国对华农产品出口达到创纪录的364亿美元，使中国当时成为美国农产品最大的市场。然而，随着需求走弱，美国对华农产品出口在2023年下降了24%。"
+          }
+        ]
+      }
+    ],
+    "suggestions": [
+      "最近 CSIS 对中国关注什么？分析主要议题",
+      "比较 CSIS 与 RAND 涉华报道的异同",
+      "CSIS 有多少条记录？按角度统计"
+    ],
+    "suggested_questions": [
+      "最近 CSIS 对中国关注什么？分析主要议题",
+      "比较 CSIS 与 RAND 涉华报道的异同",
+      "CSIS 有多少条记录？按角度统计"
+    ],
+    "search_suggestions": [],
+    "analysis_scope": {
+      "scope": {
+        "dataset": "real",
+        "filters": {},
+        "source_version": "f064c896c123cbf4",
+        "date_field": "published_at",
+        "timezone": "Asia/Shanghai",
+        "excluded_terms": [],
+        "sort": "recent",
+        "relaxed": false,
+        "term_match": [
+          [
+            "中国",
+            "China",
+            "Chinese",
+            "PRC",
+            "对华",
+            "涉华",
+            "中美",
+            "美中"
+          ],
+          [
+            "汇报"
+          ],
+          [
+            "我看下"
+          ]
+        ],
+        "strategy": "fts5_and",
+        "date_semantics": "Original source publication dates only; recovered dates do not change this scope"
+      },
+      "bounded_sample": true,
+      "exhaustive": false,
+      "realtime": false,
+      "sample_fallback": true,
+      "sample_records": 12,
+      "literal_matched_records": 0,
+      "limitation": "分析仅依据可引用样本；精确数量以相同筛选和关键词口径的数据库统计为准。",
+      "comparison_complete": true,
+      "as_of": "2026-11-09T17:45:27+08:00",
+      "date_range": {
+        "date_field": "published_at",
+        "timezone": "Asia/Shanghai",
+        "basis": "Original source publication field only; recovered dates do not replace it",
+        "min": null,
+        "max": null,
+        "max_nonfuture": null,
+        "dated_records": 0,
+        "undated_records": 0,
+        "future_dated_records": 0,
+        "date_origins": {}
+      },
+      "evidence_records": 12,
+      "evidence_paragraphs": 12,
+      "cited_records": 1,
+      "cited_paragraphs": 1
+    },
+    "validation": {
+      "level": "exact_quotes_and_model_review",
+      "semantic_entailment": "model_reviewed_not_proven",
+      "accepted_claims": 1,
+      "rejected_claims": [
+        {
+          "claim_id": "K1",
+          "reason": "unsupported_number"
+        },
+        {
+          "claim_id": "K5",
+          "reason": "unsupported_number"
+        },
+        {
+          "claim_id": "K3",
+          "reason": "insufficient"
+        },
+        {
+          "claim_id": "K4",
+          "reason": "insufficient"
+        }
+      ],
+      "source_truth_verified": false,
+      "review_status": "completed"
+    }
+  }
+}
