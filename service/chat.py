@@ -69,6 +69,12 @@ SAMPLE_UNSAFE = re.compile(
     r"--|/\*|\*/|(?:'|\")\s*(?:or|and)\s+\d+\s*=\s*\d+",
     re.I,
 )
+CHAT_GREETING = re.compile(
+    r"^(?:你好|您好|嗨|哈[啰喽]|hello|hi|hey|早上好|下午好|晚上好)[呀啊哦嘛]?[！!。.,，\s]*"
+    r"(?:(?:今天|最近|现在)\s*)?(?:心情|感觉|怎么样|好吗|在吗|忙吗|聊聊天|随便聊聊|聊聊|说说)"
+    r"[^。！？!?]*[。！？!?]?$",
+    re.I,
+)
 SAMPLE_LIMIT = 12
 SAMPLE_MIN_RECORDS = 8
 SAMPLE_PER_ANGLE = 4
@@ -431,7 +437,8 @@ class Chat:
         if expand:
             filters = inherit_filters(self.retriever, message, history, filters)
         query = self.context_query(message, history, filters) if expand else message
-        if GREETING.fullmatch(message):
+        greeting_message = bool(GREETING.fullmatch(message) or CHAT_GREETING.fullmatch(message))
+        if greeting_message:
             query = message
         source_ids, source_basis = self.conversation_source(message, history, query, filters) if expand else (None, None)
         initial_plan = self.retriever.make_plan(query, filters, expand=expand)
@@ -458,7 +465,7 @@ class Chat:
                                                            and self.retriever.detect_institutions(entry["content"]) for entry in history)
             if not explicit_subject:
                 source_ids, source_basis = [], "missing_topic"
-        if GREETING.fullmatch(message):
+        if greeting_message:
             source_ids, source_basis = [], "greeting"
         # Local intent planning is sufficient for synthesis turns. Reserve their
         # model budget for generation and one independent batch evidence review.

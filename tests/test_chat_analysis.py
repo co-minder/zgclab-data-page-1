@@ -863,6 +863,15 @@ class ChatAnalysisTests(unittest.TestCase):
                 self.assertIn("抽样", response["answer"])
                 self.assertEqual(len(model.calls), 2)
 
+    def test_chat_greeting_returns_guidance_without_model(self):
+        chat, model = self.chat()
+        response = chat.answer("你好呀，今天心情怎么样？")
+        self.assertEqual(response["state"], "no_results")
+        self.assertEqual(response["answer_kind"], "guidance")
+        self.assertFalse(response["model"]["attempted"])
+        self.assertFalse(response["coverage"].get("sample_fallback", False))
+        self.assertEqual(model.calls, [])
+
     def test_broad_sample_legacy_verbatim_claims_still_report_grounded_summary(self):
         class LegacyModel(AnalysisModel):
             def complete(self, messages, max_tokens, timeout=None):
