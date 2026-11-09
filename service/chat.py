@@ -95,6 +95,10 @@ GENERAL_CHAT_UNSAFE = re.compile(
     r"密码|password|passwd|凭据|credential|api.?key|密钥|secret|token",
     re.I,
 )
+SUBJECTIVE_RANK = re.compile(
+    r"谁更强|谁更厉害|哪家更强|哪家更厉害|谁最厉害|哪家最厉害|哪个更强|哪个更好|谁更好|哪家好|谁厉害",
+    re.I,
+)
 RELAX_MAX_CANDIDATES = 36
 CHAT_GREETING = re.compile(
     r"^(?:你好|您好|嗨|哈[啰喽]|hello|hi|hey|早上好|下午好|晚上好)[呀啊哦嘛]?[！!。.,，\s]*"
@@ -359,9 +363,16 @@ class Chat:
             return False
         intent = plan.get("intent", plan.get("request_intent", {}))
         operations = intent.get("operations", {}) if isinstance(intent, dict) else {}
-        if any(operations.get(key) for key in ("count", "compare", "ranking", "share")):
+        if operations.get("count"):
             return False
-        if kind_for(message, result) in {"comparison", "count"}:
+        # A subjective "who is stronger" opinion is ordinary conversation when
+        # no evidence matched. Evidence comparisons and exact counts still use
+        # the deterministic database path.
+        subjective_rank = bool(SUBJECTIVE_RANK.search(message))
+        if (operations.get("compare") or operations.get("ranking") or operations.get("share")) and not subjective_rank:
+            return False
+        kind = kind_for(message, result)
+        if kind == "count" or (kind == "comparison" and not subjective_rank):
             return False
         return True
 
