@@ -1,0 +1,5232 @@
+{
+  "target": "https://co-minder.github.io/zgclab-data-page-1/",
+  "expected_manifest": "manifest-56f69135b336b68262f4.json",
+  "release_commit": "111e08a7260ed190821131322b1424a32e04463b",
+  "started_at": "2026-11-09T08:25:00.555347+00:00",
+  "artifact_directory": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/public/20261109T082500Z",
+  "checks": [
+    {
+      "name": "Actual public encrypted manifest",
+      "status": "PASS",
+      "evidence": "manifest-56f69135b336b68262f4.json"
+    },
+    {
+      "name": "Fresh document requires password",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "name": "Published manifest exact bytes",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "name": "Published package bound to immutable release commit",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "name": "Default entry is chat",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "name": "Simulation remains disabled",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "name": "New backend revision and real database",
+      "status": "PASS",
+      "evidence": {
+        "api_revision": "research-chat-20261109",
+        "snapshot": {
+          "schema_version": 2,
+          "source_version": "f064c896c123cbf4",
+          "source_package": "20261011-current-reviewed",
+          "source_generated_at": "2026-11-05T15:10:46+00:00",
+          "ingested_at": "2026-11-08T14:45:40+00:00",
+          "content_sha256": "f82dff3392d608e0a30f0011ca754eeb9a885dc9a47ba8f27a85b04ddbbaafda",
+          "dataset": "real",
+          "total": 6989,
+          "by_angle": {
+            "news": 3675,
+            "clue": 1468,
+            "social": 1846
+          },
+          "paragraphs": 348116,
+          "research_version": "a8acd9d0b712fbe06a65",
+          "date_scope_default": "published_at (original source field only)",
+          "field_map": {
+            "news": {
+              "original_title": "title_en",
+              "translated_title": "title_cn",
+              "original_body": "content",
+              "translated_body": "content_cn",
+              "source_url": "url",
+              "discovered_at": "founddate",
+              "collected_at": null,
+              "original_path": null,
+              "source_hash": null
+            },
+            "clue": {
+              "original_title": "clue_title",
+              "translated_title": null,
+              "original_body": "original_content",
+              "translated_body": "chinese_trans",
+              "source_url": "original_url",
+              "discovered_at": "discovery_time",
+              "collected_at": null,
+              "original_path": "report_path",
+              "source_hash": null
+            },
+            "social": {
+              "original_title": "title",
+              "translated_title": null,
+              "original_body": "original_content",
+              "translated_body": "chinese_translation",
+              "source_url": "content_url",
+              "discovered_at": null,
+              "collected_at": "collected_time",
+              "original_path": null,
+              "source_hash": "content_hash"
+            }
+          },
+          "quality": {
+            "publication": {
+              "missing": 392,
+              "provided": 5971,
+              "recovered": 626
+            },
+            "translation": {
+              "available": 6664,
+              "placeholder": 325
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Original colloquial question gets actual grounded model answer",
+      "status": "PASS",
+      "evidence": {
+        "state": "answered",
+        "format": "grounded_summary",
+        "model": {
+          "id": "auto/deepseek-v4.1-flash",
+          "used": true,
+          "attempted": true,
+          "reason": null
+        },
+        "seconds": 9.78
+      }
+    },
+    {
+      "name": "Answer displayed with source controls",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "name": "API answer renders without waiting for local snapshot index",
+      "status": "PASS",
+      "evidence": 0.05
+    },
+    {
+      "name": "Source details are collapsed by default",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "name": "Source details open in a modal",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "name": "Source modal contains statements and quotes",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "name": "Source modal closes",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "name": "C citations use warm accent",
+      "status": "PASS",
+      "evidence": "rgb(240, 179, 91)"
+    },
+    {
+      "name": "Inline citation reveals and focuses evidence",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "name": "Exact SQL institution count remains 221 without model",
+      "status": "PASS",
+      "evidence": {
+        "state": "database_answer",
+        "model": {
+          "id": "auto/deepseek-v4.1-flash",
+          "used": false,
+          "attempted": false,
+          "reason": "exact_database_aggregate"
+        },
+        "matched": 221
+      }
+    },
+    {
+      "name": "390px chat has no page overflow",
+      "status": "PASS",
+      "evidence": 0
+    },
+    {
+      "name": "768px chat has no page overflow",
+      "status": "PASS",
+      "evidence": 0
+    },
+    {
+      "name": "1440px chat has no page overflow",
+      "status": "PASS",
+      "evidence": 0
+    },
+    {
+      "name": "Refresh 1 requires password",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "name": "Refresh 2 requires password",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "name": "No page script errors",
+      "status": "PASS",
+      "evidence": []
+    }
+  ],
+  "page_errors": [],
+  "business_responses": [
+    {
+      "endpoint": "/api/chat",
+      "http_status": 200,
+      "api_revision": "research-chat-20261109",
+      "state": "answered",
+      "model": {
+        "id": "auto/deepseek-v4.1-flash",
+        "used": true,
+        "attempted": true,
+        "reason": null
+      },
+      "usage": {
+        "prompt_tokens": 4282,
+        "completion_tokens": 807,
+        "total_tokens": 5089
+      },
+      "answer_format": "grounded_summary",
+      "coverage": {
+        "dataset": "real",
+        "source_version": "f064c896c123cbf4",
+        "database_total": 6989,
+        "scoped_records": 6989,
+        "matched_records": 987,
+        "returned_records": 12,
+        "returned_paragraphs": 12,
+        "time_scope": {
+          "mode": "snapshot_recent",
+          "timezone": "Asia/Shanghai",
+          "as_of": "2026-11-09T16:25:09+08:00",
+          "date_from": null,
+          "date_to": null,
+          "expressions": [
+            "近期"
+          ],
+          "basis": "snapshot_order",
+          "date_field": "published_at",
+          "policy": "Vague recent means ordering within the loaded snapshot; explicit calendar bounds remain locked",
+          "evidence_policy": "Selected original date descending; missing dates sort last. Future-dated rows remain in exact counts but are excluded from recent evidence"
+        },
+        "sort": "recent",
+        "latest_returned_date": "2026-09-25T10:35:01+00:00",
+        "earliest_returned_date": "2026-09-24T14:00:25+00:00",
+        "future_dated_returned_records": 0,
+        "snapshot_generated_at": "2026-11-05T15:10:46+00:00",
+        "exhaustive": false,
+        "warning": "Counts describe the stored real snapshot, not the entire web; retrieved paragraphs are a bounded sample."
+      }
+    },
+    {
+      "endpoint": "/api/chat",
+      "http_status": 200,
+      "api_revision": "research-chat-20261109",
+      "state": "database_answer",
+      "model": {
+        "id": "auto/deepseek-v4.1-flash",
+        "used": false,
+        "attempted": false,
+        "reason": "exact_database_aggregate"
+      },
+      "usage": {},
+      "answer_format": "database_aggregate",
+      "coverage": {
+        "dataset": "real",
+        "source_version": "f064c896c123cbf4",
+        "database_total": 6989,
+        "scoped_records": 221,
+        "matched_records": 221,
+        "returned_records": 12,
+        "returned_paragraphs": 12,
+        "time_scope": {
+          "mode": "unrestricted",
+          "timezone": "Asia/Shanghai",
+          "as_of": "2026-11-09T16:25:20+08:00",
+          "date_from": null,
+          "date_to": null,
+          "expressions": [],
+          "basis": "actual_clock",
+          "date_field": "published_at",
+          "policy": "Vague recent means ordering within the loaded snapshot; explicit calendar bounds remain locked"
+        },
+        "sort": "relevance",
+        "latest_returned_date": "2026-10-09T05:15:31+00:00",
+        "earliest_returned_date": "2026-09-01T00:00:00+00:00",
+        "future_dated_returned_records": 0,
+        "snapshot_generated_at": "2026-11-05T15:10:46+00:00",
+        "exhaustive": false,
+        "warning": "Counts describe the stored real snapshot, not the entire web; retrieved paragraphs are a bounded sample."
+      }
+    }
+  ],
+  "source_injected": false,
+  "actual_manifest": "manifest-56f69135b336b68262f4.json",
+  "original_answer": {
+    "api_revision": "research-chat-20261109",
+    "answer": "大西洋理事会社交账号发帖称，普京未能获得北京对“西伯利亚力量二号”管道的支持，并认为这强化了俄罗斯因乌克兰战争而沦为“小伙伴”的看法。 [C5]\n\nFDD的Craig Singleton对@AP表示，延长贸易休战让美国有机会检验中国是否履行购买美国农产品的承诺。 [C6]\n\nFBI门户网站遭黑客攻击的报道援引路透社称，部分被窃数据涉及针对中国间谍等敏感工作的分配详情。 [C10]\n\n数据库范围：全部真实资料；结构化筛选共 6,989 条，按实际关键词规则命中 987 条（记录去重）。[A1]\n时间口径：published_at，Asia/Shanghai；依据已加载真实快照，非实时报道。本次返回的非未来日期资料中，最新记录日期为 2026-09-25T10:35:01+00:00。[A2]该统计范围的资料记录日期最大值为 2026-11-12T18:00:00+00:00。[A2]其中 1 条记录日期晚于当前日期基准，属于所存日期异常，不能当作未来事件已经发生的证据。[A2]当前日期基准为 2026-11-09。分析仅涉及所引证据样本，不能据此估计全库议题占比或机构全部立场。\n部分候选结论缺少充分证据，已省略。",
+    "citations": [
+      {
+        "citation_id": "C5",
+        "id": "social-15",
+        "angle": "social",
+        "paragraph": 5,
+        "field": "translation",
+        "paragraph_scheme": "service_field_chunks_v1",
+        "paragraph_note": "1-based chunks across title, summary, original and translation fields; not evidence-page paragraph numbers",
+        "snippet": "普京无法获得北京对“西伯利亚力量二号”管道的支持，这强化了国际社会的看法：乌克兰入侵已使俄罗斯沦为中国的“小伙伴”。@zaharhryniv撰文。阅读更多：https://t.co/JklqpWCU1Q",
+        "source_url": "https://x.com/AtlanticCouncil/status/2103247106949476598",
+        "title": "Atlantic Council (@AtlanticCouncil) on X",
+        "title_en": "",
+        "ktid": 1001190,
+        "institution": "大西洋理事会",
+        "institution_en": "Atlantic Council",
+        "platform": "X",
+        "published_at": "2026-09-24T22:16:01+00:00",
+        "collected_at": "2026-09-25T11:05:34+00:00",
+        "source_version": "f064c896c123cbf4",
+        "source_field": "chinese_translation",
+        "published_original": "2026-09-24T22:16:01+00:00",
+        "published_effective_at": "2026-09-24T22:16:01+00:00",
+        "date_origin": "provided",
+        "matched_concepts_in_chunk": [
+          "中国"
+        ],
+        "future_dated": false,
+        "evidence_eligible": true,
+        "date_verified": false,
+        "date_basis": [
+          "publish_time"
+        ],
+        "translation_status": "available",
+        "quotes": [
+          "普京无法获得北京对“西伯利亚力量二号”管道的支持，这强化了国际社会的看法：乌克兰入侵已使俄罗斯沦为中国的“小伙伴”。@zaharhryniv撰文。阅读更多：https://t.co/JklqpWCU1Q"
+        ]
+      },
+      {
+        "citation_id": "C6",
+        "id": "social-22",
+        "angle": "social",
+        "paragraph": 4,
+        "field": "translation",
+        "paragraph_scheme": "service_field_chunks_v1",
+        "paragraph_note": "1-based chunks across title, summary, original and translation fields; not evidence-page paragraph numbers",
+        "snippet": "FDD的Craig Singleton对@AP表示，延长贸易休战让美国有机会检验中国是否履行购买美国农产品的承诺：“这与购买两个月的平静关系不大，而是要让中国赢得下一次延期。”https://t.co/90Zqf8QQRF",
+        "source_url": "https://x.com/FDD/status/2103230754855563603",
+        "title": "FDD (@FDD) on X",
+        "title_en": "",
+        "ktid": 1001350,
+        "institution": "保卫民主基金会",
+        "institution_en": "Foundation for Defense of Democracies",
+        "platform": "X",
+        "published_at": "2026-09-24T21:11:02+00:00",
+        "collected_at": "2026-09-25T11:05:45+00:00",
+        "source_version": "f064c896c123cbf4",
+        "source_field": "chinese_translation",
+        "published_original": "2026-09-24T21:11:02+00:00",
+        "published_effective_at": "2026-09-24T21:11:02+00:00",
+        "date_origin": "provided",
+        "matched_concepts_in_chunk": [
+          "中国"
+        ],
+        "future_dated": false,
+        "evidence_eligible": true,
+        "date_verified": false,
+        "date_basis": [
+          "publish_time"
+        ],
+        "translation_status": "available",
+        "quotes": [
+          "FDD的Craig Singleton对@AP表示，延长贸易休战让美国有机会检验中国是否履行购买美国农产品的承诺：“这与购买两个月的平静关系不大，而是要让中国赢得下一次延期。”https://t.co/90Zqf8QQRF"
+        ]
+      },
+      {
+        "citation_id": "C10",
+        "id": "news-26",
+        "angle": "news",
+        "paragraph": 32,
+        "field": "translation",
+        "paragraph_scheme": "service_field_chunks_v1",
+        "paragraph_note": "1-based chunks across title, summary, original and translation fields; not evidence-page paragraph numbers",
+        "snippet": "据路透社报道，部分数据包含官员的工作分配详情，包括针对中国间谍、俄罗斯情报机构和贩毒集团的敏感工作。",
+        "source_url": "https://www.bbc.com/pidgin/articles/crvgy915v5dxo",
+        "title": "FBI门户网站遭黑客攻击：当局调查称所有联邦调查局员工信息被窃",
+        "title_en": "FBI portal hacked: Authories dey investigate claims say hackers steal details of all federal bureau staff - BBC News Pidgin",
+        "ktid": 1000110,
+        "institution": "美国联邦调查局",
+        "institution_en": "Federal Bureau of Investigation",
+        "platform": "Google News RSS discovery",
+        "published_at": "2026-09-24T15:13:57+00:00",
+        "collected_at": "2026-09-24T19:47:53+00:00",
+        "source_version": "f064c896c123cbf4",
+        "source_field": "content_cn",
+        "published_original": "2026-09-24T15:13:57.946000+00:00",
+        "published_effective_at": "2026-09-24T15:13:57+00:00",
+        "date_origin": "provided",
+        "matched_concepts_in_chunk": [
+          "中国"
+        ],
+        "future_dated": false,
+        "evidence_eligible": true,
+        "date_verified": false,
+        "date_basis": [
+          "publish_time"
+        ],
+        "translation_status": "available",
+        "quotes": [
+          "据路透社报道，部分数据包含官员的工作分配详情，包括针对中国间谍、俄罗斯情报机构和贩毒集团的敏感工作。"
+        ]
+      }
+    ],
+    "aggregate_citations": [
+      {
+        "citation_id": "A1",
+        "kind": "database_aggregate",
+        "scope": {
+          "dataset": "real",
+          "filters": {
+            "date_field": "published_at"
+          },
+          "source_version": "f064c896c123cbf4",
+          "date_field": "published_at",
+          "timezone": "Asia/Shanghai",
+          "excluded_terms": [],
+          "sort": "recent",
+          "relaxed": false,
+          "term_match": [
+            [
+              "中国",
+              "China",
+              "Chinese",
+              "PRC",
+              "对华",
+              "涉华",
+              "中美",
+              "美中"
+            ]
+          ],
+          "strategy": "fts5_and",
+          "date_semantics": "Original source publication dates only; recovered dates do not change this scope"
+        },
+        "scoped": {
+          "total": 6989,
+          "by_angle": {
+            "news": 3675,
+            "clue": 1468,
+            "social": 1846
+          },
+          "by_institution": [
+            {
+              "ktid": 1000110,
+              "cn": "美国联邦调查局",
+              "en": "Federal Bureau of Investigation",
+              "count": 1688,
+              "by_angle": {
+                "news": 1446,
+                "clue": 6,
+                "social": 236
+              }
+            },
+            {
+              "ktid": 1001140,
+              "cn": "美国国土安全部",
+              "en": "United States Department of Homeland Security",
+              "count": 1672,
+              "by_angle": {
+                "news": 1185,
+                "clue": 3,
+                "social": 484
+              }
+            },
+            {
+              "ktid": 1000490,
+              "cn": "战略与国际研究中心",
+              "en": "Center for Strategic and International Studies",
+              "count": 1317,
+              "by_angle": {
+                "news": 225,
+                "clue": 727,
+                "social": 365
+              }
+            },
+            {
+              "ktid": 1000580,
+              "cn": "克劳德斯特赖克公司",
+              "en": "CrowdStrike Holdings, Inc.",
+              "count": 516,
+              "by_angle": {
+                "news": 368,
+                "clue": 75,
+                "social": 73
+              }
+            },
+            {
+              "ktid": 1001190,
+              "cn": "大西洋理事会",
+              "en": "Atlantic Council",
+              "count": 386,
+              "by_angle": {
+                "news": 15,
+                "clue": 20,
+                "social": 351
+              }
+            },
+            {
+              "ktid": 1000480,
+              "cn": "兰德公司",
+              "en": "RAND Corporation",
+              "count": 290,
+              "by_angle": {
+                "news": 2,
+                "clue": 249,
+                "social": 39
+              }
+            },
+            {
+              "ktid": 1001210,
+              "cn": "布鲁金斯学会",
+              "en": "Brookings Institution",
+              "count": 272,
+              "by_angle": {
+                "news": 7,
+                "clue": 58,
+                "social": 207
+              }
+            },
+            {
+              "ktid": 1002550,
+              "cn": "阿肯色州立大学",
+              "en": "Arkansas State University",
+              "count": 221,
+              "by_angle": {
+                "news": 100,
+                "clue": 120,
+                "social": 1
+              }
+            },
+            {
+              "ktid": 1001270,
+              "cn": "新美国安全中心",
+              "en": "Center for a New American Security",
+              "count": 164,
+              "by_angle": {
+                "news": 35,
+                "clue": 120,
+                "social": 9
+              }
+            },
+            {
+              "ktid": 1001290,
+              "cn": "美国外交关系协会（对外关系委员会）",
+              "en": "Council on Foreign Relations (CFR)",
+              "count": 99,
+              "by_angle": {
+                "news": 18,
+                "clue": 62,
+                "social": 19
+              }
+            },
+            {
+              "ktid": 1000760,
+              "cn": "洛克希德·马丁公司",
+              "en": "Lockheed Martin Corporation",
+              "count": 66,
+              "by_angle": {
+                "news": 40,
+                "clue": 15,
+                "social": 11
+              }
+            },
+            {
+              "ktid": 1055920,
+              "cn": "卡隆公司",
+              "en": "Kharon",
+              "count": 50,
+              "by_angle": {
+                "news": 38,
+                "clue": 1,
+                "social": 11
+              }
+            },
+            {
+              "ktid": 1056587,
+              "cn": "英特尔",
+              "en": "Intel",
+              "count": 39,
+              "by_angle": {
+                "news": 36,
+                "clue": 2,
+                "social": 1
+              }
+            },
+            {
+              "ktid": 1056514,
+              "cn": "摩根大通",
+              "en": "JP Morgan",
+              "count": 37,
+              "by_angle": {
+                "news": 35,
+                "clue": 1,
+                "social": 1
+              }
+            },
+            {
+              "ktid": 1001350,
+              "cn": "保卫民主基金会",
+              "en": "Foundation for Defense of Democracies",
+              "count": 36,
+              "by_angle": {
+                "news": 15,
+                "clue": 2,
+                "social": 19
+              }
+            },
+            {
+              "ktid": 5775050,
+              "cn": "OpenAI",
+              "en": "OpenAI",
+              "count": 36,
+              "by_angle": {
+                "news": 33,
+                "clue": 2,
+                "social": 1
+              }
+            },
+            {
+              "ktid": 2575920,
+              "cn": "霍尼韦尔",
+              "en": "Honeywell",
+              "count": 30,
+              "by_angle": {
+                "news": 27,
+                "clue": 2,
+                "social": 1
+              }
+            },
+            {
+              "ktid": 1056630,
+              "cn": "IBM",
+              "en": "IBM",
+              "count": 27,
+              "by_angle": {
+                "news": 25,
+                "clue": 1,
+                "social": 1
+              }
+            },
+            {
+              "ktid": 2572960,
+              "cn": "思科",
+              "en": "Cisco",
+              "count": 25,
+              "by_angle": {
+                "news": 23,
+                "clue": 1,
+                "social": 1
+              }
+            },
+            {
+              "ktid": 1001150,
+              "cn": "美国国务院",
+              "en": "United States Department of State (DOS)",
+              "count": 18,
+              "by_angle": {
+                "news": 2,
+                "clue": 1,
+                "social": 15
+              }
+            }
+          ],
+          "by_platform": [
+            {
+              "platform": "Google News RSS discovery",
+              "count": 1664
+            },
+            {
+              "platform": "official_web",
+              "count": 1468
+            },
+            {
+              "platform": "X",
+              "count": 1189
+            },
+            {
+              "platform": "Google News RSS",
+              "count": 946
+            },
+            {
+              "platform": "Google News RSS (deep pilot)",
+              "count": 881
+            },
+            {
+              "platform": "Facebook",
+              "count": 615
+            },
+            {
+              "platform": "Bing News RSS",
+              "count": 125
+            },
+            {
+              "platform": "LinkedIn",
+              "count": 42
+            },
+            {
+              "platform": "Google via Apify",
+              "count": 34
+            },
+            {
+              "platform": "Google",
+              "count": 15
+            },
+            {
+              "platform": "Google News RSS + Yahoo title resolution via Reader",
+              "count": 9
+            },
+            {
+              "platform": "legacy_cache_import",
+              "count": 1
+            }
+          ]
+        },
+        "matched": {
+          "total": 987,
+          "by_angle": {
+            "news": 529,
+            "clue": 362,
+            "social": 96
+          },
+          "by_institution": [
+            {
+              "ktid": 1000490,
+              "cn": "战略与国际研究中心",
+              "en": "Center for Strategic and International Studies",
+              "count": 321,
+              "by_angle": {
+                "news": 127,
+                "clue": 150,
+                "social": 44
+              }
+            },
+            {
+              "ktid": 1000110,
+              "cn": "美国联邦调查局",
+              "en": "Federal Bureau of Investigation",
+              "count": 162,
+              "by_angle": {
+                "news": 153,
+                "clue": 1,
+                "social": 8
+              }
+            },
+            {
+              "ktid": 1001270,
+              "cn": "新美国安全中心",
+              "en": "Center for a New American Security",
+              "count": 127,
+              "by_angle": {
+                "news": 18,
+                "clue": 107,
+                "social": 2
+              }
+            },
+            {
+              "ktid": 1001140,
+              "cn": "美国国土安全部",
+              "en": "United States Department of Homeland Security",
+              "count": 122,
+              "by_angle": {
+                "news": 121,
+                "clue": 0,
+                "social": 1
+              }
+            },
+            {
+              "ktid": 1000480,
+              "cn": "兰德公司",
+              "en": "RAND Corporation",
+              "count": 56,
+              "by_angle": {
+                "news": 1,
+                "clue": 55,
+                "social": 0
+              }
+            },
+            {
+              "ktid": 1000580,
+              "cn": "克劳德斯特赖克公司",
+              "en": "CrowdStrike Holdings, Inc.",
+              "count": 34,
+              "by_angle": {
+                "news": 29,
+                "clue": 5,
+                "social": 0
+              }
+            },
+            {
+              "ktid": 1001290,
+              "cn": "美国外交关系协会（对外关系委员会）",
+              "en": "Council on Foreign Relations (CFR)",
+              "count": 34,
+              "by_angle": {
+                "news": 8,
+                "clue": 20,
+                "social": 6
+              }
+            },
+            {
+              "ktid": 1001210,
+              "cn": "布鲁金斯学会",
+              "en": "Brookings Institution",
+              "count": 32,
+              "by_angle": {
+                "news": 3,
+                "clue": 15,
+                "social": 14
+              }
+            },
+            {
+              "ktid": 1001190,
+              "cn": "大西洋理事会",
+              "en": "Atlantic Council",
+              "count": 24,
+              "by_angle": {
+                "news": 4,
+                "clue": 5,
+                "social": 15
+              }
+            },
+            {
+              "ktid": 1055920,
+              "cn": "卡隆公司",
+              "en": "Kharon",
+              "count": 23,
+              "by_angle": {
+                "news": 21,
+                "clue": 0,
+                "social": 2
+              }
+            },
+            {
+              "ktid": 1001350,
+              "cn": "保卫民主基金会",
+              "en": "Foundation for Defense of Democracies",
+              "count": 9,
+              "by_angle": {
+                "news": 5,
+                "clue": 0,
+                "social": 4
+              }
+            },
+            {
+              "ktid": 2572960,
+              "cn": "思科",
+              "en": "Cisco",
+              "count": 9,
+              "by_angle": {
+                "news": 9,
+                "clue": 0,
+                "social": 0
+              }
+            },
+            {
+              "ktid": 2575920,
+              "cn": "霍尼韦尔",
+              "en": "Honeywell",
+              "count": 9,
+              "by_angle": {
+                "news": 7,
+                "clue": 2,
+                "social": 0
+              }
+            },
+            {
+              "ktid": 5775050,
+              "cn": "OpenAI",
+              "en": "OpenAI",
+              "count": 8,
+              "by_angle": {
+                "news": 8,
+                "clue": 0,
+                "social": 0
+              }
+            },
+            {
+              "ktid": 1056587,
+              "cn": "英特尔",
+              "en": "Intel",
+              "count": 7,
+              "by_angle": {
+                "news": 7,
+                "clue": 0,
+                "social": 0
+              }
+            },
+            {
+              "ktid": 1056514,
+              "cn": "摩根大通",
+              "en": "JP Morgan",
+              "count": 5,
+              "by_angle": {
+                "news": 5,
+                "clue": 0,
+                "social": 0
+              }
+            },
+            {
+              "ktid": 1056630,
+              "cn": "IBM",
+              "en": "IBM",
+              "count": 3,
+              "by_angle": {
+                "news": 3,
+                "clue": 0,
+                "social": 0
+              }
+            },
+            {
+              "ktid": 1002550,
+              "cn": "阿肯色州立大学",
+              "en": "Arkansas State University",
+              "count": 2,
+              "by_angle": {
+                "news": 0,
+                "clue": 2,
+                "social": 0
+              }
+            }
+          ],
+          "by_platform": [
+            {
+              "platform": "official_web",
+              "count": 362
+            },
+            {
+              "platform": "Google News RSS discovery",
+              "count": 310
+            },
+            {
+              "platform": "Google News RSS (deep pilot)",
+              "count": 119
+            },
+            {
+              "platform": "X",
+              "count": 72
+            },
+            {
+              "platform": "Google News RSS",
+              "count": 63
+            },
+            {
+              "platform": "Facebook",
+              "count": 21
+            },
+            {
+              "platform": "Bing News RSS",
+              "count": 19
+            },
+            {
+              "platform": "Google via Apify",
+              "count": 16
+            },
+            {
+              "platform": "LinkedIn",
+              "count": 3
+            },
+            {
+              "platform": "Google",
+              "count": 2
+            }
+          ]
+        }
+      },
+      {
+        "citation_id": "A2",
+        "kind": "database_aggregate",
+        "scope": {
+          "dataset": "real",
+          "filters": {
+            "date_field": "published_at"
+          },
+          "source_version": "f064c896c123cbf4",
+          "date_field": "published_at",
+          "timezone": "Asia/Shanghai",
+          "excluded_terms": [],
+          "sort": "recent",
+          "relaxed": false,
+          "term_match": [
+            [
+              "中国",
+              "China",
+              "Chinese",
+              "PRC",
+              "对华",
+              "涉华",
+              "中美",
+              "美中"
+            ]
+          ],
+          "strategy": "fts5_and",
+          "date_semantics": "Original source publication dates only; recovered dates do not change this scope",
+          "dimensions": [
+            "institution",
+            "angle",
+            "platform",
+            "month"
+          ],
+          "as_of": "2026-11-09T16:25:09+08:00",
+          "date_basis": "Original source publication field only; recovered dates do not replace it"
+        },
+        "matched": {
+          "total": 987,
+          "by_angle": {
+            "news": 529,
+            "clue": 362,
+            "social": 96
+          },
+          "by_institution": [
+            {
+              "ktid": 1000490,
+              "cn": "战略与国际研究中心",
+              "en": "Center for Strategic and International Studies",
+              "count": 321,
+              "by_angle": {
+                "news": 127,
+                "clue": 150,
+                "social": 44
+              }
+            },
+            {
+              "ktid": 1000110,
+              "cn": "美国联邦调查局",
+              "en": "Federal Bureau of Investigation",
+              "count": 162,
+              "by_angle": {
+                "news": 153,
+                "clue": 1,
+                "social": 8
+              }
+            },
+            {
+              "ktid": 1001270,
+              "cn": "新美国安全中心",
+              "en": "Center for a New American Security",
+              "count": 127,
+              "by_angle": {
+                "news": 18,
+                "clue": 107,
+                "social": 2
+              }
+            },
+            {
+              "ktid": 1001140,
+              "cn": "美国国土安全部",
+              "en": "United States Department of Homeland Security",
+              "count": 122,
+              "by_angle": {
+                "news": 121,
+                "clue": 0,
+                "social": 1
+              }
+            },
+            {
+              "ktid": 1000480,
+              "cn": "兰德公司",
+              "en": "RAND Corporation",
+              "count": 56,
+              "by_angle": {
+                "news": 1,
+                "clue": 55,
+                "social": 0
+              }
+            },
+            {
+              "ktid": 1000580,
+              "cn": "克劳德斯特赖克公司",
+              "en": "CrowdStrike Holdings, Inc.",
+              "count": 34,
+              "by_angle": {
+                "news": 29,
+                "clue": 5,
+                "social": 0
+              }
+            },
+            {
+              "ktid": 1001290,
+              "cn": "美国外交关系协会（对外关系委员会）",
+              "en": "Council on Foreign Relations (CFR)",
+              "count": 34,
+              "by_angle": {
+                "news": 8,
+                "clue": 20,
+                "social": 6
+              }
+            },
+            {
+              "ktid": 1001210,
+              "cn": "布鲁金斯学会",
+              "en": "Brookings Institution",
+              "count": 32,
+              "by_angle": {
+                "news": 3,
+                "clue": 15,
+                "social": 14
+              }
+            },
+            {
+              "ktid": 1001190,
+              "cn": "大西洋理事会",
+              "en": "Atlantic Council",
+              "count": 24,
+              "by_angle": {
+                "news": 4,
+                "clue": 5,
+                "social": 15
+              }
+            },
+            {
+              "ktid": 1055920,
+              "cn": "卡隆公司",
+              "en": "Kharon",
+              "count": 23,
+              "by_angle": {
+                "news": 21,
+                "clue": 0,
+                "social": 2
+              }
+            },
+            {
+              "ktid": 1001350,
+              "cn": "保卫民主基金会",
+              "en": "Foundation for Defense of Democracies",
+              "count": 9,
+              "by_angle": {
+                "news": 5,
+                "clue": 0,
+                "social": 4
+              }
+            },
+            {
+              "ktid": 2572960,
+              "cn": "思科",
+              "en": "Cisco",
+              "count": 9,
+              "by_angle": {
+                "news": 9,
+                "clue": 0,
+                "social": 0
+              }
+            },
+            {
+              "ktid": 2575920,
+              "cn": "霍尼韦尔",
+              "en": "Honeywell",
+              "count": 9,
+              "by_angle": {
+                "news": 7,
+                "clue": 2,
+                "social": 0
+              }
+            },
+            {
+              "ktid": 5775050,
+              "cn": "OpenAI",
+              "en": "OpenAI",
+              "count": 8,
+              "by_angle": {
+                "news": 8,
+                "clue": 0,
+                "social": 0
+              }
+            },
+            {
+              "ktid": 1056587,
+              "cn": "英特尔",
+              "en": "Intel",
+              "count": 7,
+              "by_angle": {
+                "news": 7,
+                "clue": 0,
+                "social": 0
+              }
+            },
+            {
+              "ktid": 1056514,
+              "cn": "摩根大通",
+              "en": "JP Morgan",
+              "count": 5,
+              "by_angle": {
+                "news": 5,
+                "clue": 0,
+                "social": 0
+              }
+            },
+            {
+              "ktid": 1056630,
+              "cn": "IBM",
+              "en": "IBM",
+              "count": 3,
+              "by_angle": {
+                "news": 3,
+                "clue": 0,
+                "social": 0
+              }
+            },
+            {
+              "ktid": 1002550,
+              "cn": "阿肯色州立大学",
+              "en": "Arkansas State University",
+              "count": 2,
+              "by_angle": {
+                "news": 0,
+                "clue": 2,
+                "social": 0
+              }
+            }
+          ],
+          "by_platform": [
+            {
+              "platform": "official_web",
+              "count": 362
+            },
+            {
+              "platform": "Google News RSS discovery",
+              "count": 310
+            },
+            {
+              "platform": "Google News RSS (deep pilot)",
+              "count": 119
+            },
+            {
+              "platform": "X",
+              "count": 72
+            },
+            {
+              "platform": "Google News RSS",
+              "count": 63
+            },
+            {
+              "platform": "Facebook",
+              "count": 21
+            },
+            {
+              "platform": "Bing News RSS",
+              "count": 19
+            },
+            {
+              "platform": "Google via Apify",
+              "count": 16
+            },
+            {
+              "platform": "LinkedIn",
+              "count": 3
+            },
+            {
+              "platform": "Google",
+              "count": 2
+            }
+          ]
+        },
+        "date_range": {
+          "date_field": "published_at",
+          "timezone": "Asia/Shanghai",
+          "basis": "Original source publication field only; recovered dates do not replace it",
+          "min": "1999-02-01T12:00:00+00:00",
+          "max": "2026-11-12T18:00:00+00:00",
+          "max_nonfuture": "2026-09-25T10:35:01+00:00",
+          "dated_records": 896,
+          "undated_records": 91,
+          "future_dated_records": 1,
+          "date_origins": {
+            "provided": 896,
+            "missing": 69,
+            "recovered": 22
+          }
+        },
+        "by_month": [
+          {
+            "month": "1999-02",
+            "count": 1
+          },
+          {
+            "month": "2000-07",
+            "count": 1
+          },
+          {
+            "month": "2004-09",
+            "count": 1
+          },
+          {
+            "month": "2004-12",
+            "count": 1
+          },
+          {
+            "month": "2005-01",
+            "count": 1
+          },
+          {
+            "month": "2005-02",
+            "count": 1
+          },
+          {
+            "month": "2005-03",
+            "count": 1
+          },
+          {
+            "month": "2005-04",
+            "count": 1
+          },
+          {
+            "month": "2005-06",
+            "count": 1
+          },
+          {
+            "month": "2005-09",
+            "count": 1
+          },
+          {
+            "month": "2006-07",
+            "count": 1
+          },
+          {
+            "month": "2007-04",
+            "count": 1
+          },
+          {
+            "month": "2007-10",
+            "count": 1
+          },
+          {
+            "month": "2008-01",
+            "count": 3
+          },
+          {
+            "month": "2008-02",
+            "count": 1
+          },
+          {
+            "month": "2008-04",
+            "count": 1
+          },
+          {
+            "month": "2008-05",
+            "count": 1
+          },
+          {
+            "month": "2008-07",
+            "count": 1
+          },
+          {
+            "month": "2008-09",
+            "count": 1
+          },
+          {
+            "month": "2008-10",
+            "count": 1
+          },
+          {
+            "month": "2009-01",
+            "count": 1
+          },
+          {
+            "month": "2009-02",
+            "count": 1
+          },
+          {
+            "month": "2009-04",
+            "count": 1
+          },
+          {
+            "month": "2009-05",
+            "count": 2
+          },
+          {
+            "month": "2009-07",
+            "count": 1
+          },
+          {
+            "month": "2009-08",
+            "count": 1
+          },
+          {
+            "month": "2009-10",
+            "count": 3
+          },
+          {
+            "month": "2009-11",
+            "count": 1
+          },
+          {
+            "month": "2010-04",
+            "count": 1
+          },
+          {
+            "month": "2010-05",
+            "count": 1
+          },
+          {
+            "month": "2010-10",
+            "count": 1
+          },
+          {
+            "month": "2010-11",
+            "count": 1
+          },
+          {
+            "month": "2010-12",
+            "count": 1
+          },
+          {
+            "month": "2011-01",
+            "count": 2
+          },
+          {
+            "month": "2011-06",
+            "count": 1
+          },
+          {
+            "month": "2011-07",
+            "count": 1
+          },
+          {
+            "month": "2011-08",
+            "count": 1
+          },
+          {
+            "month": "2011-09",
+            "count": 1
+          },
+          {
+            "month": "2011-10",
+            "count": 1
+          },
+          {
+            "month": "2011-11",
+            "count": 1
+          },
+          {
+            "month": "2012-01",
+            "count": 1
+          },
+          {
+            "month": "2012-02",
+            "count": 1
+          },
+          {
+            "month": "2012-03",
+            "count": 1
+          },
+          {
+            "month": "2012-07",
+            "count": 1
+          },
+          {
+            "month": "2012-09",
+            "count": 2
+          },
+          {
+            "month": "2012-10",
+            "count": 1
+          },
+          {
+            "month": "2013-04",
+            "count": 2
+          },
+          {
+            "month": "2013-06",
+            "count": 1
+          },
+          {
+            "month": "2013-07",
+            "count": 2
+          },
+          {
+            "month": "2013-10",
+            "count": 1
+          },
+          {
+            "month": "2013-11",
+            "count": 1
+          },
+          {
+            "month": "2013-12",
+            "count": 1
+          },
+          {
+            "month": "2014-04",
+            "count": 2
+          },
+          {
+            "month": "2014-05",
+            "count": 1
+          },
+          {
+            "month": "2014-07",
+            "count": 1
+          },
+          {
+            "month": "2014-10",
+            "count": 1
+          },
+          {
+            "month": "2014-11",
+            "count": 1
+          },
+          {
+            "month": "2015-01",
+            "count": 3
+          },
+          {
+            "month": "2015-03",
+            "count": 1
+          },
+          {
+            "month": "2015-04",
+            "count": 1
+          },
+          {
+            "month": "2015-06",
+            "count": 1
+          },
+          {
+            "month": "2015-07",
+            "count": 1
+          },
+          {
+            "month": "2015-09",
+            "count": 2
+          },
+          {
+            "month": "2015-10",
+            "count": 2
+          },
+          {
+            "month": "2016-01",
+            "count": 2
+          },
+          {
+            "month": "2016-03",
+            "count": 2
+          },
+          {
+            "month": "2018-06",
+            "count": 1
+          },
+          {
+            "month": "2018-07",
+            "count": 1
+          },
+          {
+            "month": "2021-10",
+            "count": 1
+          },
+          {
+            "month": "2023-05",
+            "count": 1
+          },
+          {
+            "month": "2023-12",
+            "count": 1
+          },
+          {
+            "month": "2024-05",
+            "count": 1
+          },
+          {
+            "month": "2024-06",
+            "count": 2
+          },
+          {
+            "month": "2024-07",
+            "count": 1
+          },
+          {
+            "month": "2024-08",
+            "count": 7
+          },
+          {
+            "month": "2024-09",
+            "count": 15
+          },
+          {
+            "month": "2024-10",
+            "count": 9
+          },
+          {
+            "month": "2024-11",
+            "count": 7
+          },
+          {
+            "month": "2024-12",
+            "count": 17
+          },
+          {
+            "month": "2025-01",
+            "count": 18
+          },
+          {
+            "month": "2025-02",
+            "count": 14
+          },
+          {
+            "month": "2025-03",
+            "count": 18
+          },
+          {
+            "month": "2025-04",
+            "count": 18
+          },
+          {
+            "month": "2025-05",
+            "count": 16
+          },
+          {
+            "month": "2025-06",
+            "count": 20
+          },
+          {
+            "month": "2025-07",
+            "count": 29
+          },
+          {
+            "month": "2025-08",
+            "count": 21
+          },
+          {
+            "month": "2025-09",
+            "count": 28
+          },
+          {
+            "month": "2025-10",
+            "count": 38
+          },
+          {
+            "month": "2025-11",
+            "count": 27
+          },
+          {
+            "month": "2025-12",
+            "count": 33
+          },
+          {
+            "month": "2026-01",
+            "count": 37
+          },
+          {
+            "month": "2026-02",
+            "count": 34
+          },
+          {
+            "month": "2026-03",
+            "count": 48
+          },
+          {
+            "month": "2026-04",
+            "count": 23
+          },
+          {
+            "month": "2026-05",
+            "count": 63
+          },
+          {
+            "month": "2026-06",
+            "count": 33
+          },
+          {
+            "month": "2026-07",
+            "count": 58
+          },
+          {
+            "month": "2026-08",
+            "count": 92
+          },
+          {
+            "month": "2026-09",
+            "count": 81
+          },
+          {
+            "month": "2026-11",
+            "count": 1
+          }
+        ],
+        "method": "parameterized_readonly_sql_distinct_records",
+        "shares": {
+          "denominator": 987,
+          "basis": "matched_records_within_current_filters_and_terms",
+          "unit": "percent",
+          "by_institution": [
+            {
+              "ktid": 1000490,
+              "count": 321,
+              "percent": 32.5228
+            },
+            {
+              "ktid": 1000110,
+              "count": 162,
+              "percent": 16.4134
+            },
+            {
+              "ktid": 1001270,
+              "count": 127,
+              "percent": 12.8673
+            },
+            {
+              "ktid": 1001140,
+              "count": 122,
+              "percent": 12.3607
+            },
+            {
+              "ktid": 1000480,
+              "count": 56,
+              "percent": 5.6738
+            },
+            {
+              "ktid": 1000580,
+              "count": 34,
+              "percent": 3.4448
+            },
+            {
+              "ktid": 1001290,
+              "count": 34,
+              "percent": 3.4448
+            },
+            {
+              "ktid": 1001210,
+              "count": 32,
+              "percent": 3.2421
+            },
+            {
+              "ktid": 1001190,
+              "count": 24,
+              "percent": 2.4316
+            },
+            {
+              "ktid": 1055920,
+              "count": 23,
+              "percent": 2.3303
+            },
+            {
+              "ktid": 1001350,
+              "count": 9,
+              "percent": 0.9119
+            },
+            {
+              "ktid": 2572960,
+              "count": 9,
+              "percent": 0.9119
+            },
+            {
+              "ktid": 2575920,
+              "count": 9,
+              "percent": 0.9119
+            },
+            {
+              "ktid": 5775050,
+              "count": 8,
+              "percent": 0.8105
+            },
+            {
+              "ktid": 1056587,
+              "count": 7,
+              "percent": 0.7092
+            },
+            {
+              "ktid": 1056514,
+              "count": 5,
+              "percent": 0.5066
+            },
+            {
+              "ktid": 1056630,
+              "count": 3,
+              "percent": 0.304
+            },
+            {
+              "ktid": 1002550,
+              "count": 2,
+              "percent": 0.2026
+            }
+          ],
+          "by_angle": [
+            {
+              "angle": "news",
+              "count": 529,
+              "percent": 53.5968
+            },
+            {
+              "angle": "clue",
+              "count": 362,
+              "percent": 36.6768
+            },
+            {
+              "angle": "social",
+              "count": 96,
+              "percent": 9.7264
+            }
+          ],
+          "by_platform": [
+            {
+              "platform": "official_web",
+              "count": 362,
+              "percent": 36.6768
+            },
+            {
+              "platform": "Google News RSS discovery",
+              "count": 310,
+              "percent": 31.4083
+            },
+            {
+              "platform": "Google News RSS (deep pilot)",
+              "count": 119,
+              "percent": 12.0567
+            },
+            {
+              "platform": "X",
+              "count": 72,
+              "percent": 7.2948
+            },
+            {
+              "platform": "Google News RSS",
+              "count": 63,
+              "percent": 6.383
+            },
+            {
+              "platform": "Facebook",
+              "count": 21,
+              "percent": 2.1277
+            },
+            {
+              "platform": "Bing News RSS",
+              "count": 19,
+              "percent": 1.925
+            },
+            {
+              "platform": "Google via Apify",
+              "count": 16,
+              "percent": 1.6211
+            },
+            {
+              "platform": "LinkedIn",
+              "count": 3,
+              "percent": 0.304
+            },
+            {
+              "platform": "Google",
+              "count": 2,
+              "percent": 0.2026
+            }
+          ]
+        },
+        "ranking": null,
+        "latest_returned_date": "2026-09-25T10:35:01+00:00"
+      }
+    ],
+    "analytics": {
+      "scope": {
+        "dataset": "real",
+        "filters": {
+          "date_field": "published_at"
+        },
+        "source_version": "f064c896c123cbf4",
+        "date_field": "published_at",
+        "timezone": "Asia/Shanghai",
+        "excluded_terms": [],
+        "sort": "recent",
+        "relaxed": false,
+        "term_match": [
+          [
+            "中国",
+            "China",
+            "Chinese",
+            "PRC",
+            "对华",
+            "涉华",
+            "中美",
+            "美中"
+          ]
+        ],
+        "strategy": "fts5_and",
+        "date_semantics": "Original source publication dates only; recovered dates do not change this scope",
+        "dimensions": [
+          "institution",
+          "angle",
+          "platform",
+          "month"
+        ],
+        "as_of": "2026-11-09T16:25:09+08:00",
+        "date_basis": "Original source publication field only; recovered dates do not replace it"
+      },
+      "matched": {
+        "total": 987,
+        "by_angle": {
+          "news": 529,
+          "clue": 362,
+          "social": 96
+        },
+        "by_institution": [
+          {
+            "ktid": 1000490,
+            "cn": "战略与国际研究中心",
+            "en": "Center for Strategic and International Studies",
+            "count": 321,
+            "by_angle": {
+              "news": 127,
+              "clue": 150,
+              "social": 44
+            }
+          },
+          {
+            "ktid": 1000110,
+            "cn": "美国联邦调查局",
+            "en": "Federal Bureau of Investigation",
+            "count": 162,
+            "by_angle": {
+              "news": 153,
+              "clue": 1,
+              "social": 8
+            }
+          },
+          {
+            "ktid": 1001270,
+            "cn": "新美国安全中心",
+            "en": "Center for a New American Security",
+            "count": 127,
+            "by_angle": {
+              "news": 18,
+              "clue": 107,
+              "social": 2
+            }
+          },
+          {
+            "ktid": 1001140,
+            "cn": "美国国土安全部",
+            "en": "United States Department of Homeland Security",
+            "count": 122,
+            "by_angle": {
+              "news": 121,
+              "clue": 0,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 1000480,
+            "cn": "兰德公司",
+            "en": "RAND Corporation",
+            "count": 56,
+            "by_angle": {
+              "news": 1,
+              "clue": 55,
+              "social": 0
+            }
+          },
+          {
+            "ktid": 1000580,
+            "cn": "克劳德斯特赖克公司",
+            "en": "CrowdStrike Holdings, Inc.",
+            "count": 34,
+            "by_angle": {
+              "news": 29,
+              "clue": 5,
+              "social": 0
+            }
+          },
+          {
+            "ktid": 1001290,
+            "cn": "美国外交关系协会（对外关系委员会）",
+            "en": "Council on Foreign Relations (CFR)",
+            "count": 34,
+            "by_angle": {
+              "news": 8,
+              "clue": 20,
+              "social": 6
+            }
+          },
+          {
+            "ktid": 1001210,
+            "cn": "布鲁金斯学会",
+            "en": "Brookings Institution",
+            "count": 32,
+            "by_angle": {
+              "news": 3,
+              "clue": 15,
+              "social": 14
+            }
+          },
+          {
+            "ktid": 1001190,
+            "cn": "大西洋理事会",
+            "en": "Atlantic Council",
+            "count": 24,
+            "by_angle": {
+              "news": 4,
+              "clue": 5,
+              "social": 15
+            }
+          },
+          {
+            "ktid": 1055920,
+            "cn": "卡隆公司",
+            "en": "Kharon",
+            "count": 23,
+            "by_angle": {
+              "news": 21,
+              "clue": 0,
+              "social": 2
+            }
+          },
+          {
+            "ktid": 1001350,
+            "cn": "保卫民主基金会",
+            "en": "Foundation for Defense of Democracies",
+            "count": 9,
+            "by_angle": {
+              "news": 5,
+              "clue": 0,
+              "social": 4
+            }
+          },
+          {
+            "ktid": 2572960,
+            "cn": "思科",
+            "en": "Cisco",
+            "count": 9,
+            "by_angle": {
+              "news": 9,
+              "clue": 0,
+              "social": 0
+            }
+          },
+          {
+            "ktid": 2575920,
+            "cn": "霍尼韦尔",
+            "en": "Honeywell",
+            "count": 9,
+            "by_angle": {
+              "news": 7,
+              "clue": 2,
+              "social": 0
+            }
+          },
+          {
+            "ktid": 5775050,
+            "cn": "OpenAI",
+            "en": "OpenAI",
+            "count": 8,
+            "by_angle": {
+              "news": 8,
+              "clue": 0,
+              "social": 0
+            }
+          },
+          {
+            "ktid": 1056587,
+            "cn": "英特尔",
+            "en": "Intel",
+            "count": 7,
+            "by_angle": {
+              "news": 7,
+              "clue": 0,
+              "social": 0
+            }
+          },
+          {
+            "ktid": 1056514,
+            "cn": "摩根大通",
+            "en": "JP Morgan",
+            "count": 5,
+            "by_angle": {
+              "news": 5,
+              "clue": 0,
+              "social": 0
+            }
+          },
+          {
+            "ktid": 1056630,
+            "cn": "IBM",
+            "en": "IBM",
+            "count": 3,
+            "by_angle": {
+              "news": 3,
+              "clue": 0,
+              "social": 0
+            }
+          },
+          {
+            "ktid": 1002550,
+            "cn": "阿肯色州立大学",
+            "en": "Arkansas State University",
+            "count": 2,
+            "by_angle": {
+              "news": 0,
+              "clue": 2,
+              "social": 0
+            }
+          }
+        ],
+        "by_platform": [
+          {
+            "platform": "official_web",
+            "count": 362
+          },
+          {
+            "platform": "Google News RSS discovery",
+            "count": 310
+          },
+          {
+            "platform": "Google News RSS (deep pilot)",
+            "count": 119
+          },
+          {
+            "platform": "X",
+            "count": 72
+          },
+          {
+            "platform": "Google News RSS",
+            "count": 63
+          },
+          {
+            "platform": "Facebook",
+            "count": 21
+          },
+          {
+            "platform": "Bing News RSS",
+            "count": 19
+          },
+          {
+            "platform": "Google via Apify",
+            "count": 16
+          },
+          {
+            "platform": "LinkedIn",
+            "count": 3
+          },
+          {
+            "platform": "Google",
+            "count": 2
+          }
+        ]
+      },
+      "total": 987,
+      "by_month": [
+        {
+          "month": "1999-02",
+          "count": 1
+        },
+        {
+          "month": "2000-07",
+          "count": 1
+        },
+        {
+          "month": "2004-09",
+          "count": 1
+        },
+        {
+          "month": "2004-12",
+          "count": 1
+        },
+        {
+          "month": "2005-01",
+          "count": 1
+        },
+        {
+          "month": "2005-02",
+          "count": 1
+        },
+        {
+          "month": "2005-03",
+          "count": 1
+        },
+        {
+          "month": "2005-04",
+          "count": 1
+        },
+        {
+          "month": "2005-06",
+          "count": 1
+        },
+        {
+          "month": "2005-09",
+          "count": 1
+        },
+        {
+          "month": "2006-07",
+          "count": 1
+        },
+        {
+          "month": "2007-04",
+          "count": 1
+        },
+        {
+          "month": "2007-10",
+          "count": 1
+        },
+        {
+          "month": "2008-01",
+          "count": 3
+        },
+        {
+          "month": "2008-02",
+          "count": 1
+        },
+        {
+          "month": "2008-04",
+          "count": 1
+        },
+        {
+          "month": "2008-05",
+          "count": 1
+        },
+        {
+          "month": "2008-07",
+          "count": 1
+        },
+        {
+          "month": "2008-09",
+          "count": 1
+        },
+        {
+          "month": "2008-10",
+          "count": 1
+        },
+        {
+          "month": "2009-01",
+          "count": 1
+        },
+        {
+          "month": "2009-02",
+          "count": 1
+        },
+        {
+          "month": "2009-04",
+          "count": 1
+        },
+        {
+          "month": "2009-05",
+          "count": 2
+        },
+        {
+          "month": "2009-07",
+          "count": 1
+        },
+        {
+          "month": "2009-08",
+          "count": 1
+        },
+        {
+          "month": "2009-10",
+          "count": 3
+        },
+        {
+          "month": "2009-11",
+          "count": 1
+        },
+        {
+          "month": "2010-04",
+          "count": 1
+        },
+        {
+          "month": "2010-05",
+          "count": 1
+        },
+        {
+          "month": "2010-10",
+          "count": 1
+        },
+        {
+          "month": "2010-11",
+          "count": 1
+        },
+        {
+          "month": "2010-12",
+          "count": 1
+        },
+        {
+          "month": "2011-01",
+          "count": 2
+        },
+        {
+          "month": "2011-06",
+          "count": 1
+        },
+        {
+          "month": "2011-07",
+          "count": 1
+        },
+        {
+          "month": "2011-08",
+          "count": 1
+        },
+        {
+          "month": "2011-09",
+          "count": 1
+        },
+        {
+          "month": "2011-10",
+          "count": 1
+        },
+        {
+          "month": "2011-11",
+          "count": 1
+        },
+        {
+          "month": "2012-01",
+          "count": 1
+        },
+        {
+          "month": "2012-02",
+          "count": 1
+        },
+        {
+          "month": "2012-03",
+          "count": 1
+        },
+        {
+          "month": "2012-07",
+          "count": 1
+        },
+        {
+          "month": "2012-09",
+          "count": 2
+        },
+        {
+          "month": "2012-10",
+          "count": 1
+        },
+        {
+          "month": "2013-04",
+          "count": 2
+        },
+        {
+          "month": "2013-06",
+          "count": 1
+        },
+        {
+          "month": "2013-07",
+          "count": 2
+        },
+        {
+          "month": "2013-10",
+          "count": 1
+        },
+        {
+          "month": "2013-11",
+          "count": 1
+        },
+        {
+          "month": "2013-12",
+          "count": 1
+        },
+        {
+          "month": "2014-04",
+          "count": 2
+        },
+        {
+          "month": "2014-05",
+          "count": 1
+        },
+        {
+          "month": "2014-07",
+          "count": 1
+        },
+        {
+          "month": "2014-10",
+          "count": 1
+        },
+        {
+          "month": "2014-11",
+          "count": 1
+        },
+        {
+          "month": "2015-01",
+          "count": 3
+        },
+        {
+          "month": "2015-03",
+          "count": 1
+        },
+        {
+          "month": "2015-04",
+          "count": 1
+        },
+        {
+          "month": "2015-06",
+          "count": 1
+        },
+        {
+          "month": "2015-07",
+          "count": 1
+        },
+        {
+          "month": "2015-09",
+          "count": 2
+        },
+        {
+          "month": "2015-10",
+          "count": 2
+        },
+        {
+          "month": "2016-01",
+          "count": 2
+        },
+        {
+          "month": "2016-03",
+          "count": 2
+        },
+        {
+          "month": "2018-06",
+          "count": 1
+        },
+        {
+          "month": "2018-07",
+          "count": 1
+        },
+        {
+          "month": "2021-10",
+          "count": 1
+        },
+        {
+          "month": "2023-05",
+          "count": 1
+        },
+        {
+          "month": "2023-12",
+          "count": 1
+        },
+        {
+          "month": "2024-05",
+          "count": 1
+        },
+        {
+          "month": "2024-06",
+          "count": 2
+        },
+        {
+          "month": "2024-07",
+          "count": 1
+        },
+        {
+          "month": "2024-08",
+          "count": 7
+        },
+        {
+          "month": "2024-09",
+          "count": 15
+        },
+        {
+          "month": "2024-10",
+          "count": 9
+        },
+        {
+          "month": "2024-11",
+          "count": 7
+        },
+        {
+          "month": "2024-12",
+          "count": 17
+        },
+        {
+          "month": "2025-01",
+          "count": 18
+        },
+        {
+          "month": "2025-02",
+          "count": 14
+        },
+        {
+          "month": "2025-03",
+          "count": 18
+        },
+        {
+          "month": "2025-04",
+          "count": 18
+        },
+        {
+          "month": "2025-05",
+          "count": 16
+        },
+        {
+          "month": "2025-06",
+          "count": 20
+        },
+        {
+          "month": "2025-07",
+          "count": 29
+        },
+        {
+          "month": "2025-08",
+          "count": 21
+        },
+        {
+          "month": "2025-09",
+          "count": 28
+        },
+        {
+          "month": "2025-10",
+          "count": 38
+        },
+        {
+          "month": "2025-11",
+          "count": 27
+        },
+        {
+          "month": "2025-12",
+          "count": 33
+        },
+        {
+          "month": "2026-01",
+          "count": 37
+        },
+        {
+          "month": "2026-02",
+          "count": 34
+        },
+        {
+          "month": "2026-03",
+          "count": 48
+        },
+        {
+          "month": "2026-04",
+          "count": 23
+        },
+        {
+          "month": "2026-05",
+          "count": 63
+        },
+        {
+          "month": "2026-06",
+          "count": 33
+        },
+        {
+          "month": "2026-07",
+          "count": 58
+        },
+        {
+          "month": "2026-08",
+          "count": 92
+        },
+        {
+          "month": "2026-09",
+          "count": 81
+        },
+        {
+          "month": "2026-11",
+          "count": 1
+        }
+      ],
+      "date_range": {
+        "date_field": "published_at",
+        "timezone": "Asia/Shanghai",
+        "basis": "Original source publication field only; recovered dates do not replace it",
+        "min": "1999-02-01T12:00:00+00:00",
+        "max": "2026-11-12T18:00:00+00:00",
+        "max_nonfuture": "2026-09-25T10:35:01+00:00",
+        "dated_records": 896,
+        "undated_records": 91,
+        "future_dated_records": 1,
+        "date_origins": {
+          "provided": 896,
+          "missing": 69,
+          "recovered": 22
+        }
+      },
+      "by_institution": [
+        {
+          "ktid": 1000490,
+          "cn": "战略与国际研究中心",
+          "en": "Center for Strategic and International Studies",
+          "count": 321,
+          "by_angle": {
+            "news": 127,
+            "clue": 150,
+            "social": 44
+          }
+        },
+        {
+          "ktid": 1000110,
+          "cn": "美国联邦调查局",
+          "en": "Federal Bureau of Investigation",
+          "count": 162,
+          "by_angle": {
+            "news": 153,
+            "clue": 1,
+            "social": 8
+          }
+        },
+        {
+          "ktid": 1001270,
+          "cn": "新美国安全中心",
+          "en": "Center for a New American Security",
+          "count": 127,
+          "by_angle": {
+            "news": 18,
+            "clue": 107,
+            "social": 2
+          }
+        },
+        {
+          "ktid": 1001140,
+          "cn": "美国国土安全部",
+          "en": "United States Department of Homeland Security",
+          "count": 122,
+          "by_angle": {
+            "news": 121,
+            "clue": 0,
+            "social": 1
+          }
+        },
+        {
+          "ktid": 1000480,
+          "cn": "兰德公司",
+          "en": "RAND Corporation",
+          "count": 56,
+          "by_angle": {
+            "news": 1,
+            "clue": 55,
+            "social": 0
+          }
+        },
+        {
+          "ktid": 1000580,
+          "cn": "克劳德斯特赖克公司",
+          "en": "CrowdStrike Holdings, Inc.",
+          "count": 34,
+          "by_angle": {
+            "news": 29,
+            "clue": 5,
+            "social": 0
+          }
+        },
+        {
+          "ktid": 1001290,
+          "cn": "美国外交关系协会（对外关系委员会）",
+          "en": "Council on Foreign Relations (CFR)",
+          "count": 34,
+          "by_angle": {
+            "news": 8,
+            "clue": 20,
+            "social": 6
+          }
+        },
+        {
+          "ktid": 1001210,
+          "cn": "布鲁金斯学会",
+          "en": "Brookings Institution",
+          "count": 32,
+          "by_angle": {
+            "news": 3,
+            "clue": 15,
+            "social": 14
+          }
+        },
+        {
+          "ktid": 1001190,
+          "cn": "大西洋理事会",
+          "en": "Atlantic Council",
+          "count": 24,
+          "by_angle": {
+            "news": 4,
+            "clue": 5,
+            "social": 15
+          }
+        },
+        {
+          "ktid": 1055920,
+          "cn": "卡隆公司",
+          "en": "Kharon",
+          "count": 23,
+          "by_angle": {
+            "news": 21,
+            "clue": 0,
+            "social": 2
+          }
+        },
+        {
+          "ktid": 1001350,
+          "cn": "保卫民主基金会",
+          "en": "Foundation for Defense of Democracies",
+          "count": 9,
+          "by_angle": {
+            "news": 5,
+            "clue": 0,
+            "social": 4
+          }
+        },
+        {
+          "ktid": 2572960,
+          "cn": "思科",
+          "en": "Cisco",
+          "count": 9,
+          "by_angle": {
+            "news": 9,
+            "clue": 0,
+            "social": 0
+          }
+        },
+        {
+          "ktid": 2575920,
+          "cn": "霍尼韦尔",
+          "en": "Honeywell",
+          "count": 9,
+          "by_angle": {
+            "news": 7,
+            "clue": 2,
+            "social": 0
+          }
+        },
+        {
+          "ktid": 5775050,
+          "cn": "OpenAI",
+          "en": "OpenAI",
+          "count": 8,
+          "by_angle": {
+            "news": 8,
+            "clue": 0,
+            "social": 0
+          }
+        },
+        {
+          "ktid": 1056587,
+          "cn": "英特尔",
+          "en": "Intel",
+          "count": 7,
+          "by_angle": {
+            "news": 7,
+            "clue": 0,
+            "social": 0
+          }
+        },
+        {
+          "ktid": 1056514,
+          "cn": "摩根大通",
+          "en": "JP Morgan",
+          "count": 5,
+          "by_angle": {
+            "news": 5,
+            "clue": 0,
+            "social": 0
+          }
+        },
+        {
+          "ktid": 1056630,
+          "cn": "IBM",
+          "en": "IBM",
+          "count": 3,
+          "by_angle": {
+            "news": 3,
+            "clue": 0,
+            "social": 0
+          }
+        },
+        {
+          "ktid": 1002550,
+          "cn": "阿肯色州立大学",
+          "en": "Arkansas State University",
+          "count": 2,
+          "by_angle": {
+            "news": 0,
+            "clue": 2,
+            "social": 0
+          }
+        }
+      ],
+      "by_angle": {
+        "news": 529,
+        "clue": 362,
+        "social": 96
+      },
+      "by_platform": [
+        {
+          "platform": "official_web",
+          "count": 362
+        },
+        {
+          "platform": "Google News RSS discovery",
+          "count": 310
+        },
+        {
+          "platform": "Google News RSS (deep pilot)",
+          "count": 119
+        },
+        {
+          "platform": "X",
+          "count": 72
+        },
+        {
+          "platform": "Google News RSS",
+          "count": 63
+        },
+        {
+          "platform": "Facebook",
+          "count": 21
+        },
+        {
+          "platform": "Bing News RSS",
+          "count": 19
+        },
+        {
+          "platform": "Google via Apify",
+          "count": 16
+        },
+        {
+          "platform": "LinkedIn",
+          "count": 3
+        },
+        {
+          "platform": "Google",
+          "count": 2
+        }
+      ],
+      "method": "parameterized_readonly_sql_distinct_records",
+      "warning": "Counts describe records in the stored real snapshot. Monthly record volume is not a measure of institutional stance or web-wide attention.",
+      "shares": {
+        "denominator": 987,
+        "basis": "matched_records_within_current_filters_and_terms",
+        "unit": "percent",
+        "by_institution": [
+          {
+            "ktid": 1000490,
+            "count": 321,
+            "percent": 32.5228
+          },
+          {
+            "ktid": 1000110,
+            "count": 162,
+            "percent": 16.4134
+          },
+          {
+            "ktid": 1001270,
+            "count": 127,
+            "percent": 12.8673
+          },
+          {
+            "ktid": 1001140,
+            "count": 122,
+            "percent": 12.3607
+          },
+          {
+            "ktid": 1000480,
+            "count": 56,
+            "percent": 5.6738
+          },
+          {
+            "ktid": 1000580,
+            "count": 34,
+            "percent": 3.4448
+          },
+          {
+            "ktid": 1001290,
+            "count": 34,
+            "percent": 3.4448
+          },
+          {
+            "ktid": 1001210,
+            "count": 32,
+            "percent": 3.2421
+          },
+          {
+            "ktid": 1001190,
+            "count": 24,
+            "percent": 2.4316
+          },
+          {
+            "ktid": 1055920,
+            "count": 23,
+            "percent": 2.3303
+          },
+          {
+            "ktid": 1001350,
+            "count": 9,
+            "percent": 0.9119
+          },
+          {
+            "ktid": 2572960,
+            "count": 9,
+            "percent": 0.9119
+          },
+          {
+            "ktid": 2575920,
+            "count": 9,
+            "percent": 0.9119
+          },
+          {
+            "ktid": 5775050,
+            "count": 8,
+            "percent": 0.8105
+          },
+          {
+            "ktid": 1056587,
+            "count": 7,
+            "percent": 0.7092
+          },
+          {
+            "ktid": 1056514,
+            "count": 5,
+            "percent": 0.5066
+          },
+          {
+            "ktid": 1056630,
+            "count": 3,
+            "percent": 0.304
+          },
+          {
+            "ktid": 1002550,
+            "count": 2,
+            "percent": 0.2026
+          }
+        ],
+        "by_angle": [
+          {
+            "angle": "news",
+            "count": 529,
+            "percent": 53.5968
+          },
+          {
+            "angle": "clue",
+            "count": 362,
+            "percent": 36.6768
+          },
+          {
+            "angle": "social",
+            "count": 96,
+            "percent": 9.7264
+          }
+        ],
+        "by_platform": [
+          {
+            "platform": "official_web",
+            "count": 362,
+            "percent": 36.6768
+          },
+          {
+            "platform": "Google News RSS discovery",
+            "count": 310,
+            "percent": 31.4083
+          },
+          {
+            "platform": "Google News RSS (deep pilot)",
+            "count": 119,
+            "percent": 12.0567
+          },
+          {
+            "platform": "X",
+            "count": 72,
+            "percent": 7.2948
+          },
+          {
+            "platform": "Google News RSS",
+            "count": 63,
+            "percent": 6.383
+          },
+          {
+            "platform": "Facebook",
+            "count": 21,
+            "percent": 2.1277
+          },
+          {
+            "platform": "Bing News RSS",
+            "count": 19,
+            "percent": 1.925
+          },
+          {
+            "platform": "Google via Apify",
+            "count": 16,
+            "percent": 1.6211
+          },
+          {
+            "platform": "LinkedIn",
+            "count": 3,
+            "percent": 0.304
+          },
+          {
+            "platform": "Google",
+            "count": 2,
+            "percent": 0.2026
+          }
+        ]
+      },
+      "scoped": {
+        "total": 6989,
+        "by_angle": {
+          "news": 3675,
+          "clue": 1468,
+          "social": 1846
+        },
+        "by_institution": [
+          {
+            "ktid": 1000110,
+            "cn": "美国联邦调查局",
+            "en": "Federal Bureau of Investigation",
+            "count": 1688,
+            "by_angle": {
+              "news": 1446,
+              "clue": 6,
+              "social": 236
+            }
+          },
+          {
+            "ktid": 1001140,
+            "cn": "美国国土安全部",
+            "en": "United States Department of Homeland Security",
+            "count": 1672,
+            "by_angle": {
+              "news": 1185,
+              "clue": 3,
+              "social": 484
+            }
+          },
+          {
+            "ktid": 1000490,
+            "cn": "战略与国际研究中心",
+            "en": "Center for Strategic and International Studies",
+            "count": 1317,
+            "by_angle": {
+              "news": 225,
+              "clue": 727,
+              "social": 365
+            }
+          },
+          {
+            "ktid": 1000580,
+            "cn": "克劳德斯特赖克公司",
+            "en": "CrowdStrike Holdings, Inc.",
+            "count": 516,
+            "by_angle": {
+              "news": 368,
+              "clue": 75,
+              "social": 73
+            }
+          },
+          {
+            "ktid": 1001190,
+            "cn": "大西洋理事会",
+            "en": "Atlantic Council",
+            "count": 386,
+            "by_angle": {
+              "news": 15,
+              "clue": 20,
+              "social": 351
+            }
+          },
+          {
+            "ktid": 1000480,
+            "cn": "兰德公司",
+            "en": "RAND Corporation",
+            "count": 290,
+            "by_angle": {
+              "news": 2,
+              "clue": 249,
+              "social": 39
+            }
+          },
+          {
+            "ktid": 1001210,
+            "cn": "布鲁金斯学会",
+            "en": "Brookings Institution",
+            "count": 272,
+            "by_angle": {
+              "news": 7,
+              "clue": 58,
+              "social": 207
+            }
+          },
+          {
+            "ktid": 1002550,
+            "cn": "阿肯色州立大学",
+            "en": "Arkansas State University",
+            "count": 221,
+            "by_angle": {
+              "news": 100,
+              "clue": 120,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 1001270,
+            "cn": "新美国安全中心",
+            "en": "Center for a New American Security",
+            "count": 164,
+            "by_angle": {
+              "news": 35,
+              "clue": 120,
+              "social": 9
+            }
+          },
+          {
+            "ktid": 1001290,
+            "cn": "美国外交关系协会（对外关系委员会）",
+            "en": "Council on Foreign Relations (CFR)",
+            "count": 99,
+            "by_angle": {
+              "news": 18,
+              "clue": 62,
+              "social": 19
+            }
+          },
+          {
+            "ktid": 1000760,
+            "cn": "洛克希德·马丁公司",
+            "en": "Lockheed Martin Corporation",
+            "count": 66,
+            "by_angle": {
+              "news": 40,
+              "clue": 15,
+              "social": 11
+            }
+          },
+          {
+            "ktid": 1055920,
+            "cn": "卡隆公司",
+            "en": "Kharon",
+            "count": 50,
+            "by_angle": {
+              "news": 38,
+              "clue": 1,
+              "social": 11
+            }
+          },
+          {
+            "ktid": 1056587,
+            "cn": "英特尔",
+            "en": "Intel",
+            "count": 39,
+            "by_angle": {
+              "news": 36,
+              "clue": 2,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 1056514,
+            "cn": "摩根大通",
+            "en": "JP Morgan",
+            "count": 37,
+            "by_angle": {
+              "news": 35,
+              "clue": 1,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 1001350,
+            "cn": "保卫民主基金会",
+            "en": "Foundation for Defense of Democracies",
+            "count": 36,
+            "by_angle": {
+              "news": 15,
+              "clue": 2,
+              "social": 19
+            }
+          },
+          {
+            "ktid": 5775050,
+            "cn": "OpenAI",
+            "en": "OpenAI",
+            "count": 36,
+            "by_angle": {
+              "news": 33,
+              "clue": 2,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 2575920,
+            "cn": "霍尼韦尔",
+            "en": "Honeywell",
+            "count": 30,
+            "by_angle": {
+              "news": 27,
+              "clue": 2,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 1056630,
+            "cn": "IBM",
+            "en": "IBM",
+            "count": 27,
+            "by_angle": {
+              "news": 25,
+              "clue": 1,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 2572960,
+            "cn": "思科",
+            "en": "Cisco",
+            "count": 25,
+            "by_angle": {
+              "news": 23,
+              "clue": 1,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 1001150,
+            "cn": "美国国务院",
+            "en": "United States Department of State (DOS)",
+            "count": 18,
+            "by_angle": {
+              "news": 2,
+              "clue": 1,
+              "social": 15
+            }
+          }
+        ],
+        "by_platform": [
+          {
+            "platform": "Google News RSS discovery",
+            "count": 1664
+          },
+          {
+            "platform": "official_web",
+            "count": 1468
+          },
+          {
+            "platform": "X",
+            "count": 1189
+          },
+          {
+            "platform": "Google News RSS",
+            "count": 946
+          },
+          {
+            "platform": "Google News RSS (deep pilot)",
+            "count": 881
+          },
+          {
+            "platform": "Facebook",
+            "count": 615
+          },
+          {
+            "platform": "Bing News RSS",
+            "count": 125
+          },
+          {
+            "platform": "LinkedIn",
+            "count": 42
+          },
+          {
+            "platform": "Google via Apify",
+            "count": 34
+          },
+          {
+            "platform": "Google",
+            "count": 15
+          },
+          {
+            "platform": "Google News RSS + Yahoo title resolution via Reader",
+            "count": 9
+          },
+          {
+            "platform": "legacy_cache_import",
+            "count": 1
+          }
+        ]
+      }
+    },
+    "query": "你好，给我看看 近期的就是 对中国最相关的 报道我看看",
+    "plan": {
+      "query": "你好，给我看看 近期的就是 对中国最相关的 报道我看看",
+      "filters": {
+        "date_field": "published_at"
+      },
+      "inferred_filters": {},
+      "locked_scope": {
+        "date_field": "published_at"
+      },
+      "terms": [
+        [
+          "中国",
+          "China",
+          "Chinese",
+          "PRC",
+          "对华",
+          "涉华",
+          "中美",
+          "美中"
+        ]
+      ],
+      "request_intent": {
+        "enabled": true,
+        "normalized_query": "中国",
+        "topics_query": "中国",
+        "removed_request_phrases": [
+          {
+            "text": "你好",
+            "reason": "greeting"
+          },
+          {
+            "text": "近期",
+            "reason": "recent_order"
+          },
+          {
+            "text": "给我看看  ",
+            "reason": "answer_directive"
+          },
+          {
+            "text": "的就是",
+            "reason": "request_modifier"
+          },
+          {
+            "text": "最相关的",
+            "reason": "request_modifier"
+          },
+          {
+            "text": "报道我看看",
+            "reason": "document_request"
+          }
+        ],
+        "citation_requested": false,
+        "requested_points": null,
+        "same_source_requested": false,
+        "referential": false,
+        "source_reference": false,
+        "requested_attributes": [],
+        "task": "lookup",
+        "kind": "lookup",
+        "query_kind": "lookup",
+        "topic": "中国",
+        "dimensions": [],
+        "requested_sort": "recent",
+        "exact_phrases": [],
+        "excluded_terms": [],
+        "operations": {
+          "count": false,
+          "compare": false,
+          "trend": false,
+          "ranking": false,
+          "share": false
+        },
+        "requires_history": false,
+        "time_scope": {
+          "mode": "snapshot_recent",
+          "timezone": "Asia/Shanghai",
+          "as_of": "2026-11-09T16:25:09+08:00",
+          "date_from": null,
+          "date_to": null,
+          "expressions": [
+            "近期"
+          ],
+          "basis": "snapshot_order",
+          "date_field": "published_at",
+          "policy": "Vague recent means ordering within the loaded snapshot; explicit calendar bounds remain locked",
+          "evidence_policy": "Selected original date descending; missing dates sort last. Future-dated rows remain in exact counts but are excluded from recent evidence"
+        }
+      },
+      "intent": {
+        "enabled": true,
+        "normalized_query": "中国",
+        "topics_query": "中国",
+        "removed_request_phrases": [
+          {
+            "text": "你好",
+            "reason": "greeting"
+          },
+          {
+            "text": "近期",
+            "reason": "recent_order"
+          },
+          {
+            "text": "给我看看  ",
+            "reason": "answer_directive"
+          },
+          {
+            "text": "的就是",
+            "reason": "request_modifier"
+          },
+          {
+            "text": "最相关的",
+            "reason": "request_modifier"
+          },
+          {
+            "text": "报道我看看",
+            "reason": "document_request"
+          }
+        ],
+        "citation_requested": false,
+        "requested_points": null,
+        "same_source_requested": false,
+        "referential": false,
+        "source_reference": false,
+        "requested_attributes": [],
+        "task": "lookup",
+        "kind": "lookup",
+        "query_kind": "lookup",
+        "topic": "中国",
+        "dimensions": [],
+        "requested_sort": "recent",
+        "exact_phrases": [],
+        "excluded_terms": [],
+        "operations": {
+          "count": false,
+          "compare": false,
+          "trend": false,
+          "ranking": false,
+          "share": false
+        },
+        "requires_history": false,
+        "time_scope": {
+          "mode": "snapshot_recent",
+          "timezone": "Asia/Shanghai",
+          "as_of": "2026-11-09T16:25:09+08:00",
+          "date_from": null,
+          "date_to": null,
+          "expressions": [
+            "近期"
+          ],
+          "basis": "snapshot_order",
+          "date_field": "published_at",
+          "policy": "Vague recent means ordering within the loaded snapshot; explicit calendar bounds remain locked",
+          "evidence_policy": "Selected original date descending; missing dates sort last. Future-dated rows remain in exact counts but are excluded from recent evidence"
+        }
+      },
+      "time_scope": {
+        "mode": "snapshot_recent",
+        "timezone": "Asia/Shanghai",
+        "as_of": "2026-11-09T16:25:09+08:00",
+        "date_from": null,
+        "date_to": null,
+        "expressions": [
+          "近期"
+        ],
+        "basis": "snapshot_order",
+        "date_field": "published_at",
+        "policy": "Vague recent means ordering within the loaded snapshot; explicit calendar bounds remain locked",
+        "evidence_policy": "Selected original date descending; missing dates sort last. Future-dated rows remain in exact counts but are excluded from recent evidence"
+      },
+      "sort": "recent",
+      "exact_phrases": [],
+      "excluded_terms": [],
+      "expansion_enabled": true,
+      "fuzzy_terms": [],
+      "strategy": "fts5_and",
+      "relaxed": false,
+      "relax_allowed": false,
+      "model": {
+        "attempted": false,
+        "used": false,
+        "reason": "semantic_disabled",
+        "original_query": "你好，给我看看 近期的就是 对中国最相关的 报道我看看",
+        "rewritten_query": null,
+        "applied_groups": []
+      },
+      "semantic_requested": false,
+      "conversation": {
+        "history_used": false,
+        "original_message": "你好，给我看看 近期的就是 对中国最相关的 报道我看看",
+        "same_source_requested": false,
+        "scope_basis": "bounded_user_history_and_current_filters",
+        "source_record_ids": null,
+        "source_basis": null,
+        "request_intent": {
+          "enabled": true,
+          "normalized_query": "中国",
+          "topics_query": "中国",
+          "removed_request_phrases": [
+            {
+              "text": "你好",
+              "reason": "greeting"
+            },
+            {
+              "text": "近期",
+              "reason": "recent_order"
+            },
+            {
+              "text": "给我看看  ",
+              "reason": "answer_directive"
+            },
+            {
+              "text": "的就是",
+              "reason": "request_modifier"
+            },
+            {
+              "text": "最相关的",
+              "reason": "request_modifier"
+            },
+            {
+              "text": "报道我看看",
+              "reason": "document_request"
+            }
+          ],
+          "citation_requested": false,
+          "requested_points": null,
+          "same_source_requested": false,
+          "referential": false,
+          "source_reference": false,
+          "requested_attributes": [],
+          "task": "lookup",
+          "kind": "lookup",
+          "query_kind": "lookup",
+          "topic": "中国",
+          "dimensions": [],
+          "requested_sort": "recent",
+          "exact_phrases": [],
+          "excluded_terms": [],
+          "operations": {
+            "count": false,
+            "compare": false,
+            "trend": false,
+            "ranking": false,
+            "share": false
+          },
+          "requires_history": false,
+          "time_scope": {
+            "mode": "snapshot_recent",
+            "timezone": "Asia/Shanghai",
+            "as_of": "2026-11-09T16:25:10+08:00",
+            "date_from": null,
+            "date_to": null,
+            "expressions": [
+              "近期"
+            ],
+            "basis": "snapshot_order"
+          }
+        }
+      },
+      "tool_steps": [
+        {
+          "tool": "database_evidence",
+          "purpose": "question_scope",
+          "filters": {
+            "date_field": "published_at"
+          },
+          "returned_paragraphs": 12
+        },
+        {
+          "tool": "database_aggregate",
+          "purpose": "exact_scoped_and_matched_counts"
+        },
+        {
+          "tool": "database_analytics",
+          "purpose": "exact_dates_and_dimensions"
+        },
+        {
+          "tool": "model_generation",
+          "state": "returned"
+        },
+        {
+          "tool": "model_evidence_review",
+          "state": "returned",
+          "claims": 4
+        }
+      ]
+    },
+    "aggregates": {
+      "scope": {
+        "dataset": "real",
+        "filters": {
+          "date_field": "published_at"
+        },
+        "source_version": "f064c896c123cbf4",
+        "date_field": "published_at",
+        "timezone": "Asia/Shanghai",
+        "excluded_terms": [],
+        "sort": "recent",
+        "relaxed": false,
+        "term_match": [
+          [
+            "中国",
+            "China",
+            "Chinese",
+            "PRC",
+            "对华",
+            "涉华",
+            "中美",
+            "美中"
+          ]
+        ],
+        "strategy": "fts5_and",
+        "date_semantics": "Original source publication dates only; recovered dates do not change this scope"
+      },
+      "scoped": {
+        "total": 6989,
+        "by_angle": {
+          "news": 3675,
+          "clue": 1468,
+          "social": 1846
+        },
+        "by_institution": [
+          {
+            "ktid": 1000110,
+            "cn": "美国联邦调查局",
+            "en": "Federal Bureau of Investigation",
+            "count": 1688,
+            "by_angle": {
+              "news": 1446,
+              "clue": 6,
+              "social": 236
+            }
+          },
+          {
+            "ktid": 1001140,
+            "cn": "美国国土安全部",
+            "en": "United States Department of Homeland Security",
+            "count": 1672,
+            "by_angle": {
+              "news": 1185,
+              "clue": 3,
+              "social": 484
+            }
+          },
+          {
+            "ktid": 1000490,
+            "cn": "战略与国际研究中心",
+            "en": "Center for Strategic and International Studies",
+            "count": 1317,
+            "by_angle": {
+              "news": 225,
+              "clue": 727,
+              "social": 365
+            }
+          },
+          {
+            "ktid": 1000580,
+            "cn": "克劳德斯特赖克公司",
+            "en": "CrowdStrike Holdings, Inc.",
+            "count": 516,
+            "by_angle": {
+              "news": 368,
+              "clue": 75,
+              "social": 73
+            }
+          },
+          {
+            "ktid": 1001190,
+            "cn": "大西洋理事会",
+            "en": "Atlantic Council",
+            "count": 386,
+            "by_angle": {
+              "news": 15,
+              "clue": 20,
+              "social": 351
+            }
+          },
+          {
+            "ktid": 1000480,
+            "cn": "兰德公司",
+            "en": "RAND Corporation",
+            "count": 290,
+            "by_angle": {
+              "news": 2,
+              "clue": 249,
+              "social": 39
+            }
+          },
+          {
+            "ktid": 1001210,
+            "cn": "布鲁金斯学会",
+            "en": "Brookings Institution",
+            "count": 272,
+            "by_angle": {
+              "news": 7,
+              "clue": 58,
+              "social": 207
+            }
+          },
+          {
+            "ktid": 1002550,
+            "cn": "阿肯色州立大学",
+            "en": "Arkansas State University",
+            "count": 221,
+            "by_angle": {
+              "news": 100,
+              "clue": 120,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 1001270,
+            "cn": "新美国安全中心",
+            "en": "Center for a New American Security",
+            "count": 164,
+            "by_angle": {
+              "news": 35,
+              "clue": 120,
+              "social": 9
+            }
+          },
+          {
+            "ktid": 1001290,
+            "cn": "美国外交关系协会（对外关系委员会）",
+            "en": "Council on Foreign Relations (CFR)",
+            "count": 99,
+            "by_angle": {
+              "news": 18,
+              "clue": 62,
+              "social": 19
+            }
+          },
+          {
+            "ktid": 1000760,
+            "cn": "洛克希德·马丁公司",
+            "en": "Lockheed Martin Corporation",
+            "count": 66,
+            "by_angle": {
+              "news": 40,
+              "clue": 15,
+              "social": 11
+            }
+          },
+          {
+            "ktid": 1055920,
+            "cn": "卡隆公司",
+            "en": "Kharon",
+            "count": 50,
+            "by_angle": {
+              "news": 38,
+              "clue": 1,
+              "social": 11
+            }
+          },
+          {
+            "ktid": 1056587,
+            "cn": "英特尔",
+            "en": "Intel",
+            "count": 39,
+            "by_angle": {
+              "news": 36,
+              "clue": 2,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 1056514,
+            "cn": "摩根大通",
+            "en": "JP Morgan",
+            "count": 37,
+            "by_angle": {
+              "news": 35,
+              "clue": 1,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 1001350,
+            "cn": "保卫民主基金会",
+            "en": "Foundation for Defense of Democracies",
+            "count": 36,
+            "by_angle": {
+              "news": 15,
+              "clue": 2,
+              "social": 19
+            }
+          },
+          {
+            "ktid": 5775050,
+            "cn": "OpenAI",
+            "en": "OpenAI",
+            "count": 36,
+            "by_angle": {
+              "news": 33,
+              "clue": 2,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 2575920,
+            "cn": "霍尼韦尔",
+            "en": "Honeywell",
+            "count": 30,
+            "by_angle": {
+              "news": 27,
+              "clue": 2,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 1056630,
+            "cn": "IBM",
+            "en": "IBM",
+            "count": 27,
+            "by_angle": {
+              "news": 25,
+              "clue": 1,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 2572960,
+            "cn": "思科",
+            "en": "Cisco",
+            "count": 25,
+            "by_angle": {
+              "news": 23,
+              "clue": 1,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 1001150,
+            "cn": "美国国务院",
+            "en": "United States Department of State (DOS)",
+            "count": 18,
+            "by_angle": {
+              "news": 2,
+              "clue": 1,
+              "social": 15
+            }
+          }
+        ],
+        "by_platform": [
+          {
+            "platform": "Google News RSS discovery",
+            "count": 1664
+          },
+          {
+            "platform": "official_web",
+            "count": 1468
+          },
+          {
+            "platform": "X",
+            "count": 1189
+          },
+          {
+            "platform": "Google News RSS",
+            "count": 946
+          },
+          {
+            "platform": "Google News RSS (deep pilot)",
+            "count": 881
+          },
+          {
+            "platform": "Facebook",
+            "count": 615
+          },
+          {
+            "platform": "Bing News RSS",
+            "count": 125
+          },
+          {
+            "platform": "LinkedIn",
+            "count": 42
+          },
+          {
+            "platform": "Google via Apify",
+            "count": 34
+          },
+          {
+            "platform": "Google",
+            "count": 15
+          },
+          {
+            "platform": "Google News RSS + Yahoo title resolution via Reader",
+            "count": 9
+          },
+          {
+            "platform": "legacy_cache_import",
+            "count": 1
+          }
+        ]
+      },
+      "matched": {
+        "total": 987,
+        "by_angle": {
+          "news": 529,
+          "clue": 362,
+          "social": 96
+        },
+        "by_institution": [
+          {
+            "ktid": 1000490,
+            "cn": "战略与国际研究中心",
+            "en": "Center for Strategic and International Studies",
+            "count": 321,
+            "by_angle": {
+              "news": 127,
+              "clue": 150,
+              "social": 44
+            }
+          },
+          {
+            "ktid": 1000110,
+            "cn": "美国联邦调查局",
+            "en": "Federal Bureau of Investigation",
+            "count": 162,
+            "by_angle": {
+              "news": 153,
+              "clue": 1,
+              "social": 8
+            }
+          },
+          {
+            "ktid": 1001270,
+            "cn": "新美国安全中心",
+            "en": "Center for a New American Security",
+            "count": 127,
+            "by_angle": {
+              "news": 18,
+              "clue": 107,
+              "social": 2
+            }
+          },
+          {
+            "ktid": 1001140,
+            "cn": "美国国土安全部",
+            "en": "United States Department of Homeland Security",
+            "count": 122,
+            "by_angle": {
+              "news": 121,
+              "clue": 0,
+              "social": 1
+            }
+          },
+          {
+            "ktid": 1000480,
+            "cn": "兰德公司",
+            "en": "RAND Corporation",
+            "count": 56,
+            "by_angle": {
+              "news": 1,
+              "clue": 55,
+              "social": 0
+            }
+          },
+          {
+            "ktid": 1000580,
+            "cn": "克劳德斯特赖克公司",
+            "en": "CrowdStrike Holdings, Inc.",
+            "count": 34,
+            "by_angle": {
+              "news": 29,
+              "clue": 5,
+              "social": 0
+            }
+          },
+          {
+            "ktid": 1001290,
+            "cn": "美国外交关系协会（对外关系委员会）",
+            "en": "Council on Foreign Relations (CFR)",
+            "count": 34,
+            "by_angle": {
+              "news": 8,
+              "clue": 20,
+              "social": 6
+            }
+          },
+          {
+            "ktid": 1001210,
+            "cn": "布鲁金斯学会",
+            "en": "Brookings Institution",
+            "count": 32,
+            "by_angle": {
+              "news": 3,
+              "clue": 15,
+              "social": 14
+            }
+          },
+          {
+            "ktid": 1001190,
+            "cn": "大西洋理事会",
+            "en": "Atlantic Council",
+            "count": 24,
+            "by_angle": {
+              "news": 4,
+              "clue": 5,
+              "social": 15
+            }
+          },
+          {
+            "ktid": 1055920,
+            "cn": "卡隆公司",
+            "en": "Kharon",
+            "count": 23,
+            "by_angle": {
+              "news": 21,
+              "clue": 0,
+              "social": 2
+            }
+          },
+          {
+            "ktid": 1001350,
+            "cn": "保卫民主基金会",
+            "en": "Foundation for Defense of Democracies",
+            "count": 9,
+            "by_angle": {
+              "news": 5,
+              "clue": 0,
+              "social": 4
+            }
+          },
+          {
+            "ktid": 2572960,
+            "cn": "思科",
+            "en": "Cisco",
+            "count": 9,
+            "by_angle": {
+              "news": 9,
+              "clue": 0,
+              "social": 0
+            }
+          },
+          {
+            "ktid": 2575920,
+            "cn": "霍尼韦尔",
+            "en": "Honeywell",
+            "count": 9,
+            "by_angle": {
+              "news": 7,
+              "clue": 2,
+              "social": 0
+            }
+          },
+          {
+            "ktid": 5775050,
+            "cn": "OpenAI",
+            "en": "OpenAI",
+            "count": 8,
+            "by_angle": {
+              "news": 8,
+              "clue": 0,
+              "social": 0
+            }
+          },
+          {
+            "ktid": 1056587,
+            "cn": "英特尔",
+            "en": "Intel",
+            "count": 7,
+            "by_angle": {
+              "news": 7,
+              "clue": 0,
+              "social": 0
+            }
+          },
+          {
+            "ktid": 1056514,
+            "cn": "摩根大通",
+            "en": "JP Morgan",
+            "count": 5,
+            "by_angle": {
+              "news": 5,
+              "clue": 0,
+              "social": 0
+            }
+          },
+          {
+            "ktid": 1056630,
+            "cn": "IBM",
+            "en": "IBM",
+            "count": 3,
+            "by_angle": {
+              "news": 3,
+              "clue": 0,
+              "social": 0
+            }
+          },
+          {
+            "ktid": 1002550,
+            "cn": "阿肯色州立大学",
+            "en": "Arkansas State University",
+            "count": 2,
+            "by_angle": {
+              "news": 0,
+              "clue": 2,
+              "social": 0
+            }
+          }
+        ],
+        "by_platform": [
+          {
+            "platform": "official_web",
+            "count": 362
+          },
+          {
+            "platform": "Google News RSS discovery",
+            "count": 310
+          },
+          {
+            "platform": "Google News RSS (deep pilot)",
+            "count": 119
+          },
+          {
+            "platform": "X",
+            "count": 72
+          },
+          {
+            "platform": "Google News RSS",
+            "count": 63
+          },
+          {
+            "platform": "Facebook",
+            "count": 21
+          },
+          {
+            "platform": "Bing News RSS",
+            "count": 19
+          },
+          {
+            "platform": "Google via Apify",
+            "count": 16
+          },
+          {
+            "platform": "LinkedIn",
+            "count": 3
+          },
+          {
+            "platform": "Google",
+            "count": 2
+          }
+        ]
+      }
+    },
+    "coverage": {
+      "dataset": "real",
+      "source_version": "f064c896c123cbf4",
+      "database_total": 6989,
+      "scoped_records": 6989,
+      "matched_records": 987,
+      "returned_records": 12,
+      "returned_paragraphs": 12,
+      "time_scope": {
+        "mode": "snapshot_recent",
+        "timezone": "Asia/Shanghai",
+        "as_of": "2026-11-09T16:25:09+08:00",
+        "date_from": null,
+        "date_to": null,
+        "expressions": [
+          "近期"
+        ],
+        "basis": "snapshot_order",
+        "date_field": "published_at",
+        "policy": "Vague recent means ordering within the loaded snapshot; explicit calendar bounds remain locked",
+        "evidence_policy": "Selected original date descending; missing dates sort last. Future-dated rows remain in exact counts but are excluded from recent evidence"
+      },
+      "sort": "recent",
+      "latest_returned_date": "2026-09-25T10:35:01+00:00",
+      "earliest_returned_date": "2026-09-24T14:00:25+00:00",
+      "future_dated_returned_records": 0,
+      "snapshot_generated_at": "2026-11-05T15:10:46+00:00",
+      "exhaustive": false,
+      "warning": "Counts describe the stored real snapshot, not the entire web; retrieved paragraphs are a bounded sample."
+    },
+    "model": {
+      "id": "auto/deepseek-v4.1-flash",
+      "used": true,
+      "attempted": true,
+      "reason": null
+    },
+    "usage": {
+      "prompt_tokens": 4282,
+      "completion_tokens": 807,
+      "total_tokens": 5089
+    },
+    "state": "answered",
+    "answer_format": "grounded_summary",
+    "answer_kind": "lookup",
+    "sections": [
+      {
+        "kind": "fact",
+        "text": "大西洋理事会社交账号发帖称，普京未能获得北京对“西伯利亚力量二号”管道的支持，并认为这强化了俄罗斯因乌克兰战争而沦为“小伙伴”的看法。",
+        "citations": [
+          "C5"
+        ],
+        "quotes": [
+          {
+            "citation_id": "C5",
+            "quote": "普京无法获得北京对“西伯利亚力量二号”管道的支持，这强化了国际社会的看法：乌克兰入侵已使俄罗斯沦为中国的“小伙伴”。@zaharhryniv撰文。阅读更多：https://t.co/JklqpWCU1Q"
+          }
+        ]
+      },
+      {
+        "kind": "fact",
+        "text": "FDD的Craig Singleton对@AP表示，延长贸易休战让美国有机会检验中国是否履行购买美国农产品的承诺。",
+        "citations": [
+          "C6"
+        ],
+        "quotes": [
+          {
+            "citation_id": "C6",
+            "quote": "FDD的Craig Singleton对@AP表示，延长贸易休战让美国有机会检验中国是否履行购买美国农产品的承诺：“这与购买两个月的平静关系不大，而是要让中国赢得下一次延期。”https://t.co/90Zqf8QQRF"
+          }
+        ]
+      },
+      {
+        "kind": "fact",
+        "text": "FBI门户网站遭黑客攻击的报道援引路透社称，部分被窃数据涉及针对中国间谍等敏感工作的分配详情。",
+        "citations": [
+          "C10"
+        ],
+        "quotes": [
+          {
+            "citation_id": "C10",
+            "quote": "据路透社报道，部分数据包含官员的工作分配详情，包括针对中国间谍、俄罗斯情报机构和贩毒集团的敏感工作。"
+          }
+        ]
+      }
+    ],
+    "suggestions": [
+      "最近 CSIS 对中国关注什么？分析主要议题",
+      "比较 CSIS 与 RAND 涉华报道的异同",
+      "CSIS 有多少条记录？按角度统计"
+    ],
+    "suggested_questions": [
+      "最近 CSIS 对中国关注什么？分析主要议题",
+      "比较 CSIS 与 RAND 涉华报道的异同",
+      "CSIS 有多少条记录？按角度统计"
+    ],
+    "search_suggestions": [],
+    "analysis_scope": {
+      "scope": {
+        "dataset": "real",
+        "filters": {
+          "date_field": "published_at"
+        },
+        "source_version": "f064c896c123cbf4",
+        "date_field": "published_at",
+        "timezone": "Asia/Shanghai",
+        "excluded_terms": [],
+        "sort": "recent",
+        "relaxed": false,
+        "term_match": [
+          [
+            "中国",
+            "China",
+            "Chinese",
+            "PRC",
+            "对华",
+            "涉华",
+            "中美",
+            "美中"
+          ]
+        ],
+        "strategy": "fts5_and",
+        "date_semantics": "Original source publication dates only; recovered dates do not change this scope"
+      },
+      "bounded_sample": true,
+      "exhaustive": false,
+      "realtime": false,
+      "limitation": "分析仅依据可引用样本；精确数量以相同筛选和关键词口径的数据库统计为准。",
+      "comparison_complete": true,
+      "as_of": "2026-11-09T16:25:09+08:00",
+      "date_range": {
+        "date_field": "published_at",
+        "timezone": "Asia/Shanghai",
+        "basis": "Original source publication field only; recovered dates do not replace it",
+        "min": "1999-02-01T12:00:00+00:00",
+        "max": "2026-11-12T18:00:00+00:00",
+        "max_nonfuture": "2026-09-25T10:35:01+00:00",
+        "dated_records": 896,
+        "undated_records": 91,
+        "future_dated_records": 1,
+        "date_origins": {
+          "provided": 896,
+          "missing": 69,
+          "recovered": 22
+        }
+      },
+      "evidence_records": 8,
+      "evidence_paragraphs": 8,
+      "cited_records": 3,
+      "cited_paragraphs": 3
+    },
+    "validation": {
+      "level": "exact_quotes_and_model_review",
+      "semantic_entailment": "model_reviewed_not_proven",
+      "accepted_claims": 3,
+      "rejected_claims": [
+        {
+          "claim_id": "K1",
+          "reason": "unsupported_number"
+        },
+        {
+          "claim_id": "K4",
+          "reason": "insufficient"
+        }
+      ],
+      "source_truth_verified": false,
+      "review_status": "completed"
+    }
+  },
+  "original_seconds": 9.78,
+  "answer_render_delay_after_api_seconds": 0.05,
+  "count_answer": {
+    "api_revision": "research-chat-20261109",
+    "answer": "数据库精确统计：阿肯色州立大学共 221 条，其中新闻舆情 100 条、官网线索 120 条、社交媒体 1 条。[A1]\n日期口径：published_at，Asia/Shanghai；Original source publication dates only; recovered dates do not change this scope。\n统计范围：已入库真实快照 f064c896c123cbf4；模拟数据未计入，不能据此推断全网总量。",
+    "citations": [],
+    "aggregate_citations": [
+      {
+        "citation_id": "A1",
+        "kind": "database_aggregate",
+        "scope": {
+          "dataset": "real",
+          "filters": {
+            "date_field": "published_at",
+            "institution": [
+              1002550
+            ]
+          },
+          "source_version": "f064c896c123cbf4",
+          "date_field": "published_at",
+          "timezone": "Asia/Shanghai",
+          "excluded_terms": [],
+          "sort": "relevance",
+          "relaxed": false,
+          "term_match": [],
+          "strategy": "structured_filters",
+          "date_semantics": "Original source publication dates only; recovered dates do not change this scope"
+        },
+        "scoped": {
+          "total": 221,
+          "by_angle": {
+            "news": 100,
+            "clue": 120,
+            "social": 1
+          },
+          "by_institution": [
+            {
+              "ktid": 1002550,
+              "cn": "阿肯色州立大学",
+              "en": "Arkansas State University",
+              "count": 221,
+              "by_angle": {
+                "news": 100,
+                "clue": 120,
+                "social": 1
+              }
+            }
+          ],
+          "by_platform": [
+            {
+              "platform": "official_web",
+              "count": 120
+            },
+            {
+              "platform": "Google News RSS discovery",
+              "count": 98
+            },
+            {
+              "platform": "Bing News RSS",
+              "count": 2
+            },
+            {
+              "platform": "X",
+              "count": 1
+            }
+          ]
+        },
+        "matched": {
+          "total": 221,
+          "by_angle": {
+            "news": 100,
+            "clue": 120,
+            "social": 1
+          },
+          "by_institution": [
+            {
+              "ktid": 1002550,
+              "cn": "阿肯色州立大学",
+              "en": "Arkansas State University",
+              "count": 221,
+              "by_angle": {
+                "news": 100,
+                "clue": 120,
+                "social": 1
+              }
+            }
+          ],
+          "by_platform": [
+            {
+              "platform": "official_web",
+              "count": 120
+            },
+            {
+              "platform": "Google News RSS discovery",
+              "count": 98
+            },
+            {
+              "platform": "Bing News RSS",
+              "count": 2
+            },
+            {
+              "platform": "X",
+              "count": 1
+            }
+          ]
+        }
+      },
+      {
+        "citation_id": "A2",
+        "kind": "database_aggregate",
+        "scope": {
+          "dataset": "real",
+          "filters": {
+            "institution": [
+              1002550
+            ],
+            "date_field": "published_at"
+          },
+          "source_version": "f064c896c123cbf4",
+          "date_field": "published_at",
+          "timezone": "Asia/Shanghai",
+          "excluded_terms": [],
+          "sort": "relevance",
+          "relaxed": false,
+          "term_match": [],
+          "strategy": "structured_filters",
+          "date_semantics": "Original source publication dates only; recovered dates do not change this scope",
+          "dimensions": [
+            "institution",
+            "angle",
+            "platform",
+            "month"
+          ],
+          "as_of": "2026-11-09T16:25:20+08:00",
+          "date_basis": "Original source publication field only; recovered dates do not replace it"
+        },
+        "matched": {
+          "total": 221,
+          "by_angle": {
+            "news": 100,
+            "clue": 120,
+            "social": 1
+          },
+          "by_institution": [
+            {
+              "ktid": 1002550,
+              "cn": "阿肯色州立大学",
+              "en": "Arkansas State University",
+              "count": 221,
+              "by_angle": {
+                "news": 100,
+                "clue": 120,
+                "social": 1
+              }
+            }
+          ],
+          "by_platform": [
+            {
+              "platform": "official_web",
+              "count": 120
+            },
+            {
+              "platform": "Google News RSS discovery",
+              "count": 98
+            },
+            {
+              "platform": "Bing News RSS",
+              "count": 2
+            },
+            {
+              "platform": "X",
+              "count": 1
+            }
+          ]
+        },
+        "date_range": {
+          "date_field": "published_at",
+          "timezone": "Asia/Shanghai",
+          "basis": "Original source publication field only; recovered dates do not replace it",
+          "min": "2025-10-16T00:00:00+00:00",
+          "max": "2026-10-09T05:15:31+00:00",
+          "max_nonfuture": "2026-10-09T05:15:31+00:00",
+          "dated_records": 107,
+          "undated_records": 114,
+          "future_dated_records": 0,
+          "date_origins": {
+            "provided": 107,
+            "missing": 114
+          }
+        },
+        "by_month": [
+          {
+            "month": "2025-10",
+            "count": 1
+          },
+          {
+            "month": "2025-11",
+            "count": 1
+          },
+          {
+            "month": "2025-12",
+            "count": 4
+          },
+          {
+            "month": "2026-01",
+            "count": 5
+          },
+          {
+            "month": "2026-02",
+            "count": 11
+          },
+          {
+            "month": "2026-03",
+            "count": 13
+          },
+          {
+            "month": "2026-04",
+            "count": 21
+          },
+          {
+            "month": "2026-05",
+            "count": 19
+          },
+          {
+            "month": "2026-06",
+            "count": 6
+          },
+          {
+            "month": "2026-07",
+            "count": 8
+          },
+          {
+            "month": "2026-08",
+            "count": 6
+          },
+          {
+            "month": "2026-09",
+            "count": 11
+          },
+          {
+            "month": "2026-10",
+            "count": 1
+          }
+        ],
+        "method": "parameterized_readonly_sql_distinct_records",
+        "shares": {
+          "denominator": 221,
+          "basis": "matched_records_within_current_filters_and_terms",
+          "unit": "percent",
+          "by_institution": [
+            {
+              "ktid": 1002550,
+              "count": 221,
+              "percent": 100.0
+            }
+          ],
+          "by_angle": [
+            {
+              "angle": "news",
+              "count": 100,
+              "percent": 45.2489
+            },
+            {
+              "angle": "clue",
+              "count": 120,
+              "percent": 54.2986
+            },
+            {
+              "angle": "social",
+              "count": 1,
+              "percent": 0.4525
+            }
+          ],
+          "by_platform": [
+            {
+              "platform": "official_web",
+              "count": 120,
+              "percent": 54.2986
+            },
+            {
+              "platform": "Google News RSS discovery",
+              "count": 98,
+              "percent": 44.3439
+            },
+            {
+              "platform": "Bing News RSS",
+              "count": 2,
+              "percent": 0.905
+            },
+            {
+              "platform": "X",
+              "count": 1,
+              "percent": 0.4525
+            }
+          ]
+        },
+        "ranking": null,
+        "latest_returned_date": "2026-10-09T05:15:31+00:00"
+      }
+    ],
+    "analytics": {
+      "scope": {
+        "dataset": "real",
+        "filters": {
+          "institution": [
+            1002550
+          ],
+          "date_field": "published_at"
+        },
+        "source_version": "f064c896c123cbf4",
+        "date_field": "published_at",
+        "timezone": "Asia/Shanghai",
+        "excluded_terms": [],
+        "sort": "relevance",
+        "relaxed": false,
+        "term_match": [],
+        "strategy": "structured_filters",
+        "date_semantics": "Original source publication dates only; recovered dates do not change this scope",
+        "dimensions": [
+          "institution",
+          "angle",
+          "platform",
+          "month"
+        ],
+        "as_of": "2026-11-09T16:25:20+08:00",
+        "date_basis": "Original source publication field only; recovered dates do not replace it"
+      },
+      "matched": {
+        "total": 221,
+        "by_angle": {
+          "news": 100,
+          "clue": 120,
+          "social": 1
+        },
+        "by_institution": [
+          {
+            "ktid": 1002550,
+            "cn": "阿肯色州立大学",
+            "en": "Arkansas State University",
+            "count": 221,
+            "by_angle": {
+              "news": 100,
+              "clue": 120,
+              "social": 1
+            }
+          }
+        ],
+        "by_platform": [
+          {
+            "platform": "official_web",
+            "count": 120
+          },
+          {
+            "platform": "Google News RSS discovery",
+            "count": 98
+          },
+          {
+            "platform": "Bing News RSS",
+            "count": 2
+          },
+          {
+            "platform": "X",
+            "count": 1
+          }
+        ]
+      },
+      "total": 221,
+      "by_month": [
+        {
+          "month": "2025-10",
+          "count": 1
+        },
+        {
+          "month": "2025-11",
+          "count": 1
+        },
+        {
+          "month": "2025-12",
+          "count": 4
+        },
+        {
+          "month": "2026-01",
+          "count": 5
+        },
+        {
+          "month": "2026-02",
+          "count": 11
+        },
+        {
+          "month": "2026-03",
+          "count": 13
+        },
+        {
+          "month": "2026-04",
+          "count": 21
+        },
+        {
+          "month": "2026-05",
+          "count": 19
+        },
+        {
+          "month": "2026-06",
+          "count": 6
+        },
+        {
+          "month": "2026-07",
+          "count": 8
+        },
+        {
+          "month": "2026-08",
+          "count": 6
+        },
+        {
+          "month": "2026-09",
+          "count": 11
+        },
+        {
+          "month": "2026-10",
+          "count": 1
+        }
+      ],
+      "date_range": {
+        "date_field": "published_at",
+        "timezone": "Asia/Shanghai",
+        "basis": "Original source publication field only; recovered dates do not replace it",
+        "min": "2025-10-16T00:00:00+00:00",
+        "max": "2026-10-09T05:15:31+00:00",
+        "max_nonfuture": "2026-10-09T05:15:31+00:00",
+        "dated_records": 107,
+        "undated_records": 114,
+        "future_dated_records": 0,
+        "date_origins": {
+          "provided": 107,
+          "missing": 114
+        }
+      },
+      "by_institution": [
+        {
+          "ktid": 1002550,
+          "cn": "阿肯色州立大学",
+          "en": "Arkansas State University",
+          "count": 221,
+          "by_angle": {
+            "news": 100,
+            "clue": 120,
+            "social": 1
+          }
+        }
+      ],
+      "by_angle": {
+        "news": 100,
+        "clue": 120,
+        "social": 1
+      },
+      "by_platform": [
+        {
+          "platform": "official_web",
+          "count": 120
+        },
+        {
+          "platform": "Google News RSS discovery",
+          "count": 98
+        },
+        {
+          "platform": "Bing News RSS",
+          "count": 2
+        },
+        {
+          "platform": "X",
+          "count": 1
+        }
+      ],
+      "method": "parameterized_readonly_sql_distinct_records",
+      "warning": "Counts describe records in the stored real snapshot. Monthly record volume is not a measure of institutional stance or web-wide attention.",
+      "shares": {
+        "denominator": 221,
+        "basis": "matched_records_within_current_filters_and_terms",
+        "unit": "percent",
+        "by_institution": [
+          {
+            "ktid": 1002550,
+            "count": 221,
+            "percent": 100.0
+          }
+        ],
+        "by_angle": [
+          {
+            "angle": "news",
+            "count": 100,
+            "percent": 45.2489
+          },
+          {
+            "angle": "clue",
+            "count": 120,
+            "percent": 54.2986
+          },
+          {
+            "angle": "social",
+            "count": 1,
+            "percent": 0.4525
+          }
+        ],
+        "by_platform": [
+          {
+            "platform": "official_web",
+            "count": 120,
+            "percent": 54.2986
+          },
+          {
+            "platform": "Google News RSS discovery",
+            "count": 98,
+            "percent": 44.3439
+          },
+          {
+            "platform": "Bing News RSS",
+            "count": 2,
+            "percent": 0.905
+          },
+          {
+            "platform": "X",
+            "count": 1,
+            "percent": 0.4525
+          }
+        ]
+      },
+      "scoped": {
+        "total": 221,
+        "by_angle": {
+          "news": 100,
+          "clue": 120,
+          "social": 1
+        },
+        "by_institution": [
+          {
+            "ktid": 1002550,
+            "cn": "阿肯色州立大学",
+            "en": "Arkansas State University",
+            "count": 221,
+            "by_angle": {
+              "news": 100,
+              "clue": 120,
+              "social": 1
+            }
+          }
+        ],
+        "by_platform": [
+          {
+            "platform": "official_web",
+            "count": 120
+          },
+          {
+            "platform": "Google News RSS discovery",
+            "count": 98
+          },
+          {
+            "platform": "Bing News RSS",
+            "count": 2
+          },
+          {
+            "platform": "X",
+            "count": 1
+          }
+        ]
+      }
+    },
+    "query": "阿肯色州立大学有多少条资料？",
+    "plan": {
+      "query": "阿肯色州立大学有多少条资料？",
+      "filters": {
+        "date_field": "published_at",
+        "institution": [
+          1002550
+        ]
+      },
+      "inferred_filters": {
+        "institution": [
+          1002550
+        ]
+      },
+      "locked_scope": {
+        "date_field": "published_at",
+        "institution": [
+          1002550
+        ]
+      },
+      "terms": [],
+      "request_intent": {
+        "enabled": true,
+        "normalized_query": "阿肯色州立大学有多少条",
+        "topics_query": "阿肯色州立大学有多少条",
+        "removed_request_phrases": [
+          {
+            "text": "资料",
+            "reason": "document_request"
+          }
+        ],
+        "citation_requested": false,
+        "requested_points": null,
+        "same_source_requested": false,
+        "referential": false,
+        "source_reference": false,
+        "requested_attributes": [],
+        "task": "count",
+        "kind": "count",
+        "query_kind": "count",
+        "topic": "",
+        "dimensions": [],
+        "requested_sort": null,
+        "exact_phrases": [],
+        "excluded_terms": [],
+        "operations": {
+          "count": true,
+          "compare": false,
+          "trend": false,
+          "ranking": false,
+          "share": false
+        },
+        "requires_history": false,
+        "time_scope": {
+          "mode": "unrestricted",
+          "timezone": "Asia/Shanghai",
+          "as_of": "2026-11-09T16:25:20+08:00",
+          "date_from": null,
+          "date_to": null,
+          "expressions": [],
+          "basis": "actual_clock",
+          "date_field": "published_at",
+          "policy": "Vague recent means ordering within the loaded snapshot; explicit calendar bounds remain locked"
+        }
+      },
+      "intent": {
+        "enabled": true,
+        "normalized_query": "阿肯色州立大学有多少条",
+        "topics_query": "阿肯色州立大学有多少条",
+        "removed_request_phrases": [
+          {
+            "text": "资料",
+            "reason": "document_request"
+          }
+        ],
+        "citation_requested": false,
+        "requested_points": null,
+        "same_source_requested": false,
+        "referential": false,
+        "source_reference": false,
+        "requested_attributes": [],
+        "task": "count",
+        "kind": "count",
+        "query_kind": "count",
+        "topic": "",
+        "dimensions": [],
+        "requested_sort": null,
+        "exact_phrases": [],
+        "excluded_terms": [],
+        "operations": {
+          "count": true,
+          "compare": false,
+          "trend": false,
+          "ranking": false,
+          "share": false
+        },
+        "requires_history": false,
+        "time_scope": {
+          "mode": "unrestricted",
+          "timezone": "Asia/Shanghai",
+          "as_of": "2026-11-09T16:25:20+08:00",
+          "date_from": null,
+          "date_to": null,
+          "expressions": [],
+          "basis": "actual_clock",
+          "date_field": "published_at",
+          "policy": "Vague recent means ordering within the loaded snapshot; explicit calendar bounds remain locked"
+        }
+      },
+      "time_scope": {
+        "mode": "unrestricted",
+        "timezone": "Asia/Shanghai",
+        "as_of": "2026-11-09T16:25:20+08:00",
+        "date_from": null,
+        "date_to": null,
+        "expressions": [],
+        "basis": "actual_clock",
+        "date_field": "published_at",
+        "policy": "Vague recent means ordering within the loaded snapshot; explicit calendar bounds remain locked"
+      },
+      "sort": "relevance",
+      "exact_phrases": [],
+      "excluded_terms": [],
+      "expansion_enabled": true,
+      "fuzzy_terms": [],
+      "strategy": "structured_filters",
+      "relaxed": false,
+      "relax_allowed": false,
+      "model": {
+        "attempted": false,
+        "used": false,
+        "reason": "exact_database_aggregate",
+        "original_query": "阿肯色州立大学有多少条资料？",
+        "rewritten_query": null,
+        "applied_groups": []
+      },
+      "semantic_requested": false,
+      "conversation": {
+        "history_used": false,
+        "original_message": "阿肯色州立大学有多少条资料？",
+        "same_source_requested": false,
+        "scope_basis": "bounded_user_history_and_current_filters",
+        "source_record_ids": null,
+        "source_basis": null,
+        "request_intent": {
+          "enabled": true,
+          "normalized_query": "阿肯色州立大学有多少条",
+          "topics_query": "阿肯色州立大学有多少条",
+          "removed_request_phrases": [
+            {
+              "text": "资料",
+              "reason": "document_request"
+            }
+          ],
+          "citation_requested": false,
+          "requested_points": null,
+          "same_source_requested": false,
+          "referential": false,
+          "source_reference": false,
+          "requested_attributes": [],
+          "task": "count",
+          "kind": "count",
+          "query_kind": "count",
+          "topic": "阿肯色州立大学有多少条",
+          "dimensions": [],
+          "requested_sort": null,
+          "exact_phrases": [],
+          "excluded_terms": [],
+          "operations": {
+            "count": true,
+            "compare": false,
+            "trend": false,
+            "ranking": false,
+            "share": false
+          },
+          "requires_history": false,
+          "time_scope": {
+            "mode": "unrestricted",
+            "timezone": "Asia/Shanghai",
+            "as_of": "2026-11-09T16:25:20+08:00",
+            "date_from": null,
+            "date_to": null,
+            "expressions": [],
+            "basis": "actual_clock"
+          }
+        }
+      },
+      "tool_steps": [
+        {
+          "tool": "database_evidence",
+          "purpose": "question_scope",
+          "filters": {
+            "date_field": "published_at",
+            "institution": [
+              1002550
+            ]
+          },
+          "returned_paragraphs": 12
+        },
+        {
+          "tool": "database_aggregate",
+          "purpose": "exact_scoped_and_matched_counts"
+        },
+        {
+          "tool": "database_analytics",
+          "purpose": "exact_dates_and_dimensions"
+        }
+      ]
+    },
+    "aggregates": {
+      "scope": {
+        "dataset": "real",
+        "filters": {
+          "date_field": "published_at",
+          "institution": [
+            1002550
+          ]
+        },
+        "source_version": "f064c896c123cbf4",
+        "date_field": "published_at",
+        "timezone": "Asia/Shanghai",
+        "excluded_terms": [],
+        "sort": "relevance",
+        "relaxed": false,
+        "term_match": [],
+        "strategy": "structured_filters",
+        "date_semantics": "Original source publication dates only; recovered dates do not change this scope"
+      },
+      "scoped": {
+        "total": 221,
+        "by_angle": {
+          "news": 100,
+          "clue": 120,
+          "social": 1
+        },
+        "by_institution": [
+          {
+            "ktid": 1002550,
+            "cn": "阿肯色州立大学",
+            "en": "Arkansas State University",
+            "count": 221,
+            "by_angle": {
+              "news": 100,
+              "clue": 120,
+              "social": 1
+            }
+          }
+        ],
+        "by_platform": [
+          {
+            "platform": "official_web",
+            "count": 120
+          },
+          {
+            "platform": "Google News RSS discovery",
+            "count": 98
+          },
+          {
+            "platform": "Bing News RSS",
+            "count": 2
+          },
+          {
+            "platform": "X",
+            "count": 1
+          }
+        ]
+      },
+      "matched": {
+        "total": 221,
+        "by_angle": {
+          "news": 100,
+          "clue": 120,
+          "social": 1
+        },
+        "by_institution": [
+          {
+            "ktid": 1002550,
+            "cn": "阿肯色州立大学",
+            "en": "Arkansas State University",
+            "count": 221,
+            "by_angle": {
+              "news": 100,
+              "clue": 120,
+              "social": 1
+            }
+          }
+        ],
+        "by_platform": [
+          {
+            "platform": "official_web",
+            "count": 120
+          },
+          {
+            "platform": "Google News RSS discovery",
+            "count": 98
+          },
+          {
+            "platform": "Bing News RSS",
+            "count": 2
+          },
+          {
+            "platform": "X",
+            "count": 1
+          }
+        ]
+      }
+    },
+    "coverage": {
+      "dataset": "real",
+      "source_version": "f064c896c123cbf4",
+      "database_total": 6989,
+      "scoped_records": 221,
+      "matched_records": 221,
+      "returned_records": 12,
+      "returned_paragraphs": 12,
+      "time_scope": {
+        "mode": "unrestricted",
+        "timezone": "Asia/Shanghai",
+        "as_of": "2026-11-09T16:25:20+08:00",
+        "date_from": null,
+        "date_to": null,
+        "expressions": [],
+        "basis": "actual_clock",
+        "date_field": "published_at",
+        "policy": "Vague recent means ordering within the loaded snapshot; explicit calendar bounds remain locked"
+      },
+      "sort": "relevance",
+      "latest_returned_date": "2026-10-09T05:15:31+00:00",
+      "earliest_returned_date": "2026-09-01T00:00:00+00:00",
+      "future_dated_returned_records": 0,
+      "snapshot_generated_at": "2026-11-05T15:10:46+00:00",
+      "exhaustive": false,
+      "warning": "Counts describe the stored real snapshot, not the entire web; retrieved paragraphs are a bounded sample."
+    },
+    "model": {
+      "id": "auto/deepseek-v4.1-flash",
+      "used": false,
+      "attempted": false,
+      "reason": "exact_database_aggregate"
+    },
+    "usage": {},
+    "state": "database_answer",
+    "answer_format": "database_aggregate",
+    "answer_kind": "count",
+    "sections": [],
+    "suggestions": [
+      "最近 CSIS 对中国关注什么？分析主要议题",
+      "比较 CSIS 与 RAND 涉华报道的异同",
+      "CSIS 有多少条记录？按角度统计"
+    ],
+    "suggested_questions": [
+      "最近 CSIS 对中国关注什么？分析主要议题",
+      "比较 CSIS 与 RAND 涉华报道的异同",
+      "CSIS 有多少条记录？按角度统计"
+    ],
+    "search_suggestions": [],
+    "analysis_scope": {
+      "scope": {
+        "dataset": "real",
+        "filters": {
+          "date_field": "published_at",
+          "institution": [
+            1002550
+          ]
+        },
+        "source_version": "f064c896c123cbf4",
+        "date_field": "published_at",
+        "timezone": "Asia/Shanghai",
+        "excluded_terms": [],
+        "sort": "relevance",
+        "relaxed": false,
+        "term_match": [],
+        "strategy": "structured_filters",
+        "date_semantics": "Original source publication dates only; recovered dates do not change this scope"
+      },
+      "bounded_sample": true,
+      "exhaustive": false,
+      "realtime": false,
+      "limitation": "分析仅依据可引用样本；精确数量以相同筛选和关键词口径的数据库统计为准。"
+    },
+    "validation": {
+      "level": "database_exact",
+      "semantic_entailment": "not_applicable",
+      "source_truth_verified": false
+    }
+  },
+  "finished_at": "2026-11-09T08:25:34.684439+00:00",
+  "passed": 23,
+  "failed": 0,
+  "verdict": "PASS"
+}
