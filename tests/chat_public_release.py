@@ -55,7 +55,18 @@ def main():
    report['answer_render_delay_after_api_seconds']=round(time.monotonic()-started-report['original_seconds'],2)
    check('API answer renders without waiting for local snapshot index',report['answer_render_delay_after_api_seconds']<5,report['answer_render_delay_after_api_seconds'])
    page.locator('#asTranscript .as-answer').last.scroll_into_view_if_needed()
+   source_row=page.locator('#asTranscript .as-claim-details > summary').last
+   check('Source details are collapsed by default',source_row.count()>0 and not page.locator('#asTranscript .as-claim-details').last.evaluate('el=>el.open'))
    page.screenshot(path=str(out/'original-answer-1440.png'),full_page=False)
+   source_row.click()
+   check('Source details open in a modal',page.locator('dialog.as-source-dialog[open]').is_visible())
+   source_text=page.locator('dialog.as-source-dialog[open]').inner_text()
+   check('Source modal contains statements and quotes',('来源陈述' in source_text or '分析' in source_text) and page.locator('dialog.as-source-dialog[open] .as-excerpt').count()>0)
+   page.screenshot(path=str(out/'source-dialog-1440.png'),full_page=False)
+   page.locator('dialog.as-source-dialog[open] .as-dialog-close').click()
+   check('Source modal closes',page.locator('dialog.as-source-dialog[open]').count()==0)
+   citation_color=page.locator('#asTranscript .as-citation-c').first.evaluate('el=>getComputedStyle(el).color')
+   check('C citations use warm accent',citation_color=='rgb(240, 179, 91)',citation_color)
    page.locator('#asTranscript .as-citation-ref').first.click();check('Inline citation reveals and focuses evidence',bool(page.evaluate('document.activeElement.dataset.asCitation')))
    page.screenshot(path=str(out/'original-citation-1440.png'),full_page=False)
    # Use a fresh conversation so the prior China topic cannot change this total.
