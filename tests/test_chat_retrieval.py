@@ -146,6 +146,22 @@ class IntentGrammar(unittest.TestCase):
             with self.subTest(directive=directive):
                 self.assertEqual(request_intent("归纳这些涉华资料的主要议题，" + directive)["normalized_query"], "涉华")
 
+    def test_numbered_output_directives_are_not_topics(self):
+        query = "近期涉华报道有哪些主要议题？请用三点概括，并给出来源。"
+        value = request_intent(query)
+        self.assertEqual(value["normalized_query"], "涉华")
+        self.assertTrue(any(item["reason"] == "numbered_output_instruction" for item in value["removed_request_phrases"]))
+        for directive in ["请用三点概括", "分三点说明", "用3点总结"]:
+            with self.subTest(directive=directive):
+                normalized = request_intent("归纳这些涉华资料的主要议题，" + directive)["normalized_query"]
+                self.assertEqual(normalized, "涉华")
+        self.assertIn("Zyx量子foo", request_intent("归纳Zyx量子foo的观点，请用三点概括")["normalized_query"])
+        self.assertIn("Zyx量子foo", request_intent("归纳这些涉华资料，请用三点概括，各给出非Zyx量子foo来源")["normalized_query"])
+        quoted = request_intent('归纳"请用三点概括"')
+        self.assertEqual(quoted["exact_phrases"], ["请用三点概括"])
+        self.assertIn("请用三点概括", quoted["normalized_query"])
+        self.assertEqual(request_intent(query, enabled=False)["normalized_query"], query)
+
     def test_output_cleanup_preserves_unknown_negative_quoted_and_disabled(self):
         query = "归纳Zyx量子foo的观点，各给出来源，只基于样本分析，不要外推。"
         self.assertIn("Zyx量子foo", request_intent(query)["normalized_query"])
@@ -276,6 +292,20 @@ class RealRetrievalAcceptance(unittest.TestCase):
         negative = self.retriever.search("归纳这些涉华资料的主要议题，各给出非Zyx量子foo来源。")
         self.assertEqual(negative["coverage"]["matched_records"], 0)
         self.assertTrue(any("非" in term for group in negative["plan"]["terms"] for term in group))
+
+    def test_numbered_output_phrase_retrieves_real_subject_only(self):
+        query = "近期涉华报道有哪些主要议题？请用三点概括，并给出来源。"
+        result = self.retriever.search(query)
+        self.assertEqual(result["plan"]["terms"], self.retriever.make_plan("涉华", {})["terms"])
+        self.assertEqual(result["coverage"]["matched_records"], 987)
+        self.assertFalse(any("三点" in term or "概括" in term for group in result["plan"]["terms"] for term in group))
+        unknown = self.retriever.search("归纳Zyx量子foo的观点，请用三点概括")
+        self.assertEqual(unknown["coverage"]["matched_records"], 0)
+        self.assertIn(["zyx"], unknown["plan"]["terms"])
+        self.assertIn(["foo"], unknown["plan"]["terms"])
+        strict = self.retriever.search(query, expand=False)
+        self.assertEqual(strict["coverage"]["matched_records"], 0)
+        self.assertEqual(strict["plan"]["request_intent"]["normalized_query"], query)
 
     def test_preflight_comparison_sentence_keeps_two_locked_institutions(self):
         query = "比较CSIS和兰德对中国的关注点，列出异同和各自的证据。"

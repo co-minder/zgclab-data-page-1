@@ -40,6 +40,19 @@ BOUNDED_COUNT_CLAUSE = re.compile(r"(?:各自|各|分别)(?:有)?(?:多少(?:条
 BOUNDED_CITATION = re.compile(OUTPUT_LEAD + r"(?:(?:(?:分别|逐项|各|各自|每项)\s*)?(?:给出|提供|列出|附上|标注|注明|引用|展示)(?:各自|双方)?(?:的)?|(?:分别|逐项|各自|每项)(?:的)?)(?:来源|证据|出处|原文引用|原文出处|参考来源)(?:和(?:原文引用|证据|出处))?")
 BOUNDED_COMPARISON = re.compile(OUTPUT_LEAD + r"(?:列出|说明|总结|归纳|展示|比较|对比)?(?:各自(?:的)?)?(?:异同|共同点和差异|相同点和不同点)(?:(?:和|与|及)(?:各自|双方)?(?:的)?(?:证据|来源|原文引用))?")
 BOUNDED_SAMPLE = re.compile(OUTPUT_LEAD + r"(?:说明|注明|标明|提醒)?(?:(?:这|以上|以下|上述)(?:只是|仅是)|只是|仅是|仅为|只为|只基于|仅基于|只根据|仅根据)?(?:这些|这批|上述)?(?:资料|记录|证据)?(?:的)?样本(?:进行)?(?:分析|归纳|总结)|" + OUTPUT_LEAD + r"(?:请勿|不要|不应|不得|不能|不可)(?:将(?:样本|样本分析)(?:结果)?)?外推(?:到(?:总体|全库|全网)|至(?:总体|全库|全网)|为(?:总体结论|全库结论|全网结论))?")
+# Numbered output requests such as 请用三点概括 are instructions, not topics.
+# A trailing noun (for example 列出三点建议) is deliberately not consumed.
+BOUNDED_NUMBERED_OUTPUT = re.compile(
+    OUTPUT_LEAD
+    + r"(?:(?:请|请你|帮我|麻烦|给我)\s*)?(?:用|分|按)\s*"
+    + r"(?:\d{1,2}|[一二两三四五六七八九十]{1,3})\s*(?:点|个要点|条要点|点内容|点结论)\s*"
+    + r"(?:概括|总结|归纳|说明|列出|回答|呈现|写出)?"
+    + r"|"
+    + OUTPUT_LEAD
+    + r"(?:(?:请|请你|帮我|麻烦|给我)\s*)?(?:给出|列出|写成|概括为|总结为)\s*"
+    + r"(?:\d{1,2}|[一二两三四五六七八九十]{1,3})\s*(?:点|个要点|条要点|点内容|点结论)\s*"
+    + r"(?:概括|总结|归纳|说明|回答|呈现|写出)"
+)
 
 
 def clock_now() -> dt.datetime:
@@ -262,6 +275,9 @@ def request_intent(query: str, enabled: bool = True, now: dt.datetime | None = N
         if BOUNDED_SAMPLE.fullmatch(clause):
             result["removed_request_phrases"].append({"text": clause, "reason": "sample_analysis_instruction"})
             result["sample_only_requested"] = True
+            continue
+        if BOUNDED_NUMBERED_OUTPUT.fullmatch(clause):
+            result["removed_request_phrases"].append({"text": clause, "reason": "numbered_output_instruction"})
             continue
         if BOUNDED_COMPARISON.fullmatch(clause):
             result["removed_request_phrases"].append({"text": clause, "reason": "comparison_output_instruction"})
