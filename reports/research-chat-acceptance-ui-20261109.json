@@ -1,0 +1,51 @@
+{
+  "task": "CHAT-UI-REFINE-20261109",
+  "manifest": "manifest-56f69135b336b68262f4.json",
+  "verdict": "PASS",
+  "failed": 0,
+  "acceptance_complete": true,
+  "scope": "Frontend incremental release: dialog-first citation and retrieval details plus tiered accent colors. Backend P1 content behavior is accepted separately.",
+  "ui_release_commit": "cf828cb85224e676001eddd34dbc8e927884204a",
+  "backend_release_commit": "4a2f0fac8034e5acd8ca757694d6f0b67c3746a3",
+  "api_revision": "research-chat-20261109",
+  "ui_qa": {
+    "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261109T075639Z-ui-refine/ui-refine-qa.json",
+    "sha256": "a76114305752fd7c095cbcd012428a48059190a79aa9e66943d31be9697698d2",
+    "checks": 80,
+    "passed": 80,
+    "failed": 0,
+    "replay": true,
+    "new_model_calls": 0
+  },
+  "design_tests": {
+    "assistant": {
+      "path": "tests/design_assistant.py",
+      "sha256": "e9a0b6a2634c8822e8b6ee524c4445cd85df43f81b0166d0de50ce0ad521122b",
+      "checks": 16
+    },
+    "acceptance": {
+      "path": "tests/design_acceptance.py",
+      "sha256": "95cbe027f92d0371894505c2a15ef68e59f472ced2ed78271c9d6ded0d3d6738",
+      "supplement_checks": 6
+    }
+  },
+  "source_freeze": {
+    "assistant.js": "ff4d716e3a57559dbde741ff2379706efb123c98ecbb3da92c6a2fdd8fae9810",
+    "assistant.css": "058d87a821d7c82c9b3ecaa28c12ceee97fe5dc3443bd27225181d48d3d0c936"
+  },
+  "counts": {
+    "ui_contracts": 20,
+    "client": 15,
+    "legacy_unit": 3,
+    "legacy_mock": 10,
+    "design_assistant": 16,
+    "design_acceptance_supplement": 6,
+    "ui_qa_checks": 80
+  },
+  "limitations": [
+    "UI QA used a saved real P1 response replay; it is not a new model call.",
+    "Backend P1 does not guarantee three accepted points in every public call; it fails closed with an honest shortfall.",
+    "This report accepts the new frontend manifest; final public page and asset verification remain separate."
+  ],
+  "final_public_actual_required": true
+}

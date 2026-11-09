@@ -525,10 +525,12 @@ async def supplemental_checks(page, context, phase, password, args):
     await aggregate.scroll_into_view_if_needed()
     phase['snapshots']['assistant-aggregate-open-1440']=await snapshot(page,'assistant-aggregate-open-1440',ARTIFACTS/'after',reset_scroll=False)
     passed('A1 aggregate keyboard summary exposes exact count table, date field, timezone and source version')
-    process=page.locator('.as-process')
+    process=page.locator('.as-retrieval-process')
     assert not await process.evaluate('(el)=>el.open')
     await process.locator(':scope > summary').click()
-    assert 'A-State' in await process.inner_text()
+    search_process=page.locator('dialog.as-process-dialog[open]')
+    await search_process.wait_for()
+    assert 'A-State' in await search_process.inner_text()
     captured=[]
     async def mock_retract(route):
         if route.request.method!='POST':
@@ -539,8 +541,9 @@ async def supplemental_checks(page, context, phase, password, args):
         aggregate={**fixture['aggregate'],'citation_id':'A1'}
         await route.fulfill(status=200,json={'state':'retrieval_only','answer_format':'retrieval_extracts','answer':'UI回归夹具：已撤回扩展，原始来源仍可核对。 [C5] [A1]','citations':items,'aggregate_citations':[aggregate],'model':{'used':False,'attempted':False,'reason':'ui_fixture'},'coverage':{'scoped_records':6989,'matched_records':5},'plan':{'terms':[['A-State']]},'query':body['message']})
     await context.route('**/api/chat',mock_retract)
-    await process.locator('[data-as-withdraw]').click()
+    await search_process.locator('[data-as-withdraw]').click()
     await page.wait_for_function("() => !document.querySelector('#asSubmit').disabled")
+    await page.wait_for_function("() => !document.querySelector('dialog.as-process-dialog[open]')")
     assert captured and captured[0]['expand'] is False and captured[0]['historyCount']==0
     assert await page.locator('.as-turn').count()==1
     await reveal(page.locator('#asExpand'))

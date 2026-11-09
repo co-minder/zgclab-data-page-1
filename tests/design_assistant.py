@@ -50,11 +50,10 @@ def submit(page, question):
 
 def run():
     OUT.mkdir(parents=True, exist_ok=True)
-    # Repeat the established interaction suite with the two intentional disclosures opened.
+    # Repeat the established interaction suite unchanged. Its own disclosure
+    # clicks now open the source/process dialogs; actions stay inside them.
     os.environ["ZGCLAB_ASSISTANT_ARTIFACTS"] = str(OUT / "mock")
     suite = (ROOT / "tests/assistant_mock.py").read_text()
-    suite = suite.replace('        page.get_by_role("button", name="撤回扩展并重查").click()', '        page.locator("#asSearchResults .as-process > summary").click()\n        page.get_by_role("button", name="撤回扩展并重查").click()')
-    suite = suite.replace('        page.locator("#asKeep").check()', '        page.locator("#asSessionArea > summary").click()\n        page.locator("#asKeep").check()')
     exec(compile(suite, str(ROOT / "tests/assistant_mock.py"), "exec"), {"__name__": "__main__", "__file__": str(ROOT / "tests/assistant_mock.py")})
     spec = importlib.util.spec_from_file_location("assistant_mock", ROOT / "tests/assistant_mock.py")
     fixture = importlib.util.module_from_spec(spec)
@@ -86,10 +85,15 @@ def run():
             assert not page.locator("#asOutputTools").is_visible()
             assert not page.locator("#asScope").evaluate("e=>e.open") if width <= 1279 else page.locator("#asScope").evaluate("e=>e.open")
             fit(page, f"mock-empty-{width}", measurements)
-            page.locator("[data-as-example]").first.click()
-            assert page.locator("#asQuestion").input_value() == "有哪些关于人工智能安全的资料？"
+            first_example = page.locator("[data-as-example]").first
+            expected_example = first_example.get_attribute("data-as-example")
+            first_example.click()
+            assert expected_example and page.locator("#asQuestion").input_value() == expected_example
             assert page.evaluate("document.activeElement.id") == "asQuestion"
-            page.locator("#asSearchTab").focus()
+            page.locator("#asChatTab").focus()
+            page.keyboard.press("ArrowLeft")
+            assert page.locator("#asSearchTab").get_attribute("aria-selected") == "true"
+            assert page.evaluate("document.activeElement.id") == "asSearchTab"
             page.keyboard.press("ArrowRight")
             assert page.locator("#asChatTab").get_attribute("aria-selected") == "true"
             assert page.evaluate("document.activeElement.id") == "asChatTab"
@@ -126,10 +130,14 @@ def run():
             fit(page, f"mock-search-{width}", measurements)
             page.screenshot(path=str(OUT / f"after-mock-search-{width}.png"), full_page=True)
             assert "42 条记录命中" in page.locator(".as-result-head").inner_text()
-            open_details(page, "#asSearchResults .as-process")
-            assert "artificial intelligence" in page.locator("#asSearchResults .as-process").inner_text()
-            page.get_by_role("button", name="撤回扩展并重查").click()
+            assert not page.locator("#asSearchResults .as-retrieval-process").evaluate("el=>el.open")
+            page.locator("#asSearchResults .as-retrieval-process > summary").click()
+            search_process = page.locator("dialog.as-process-dialog[open]")
+            search_process.wait_for()
+            assert "artificial intelligence" in search_process.inner_text()
+            search_process.get_by_role("button", name="撤回扩展并重查").click()
             page.wait_for_function("document.querySelector('#asForm').getAttribute('aria-busy')==='false'")
+            assert page.locator("dialog.as-process-dialog[open]").count() == 0
             assert not page.evaluate("calls.search.at(-1).expand || calls.search.at(-1).semantic")
             with page.expect_download() as download:
                 page.locator("#asExport").click()
@@ -138,12 +146,12 @@ def run():
             assert "https://example.org/evidence" in markdown
             page.evaluate("mockMode='empty'")
             submit(page, "未收录主题")
-            assert "没有匹配记录" in page.locator("#asSearchResults").inner_text()
+            assert "没有匹配资料" in page.locator("#asSearchResults").inner_text()
             fit(page, f"mock-no-results-{width}", measurements)
             page.evaluate("mockMode='normal';workspace.chatSessions=[];workspace.assistantPreferences={};")
         checks.append("360/390/739/768/1024/1440: empty, answer, database, search, expanded statistics and zero-results fit; 40/44px actions; 28/24px titles")
         checks.append("keyboard tab switching, keyboard disclosure, example focus, C3/A1 citation focus, follow-up composer after transcript")
-        checks.append("search plan disclosure, withdraw extension, Markdown download, evidence HTML safety and visible actual state")
+        checks.append("search process dialog, withdraw extension, Markdown download, evidence HTML safety and visible actual state")
         # A fourth source is initially folded; its inline citation must still reveal and focus it.
         page.evaluate("""()=>{
           const originalChat=client.chat.bind(client);

@@ -1,0 +1,1697 @@
+{
+  "qa_id": "20261109T075639Z-ui-refine",
+  "agent": "CHAT-UI-QA-REFINE independent acceptance subagent",
+  "created_at": "2026-11-09T08:02:24.371524+00:00",
+  "machine": "social (VM-0-11-ubuntu)",
+  "project": "/home/ubuntu/zgclab-1-web",
+  "preview_url": "http://127.0.0.1:8790/",
+  "mode": "read-only UI acceptance; no source/report/STATUS/Git/public/docs changes; no build/restart/publish",
+  "replay": {
+    "used": true,
+    "fixture_path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/live-three-points-20261109T070625Z.json",
+    "fixture_sha256": "abfdfc7469963dc1e80ed80899ca1ce6b76ec41fe4d432bd16143e1ce0faa715",
+    "fixture_http_status": 200,
+    "fixture_recorded_at": "2026-11-09T07:06:25.628700+00:00",
+    "fixture_transport": "authenticated preview HTTP8792 after requested-points P0",
+    "question": "近期涉华报道有哪些主要议题？请用三点概括，并给出来源。",
+    "response_sections": 3,
+    "response_citations": 3,
+    "response_aggregate_citations": 2,
+    "response_matched": 987,
+    "semantics": "Playwright route fulfils **/api/chat with the captured response object; no new model call and no upstream chat request."
+  },
+  "expected": {
+    "manifest": "manifest-56f69135b336b68262f4.json",
+    "assistant_js_sha256": "ff4d716e3a57559dbde741ff2379706efb123c98ecbb3da92c6a2fdd8fae9810",
+    "assistant_css_sha256": "058d87a821d7c82c9b3ecaa28c12ceee97fe5dc3443bd27225181d48d3d0c936",
+    "commit": "cf828cb85224e676001eddd34dbc8e927884204a"
+  },
+  "provided_context_reference": {
+    "integrity_path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/preview-integrity-ui.json",
+    "integrity_sha256": "34731fe52504a1d00d022a91540d22d1b92b5d897bff809ec127e785b392d661",
+    "note": "418 encrypted assets / 1002 preserved files were reported by the encryption integrity artifact; this UI QA did not re-run that package audit.",
+    "manifest": "manifest-56f69135b336b68262f4.json",
+    "encrypted_assets_verified": 418,
+    "preserved_files_verified": 1002,
+    "passed": true,
+    "assistant_js": {
+      "source": "assistant.js",
+      "encrypted": "encrypted/eea280ed8945d5a65e644a54882b3f6e04b212fc5b1b6183fb08204ae80baf22.bin",
+      "bytes": 142210,
+      "sha256": "ff4d716e3a57559dbde741ff2379706efb123c98ecbb3da92c6a2fdd8fae9810"
+    },
+    "assistant_css": {
+      "source": "assistant.css",
+      "encrypted": "encrypted/68e04f0bd1fa7b03c776f02c858fb04954f96fda51cd54c5e9eed9fdb00acd37.bin",
+      "bytes": 35161,
+      "sha256": "058d87a821d7c82c9b3ecaa28c12ceee97fe5dc3443bd27225181d48d3d0c936"
+    }
+  },
+  "checks": [
+    {
+      "id": "M1",
+      "name": "preview manifest file exists",
+      "status": "PASS",
+      "evidence": {
+        "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/protected-preview/manifest-56f69135b336b68262f4.json",
+        "sha256": "6e9586c6f6e09245c89df95b28d6eb5973825f7c8d2ac732a85d634fa973c26d"
+      }
+    },
+    {
+      "id": "M2",
+      "name": "preview manifest asset count is 418",
+      "status": "PASS",
+      "evidence": 418
+    },
+    {
+      "id": "S1",
+      "name": "source commit is cf828cb",
+      "status": "PASS",
+      "evidence": "cf828cb85224e676001eddd34dbc8e927884204a"
+    },
+    {
+      "id": "S2",
+      "name": "assistant.js hash matches",
+      "status": "PASS",
+      "evidence": "ff4d716e3a57559dbde741ff2379706efb123c98ecbb3da92c6a2fdd8fae9810"
+    },
+    {
+      "id": "S3",
+      "name": "assistant.css hash matches",
+      "status": "PASS",
+      "evidence": "058d87a821d7c82c9b3ecaa28c12ceee97fe5dc3443bd27225181d48d3d0c936"
+    },
+    {
+      "id": "F1",
+      "name": "fixture is HTTP 200 with 3 sections / 3 citations / matched 987",
+      "status": "PASS",
+      "evidence": {
+        "http_status": 200,
+        "sections": 3,
+        "citations": 3,
+        "matched": 987
+      }
+    },
+    {
+      "id": "U1",
+      "name": "login page requests password",
+      "status": "PASS",
+      "evidence": {
+        "access_visible": true,
+        "password_empty": true,
+        "manifest_attr": "manifest-56f69135b336b68262f4.json"
+      }
+    },
+    {
+      "id": "U2",
+      "name": "password field is empty on fresh page",
+      "status": "PASS",
+      "evidence": true
+    },
+    {
+      "id": "U3",
+      "name": "login page data-manifest is exactly 56f69135b336b68262f4",
+      "status": "PASS",
+      "evidence": "manifest-56f69135b336b68262f4.json"
+    },
+    {
+      "id": "U4",
+      "name": "unlock reaches the chat workspace",
+      "status": "PASS",
+      "evidence": true
+    },
+    {
+      "id": "U5",
+      "name": "default assistant entry is the chat tab",
+      "status": "PASS",
+      "evidence": "true"
+    },
+    {
+      "id": "U6",
+      "name": "simulation is off by default",
+      "status": "PASS",
+      "evidence": false
+    },
+    {
+      "id": "U7",
+      "name": "live preview API reports research-chat-20261109 with 6989 records",
+      "status": "PASS",
+      "evidence": {
+        "api_revision": "research-chat-20261109",
+        "total": 6989,
+        "llm": {
+          "available": true,
+          "state": "ready",
+          "model": "auto/deepseek-v4.1-flash",
+          "checked_at": 1794211346,
+          "health_scope": "relay_health"
+        }
+      }
+    },
+    {
+      "id": "U8",
+      "name": "refresh requires the password again",
+      "status": "PASS",
+      "evidence": {
+        "access_visible": true,
+        "password_empty": true,
+        "manifest_attr": "manifest-56f69135b336b68262f4.json"
+      }
+    },
+    {
+      "id": "U9",
+      "name": "refresh leaves the password field empty",
+      "status": "PASS",
+      "evidence": true
+    },
+    {
+      "id": "U10",
+      "name": "refresh keeps the 56f manifest",
+      "status": "PASS",
+      "evidence": "manifest-56f69135b336b68262f4.json"
+    },
+    {
+      "id": "U11",
+      "name": "refresh unlock restores default chat and simulation off",
+      "status": "PASS",
+      "evidence": {
+        "chat": "true",
+        "simulation": false
+      }
+    },
+    {
+      "id": "U12",
+      "name": "unlock requests the exact 56f manifest",
+      "status": "PASS",
+      "evidence": [
+        {
+          "method": "GET",
+          "status": 200,
+          "url": "http://127.0.0.1:8790/manifest-56f69135b336b68262f4.json",
+          "path": "/manifest-56f69135b336b68262f4.json"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "url": "http://127.0.0.1:8790/manifest-56f69135b336b68262f4.json",
+          "path": "/manifest-56f69135b336b68262f4.json"
+        }
+      ]
+    },
+    {
+      "id": "U13",
+      "name": "served index and manifest match the 56f preview",
+      "status": "PASS",
+      "evidence": {
+        "index_status": 200,
+        "index_has_56f": true,
+        "manifest_status": 200,
+        "manifest_sha256": "6e9586c6f6e09245c89df95b28d6eb5973825f7c8d2ac732a85d634fa973c26d"
+      }
+    },
+    {
+      "id": "A1",
+      "name": "exactly one /api/chat request was intercepted and fulfilled from the fixture",
+      "status": "PASS",
+      "evidence": [
+        {
+          "method": "POST",
+          "url": "http://127.0.0.1:8790/api/chat",
+          "post_data": {
+            "message": "近期涉华报道有哪些主要议题？请用三点概括，并给出来源。",
+            "history": [],
+            "filters": {
+              "date_field": "published_at"
+            },
+            "expand": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "A2",
+      "name": "answer is displayed with the grounded-summary heading",
+      "status": "PASS",
+      "evidence": "基于数据库资料的归纳"
+    },
+    {
+      "id": "A3",
+      "name": "fixture semantics are 3 sections and 3 C citations",
+      "status": "PASS",
+      "evidence": {
+        "sections": 3,
+        "citations": 3
+      }
+    },
+    {
+      "id": "A4",
+      "name": "body citation markers match the fixture answer",
+      "status": "PASS",
+      "evidence": {
+        "dom": {
+          "total": 7,
+          "c": 3,
+          "a": 4
+        },
+        "fixture_total": 7,
+        "fixture_c": 3,
+        "fixture_a": 4
+      }
+    },
+    {
+      "id": "A5",
+      "name": "source trigger row is collapsed by default with visible label/count",
+      "status": "PASS",
+      "evidence": {
+        "open": false,
+        "children": 1,
+        "text": "查看来源陈述、分析与对应摘录\n3 组\n打开弹窗 ↗"
+      }
+    },
+    {
+      "id": "A6",
+      "name": "retrieval process trigger row is collapsed by default with visible label",
+      "status": "PASS",
+      "evidence": {
+        "open": false,
+        "children": 1,
+        "text": "查看检索过程与资料范围\n打开弹窗 ↗"
+      }
+    },
+    {
+      "id": "A7",
+      "name": "no full source quotes or claim blocks are expanded inline in the answer body",
+      "status": "PASS",
+      "evidence": {
+        "inline_quotes": 0,
+        "inline_claims": 0
+      }
+    },
+    {
+      "id": "A8",
+      "name": "source and process triggers sit below the answer body",
+      "status": "PASS",
+      "evidence": {
+        "markdownBottom": 539.890625,
+        "sourceTop": 561.890625,
+        "sourceBottom": 607.890625,
+        "processTop": 624.890625
+      }
+    },
+    {
+      "id": "D1",
+      "name": "source trigger opens a native modal dialog.as-source-dialog[open]",
+      "status": "PASS",
+      "evidence": {
+        "tag": "DIALOG",
+        "open": true,
+        "modal": true,
+        "title": "来源陈述、分析与对应摘录",
+        "claims": 3,
+        "sourceLabels": 3,
+        "analysisLabels": 0,
+        "quotesC": 3,
+        "quotesA": 0,
+        "cRefs": 3,
+        "aRefs": 0,
+        "closeLabel": "关闭×",
+        "bodyOverflowY": "auto",
+        "sourceRowStillClosed": true
+      }
+    },
+    {
+      "id": "D2",
+      "name": "source dialog has the expected title",
+      "status": "PASS",
+      "evidence": "来源陈述、分析与对应摘录"
+    },
+    {
+      "id": "D3",
+      "name": "source dialog shows 3 source claims and 3 C quote excerpts (fixture has no analysis section)",
+      "status": "PASS",
+      "evidence": {
+        "claims": 3,
+        "sourceLabels": 3,
+        "quotesC": 3,
+        "quotesA": 0
+      }
+    },
+    {
+      "id": "D4",
+      "name": "source dialog contains C citation buttons (fixture has no A section citations)",
+      "status": "PASS",
+      "evidence": {
+        "cRefs": 3,
+        "aRefs": 0
+      }
+    },
+    {
+      "id": "D5",
+      "name": "source dialog quotes match the fixture text",
+      "status": "PASS",
+      "evidence": [
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "id": "D6",
+      "name": "source dialog has a close button and scrollable body",
+      "status": "PASS",
+      "evidence": {
+        "closeLabel": "关闭×",
+        "overflowY": "auto"
+      }
+    },
+    {
+      "id": "D7",
+      "name": "clicking C1 inside the source dialog closes it and focuses the C1 evidence card",
+      "status": "PASS",
+      "evidence": {
+        "tag": "ARTICLE",
+        "citation": "C1",
+        "id": "as-evidence-as-mw8z40ug-ixef1t3-C1"
+      }
+    },
+    {
+      "id": "D8",
+      "name": "source close button closes and restores focus to the source trigger",
+      "status": "PASS",
+      "evidence": "activeElement is the source summary"
+    },
+    {
+      "id": "D9",
+      "name": "Escape closes the source dialog and restores focus",
+      "status": "PASS",
+      "evidence": "activeElement is the source summary"
+    },
+    {
+      "id": "D10",
+      "name": "backdrop closes the source dialog and restores focus",
+      "status": "PASS",
+      "evidence": "activeElement is the source summary"
+    },
+    {
+      "id": "P1",
+      "name": "process trigger opens a native modal dialog.as-process-dialog[open]",
+      "status": "PASS",
+      "evidence": {
+        "tag": "DIALOG",
+        "open": true,
+        "modal": true,
+        "title": "检索过程与资料范围",
+        "text": "检索过程\n检索过程与资料范围\n关闭\n×\n\n索引 6,989 条 · 资料版本 f064c896c123cbf4 · 结构化范围 6,989 条 · 规则命中 987 条 · 本次证据仅为部分样本\n\n识别主题：涉华\n\n问题用途：议题分析\n\n时间范围：按快照内日期由近到远排列；未自动设定近 7 天或近 30 天窗口\n\n分析仅依据可引用样本；精确数量以相同筛选和关键词口径的数据库统计为准。\n\n检索样本：8 条记录 / 8 段；回答引用：3 条记录 / 3 段。\n\n回答经过来源摘录对应与模型复核；这不能证明语义推断或来源陈述必然正确，仍需人工核对。\n\n服务检索式：近期涉华报道有哪些主要议题？请用三点概括，并给出来源。\n\n本次检索词 / 扩展与近似词\n中国\nChina\nChinese\nPRC\n对华\n涉华\n中美\n美中\n撤回扩展并重查",
+        "terms": 8,
+        "overflowY": "auto",
+        "closeLabel": "关闭×"
+      }
+    },
+    {
+      "id": "P2",
+      "name": "process dialog has the expected title",
+      "status": "PASS",
+      "evidence": "检索过程与资料范围"
+    },
+    {
+      "id": "P3",
+      "name": "process dialog shows coverage, intent, and expansion content",
+      "status": "PASS",
+      "evidence": {
+        "missing": [],
+        "terms": 8
+      }
+    },
+    {
+      "id": "P4",
+      "name": "process dialog has a close button and scrollable body",
+      "status": "PASS",
+      "evidence": {
+        "closeLabel": "关闭×",
+        "overflowY": "auto"
+      }
+    },
+    {
+      "id": "P5",
+      "name": "process close button closes and restores focus",
+      "status": "PASS",
+      "evidence": "activeElement is the process summary"
+    },
+    {
+      "id": "P6",
+      "name": "Escape closes the process dialog and restores focus",
+      "status": "PASS",
+      "evidence": "activeElement is the process summary"
+    },
+    {
+      "id": "C1",
+      "name": "C citation refs are warm amber",
+      "status": "PASS",
+      "evidence": {
+        "color": "rgb(240, 179, 91)",
+        "background": "rgba(240, 179, 91, 0.1)",
+        "border": "rgba(240, 179, 91, 0.32)"
+      }
+    },
+    {
+      "id": "C2",
+      "name": "A citation refs are violet",
+      "status": "PASS",
+      "evidence": {
+        "color": "rgb(167, 139, 250)",
+        "background": "rgba(167, 139, 250, 0.12)",
+        "border": "rgba(167, 139, 250, 0.34)"
+      }
+    },
+    {
+      "id": "C3",
+      "name": "source trigger count badge and marker are warm amber",
+      "status": "PASS",
+      "evidence": {
+        "badge": {
+          "text": "3 组",
+          "color": "rgb(240, 179, 91)",
+          "background": "rgba(240, 179, 91, 0.1)",
+          "border": "rgba(240, 179, 91, 0.32)"
+        },
+        "marker": "rgb(240, 179, 91)",
+        "hint": {
+          "color": "rgb(240, 179, 91)",
+          "background": "rgba(0, 0, 0, 0)",
+          "border": "rgb(240, 179, 91)"
+        },
+        "label": {
+          "color": "rgb(201, 214, 230)",
+          "background": "rgba(0, 0, 0, 0)",
+          "border": "rgb(201, 214, 230)"
+        }
+      }
+    },
+    {
+      "id": "C4",
+      "name": "source count is warm amber",
+      "status": "PASS",
+      "evidence": {
+        "text": "3 段证据",
+        "color": "rgb(240, 179, 91)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "rgb(240, 179, 91)"
+      }
+    },
+    {
+      "id": "C5",
+      "name": "primary action remains cyan",
+      "status": "PASS",
+      "evidence": {
+        "text": "发送问题",
+        "color": "rgb(6, 32, 43)",
+        "background": "rgb(103, 217, 239)",
+        "border": "rgb(103, 217, 239)"
+      }
+    },
+    {
+      "id": "C6",
+      "name": "evidence C labels are warm and A labels are violet",
+      "status": "PASS",
+      "evidence": {
+        "c": {
+          "color": "rgb(240, 179, 91)",
+          "background": "rgba(240, 179, 91, 0.1)",
+          "border": "rgba(240, 179, 91, 0.32)"
+        },
+        "a": {
+          "color": "rgb(167, 139, 250)",
+          "background": "rgba(167, 139, 250, 0.12)",
+          "border": "rgba(167, 139, 250, 0.34)"
+        }
+      }
+    },
+    {
+      "id": "C7",
+      "name": "source dialog title/source label warm; analysis label style probe violet",
+      "status": "PASS",
+      "evidence": {
+        "titleBorder": "rgb(240, 179, 91)",
+        "kicker": "rgb(240, 179, 91)",
+        "label": "rgb(240, 179, 91)",
+        "quoteBorder": "rgba(240, 179, 91, 0.32)",
+        "dialogBorder": "rgba(158, 181, 209, 0.14)",
+        "analysisLabelProbe": "rgb(167, 139, 250)"
+      }
+    },
+    {
+      "id": "C8",
+      "name": "process dialog title accent is violet",
+      "status": "PASS",
+      "evidence": {
+        "titleBorder": "rgb(167, 139, 250)",
+        "kicker": "rgb(167, 139, 250)",
+        "dialogBorder": "rgba(158, 181, 209, 0.14)"
+      }
+    },
+    {
+      "id": "R390S1",
+      "name": "390px source dialog stays inside the viewport",
+      "status": "PASS",
+      "evidence": {
+        "rect": {
+          "left": 8,
+          "top": 10,
+          "right": 382,
+          "bottom": 834,
+          "width": 374,
+          "height": 824
+        },
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "body": {
+          "overflowY": "auto",
+          "scrollHeight": 817,
+          "clientHeight": 747,
+          "scrollable": true,
+          "scrollTopAfter": 70,
+          "rect": {
+            "left": 9,
+            "top": 85.9375,
+            "right": 381,
+            "bottom": 833
+          }
+        },
+        "document": {
+          "scrollWidth": 390,
+          "bodyScrollWidth": 390,
+          "innerWidth": 390
+        }
+      }
+    },
+    {
+      "id": "R390S2",
+      "name": "390px source dialog body is scrollable when needed",
+      "status": "PASS",
+      "evidence": {
+        "overflowY": "auto",
+        "scrollHeight": 817,
+        "clientHeight": 747,
+        "scrollable": true,
+        "scrollTopAfter": 70,
+        "rect": {
+          "left": 9,
+          "top": 85.9375,
+          "right": 381,
+          "bottom": 833
+        }
+      }
+    },
+    {
+      "id": "R390S3",
+      "name": "390px source dialog causes no horizontal page overflow",
+      "status": "PASS",
+      "evidence": {
+        "scrollWidth": 390,
+        "bodyScrollWidth": 390,
+        "innerWidth": 390
+      }
+    },
+    {
+      "id": "R390P1",
+      "name": "390px process dialog stays inside the viewport",
+      "status": "PASS",
+      "evidence": {
+        "rect": {
+          "left": 8,
+          "top": 127.375,
+          "right": 382,
+          "bottom": 716.625,
+          "width": 374,
+          "height": 589.25
+        },
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "body": {
+          "overflowY": "auto",
+          "scrollHeight": 512,
+          "clientHeight": 512,
+          "scrollable": false,
+          "scrollTopAfter": 0,
+          "rect": {
+            "left": 9,
+            "top": 203.3125,
+            "right": 381,
+            "bottom": 715.625
+          }
+        },
+        "document": {
+          "scrollWidth": 390,
+          "bodyScrollWidth": 390,
+          "innerWidth": 390
+        }
+      }
+    },
+    {
+      "id": "R390P2",
+      "name": "390px process dialog body is scrollable when needed",
+      "status": "PASS",
+      "evidence": {
+        "overflowY": "auto",
+        "scrollHeight": 512,
+        "clientHeight": 512,
+        "scrollable": false,
+        "scrollTopAfter": 0,
+        "rect": {
+          "left": 9,
+          "top": 203.3125,
+          "right": 381,
+          "bottom": 715.625
+        }
+      }
+    },
+    {
+      "id": "R390P3",
+      "name": "390px process dialog causes no horizontal page overflow",
+      "status": "PASS",
+      "evidence": {
+        "scrollWidth": 390,
+        "bodyScrollWidth": 390,
+        "innerWidth": 390
+      }
+    },
+    {
+      "id": "R768S1",
+      "name": "768px source dialog stays inside the viewport",
+      "status": "PASS",
+      "evidence": {
+        "rect": {
+          "left": 12,
+          "top": 110.671875,
+          "right": 756,
+          "bottom": 789.3125,
+          "width": 744,
+          "height": 678.640625
+        },
+        "viewport": {
+          "width": 768,
+          "height": 900
+        },
+        "body": {
+          "overflowY": "auto",
+          "scrollHeight": 592,
+          "clientHeight": 592,
+          "scrollable": false,
+          "scrollTopAfter": 0,
+          "rect": {
+            "left": 13,
+            "top": 196.703125,
+            "right": 755,
+            "bottom": 788.3125
+          }
+        },
+        "document": {
+          "scrollWidth": 768,
+          "bodyScrollWidth": 768,
+          "innerWidth": 768
+        }
+      }
+    },
+    {
+      "id": "R768S2",
+      "name": "768px source dialog body is scrollable when needed",
+      "status": "PASS",
+      "evidence": {
+        "overflowY": "auto",
+        "scrollHeight": 592,
+        "clientHeight": 592,
+        "scrollable": false,
+        "scrollTopAfter": 0,
+        "rect": {
+          "left": 13,
+          "top": 196.703125,
+          "right": 755,
+          "bottom": 788.3125
+        }
+      }
+    },
+    {
+      "id": "R768S3",
+      "name": "768px source dialog causes no horizontal page overflow",
+      "status": "PASS",
+      "evidence": {
+        "scrollWidth": 768,
+        "bodyScrollWidth": 768,
+        "innerWidth": 768
+      }
+    },
+    {
+      "id": "R768P1",
+      "name": "768px process dialog stays inside the viewport",
+      "status": "PASS",
+      "evidence": {
+        "rect": {
+          "left": 12,
+          "top": 221.703125,
+          "right": 756,
+          "bottom": 678.28125,
+          "width": 744,
+          "height": 456.578125
+        },
+        "viewport": {
+          "width": 768,
+          "height": 900
+        },
+        "body": {
+          "overflowY": "auto",
+          "scrollHeight": 370,
+          "clientHeight": 370,
+          "scrollable": false,
+          "scrollTopAfter": 0,
+          "rect": {
+            "left": 13,
+            "top": 307.734375,
+            "right": 755,
+            "bottom": 677.28125
+          }
+        },
+        "document": {
+          "scrollWidth": 768,
+          "bodyScrollWidth": 768,
+          "innerWidth": 768
+        }
+      }
+    },
+    {
+      "id": "R768P2",
+      "name": "768px process dialog body is scrollable when needed",
+      "status": "PASS",
+      "evidence": {
+        "overflowY": "auto",
+        "scrollHeight": 370,
+        "clientHeight": 370,
+        "scrollable": false,
+        "scrollTopAfter": 0,
+        "rect": {
+          "left": 13,
+          "top": 307.734375,
+          "right": 755,
+          "bottom": 677.28125
+        }
+      }
+    },
+    {
+      "id": "R768P3",
+      "name": "768px process dialog causes no horizontal page overflow",
+      "status": "PASS",
+      "evidence": {
+        "scrollWidth": 768,
+        "bodyScrollWidth": 768,
+        "innerWidth": 768
+      }
+    },
+    {
+      "id": "R1024S1",
+      "name": "1024px source dialog stays inside the viewport",
+      "status": "PASS",
+      "evidence": {
+        "rect": {
+          "left": 132,
+          "top": 53.765625,
+          "right": 892,
+          "bottom": 714.234375,
+          "width": 760,
+          "height": 660.46875
+        },
+        "viewport": {
+          "width": 1024,
+          "height": 768
+        },
+        "body": {
+          "overflowY": "auto",
+          "scrollHeight": 592,
+          "clientHeight": 573,
+          "scrollable": true,
+          "scrollTopAfter": 19,
+          "rect": {
+            "left": 133,
+            "top": 139.796875,
+            "right": 891,
+            "bottom": 713.234375
+          }
+        },
+        "document": {
+          "scrollWidth": 1024,
+          "bodyScrollWidth": 1024,
+          "innerWidth": 1024
+        }
+      }
+    },
+    {
+      "id": "R1024S2",
+      "name": "1024px source dialog body is scrollable when needed",
+      "status": "PASS",
+      "evidence": {
+        "overflowY": "auto",
+        "scrollHeight": 592,
+        "clientHeight": 573,
+        "scrollable": true,
+        "scrollTopAfter": 19,
+        "rect": {
+          "left": 133,
+          "top": 139.796875,
+          "right": 891,
+          "bottom": 713.234375
+        }
+      }
+    },
+    {
+      "id": "R1024S3",
+      "name": "1024px source dialog causes no horizontal page overflow",
+      "status": "PASS",
+      "evidence": {
+        "scrollWidth": 1024,
+        "bodyScrollWidth": 1024,
+        "innerWidth": 1024
+      }
+    },
+    {
+      "id": "R1024P1",
+      "name": "1024px process dialog stays inside the viewport",
+      "status": "PASS",
+      "evidence": {
+        "rect": {
+          "left": 132,
+          "top": 155.703125,
+          "right": 892,
+          "bottom": 612.28125,
+          "width": 760,
+          "height": 456.578125
+        },
+        "viewport": {
+          "width": 1024,
+          "height": 768
+        },
+        "body": {
+          "overflowY": "auto",
+          "scrollHeight": 370,
+          "clientHeight": 370,
+          "scrollable": false,
+          "scrollTopAfter": 0,
+          "rect": {
+            "left": 133,
+            "top": 241.734375,
+            "right": 891,
+            "bottom": 611.28125
+          }
+        },
+        "document": {
+          "scrollWidth": 1024,
+          "bodyScrollWidth": 1024,
+          "innerWidth": 1024
+        }
+      }
+    },
+    {
+      "id": "R1024P2",
+      "name": "1024px process dialog body is scrollable when needed",
+      "status": "PASS",
+      "evidence": {
+        "overflowY": "auto",
+        "scrollHeight": 370,
+        "clientHeight": 370,
+        "scrollable": false,
+        "scrollTopAfter": 0,
+        "rect": {
+          "left": 133,
+          "top": 241.734375,
+          "right": 891,
+          "bottom": 611.28125
+        }
+      }
+    },
+    {
+      "id": "R1024P3",
+      "name": "1024px process dialog causes no horizontal page overflow",
+      "status": "PASS",
+      "evidence": {
+        "scrollWidth": 1024,
+        "bodyScrollWidth": 1024,
+        "innerWidth": 1024
+      }
+    },
+    {
+      "id": "R1440S1",
+      "name": "1440px source dialog stays inside the viewport",
+      "status": "PASS",
+      "evidence": {
+        "rect": {
+          "left": 340,
+          "top": 160.671875,
+          "right": 1100,
+          "bottom": 839.3125,
+          "width": 760,
+          "height": 678.640625
+        },
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "body": {
+          "overflowY": "auto",
+          "scrollHeight": 592,
+          "clientHeight": 592,
+          "scrollable": false,
+          "scrollTopAfter": 0,
+          "rect": {
+            "left": 341,
+            "top": 246.703125,
+            "right": 1099,
+            "bottom": 838.3125
+          }
+        },
+        "document": {
+          "scrollWidth": 1440,
+          "bodyScrollWidth": 1440,
+          "innerWidth": 1440
+        }
+      }
+    },
+    {
+      "id": "R1440S2",
+      "name": "1440px source dialog body is scrollable when needed",
+      "status": "PASS",
+      "evidence": {
+        "overflowY": "auto",
+        "scrollHeight": 592,
+        "clientHeight": 592,
+        "scrollable": false,
+        "scrollTopAfter": 0,
+        "rect": {
+          "left": 341,
+          "top": 246.703125,
+          "right": 1099,
+          "bottom": 838.3125
+        }
+      }
+    },
+    {
+      "id": "R1440S3",
+      "name": "1440px source dialog causes no horizontal page overflow",
+      "status": "PASS",
+      "evidence": {
+        "scrollWidth": 1440,
+        "bodyScrollWidth": 1440,
+        "innerWidth": 1440
+      }
+    },
+    {
+      "id": "R1440P1",
+      "name": "1440px process dialog stays inside the viewport",
+      "status": "PASS",
+      "evidence": {
+        "rect": {
+          "left": 340,
+          "top": 271.703125,
+          "right": 1100,
+          "bottom": 728.28125,
+          "width": 760,
+          "height": 456.578125
+        },
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "body": {
+          "overflowY": "auto",
+          "scrollHeight": 370,
+          "clientHeight": 370,
+          "scrollable": false,
+          "scrollTopAfter": 0,
+          "rect": {
+            "left": 341,
+            "top": 357.734375,
+            "right": 1099,
+            "bottom": 727.28125
+          }
+        },
+        "document": {
+          "scrollWidth": 1440,
+          "bodyScrollWidth": 1440,
+          "innerWidth": 1440
+        }
+      }
+    },
+    {
+      "id": "R1440P2",
+      "name": "1440px process dialog body is scrollable when needed",
+      "status": "PASS",
+      "evidence": {
+        "overflowY": "auto",
+        "scrollHeight": 370,
+        "clientHeight": 370,
+        "scrollable": false,
+        "scrollTopAfter": 0,
+        "rect": {
+          "left": 341,
+          "top": 357.734375,
+          "right": 1099,
+          "bottom": 727.28125
+        }
+      }
+    },
+    {
+      "id": "R1440P3",
+      "name": "1440px process dialog causes no horizontal page overflow",
+      "status": "PASS",
+      "evidence": {
+        "scrollWidth": 1440,
+        "bodyScrollWidth": 1440,
+        "innerWidth": 1440
+      }
+    },
+    {
+      "id": "R390A",
+      "name": "390px answer has no horizontal page overflow",
+      "status": "PASS",
+      "evidence": {
+        "innerWidth": 390,
+        "documentWidth": 390,
+        "bodyWidth": 390,
+        "answerWidth": 326
+      }
+    },
+    {
+      "id": "E1",
+      "name": "no page script errors across the whole run",
+      "status": "PASS",
+      "evidence": []
+    },
+    {
+      "id": "E2",
+      "name": "no failed network requests across the whole run",
+      "status": "PASS",
+      "evidence": []
+    },
+    {
+      "id": "E3",
+      "name": "no chat request reached the live backend",
+      "status": "PASS",
+      "evidence": [
+        {
+          "method": "POST",
+          "url": "http://127.0.0.1:8790/api/chat",
+          "post_data": {
+            "message": "近期涉华报道有哪些主要议题？请用三点概括，并给出来源。",
+            "history": [],
+            "filters": {
+              "date_field": "published_at"
+            },
+            "expand": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "G1",
+      "name": "product worktree unchanged by this QA",
+      "status": "PASS",
+      "evidence": {
+        "status": "M reports/research-chat-runtime-switch-20261109.json\n M reports/research-chat-runtime-verification-20261109.json\n M tests/design_acceptance.py\n M tests/design_assistant.py\n?? .social-mcp/\n?? analysis/\n?? docs/encrypted/171746c0518552ee49f4ef991b1bed24d6ea9ddf86c79d2361b001248c10b102.bin\n?? docs/encrypted/1a303118758659e31842228573851a908aea95545439895f214ba86651659b3f.bin\n?? docs/encrypted/2dc360840eb4417b6c87878f0d356387137dbfa40432d35d9573b44137da7da3.bin\n?? docs/encrypted/4debf3a840307ab1ed857c23baf465b9474a88d46b77fdbb3775ab85f57cbdc0.bin\n?? docs/encrypted/5e8f30219f086de09fbf0efb93a83d77e26b4906d9afaec259ab76044c2269cd.bin\n?? docs/encrypted/5f51f4c763b0c497db7b0c2bfe2dc82a3d86ffb15a4c8719b1dd8a4095df50f6.bin\n?? docs/encrypted/71afca605da931588e8da542d002a76f3769ce03b8b089320df21871acea45c4.bin\n?? docs/encrypted/84f5f314d09324f42496882e36bd6f89e2965bcd6dd31aa74567575ab1ed6824.bin\n?? docs/encrypted/8aee24fbcb9e3f69cfca71ff8a5cb0838505e4ea6307eff48f4d7e328b7e4227.bin\n?? docs/encrypted/8de8457deadd7a78accad8372ce420a43addbe12555167427d67f56580d0a924.bin\n?? docs/encrypted/913dd73f980a48df166f52e737437fd89a93b8ee5dfd81ae6c0ab5c643b818ce.bin\n?? docs/encrypted/a12966aece8683510ccb4fd5f28fa112bb43ac1e25fe85152c35ee5cba475a3c.bin\n?? docs/encrypted/a59e2f3fb44d0891d4c4a3171518ccea40b03c841e4c5ebe8c6e80eafa596fac.bin\n?? docs/encrypted/a9aee47c3dc388db8cf1f09cdcef196f642c81470f302e8575ac31a479087a8f.bin\n?? docs/encrypted/aff2a7cc6e68120e6fc23a06796e4fbe82e75379180c74da8656d46989ee8303.bin\n?? docs/encrypted/d03b72969d18d6017c4d1064dbc2486e3187f64336a4b288fab7250603605917.bin\n?? docs/encrypted/d06fdcf01e5cb57e746dc5f732ea8cb95ec965981f0d33740df491a362bdeccf.bin\n?? docs/encrypted/f2707a8680899071576f72d885776cb4303ac89dbfa5b99243be528a5a8beb31.bin\n?? docs/encrypted/f758adce294a6c123c1ca24904a6e51db4bdc6a8ec962a74b4c8117d55cdb617.bin\n?? docs/manifest-03c16a2dfab9799eae5e.json\n?? docs/manifest-1db73446ae49c0cfd4b2.json\n?? docs/manifest-50c023898f5adde7a359.json\n?? docs/manifest-543669d637c700d3d4c9.json\n?? docs/manifest-6eda023c92f1e4ebc980.json\n?? docs/manifest-7d9eea45f59d9eeffeb1.json\n?? docs/manifest-8dcb0ebd100f794d0828.json\n?? docs/manifest-8f6c0ba7a52efb3cd123.json\n?? docs/manifest-c43bba536e6b6ee9c83f.json\n?? docs/manifest-c9c301ebb07995098230.json\n?? docs/manifest-e927aed49e6202304e87.json\n?? docs/manifest-f4dca2165f9104562d83.json\n?? reports/real-data-capabilities-20261105.json\n?? \"\\347\\216\\260\\346\\234\\211\\347\\234\\237\\345\\256\\236\\346\\225\\260\\346\\215\\256\\346\\224\\257\\346\\214\\201\\347\\232\\204\\346\\237\\245\\350\\257\\242\\344\\270\\216\\344\\270\\232\\345\\212\\241\\346\\234\\215\\345\\212\\241-20261105.md\""
+      }
+    }
+  ],
+  "limitations": [
+    "The selected live replay response has 0 analysis-kind sections; the source dialog therefore renders 3 来源陈述 labels and no live 分析 label. The violet 分析 label style was verified with a transient getComputedStyle probe (inserted and immediately removed; no product change).",
+    "The selected live replay response has no A citation inside sections; its A1/A2 aggregate citations appear in the answer body and evidence cards, where the violet styling was verified. No A label is expected inside the source dialog for this fixture.",
+    "Source trigger text itself keeps the neutral reading color rgb(201, 214, 230); the warm-amber identity is carried by its 6px marker, the 3 组 count badge and the 打开弹窗 hint. The exact values are recorded under colors_body.",
+    "The encryption package audit (418 assets / 1002 preserved) was supplied as context; this QA verified the served 56f manifest hash and runtime UI, not the full package audit again."
+  ],
+  "screenshots": [
+    {
+      "name": "source-dialog-1440.png",
+      "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261109T075639Z-ui-refine/source-dialog-1440.png",
+      "bytes": 251080,
+      "full_page": false,
+      "sha256": "2e9788829a81b836b28d0d176f741200c6bf8bca539736aa11ed5470747b913d"
+    },
+    {
+      "name": "process-dialog-1440.png",
+      "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261109T075639Z-ui-refine/process-dialog-1440.png",
+      "bytes": 234067,
+      "full_page": false,
+      "sha256": "e140bcbbb800d27d2fe715e493e8255fd3e5ee0583df9c076c5c13f4184a3d98"
+    },
+    {
+      "name": "source-dialog-390.png",
+      "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261109T075639Z-ui-refine/source-dialog-390.png",
+      "bytes": 105597,
+      "full_page": false,
+      "sha256": "911d7a760c1ab4cc6750051ee8690d0df4a4f035a1fc204f99e53f25a9f4ce6e"
+    },
+    {
+      "name": "process-dialog-390.png",
+      "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261109T075639Z-ui-refine/process-dialog-390.png",
+      "bytes": 86351,
+      "full_page": false,
+      "sha256": "6dbb2a2e90d3e21f68ea52a834f472d84de64235e08a432b7307afdb2139aaf5"
+    },
+    {
+      "name": "source-dialog-768.png",
+      "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261109T075639Z-ui-refine/source-dialog-768.png",
+      "bytes": 132718,
+      "full_page": false,
+      "sha256": "f950901144c837d931c4b8148aa9ede13932bd4c71fd70e51021a35d2b48a56f"
+    },
+    {
+      "name": "process-dialog-768.png",
+      "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261109T075639Z-ui-refine/process-dialog-768.png",
+      "bytes": 118441,
+      "full_page": false,
+      "sha256": "85856fd4857506bd305b56c38b86d820889d4343ba2f4faecfad86605b9520ee"
+    },
+    {
+      "name": "source-dialog-1024.png",
+      "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261109T075639Z-ui-refine/source-dialog-1024.png",
+      "bytes": 177407,
+      "full_page": false,
+      "sha256": "28ae3c85427cb957c14e0ff1f20fd4423a712b8a144aab62863a278d7110c98f"
+    },
+    {
+      "name": "process-dialog-1024.png",
+      "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261109T075639Z-ui-refine/process-dialog-1024.png",
+      "bytes": 157951,
+      "full_page": false,
+      "sha256": "cfcfea0ebacd4d1a2e61b217ae30d6629c305b7b918c92028c4cb59e3600259d"
+    },
+    {
+      "name": "answer-390.png",
+      "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261109T075639Z-ui-refine/answer-390.png",
+      "bytes": 128567,
+      "full_page": false,
+      "sha256": "452057c0f7199216c6a0628b5860362d25dfe8ee167f660cceb7fc0118f8517b"
+    },
+    {
+      "name": "answer-390-full.png",
+      "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261109T075639Z-ui-refine/answer-390-full.png",
+      "bytes": 617170,
+      "full_page": true,
+      "sha256": "dfefcd5f9d345e0d6e8137109de9d61313ae6f028a13b48b570572fffdd6a696"
+    }
+  ],
+  "page_errors": [],
+  "console_errors": [],
+  "request_failures": [],
+  "api_responses": [
+    {
+      "method": "POST",
+      "status": 200,
+      "url": "http://127.0.0.1:8790/api/session",
+      "path": "/api/session"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "url": "http://127.0.0.1:8790/api/status",
+      "path": "/api/status"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "url": "http://127.0.0.1:8790/api/status",
+      "path": "/api/status"
+    },
+    {
+      "method": "POST",
+      "status": 200,
+      "url": "http://127.0.0.1:8790/api/session",
+      "path": "/api/session"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "url": "http://127.0.0.1:8790/api/status",
+      "path": "/api/status"
+    },
+    {
+      "method": "POST",
+      "status": 200,
+      "url": "http://127.0.0.1:8790/api/chat",
+      "path": "/api/chat"
+    }
+  ],
+  "manifest_responses": [
+    {
+      "method": "GET",
+      "status": 200,
+      "url": "http://127.0.0.1:8790/manifest-56f69135b336b68262f4.json",
+      "path": "/manifest-56f69135b336b68262f4.json"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "url": "http://127.0.0.1:8790/manifest-56f69135b336b68262f4.json",
+      "path": "/manifest-56f69135b336b68262f4.json"
+    }
+  ],
+  "chat_route_hits": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8790/api/chat",
+      "post_data": {
+        "message": "近期涉华报道有哪些主要议题？请用三点概括，并给出来源。",
+        "history": [],
+        "filters": {
+          "date_field": "published_at"
+        },
+        "expand": true
+      }
+    }
+  ],
+  "model_calls": 0,
+  "password_written": false,
+  "git_status_before": "M reports/research-chat-runtime-switch-20261109.json\n M reports/research-chat-runtime-verification-20261109.json\n M tests/design_acceptance.py\n M tests/design_assistant.py\n?? .social-mcp/\n?? analysis/\n?? docs/encrypted/171746c0518552ee49f4ef991b1bed24d6ea9ddf86c79d2361b001248c10b102.bin\n?? docs/encrypted/1a303118758659e31842228573851a908aea95545439895f214ba86651659b3f.bin\n?? docs/encrypted/2dc360840eb4417b6c87878f0d356387137dbfa40432d35d9573b44137da7da3.bin\n?? docs/encrypted/4debf3a840307ab1ed857c23baf465b9474a88d46b77fdbb3775ab85f57cbdc0.bin\n?? docs/encrypted/5e8f30219f086de09fbf0efb93a83d77e26b4906d9afaec259ab76044c2269cd.bin\n?? docs/encrypted/5f51f4c763b0c497db7b0c2bfe2dc82a3d86ffb15a4c8719b1dd8a4095df50f6.bin\n?? docs/encrypted/71afca605da931588e8da542d002a76f3769ce03b8b089320df21871acea45c4.bin\n?? docs/encrypted/84f5f314d09324f42496882e36bd6f89e2965bcd6dd31aa74567575ab1ed6824.bin\n?? docs/encrypted/8aee24fbcb9e3f69cfca71ff8a5cb0838505e4ea6307eff48f4d7e328b7e4227.bin\n?? docs/encrypted/8de8457deadd7a78accad8372ce420a43addbe12555167427d67f56580d0a924.bin\n?? docs/encrypted/913dd73f980a48df166f52e737437fd89a93b8ee5dfd81ae6c0ab5c643b818ce.bin\n?? docs/encrypted/a12966aece8683510ccb4fd5f28fa112bb43ac1e25fe85152c35ee5cba475a3c.bin\n?? docs/encrypted/a59e2f3fb44d0891d4c4a3171518ccea40b03c841e4c5ebe8c6e80eafa596fac.bin\n?? docs/encrypted/a9aee47c3dc388db8cf1f09cdcef196f642c81470f302e8575ac31a479087a8f.bin\n?? docs/encrypted/aff2a7cc6e68120e6fc23a06796e4fbe82e75379180c74da8656d46989ee8303.bin\n?? docs/encrypted/d03b72969d18d6017c4d1064dbc2486e3187f64336a4b288fab7250603605917.bin\n?? docs/encrypted/d06fdcf01e5cb57e746dc5f732ea8cb95ec965981f0d33740df491a362bdeccf.bin\n?? docs/encrypted/f2707a8680899071576f72d885776cb4303ac89dbfa5b99243be528a5a8beb31.bin\n?? docs/encrypted/f758adce294a6c123c1ca24904a6e51db4bdc6a8ec962a74b4c8117d55cdb617.bin\n?? docs/manifest-03c16a2dfab9799eae5e.json\n?? docs/manifest-1db73446ae49c0cfd4b2.json\n?? docs/manifest-50c023898f5adde7a359.json\n?? docs/manifest-543669d637c700d3d4c9.json\n?? docs/manifest-6eda023c92f1e4ebc980.json\n?? docs/manifest-7d9eea45f59d9eeffeb1.json\n?? docs/manifest-8dcb0ebd100f794d0828.json\n?? docs/manifest-8f6c0ba7a52efb3cd123.json\n?? docs/manifest-c43bba536e6b6ee9c83f.json\n?? docs/manifest-c9c301ebb07995098230.json\n?? docs/manifest-e927aed49e6202304e87.json\n?? docs/manifest-f4dca2165f9104562d83.json\n?? reports/real-data-capabilities-20261105.json\n?? \"\\347\\216\\260\\346\\234\\211\\347\\234\\237\\345\\256\\236\\346\\225\\260\\346\\215\\256\\346\\224\\257\\346\\214\\201\\347\\232\\204\\346\\237\\245\\350\\257\\242\\344\\270\\216\\344\\270\\232\\345\\212\\241\\346\\234\\215\\345\\212\\241-20261105.md\"",
+  "manifest": {
+    "name": "manifest-56f69135b336b68262f4.json",
+    "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/protected-preview/manifest-56f69135b336b68262f4.json",
+    "sha256": "6e9586c6f6e09245c89df95b28d6eb5973825f7c8d2ac732a85d634fa973c26d",
+    "assets": 418,
+    "iterations": 600000,
+    "salt_length": 24
+  },
+  "source": {
+    "commit": "cf828cb85224e676001eddd34dbc8e927884204a",
+    "assistant_js_sha256": "ff4d716e3a57559dbde741ff2379706efb123c98ecbb3da92c6a2fdd8fae9810",
+    "assistant_css_sha256": "058d87a821d7c82c9b3ecaa28c12ceee97fe5dc3443bd27225181d48d3d0c936",
+    "assistant_js_bytes": 142210,
+    "assistant_css_bytes": 35161
+  },
+  "page_status": {
+    "api_revision": "research-chat-20261109",
+    "total": 6989,
+    "llm": {
+      "available": true,
+      "state": "ready",
+      "model": "auto/deepseek-v4.1-flash",
+      "checked_at": 1794211346,
+      "health_scope": "relay_health"
+    }
+  },
+  "manifest_after_unlock_attr": null,
+  "served": {
+    "index_status": 200,
+    "index_has_56f": true,
+    "manifest_status": 200,
+    "manifest_sha256": "6e9586c6f6e09245c89df95b28d6eb5973825f7c8d2ac732a85d634fa973c26d"
+  },
+  "colors_body": {
+    "c": {
+      "color": "rgb(240, 179, 91)",
+      "background": "rgba(240, 179, 91, 0.1)",
+      "border": "rgba(240, 179, 91, 0.32)"
+    },
+    "a": {
+      "color": "rgb(167, 139, 250)",
+      "background": "rgba(167, 139, 250, 0.12)",
+      "border": "rgba(167, 139, 250, 0.34)"
+    },
+    "sourceCount": {
+      "text": "3 段证据",
+      "color": "rgb(240, 179, 91)",
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(240, 179, 91)"
+    },
+    "sourceMarker": "rgb(240, 179, 91)",
+    "sourceBadge": {
+      "text": "3 组",
+      "color": "rgb(240, 179, 91)",
+      "background": "rgba(240, 179, 91, 0.1)",
+      "border": "rgba(240, 179, 91, 0.32)"
+    },
+    "sourceHint": {
+      "color": "rgb(240, 179, 91)",
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(240, 179, 91)"
+    },
+    "sourceLabel": {
+      "color": "rgb(201, 214, 230)",
+      "background": "rgba(0, 0, 0, 0)",
+      "border": "rgb(201, 214, 230)"
+    },
+    "cEvidence": {
+      "color": "rgb(240, 179, 91)",
+      "background": "rgba(240, 179, 91, 0.1)",
+      "border": "rgba(240, 179, 91, 0.32)"
+    },
+    "aEvidence": {
+      "color": "rgb(167, 139, 250)",
+      "background": "rgba(167, 139, 250, 0.12)",
+      "border": "rgba(167, 139, 250, 0.34)"
+    },
+    "submit": {
+      "text": "发送问题",
+      "color": "rgb(6, 32, 43)",
+      "background": "rgb(103, 217, 239)",
+      "border": "rgb(103, 217, 239)"
+    },
+    "rootAccent": "#67d9ef"
+  },
+  "colors_source_dialog": {
+    "titleBorder": "rgb(240, 179, 91)",
+    "kicker": "rgb(240, 179, 91)",
+    "label": "rgb(240, 179, 91)",
+    "quoteBorder": "rgba(240, 179, 91, 0.32)",
+    "dialogBorder": "rgba(158, 181, 209, 0.14)",
+    "analysisLabelProbe": "rgb(167, 139, 250)"
+  },
+  "colors_process_dialog": {
+    "titleBorder": "rgb(167, 139, 250)",
+    "kicker": "rgb(167, 139, 250)",
+    "dialogBorder": "rgba(158, 181, 209, 0.14)"
+  },
+  "responsive": {
+    "390": {
+      "source": {
+        "rect": {
+          "left": 8,
+          "top": 10,
+          "right": 382,
+          "bottom": 834,
+          "width": 374,
+          "height": 824
+        },
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "body": {
+          "overflowY": "auto",
+          "scrollHeight": 817,
+          "clientHeight": 747,
+          "scrollable": true,
+          "scrollTopAfter": 70,
+          "rect": {
+            "left": 9,
+            "top": 85.9375,
+            "right": 381,
+            "bottom": 833
+          }
+        },
+        "document": {
+          "scrollWidth": 390,
+          "bodyScrollWidth": 390,
+          "innerWidth": 390
+        }
+      },
+      "process": {
+        "rect": {
+          "left": 8,
+          "top": 127.375,
+          "right": 382,
+          "bottom": 716.625,
+          "width": 374,
+          "height": 589.25
+        },
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "body": {
+          "overflowY": "auto",
+          "scrollHeight": 512,
+          "clientHeight": 512,
+          "scrollable": false,
+          "scrollTopAfter": 0,
+          "rect": {
+            "left": 9,
+            "top": 203.3125,
+            "right": 381,
+            "bottom": 715.625
+          }
+        },
+        "document": {
+          "scrollWidth": 390,
+          "bodyScrollWidth": 390,
+          "innerWidth": 390
+        }
+      }
+    },
+    "768": {
+      "source": {
+        "rect": {
+          "left": 12,
+          "top": 110.671875,
+          "right": 756,
+          "bottom": 789.3125,
+          "width": 744,
+          "height": 678.640625
+        },
+        "viewport": {
+          "width": 768,
+          "height": 900
+        },
+        "body": {
+          "overflowY": "auto",
+          "scrollHeight": 592,
+          "clientHeight": 592,
+          "scrollable": false,
+          "scrollTopAfter": 0,
+          "rect": {
+            "left": 13,
+            "top": 196.703125,
+            "right": 755,
+            "bottom": 788.3125
+          }
+        },
+        "document": {
+          "scrollWidth": 768,
+          "bodyScrollWidth": 768,
+          "innerWidth": 768
+        }
+      },
+      "process": {
+        "rect": {
+          "left": 12,
+          "top": 221.703125,
+          "right": 756,
+          "bottom": 678.28125,
+          "width": 744,
+          "height": 456.578125
+        },
+        "viewport": {
+          "width": 768,
+          "height": 900
+        },
+        "body": {
+          "overflowY": "auto",
+          "scrollHeight": 370,
+          "clientHeight": 370,
+          "scrollable": false,
+          "scrollTopAfter": 0,
+          "rect": {
+            "left": 13,
+            "top": 307.734375,
+            "right": 755,
+            "bottom": 677.28125
+          }
+        },
+        "document": {
+          "scrollWidth": 768,
+          "bodyScrollWidth": 768,
+          "innerWidth": 768
+        }
+      }
+    },
+    "1024": {
+      "source": {
+        "rect": {
+          "left": 132,
+          "top": 53.765625,
+          "right": 892,
+          "bottom": 714.234375,
+          "width": 760,
+          "height": 660.46875
+        },
+        "viewport": {
+          "width": 1024,
+          "height": 768
+        },
+        "body": {
+          "overflowY": "auto",
+          "scrollHeight": 592,
+          "clientHeight": 573,
+          "scrollable": true,
+          "scrollTopAfter": 19,
+          "rect": {
+            "left": 133,
+            "top": 139.796875,
+            "right": 891,
+            "bottom": 713.234375
+          }
+        },
+        "document": {
+          "scrollWidth": 1024,
+          "bodyScrollWidth": 1024,
+          "innerWidth": 1024
+        }
+      },
+      "process": {
+        "rect": {
+          "left": 132,
+          "top": 155.703125,
+          "right": 892,
+          "bottom": 612.28125,
+          "width": 760,
+          "height": 456.578125
+        },
+        "viewport": {
+          "width": 1024,
+          "height": 768
+        },
+        "body": {
+          "overflowY": "auto",
+          "scrollHeight": 370,
+          "clientHeight": 370,
+          "scrollable": false,
+          "scrollTopAfter": 0,
+          "rect": {
+            "left": 133,
+            "top": 241.734375,
+            "right": 891,
+            "bottom": 611.28125
+          }
+        },
+        "document": {
+          "scrollWidth": 1024,
+          "bodyScrollWidth": 1024,
+          "innerWidth": 1024
+        }
+      }
+    },
+    "1440": {
+      "source": {
+        "rect": {
+          "left": 340,
+          "top": 160.671875,
+          "right": 1100,
+          "bottom": 839.3125,
+          "width": 760,
+          "height": 678.640625
+        },
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "body": {
+          "overflowY": "auto",
+          "scrollHeight": 592,
+          "clientHeight": 592,
+          "scrollable": false,
+          "scrollTopAfter": 0,
+          "rect": {
+            "left": 341,
+            "top": 246.703125,
+            "right": 1099,
+            "bottom": 838.3125
+          }
+        },
+        "document": {
+          "scrollWidth": 1440,
+          "bodyScrollWidth": 1440,
+          "innerWidth": 1440
+        }
+      },
+      "process": {
+        "rect": {
+          "left": 340,
+          "top": 271.703125,
+          "right": 1100,
+          "bottom": 728.28125,
+          "width": 760,
+          "height": 456.578125
+        },
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "body": {
+          "overflowY": "auto",
+          "scrollHeight": 370,
+          "clientHeight": 370,
+          "scrollable": false,
+          "scrollTopAfter": 0,
+          "rect": {
+            "left": 341,
+            "top": 357.734375,
+            "right": 1099,
+            "bottom": 727.28125
+          }
+        },
+        "document": {
+          "scrollWidth": 1440,
+          "bodyScrollWidth": 1440,
+          "innerWidth": 1440
+        }
+      }
+    }
+  },
+  "api_response_summary": {
+    "/api/session": [
+      {
+        "status": 200,
+        "method": "POST"
+      },
+      {
+        "status": 200,
+        "method": "POST"
+      }
+    ],
+    "/api/status": [
+      {
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "status": 200,
+        "method": "GET"
+      }
+    ],
+    "/api/chat": [
+      {
+        "status": 200,
+        "method": "POST"
+      }
+    ]
+  },
+  "chat_route_hit_count": 1,
+  "git_status_after": "M reports/research-chat-runtime-switch-20261109.json\n M reports/research-chat-runtime-verification-20261109.json\n M tests/design_acceptance.py\n M tests/design_assistant.py\n?? .social-mcp/\n?? analysis/\n?? docs/encrypted/171746c0518552ee49f4ef991b1bed24d6ea9ddf86c79d2361b001248c10b102.bin\n?? docs/encrypted/1a303118758659e31842228573851a908aea95545439895f214ba86651659b3f.bin\n?? docs/encrypted/2dc360840eb4417b6c87878f0d356387137dbfa40432d35d9573b44137da7da3.bin\n?? docs/encrypted/4debf3a840307ab1ed857c23baf465b9474a88d46b77fdbb3775ab85f57cbdc0.bin\n?? docs/encrypted/5e8f30219f086de09fbf0efb93a83d77e26b4906d9afaec259ab76044c2269cd.bin\n?? docs/encrypted/5f51f4c763b0c497db7b0c2bfe2dc82a3d86ffb15a4c8719b1dd8a4095df50f6.bin\n?? docs/encrypted/71afca605da931588e8da542d002a76f3769ce03b8b089320df21871acea45c4.bin\n?? docs/encrypted/84f5f314d09324f42496882e36bd6f89e2965bcd6dd31aa74567575ab1ed6824.bin\n?? docs/encrypted/8aee24fbcb9e3f69cfca71ff8a5cb0838505e4ea6307eff48f4d7e328b7e4227.bin\n?? docs/encrypted/8de8457deadd7a78accad8372ce420a43addbe12555167427d67f56580d0a924.bin\n?? docs/encrypted/913dd73f980a48df166f52e737437fd89a93b8ee5dfd81ae6c0ab5c643b818ce.bin\n?? docs/encrypted/a12966aece8683510ccb4fd5f28fa112bb43ac1e25fe85152c35ee5cba475a3c.bin\n?? docs/encrypted/a59e2f3fb44d0891d4c4a3171518ccea40b03c841e4c5ebe8c6e80eafa596fac.bin\n?? docs/encrypted/a9aee47c3dc388db8cf1f09cdcef196f642c81470f302e8575ac31a479087a8f.bin\n?? docs/encrypted/aff2a7cc6e68120e6fc23a06796e4fbe82e75379180c74da8656d46989ee8303.bin\n?? docs/encrypted/d03b72969d18d6017c4d1064dbc2486e3187f64336a4b288fab7250603605917.bin\n?? docs/encrypted/d06fdcf01e5cb57e746dc5f732ea8cb95ec965981f0d33740df491a362bdeccf.bin\n?? docs/encrypted/f2707a8680899071576f72d885776cb4303ac89dbfa5b99243be528a5a8beb31.bin\n?? docs/encrypted/f758adce294a6c123c1ca24904a6e51db4bdc6a8ec962a74b4c8117d55cdb617.bin\n?? docs/manifest-03c16a2dfab9799eae5e.json\n?? docs/manifest-1db73446ae49c0cfd4b2.json\n?? docs/manifest-50c023898f5adde7a359.json\n?? docs/manifest-543669d637c700d3d4c9.json\n?? docs/manifest-6eda023c92f1e4ebc980.json\n?? docs/manifest-7d9eea45f59d9eeffeb1.json\n?? docs/manifest-8dcb0ebd100f794d0828.json\n?? docs/manifest-8f6c0ba7a52efb3cd123.json\n?? docs/manifest-c43bba536e6b6ee9c83f.json\n?? docs/manifest-c9c301ebb07995098230.json\n?? docs/manifest-e927aed49e6202304e87.json\n?? docs/manifest-f4dca2165f9104562d83.json\n?? reports/real-data-capabilities-20261105.json\n?? \"\\347\\216\\260\\346\\234\\211\\347\\234\\237\\345\\256\\236\\346\\225\\260\\346\\215\\256\\346\\224\\257\\346\\214\\201\\347\\232\\204\\346\\237\\245\\350\\257\\242\\344\\270\\216\\344\\270\\232\\345\\212\\241\\346\\234\\215\\345\\212\\241-20261105.md\"",
+  "git_status_unchanged": true,
+  "counts": {
+    "total": 80,
+    "passed": 80,
+    "failed": 0
+  },
+  "verdict": "PASS",
+  "verdict_detail": "PASS with fixture-scope notes: UI behavior, modal interactions, accent colors and responsive layout passed on the live encrypted preview; the recorded-answer replay was used and no new model generation occurred.",
+  "finished_at": "2026-11-09T08:02:34.279605+00:00",
+  "notes": [
+    "Manifest identity: the login gate carries data-manifest=manifest-56f69135b336b68262f4.json; during the initial unlock and the refresh unlock the page requested that exact manifest with HTTP 200, and the served manifest SHA-256 equals the preview file. The access script is removed after mount, so the mounted DOM no longer has script[data-manifest]; identity is evidenced by the gate attribute, the two runtime manifest GETs and the served hash.",
+    "Replay network semantics: the /api/chat response event is the Playwright route fulfillment on the same-origin URL, not an upstream backend response. Exactly one chat request was intercepted and fulfilled from the recorded response; no chat request reached 127.0.0.1:8792 and no generation call was made. The 2 /api/session and 3 /api/status calls are real read-only auth/status calls to the P1 backend.",
+    "Worktree: the repository already contained modified and untracked files before this QA. git status before and after is identical; this QA wrote only its own QA directory and did not alter product files, reports, STATUS or Git.",
+    "Dialog accent: the corresponding accent is applied as the 2px left border and kicker of the dialog title (amber for the source dialog, violet for the process dialog). The outer dialog frame border remains the neutral --as-border rgba(158, 181, 209, 0.14) by design; it is not intended to be an amber/violet frame.",
+    "The fixture replay reproduces the real answer content and 3/3 citation semantics, but it is not a new model call. The preview backend was alive and answered /api/session and /api/status."
+  ],
+  "artifacts": {
+    "run_log": {
+      "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261109T075639Z-ui-refine/run.log",
+      "sha256": "eaf0061349b26a20ed446bfbcc42d07fca66107aee474cb9206082a50a19a9f8"
+    },
+    "qa_script": {
+      "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/qa/20261109T075639Z-ui-refine/ui_refine_qa.py",
+      "sha256": "9a52998037978ce46e94da9165fcb351c3666386ed10dedfb38e7e4675ae5afb"
+    }
+  }
+}
