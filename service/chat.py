@@ -32,8 +32,12 @@ BROAD_TERM = re.compile(
     r"tell\s+me|what(?:'s| is)\s+worth",
     re.I,
 )
+BROAD_TOPIC = re.compile(
+    r"中国|China|Chinese|PRC|对华|涉华|中美|美中|美国|U\.S\.|United\s+States|America",
+    re.I,
+)
 SAMPLE_FILLER = re.compile(
-    r"给我|说说|讲讲|聊聊|谈谈|看看|告诉|你|您|我|的|吧|呢|吗|啊|一下|一点|一些|几篇|几|篇|关于|"
+    r"给我|说说|讲讲|聊聊|谈谈|看看|我看(?:一下|下)?|我看看|看下|看一下|我想看|给我看|让我看|告诉|你|您|我|的|吧|呢|吗|啊|一下|一点|一些|几篇|几|篇|关于|"
     r"什么|哪些|哪个|哪篇|哪几篇|请|帮|想要|可以|能否|主要|近期|最近|最新|当前|现在|资料|报道|信息|内容|"
     r"关注|特点|值得|推荐|汇报|印象|动态|看点|亮点|最好|最佳|最值得|有意思|有趣|精彩|突出|亮眼|好看|"
     r"概述|概览|about|me|tell|"
@@ -147,6 +151,7 @@ class Chat:
             if not group or not isinstance(group[0], str):
                 return True
             residue = SAMPLE_FILLER.sub(" ", BROAD_TERM.sub(" ", group[0]))
+            residue = BROAD_TOPIC.sub(" ", residue)
             if re.search(r"[\u3400-\u9fff]{2,}|[A-Za-z]{3,}|[A-Za-z]*\d[A-Za-z0-9]*", residue):
                 return True
         return False
@@ -204,12 +209,20 @@ class Chat:
 
     def sample_scope(self, result: dict, expand: bool) -> dict | None:
         filters = {key: value for key, value in result["plan"]["filters"].items() if key in SAMPLE_SCOPE_KEYS}
+        # A broad country/topic qualifier (for example 中国) is part of the
+        # current scope; sample within that topic instead of across the whole DB.
+        topic_query = ""
+        for group in result["plan"].get("terms", []):
+            term = group[0].strip() if group and isinstance(group[0], str) else ""
+            if term and BROAD_TOPIC.fullmatch(term):
+                topic_query = term
+                break
         batches = []
         if filters.get("angle"):
-            batches.append(self.retriever.search("", filters, expand=expand, limit=SAMPLE_LIMIT))
+            batches.append(self.retriever.search(topic_query, filters, expand=expand, limit=SAMPLE_LIMIT))
         else:
             for angle in ("news", "clue", "social"):
-                batches.append(self.retriever.search("", {**filters, "angle": [angle]},
+                batches.append(self.retriever.search(topic_query, {**filters, "angle": [angle]},
                                                      expand=expand, limit=SAMPLE_PER_ANGLE))
         selected, seen = [], set()
         for batch in batches:
@@ -219,7 +232,7 @@ class Chat:
                 seen.add(citation["id"])
                 selected.append(citation)
         if len(selected) < SAMPLE_LIMIT:
-            fill = self.retriever.search("", filters, expand=expand, limit=SAMPLE_LIMIT)
+            fill = self.retriever.search(topic_query, filters, expand=expand, limit=SAMPLE_LIMIT)
             for citation in fill["results"]:
                 if len(selected) >= SAMPLE_LIMIT:
                     break
@@ -246,7 +259,7 @@ class Chat:
                     for angle in ("news", "clue", "social")}
         result["plan"].setdefault("tool_steps", []).append(
             {"tool": "database_sample", "purpose": "bounded_representative_sample_within_current_scope",
-             "filters": filters, "records": len(selected), "paragraphs": len(selected),
+             "filters": filters, "topic_query": topic_query, "records": len(selected), "paragraphs": len(selected),
              "by_angle": by_angle, "literal_matched_records": 0, "exhaustive": False})
         return {"sample_fallback": True, "sample_records": len(selected), "literal_matched_records": 0,
                 "exhaustive": False, "basis": "representative_records_within_current_filters", "by_angle": by_angle}

@@ -826,6 +826,21 @@ class ChatAnalysisTests(unittest.TestCase):
         self.assertIn("不得声称这些是最有特点", generation["system"])
         self.assertEqual(len(model.calls), 2)
 
+    def test_broad_sample_handles_greeting_filler_and_broad_country_topic(self):
+        chat, model = self.chat()
+        response = chat.answer("你好，看看近期关于中国的 汇报，我看下?")
+        self.assertEqual(response["state"], "answered")
+        self.assertTrue(response["model"]["used"])
+        self.assertTrue(response["coverage"]["sample_fallback"])
+        self.assertEqual(response["coverage"]["matched_records"], 0)
+        self.assertGreaterEqual(response["coverage"]["sample_records"], 8)
+        sample = next(step for step in response["plan"]["tool_steps"] if step["tool"] == "database_sample")
+        self.assertEqual(sample["topic_query"], "中国")
+        self.assertTrue(response["citations"])
+        self.assertIn("抽样", response["answer"])
+        self.assertIn("不代表全库占比", response["answer"])
+        self.assertEqual(len(model.calls), 2)
+
     def test_broad_sample_legacy_verbatim_claims_still_report_grounded_summary(self):
         class LegacyModel(AnalysisModel):
             def complete(self, messages, max_tokens, timeout=None):

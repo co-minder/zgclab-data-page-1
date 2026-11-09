@@ -1,5 +1,5 @@
 {
-  "verified_at": "2026-11-09T09:04:45.215247+00:00",
+  "verified_at": "2026-11-09T09:44:48.500681+00:00",
   "verdict": "PASS",
   "api_revision": "research-chat-20261109",
   "source_freeze": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/integrated-freeze.json",
@@ -8,7 +8,7 @@
     "service/analytics.py": "0d5fbca6238a3b90e05c7c0e2c8b97c5cf3638f45cbd646dfe13b7cc708ddd2e",
     "service/app.py": "dc9c131e54c64a65abcb16e84033aec956cfa0d6b6370419461c0f4e248324c9",
     "service/auth.py": "bb9b258ec2806bd67a95458819f5ed926517ebaf0c1ed030a1157098d57ae3a2",
-    "service/chat.py": "b8f910b9942d45b041ee71da2ac12c7c8b4f8c41889f081709daa05aa1e27693",
+    "service/chat.py": "518600fc6c34235b592768e4f15ac2927d27b3ba0bfaa334016dc4828272d845",
     "service/config.py": "2287232d0b89ff0cacc6cebc3aa95d2799018bf949c232a0b32887764eb31e1b",
     "service/ingest.py": "245035561f367366679af3a32a9c55da6bd2e7fee35b4b19517047b55435ddcf",
     "service/intent.py": "c0348df1670cfe7617f0c6bb5a0b18fcae69d489b08aedf07de0a582f578fbf1",
@@ -31,13 +31,13 @@
     {
       "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/service-final.log",
       "tests_passed": 39,
-      "sha256": "af20d84eb62c738c3658bbc05aeca77c43aca54296b3921bba9a4775dd379f91",
+      "sha256": "7744f90d0751cb263685272734908442dde1c4b09e06686a1187e8c7064c88df",
       "status": "PASS"
     },
     {
       "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/chat-final.log",
-      "tests_passed": 74,
-      "sha256": "8771fb60604ad97317c9fa07ed73b3649b14efbc970977bad4a5f78674f5c83f",
+      "tests_passed": 75,
+      "sha256": "7d6060876abeb847864909d028277786ee3cb326caa1c9b4c1ab8fee50cabda8",
       "status": "PASS"
     },
     {
@@ -49,7 +49,7 @@
     {
       "path": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/security-final.log",
       "tests_passed": 14,
-      "sha256": "3a7d70c500e72d5a73dd1fa2fd784e7cd04b0e97e246960a41a709c829de8d8b",
+      "sha256": "77d46210f960aec68e8d967773a42d7a6f49cac58339d8c47c73220e0b2d65be",
       "status": "PASS"
     },
     {
@@ -95,7 +95,7 @@
       "status": "PASS"
     }
   ],
-  "total_tests_passed": 215,
+  "total_tests_passed": 216,
   "model_calls_in_regressions": 0,
   "actual_model_quality": "Accepted separately by independent captured-answer/source review and encrypted live UI"
 }
