@@ -602,3 +602,8 @@ body:is([data-route=assistant],[data-route=projects],[data-route=evidence],[data
   body:is([data-route=assistant],[data-route=projects],[data-route=evidence],[data-route=related],[data-route=changes],[data-route=coverage],[data-route=collection-plan]) .mobile-more a{min-height:42px;display:flex;align-items:center;justify-content:center;font-size:11px;line-height:1.5}
   body:is([data-route=assistant],[data-route=projects],[data-route=evidence],[data-route=related],[data-route=changes],[data-route=coverage],[data-route=collection-plan]) .view{padding:22px 16px 48px}
 }
+
+.topbar-entry{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border-radius:99px;
+  border:1px solid #62e6d255;background:#62e6d212;color:#62e6d2;font-size:12px;font-weight:600;text-decoration:none}
+.topbar-entry:hover{background:#62e6d222;border-color:#62e6d288}
+.topbar-entry span{opacity:.8}

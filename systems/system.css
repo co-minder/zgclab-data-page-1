@@ -80,3 +80,8 @@ table.tb tr:last-child td{border-bottom:none}
 .b-amber{background:#f6c66b14;color:var(--amber);border:1px solid #f6c66b33}
 .b-red{background:#ff7f8614;color:var(--red);border:1px solid #ff7f8633}
 .b-blue{background:#73a7ff14;color:var(--blue);border:1px solid #73a7ff33}
+
+.databar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12px;color:#8fa7ba;
+  border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-bottom:14px;background:#0a1727}
+.databar span{color:var(--cyan);font-weight:700;letter-spacing:.08em;font-size:11px}
+.databar b{color:#e9f2fa}

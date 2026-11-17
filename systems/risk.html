@@ -19,6 +19,8 @@
     <div class="meta">事件 E-2f7c9a · 综合分值 0.74 · 更新 10-19 21:00</div>
   </div>
 
+  <div class="databar" id="databar"></div>
+
   <div class="g g3" style="margin-bottom:14px">
     <div class="panel">
       <div class="ph"><div class="t">态势等级</div><div class="s">综合分值由七维加权</div></div>
@@ -94,7 +96,16 @@
 
 </div>
 
+<script src="../data/meta.js"></script>
 <script>
+(function(){
+  const M = window.ZGCLAB_META || {};
+  const tot = M.totals || {};
+  const sum = (tot.news||0)+(tot.clue||0)+(tot.social||0);
+  const el = document.getElementById('databar');
+  if (el) el.innerHTML = `<span>预警数据源</span>20 个验证机构 · <b>${sum.toLocaleString()}</b> 条已审核记录 · 新闻 ${(tot.news||0).toLocaleString()} / 官网线索 ${(tot.clue||0).toLocaleString()} / 社媒 ${(tot.social||0).toLocaleString()} · 快照 ${(M.generated_at||'').slice(0,10)}`;
+})();
+
 const tpls=[
   ["T-01","权威信息发布","全体受众 · 发酵初期 · 官方账号 · 中","0.72"],
   ["T-02","事实核查","谣言受众 · 扩散期 · 媒体+平台 · 强","0.64"],
