@@ -94,12 +94,12 @@ const MAS_HTML = `
     </div>
 
     <div class="panel" style="margin-top:14px">
-      <div class="ph"><div class="t">推演精度抽检</div><div class="s">近 30 日回测 · 4 类事件 · 2.4.1 / 2.4.2 口径</div></div>
+      <div class="ph"><div class="t">推演精度抽检</div><div class="s">近 30 日回测 · 子任务1（舆论推演）与子任务2（多智能体）分列</div></div>
       <div class="kv">
-        <div><span>极化趋势方向准确率</span><b>76.34%</b></div>
+        <div><span>多智能体协同准确率 · 子任务2</span><b>72.9%</b></div>
+        <div><span>极化趋势方向准确率 · 子任务1</span><b>76.34%</b></div>
         <div><span>关键节点识别 F1（±1 轮匹配）</span><b>0.78</b></div>
-        <div><span>阶段判定准确率</span><b>83.3%</b></div>
-        <div><span>极化指数 MAE · 2.4.1 推演模块</span><b>0.043</b></div>
+        <div><span>阶段判定准确率 / 极化指数 MAE</span><b>83.3% / 0.043</b></div>
       </div>
       <table class="tb" style="table-layout:fixed;width:100%;margin-top:12px">
         <colgroup><col style="width:24%"><col style="width:16%"><col style="width:16%"><col style="width:18%"><col style="width:26%"></colgroup>
@@ -174,7 +174,7 @@ const MAS_HTML = `
         <div class="mp1-chart" id="mp1-trend" style="height:330px"></div>
         <div class="mp1-stats">
           <div class="mp1-st"><div class="l">热度峰值</div><div class="v">0.781</div><div class="d">R12 · 较 R1 升 0.469</div></div>
-          <div class="mp1-st"><div class="l">立场熵 R12</div><div class="v">0.9790</div><div class="d">支持 24 / 反对 41 / 中立 35</div></div>
+          <div class="mp1-st"><div class="l">立场熵 R12</div><div class="v">0.9330</div><div class="d">支持 24 / 反对 52 / 中立 24</div></div>
           <div class="mp1-st"><div class="l">对立指数 R12</div><div class="v">0.612</div><div class="d">R6 → R12 升 0.306</div></div>
           <div class="mp1-st"><div class="l">三线同向</div><div class="v">9<small> / 11</small></div><div class="d">R7、R11 为反向轮</div></div>
         </div>
@@ -196,7 +196,7 @@ const MAS_HTML = `
           <div class="mp1-meter"><span>CPU 均值</span><div class="track"><i style="width:42.3%"></i></div><b>42.3%</b></div>
           <div class="mp1-meter"><span>CPU 峰值</span><div class="track"><i class="mp1-warn" style="width:61.8%"></i></div><b>61.8%</b></div>
           <div class="mp1-meter"><span>内存峰值</span><div class="track"><i class="mp1-blue" style="width:48.3%"></i></div><b>3.86 GB</b></div>
-          <div class="mp1-meter"><span>推理占单轮</span><div class="track"><i class="mp1-blue" style="width:81.17%"></i></div><b>81.17%</b></div>
+          <div class="mp1-meter"><span>推理占单轮</span><div class="track"><i class="mp1-blue" style="width:73.86%"></i></div><b>73.86%</b></div>
         </div>
         <div class="note">1,284 = 216 轮 × 6 类角色 1,296 次计划调用减去 12 次同轮复核合并（12 次均发生在 11-18 的两个批次）；23 次首轮失败各重试 1 次后恢复，2 次改走规则兜底降级。1,261 / 1,284 = 98.21% 为调用口径，与「智能体调用链」分角色统计同源。内存上限 8 GB。</div>
       </div>
@@ -214,14 +214,12 @@ const MAS_HTML = `
           <div class="mp1-split">
             <div class="mp1-split-h"><span>单轮耗时构成</span><b>4.8200 s</b></div>
             <div class="mp1-splitbar">
-              <i class="mp1-s-role" style="width:7.5021%" title="角色计算（两路并行取长）0.3616 s"></i>
-              <i class="mp1-s-infer" style="width:81.1743%" title="模型推理 3.9126 s"></i>
-              <i class="mp1-s-bus" style="width:11.3237%" title="总线与黑板等待 0.5458 s"></i>
+              <i class="mp1-s-role" style="width:26.1411%" title="编排调度 1.26 s"></i>
+              <i class="mp1-s-infer" style="width:73.8589%" title="模型推理 3.56 s"></i>
             </div>
             <div class="mp1-splitl">
-              <div><i class="mp1-s-role"></i><span>角色计算</span><b>0.3616 s</b><small>7.50%</small></div>
-              <div><i class="mp1-s-infer"></i><span>模型推理</span><b>3.9126 s</b><small>81.17%</small></div>
-              <div><i class="mp1-s-bus"></i><span>总线等待</span><b>0.5458 s</b><small>11.32%</small></div>
+              <div><i class="mp1-s-role"></i><span>编排调度</span><b>1.2600 s</b><small>26.14%</small></div>
+              <div><i class="mp1-s-infer"></i><span>模型推理</span><b>3.5600 s</b><small>73.86%</small></div>
             </div>
           </div>
           <div class="mp1-k2">
@@ -291,7 +289,7 @@ const MAS_HTML = `
             <em>72.9<small>%</small> <i>/ 要求 70%</i></em>
           </div>
         </div>
-        <div class="note">6 项月度值末值与报告一致：76.34% / 0.78 / 83.3% / 0.043 / 72.9% / 4.82 s。迷你图与对照条的琥珀虚线 / 竖线为要求值（75% / 70%）；MAE 与单轮耗时两项越低越好，按下降标蓝。</div>
+        <div class="note">6 项月度值末值：76.34% / 0.78 / 83.3% / 0.043 / 72.9% / 4.82 s；其中 76.34%、72.9%、4.82 s 与年度报告 2.4.1、2.4.2 节口径一致，其余为本原型自评值，不作为对外结论。迷你图与对照条的琥珀虚线 / 竖线为要求值（75% / 70%）；MAE 与单轮耗时两项越低越好，按下降标蓝。</div>
       </div>
     </div>
     <!-- ==== MAS p1 扩充结束 ==== -->
@@ -688,7 +686,7 @@ const MAS_HTML = `
         <div class="k"><div class="l">S3 峰值反超</div><div class="v">+0.01</div><div class="d">0.75 vs S0 0.74</div></div>
         <div class="k"><div class="l">干预窗口</div><div class="v">6.0<small style="font-size:12px;color:#8fa7ba"> h</small></div><div class="d">R02 09:00 → R04 15:00</div></div>
       </div>
-      <div class="note">S0 取实测基线序列（R07 = 0.58 → R12 = 0.73，峰值 0.74 出现在 R11）；S1、S2、S3 为同参数下的规则推演输出，与 S0 同起点，介入轮之后开始分叉。高位线 0.60 以下为安全区：S0 高位持续 4 轮、S1 3 轮、S2 2 轮、S3 5 轮，与三情景对比表一致。R12 集中发布核查结论，三个干预情景均在末轮快速回落。</div>
+      <div class="note">S0 取实测基线序列（R07 = 0.58 → R12 = 0.73，峰值 0.73 出现在 R12）；S1、S2、S3 为同参数下的规则推演输出，与 S0 同起点，介入轮之后开始分叉。高位线 0.60 以下为安全区：S0 高位持续 5 轮、S1 3 轮、S2 2 轮、S3 5 轮，与三情景对比表一致。R12 集中发布核查结论，三个干预情景均在末轮快速回落。</div>
     </div>
     <!-- ==== MAS p3 扩充结束 ==== -->
   </div>
@@ -2053,7 +2051,7 @@ const RISK_HTML = `
         <tbody>
           <tr><td class="mono">一</td><td>事件概况</td><td class="rr345-sub">3,842 条内容 · 1,207 个账号 · 覆盖 4 个平台</td><td class="mono" style="text-align:right">326</td><td class="rr345-sub" style="text-align:center">1 图</td><td class="rr345-sub">新闻 3,675 / 社媒 1,846</td></tr>
           <tr><td class="mono">二</td><td>风险研判</td><td class="rr345-sub">综合 0.74 · 二级（重大）· 4 项「极高」</td><td class="mono" style="text-align:right">468</td><td class="rr345-sub" style="text-align:center">1 图 1 表</td><td class="rr345-sub">七维评分 · 表14 阈值</td></tr>
-          <tr><td class="mono">三</td><td>趋势判断</td><td class="rr345-sub">6h 内极化 0.61–0.64；不干预 24h 越线</td><td class="mono" style="text-align:right">312</td><td class="rr345-sub" style="text-align:center">1 图</td><td class="rr345-sub">12 轮推演 · 20×500 次</td></tr>
+          <tr><td class="mono">三</td><td>趋势判断</td><td class="rr345-sub">6h 内极化升至 0.62–0.66；不干预 24h 越过 0.68</td><td class="mono" style="text-align:right">312</td><td class="rr345-sub" style="text-align:center">1 图</td><td class="rr345-sub">12 轮推演 · 20×500 次</td></tr>
           <tr><td class="mono">四</td><td>处置建议</td><td class="rr345-sub">T-01 匹配度 0.88 · 组合收益 0.71–0.81</td><td class="mono" style="text-align:right">545</td><td class="rr345-sub" style="text-align:center">2 图 1 表</td><td class="rr345-sub">T-01~T-04 · 蒙特卡洛</td></tr>
           <tr><td class="mono">五</td><td>效果与复盘<span class="rr345-sub">（v1.2 追加）</span></td><td class="rr345-sub">极化 −0.084 · p&lt;0.001 · d=0.46</td><td class="mono" style="text-align:right">495</td><td class="rr345-sub" style="text-align:center">1 图</td><td class="rr345-sub">处理 / 对照各 10,000 次</td></tr>
           <tr><td class="mono">—</td><td><b>合计</b></td><td class="rr345-sub">正文 + 附件 3 个，全文无未标注数值</td><td class="mono" style="text-align:right"><b>2,146</b></td><td class="rr345-sub" style="text-align:center"><b>6 图 2 表</b></td><td class="rr345-sub">数据底座 6,989 条</td></tr>
