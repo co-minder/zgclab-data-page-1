@@ -3,6 +3,11 @@ const MAS_HTML = `
 
   
 
+  <div class="databar" id="databar"></div>
+
+  <div class="tabs" id="masTabs"><div class="tab on" data-p="p1">推演总览</div><div class="tab" data-p="p2">关键节点</div><div class="tab" data-p="p3">情景对比</div></div>
+
+  <div class="pane on" id="p1">
   <div class="g g3" style="margin-bottom:14px">
     <!-- 左：智能体 -->
     <div class="panel">
@@ -42,12 +47,14 @@ const MAS_HTML = `
     </div>
   </div>
 
-  <!-- 底部：关键节点 + 情景对比 -->
+  </div>
+
+  <div class="pane" id="p2">
   <div class="g g2" style="grid-template-columns:1.55fr 1fr">
   <div class="panel">
     <div class="ph"><div class="t">推演关键节点</div><div class="s">E-2f7c9a · 与人工标注对照</div></div>
-    <table class="tb">
-      <thead><tr><th style="width:90px">轮次</th><th style="width:150px">时间</th><th>节点</th><th style="width:110px">情感极性</th><th style="width:110px">立场分布</th><th style="width:110px">与标注一致</th></tr></thead>
+    <table class="tb" style="table-layout:fixed;width:100%">
+      <thead><tr><th style="width:8%">轮次</th><th style="width:14%">时间</th><th style="width:36%">节点</th><th style="width:10%">情感极性</th><th style="width:18%">立场分布</th><th style="width:14%">与标注一致</th></tr></thead>
       <tbody>
         <tr><td class="mono">R02</td><td>10-18 09:00</td><td>首条报道出现，话题创建</td><td>−0.12</td><td>支 18 / 反 9 / 中 73</td><td><span class="badge b-cyan">一致</span></td></tr>
         <tr><td class="mono">R04</td><td>10-18 15:00</td><td>转发量出现拐点，媒体跟进</td><td>−0.28</td><td>支 21 / 反 26 / 中 53</td><td><span class="badge b-cyan">一致</span></td></tr>
@@ -56,6 +63,8 @@ const MAS_HTML = `
       </tbody>
     </table>
   </div>
+  </div>
+  <div class="pane" id="p3">
   <div class="panel">
     <div class="ph"><div class="t">情景对比</div><div class="s">同一事件 · 三种处置强度</div></div>
     <div id="scn" style="height:210px"></div>
@@ -63,11 +72,24 @@ const MAS_HTML = `
   </div>
   </div>
 
+  <div class="panel" style="margin-top:14px">
+    <div class="ph"><div class="t">数据底座</div><div class="s">来自 ZGCLab 数据平台已审核快照</div></div>
+    <table class="tb" id="instTable">
+      <thead><tr><th style="width:120px">机构编号</th><th>机构名称</th><th style="width:90px">类型</th><th style="width:80px">舆情</th><th style="width:80px">线索</th><th style="width:80px">社媒</th><th style="width:80px">合计</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
 `;
 const RISK_HTML = `
 
   
 
+  <div class="databar" id="databar"></div>
+
+  <div class="tabs" id="riskTabs"><div class="tab on" data-p="r1">态势总览</div><div class="tab" data-p="r2">分级依据</div><div class="tab" data-p="r3">干预方案</div><div class="tab" data-p="r4">效果评估</div></div>
+
+  <div class="pane on" id="r1">
   <div class="g g3" style="margin-bottom:14px">
     <div class="panel">
       <div class="ph"><div class="t">态势等级</div><div class="s">综合分值由七维加权</div></div>
@@ -113,6 +135,16 @@ const RISK_HTML = `
     </div>
   </div>
 
+  </div>
+
+  <div class="pane" id="r2">
+    <div class="panel">
+      <div class="ph"><div class="t">分级依据</div><div class="s">七维权重与得分</div></div>
+      <div id="gradeTable"></div>
+    </div>
+  </div>
+
+  <div class="pane" id="r3">
   <div class="g g2">
     <div class="panel">
       <div class="ph"><div class="t">干预方案</div><div class="s">1 套模板 · 4 类策略</div></div>
@@ -128,6 +160,8 @@ const RISK_HTML = `
       </div>
     </div>
 
+  </div>
+  <div class="pane" id="r4">
     <div class="panel">
       <div class="ph"><div class="t">干预效果对比</div><div class="s">同一事件 · 同一时点 · 对照组</div></div>
       <div id="cmp" style="height:200px"></div>
@@ -143,6 +177,20 @@ const RISK_HTML = `
 
 `;
 function initMas(){
+
+(function(){
+  const M = window.ZGCLAB_META || {};
+  const tot = M.totals || {};
+  const sum = (tot.news||0)+(tot.clue||0)+(tot.social||0);
+  const el = document.getElementById('databar');
+  if (el) el.innerHTML = `<span>数据底座</span><b>${(M.scope&&M.scope.units)||20}</b> 个验证机构 · <b>${sum.toLocaleString()}</b> 条已审核记录 · 新闻 ${(tot.news||0).toLocaleString()} / 官网线索 ${(tot.clue||0).toLocaleString()} / 社媒 ${(tot.social||0).toLocaleString()}`;
+  const tb = document.querySelector('#instTable tbody');
+  if (tb && M.institutions) {
+    const rows = M.institutions.slice().sort((a,b)=>((b.counts.news+b.counts.clue+b.counts.social)-(a.counts.news+a.counts.clue+a.counts.social))).slice(0,5);
+    tb.innerHTML = rows.map(r=>`<tr><td class="mono">${r.ktid}</td><td>${r.cn}</td><td>${r.type}</td><td class="mono">${r.counts.news}</td><td class="mono">${r.counts.clue}</td><td class="mono">${r.counts.social}</td><td class="mono">${r.counts.news+r.counts.clue+r.counts.social}</td></tr>`).join('');
+  }
+})();
+
 const agents=[
   ["态势感知","事件发现与热度跟踪","#62e6d2","62.4 ms","运行"],
   ["事件理解","要素抽取与阶段判定","#73a7ff","88.7 ms","运行"],
@@ -207,8 +255,28 @@ s2.setOption({
     label:{show:true,position:'top',color:'#cfe3ef',fontSize:11}}]
 });
 window.addEventListener('resize',()=>{c.resize();s2.resize();});
+
+document.querySelectorAll('#masTabs .tab').forEach(function(tab){
+  tab.onclick=function(){
+    document.querySelectorAll('#masTabs .tab').forEach(function(x){x.classList.remove('on')});
+    tab.classList.add('on');
+    document.querySelectorAll('.pane').forEach(function(p){p.classList.remove('on')});
+    var el=document.getElementById(tab.dataset.p); if(el) el.classList.add('on');
+    setTimeout(function(){ window.dispatchEvent(new Event('resize')); },30);
+  };
+});
+
 }
 function initRisk(){
+
+(function(){
+  const M = window.ZGCLAB_META || {};
+  const tot = M.totals || {};
+  const sum = (tot.news||0)+(tot.clue||0)+(tot.social||0);
+  const el = document.getElementById('databar');
+  if (el) el.innerHTML = `<span>预警数据源</span>20 个验证机构 · <b>${sum.toLocaleString()}</b> 条已审核记录 · 新闻 ${(tot.news||0).toLocaleString()} / 官网线索 ${(tot.clue||0).toLocaleString()} / 社媒 ${(tot.social||0).toLocaleString()} · 快照 ${(M.generated_at||'').slice(0,10)}`;
+})();
+
 const tpls=[
   ["T-01","权威信息发布","全体受众 · 发酵初期 · 官方账号 · 中","0.72"],
   ["T-02","事实核查","谣言受众 · 扩散期 · 媒体+平台 · 强","0.64"],
@@ -270,6 +338,22 @@ c.setOption({
   ]
 });
 window.addEventListener('resize',()=>{r.resize();c.resize();});
+
+document.querySelectorAll('#riskTabs .tab').forEach(function(tab){
+  tab.onclick=function(){
+    document.querySelectorAll('#riskTabs .tab').forEach(function(x){x.classList.remove('on')});
+    tab.classList.add('on');
+    document.querySelectorAll('.pane').forEach(function(p){p.classList.remove('on')});
+    var el=document.getElementById(tab.dataset.p); if(el) el.classList.add('on');
+    setTimeout(function(){ window.dispatchEvent(new Event('resize')); },30);
+  };
+});
+(function(){
+  var src=document.querySelector('#r1 table.tb');
+  var dst=document.getElementById('gradeTable');
+  if(src&&dst&&!dst.firstChild) dst.appendChild(src.cloneNode(true));
+})();
+
 }
 
 window.ZGCLAB_SYSTEMS = function (name) {

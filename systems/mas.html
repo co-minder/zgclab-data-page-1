@@ -7,6 +7,14 @@
 
 <link rel="stylesheet" href="system.css">
 <script src="echarts.min.js"></script>
+<style>
+.tabs{display:flex;gap:6px;margin:0 0 14px;border-bottom:1px solid var(--line);padding-bottom:10px}
+.tab{padding:8px 16px;border-radius:10px;font-size:13px;color:#8fa7ba;cursor:pointer;border:1px solid transparent}
+.tab:hover{color:#cfe3ef;background:#0d1c2e}
+.tab.on{color:#06101d;background:linear-gradient(90deg,#62e6d2,#73a7ff);font-weight:700}
+.pane{display:none}
+.pane.on{display:block}
+</style>
 </head>
 <body>
 <div class="shell">
@@ -21,6 +29,9 @@
 
   <div class="databar" id="databar"></div>
 
+  <div class="tabs" id="masTabs"><div class="tab on" data-p="p1">推演总览</div><div class="tab" data-p="p2">关键节点</div><div class="tab" data-p="p3">情景对比</div></div>
+
+  <div class="pane on" id="p1">
   <div class="g g3" style="margin-bottom:14px">
     <!-- 左：智能体 -->
     <div class="panel">
@@ -60,12 +71,14 @@
     </div>
   </div>
 
-  <!-- 底部：关键节点 + 情景对比 -->
+  </div>
+
+  <div class="pane" id="p2">
   <div class="g g2" style="grid-template-columns:1.55fr 1fr">
   <div class="panel">
     <div class="ph"><div class="t">推演关键节点</div><div class="s">E-2f7c9a · 与人工标注对照</div></div>
-    <table class="tb">
-      <thead><tr><th style="width:90px">轮次</th><th style="width:150px">时间</th><th>节点</th><th style="width:110px">情感极性</th><th style="width:110px">立场分布</th><th style="width:110px">与标注一致</th></tr></thead>
+    <table class="tb" style="table-layout:fixed;width:100%">
+      <thead><tr><th style="width:8%">轮次</th><th style="width:14%">时间</th><th style="width:36%">节点</th><th style="width:10%">情感极性</th><th style="width:18%">立场分布</th><th style="width:14%">与标注一致</th></tr></thead>
       <tbody>
         <tr><td class="mono">R02</td><td>10-18 09:00</td><td>首条报道出现，话题创建</td><td>−0.12</td><td>支 18 / 反 9 / 中 73</td><td><span class="badge b-cyan">一致</span></td></tr>
         <tr><td class="mono">R04</td><td>10-18 15:00</td><td>转发量出现拐点，媒体跟进</td><td>−0.28</td><td>支 21 / 反 26 / 中 53</td><td><span class="badge b-cyan">一致</span></td></tr>
@@ -74,6 +87,8 @@
       </tbody>
     </table>
   </div>
+  </div>
+  <div class="pane" id="p3">
   <div class="panel">
     <div class="ph"><div class="t">情景对比</div><div class="s">同一事件 · 三种处置强度</div></div>
     <div id="scn" style="height:210px"></div>
@@ -170,6 +185,16 @@ s2.setOption({
     label:{show:true,position:'top',color:'#cfe3ef',fontSize:11}}]
 });
 window.addEventListener('resize',()=>{c.resize();s2.resize();});
+
+document.querySelectorAll('#masTabs .tab').forEach(function(tab){
+  tab.onclick=function(){
+    document.querySelectorAll('#masTabs .tab').forEach(function(x){x.classList.remove('on')});
+    tab.classList.add('on');
+    document.querySelectorAll('.pane').forEach(function(p){p.classList.remove('on')});
+    var el=document.getElementById(tab.dataset.p); if(el) el.classList.add('on');
+    setTimeout(function(){ window.dispatchEvent(new Event('resize')); },30);
+  };
+});
 </script>
 </body>
 </html>
