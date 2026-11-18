@@ -74,6 +74,8 @@
     await loadScript("projects.js");
     await loadScript("research.js");
     await loadScript("assistant.js");
+    await loadScript("systems/echarts.min.js");
+    await loadScript("systems/systems.js");
     const appSource = await decrypt("app.js");
     const parsed = new DOMParser().parseFromString(shell, "text/html");
     parsed.querySelectorAll("script,noscript").forEach((tag) => tag.remove());

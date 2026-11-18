@@ -1295,6 +1295,7 @@
     if (r.name === "institutions") return viewInstitutions();
     if (r.name === "explore") return viewExplore(r.params);
     if (r.name === "about") return viewAbout();
+    if (r.name === "systems") return window.ZGCLAB_SYSTEMS(r.id || "mas");
     return viewOverview();
   }
 
