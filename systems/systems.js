@@ -171,7 +171,7 @@ const MAS_HTML = `
           </div>
           <div class="mp1-bartip">虚竖线 R9 = 极化临界 · 底色四段与「阶段演化」同口径</div>
         </div>
-        <div class="mp1-chart" id="mp1-trend" style="height:312px"></div>
+        <div class="mp1-chart" id="mp1-trend" style="height:330px"></div>
         <div class="mp1-stats">
           <div class="mp1-st"><div class="l">热度峰值</div><div class="v">0.781</div><div class="d">R12 · 较 R1 升 0.469</div></div>
           <div class="mp1-st"><div class="l">立场熵 R12</div><div class="v">0.9790</div><div class="d">支持 24 / 反对 41 / 中立 35</div></div>
@@ -791,19 +791,6 @@ const MAS_HTML = `
     </div>
   </div>
 
-`;
-const RISK_HTML = `
-
-  
-
-  <div class="databar"><span>预警数据源</span>20 个验证机构 · 6,989 条已审核记录 · 新闻 3,675 / 官网线索 1,468 / 社媒 1,846 · 快照 2026-11-05</div>
-
-  <div class="tabs" id="riskTabs">
-    <div class="tab on" data-p="r1">态势总览</div>
-    <div class="tab" data-p="r2">分级依据</div>
-    <div class="tab" data-p="r3">干预方案</div>
-    <div class="tab" data-p="r4">效果评估</div>
-    <div class="tab" data-p="r5">报告预览</div>
 
     <!-- ==== MAS p4 扩充开始（由 enrich/merge.py 注入）==== -->
 
@@ -937,12 +924,14 @@ const RISK_HTML = `
           <div class="t">缓存命中与上下文复用</div>
           <div class="s">三层缓存 · 命中 5,785 / 9,540 tokens · 60.6%</div>
         </div>
+        <div class="mp4-mini">三层缓存命中构成（token）</div>
         <div id="mp4-cache" style="height:170px;width:100%"></div>
-        <div id="mp4-cacheRound" style="height:150px;width:100%;margin-top:6px"></div>
+        <div class="mp4-mini" style="margin-top:10px">分轮缓存命中率（R1–R12）</div>
+        <div id="mp4-cacheRound" style="height:142px;width:100%"></div>
         <div class="mp4-legend">
           <span><i style="background:#62e6d2"></i>命中</span>
           <span><i style="background:#22405c"></i>未命中</span>
-          <span class="mp4-legend-n">虚线为未命中占比（右轴）</span>
+          <span class="mp4-legend-n">上图为三层命中构成 · 下图为分轮命中率</span>
         </div>
         <div class="note">三层命中：前缀缓存（系统提示 + 工具契约）3,146 / 3,180 = 98.9%；角色记忆（黑板摘要 + 角色状态）1,476 / 3,420 = 43.2%；工具结果（图计算 / 词表 / 模板库）1,163 / 2,940 = 39.6%。合计命中 5,785 / 9,540 = 60.6%，有效输入 3,755 tokens。命中率随轮次上升（R1 18.6% → R12 68.2%），前缀与角色记忆在轮次间复用。缓存折让后单轮 ¥0.0461，全量口径 ¥0.0722，节省 ¥0.0261（36.1%）。</div>
       </div>
@@ -976,12 +965,11 @@ const RISK_HTML = `
 
       <div class="mp4-split mp4-split-3">
         <div>
-          <div id="mp4-topo" style="height:376px;width:100%"></div>
+          <div id="mp4-topo" style="height:404px;width:100%"></div>
           <div class="mp4-legend">
             <span><i style="background:#f6c66b"></i>编排器</span>
             <span><i style="background:#73a7ff"></i>感知与理解</span>
-            <span><i style="background:#62e6d2"></i>情感与推演</span>
-            <span><i style="background:#f6c66b"></i>研判与决策</span>
+            <span><i style="background:#62e6d2"></i>分析与决策</span>
             <span class="mp4-legend-n">节点面积 = 被调次数 · 边宽 = 调用次数</span>
           </div>
         </div>
@@ -1011,6 +999,19 @@ const RISK_HTML = `
       </div>
     </div>
     <!-- ==== MAS p4 扩充结束 ==== -->
+`;
+const RISK_HTML = `
+
+  
+
+  <div class="databar"><span>预警数据源</span>20 个验证机构 · 6,989 条已审核记录 · 新闻 3,675 / 官网线索 1,468 / 社媒 1,846 · 快照 2026-11-05</div>
+
+  <div class="tabs" id="riskTabs">
+    <div class="tab on" data-p="r1">态势总览</div>
+    <div class="tab" data-p="r2">分级依据</div>
+    <div class="tab" data-p="r3">干预方案</div>
+    <div class="tab" data-p="r4">效果评估</div>
+    <div class="tab" data-p="r5">报告预览</div>
   </div>
 
   <div class="pane on" id="r1">
@@ -2031,6 +2032,8 @@ const RISK_HTML = `
       </div>
       <div class="note">报告数值由推演环境生成，未经真实业务校验；引用时以本页版本号与快照时间为准。</div>
     </div>
+  </div>
+
 
     <!-- ==== RISK r5 扩充开始（由 enrich/merge.py 注入）==== -->
     <!-- ============================================================================
@@ -2156,8 +2159,6 @@ const RISK_HTML = `
       <div class="note">标注规则：每个关键数值绑定源数据集、时点与校验值；标注缺失的数值在自动校验中判为不通过（本期 12 项规则全过）。快照更新后报告须重新生成并递增版本号，附件与正文同版；版本历史中的 v1.2 已在 10-20 09:15 完成效果回写。效果类数值为推演环境仿真，未经真实业务检验。</div>
     </div>
     <!-- ==== RISK r5 扩充结束 ==== -->
-  </div>
-
 `;
 function initMas(){
 
@@ -3543,7 +3544,7 @@ window.__ENRICH_MAS_P4 = function () {
       if (type === 'gap') {
         var g = GAPS[params.dataIndex];
         var w0 = Math.max(e[0] - s[0], 1);
-        var kids = [{ type: 'rect', shape: { x: s[0], y: s[1] - 2, width: w0, height: 4, r: 2 }, style: { fill: 'rgba(143,167,186,.16)' } }];
+        var kids = [{ type: 'rect', shape: { x: s[0], y: s[1] - 2.5, width: w0, height: 5, r: 2.5 }, style: { fill: 'rgba(143,167,186,.20)' } }];
         if (g[3] && w0 > 96) {
           kids.push({ type: 'text', style: { text: '等待黑板合并 347.3 ms', x: s[0] + w0 / 2, y: s[1] - 11, textAlign: 'center', textVerticalAlign: 'middle', fill: '#6f8aa1', font: '400 9px Inter, "PingFang SC", sans-serif' } });
         }
@@ -3554,6 +3555,8 @@ window.__ENRICH_MAS_P4 = function () {
       var kids2 = [{ type: 'rect', shape: { x: s[0], y: s[1] - h / 2, width: w, height: h, r: 3 }, style: { fill: TYPE_COLOR[d.type], opacity: 0.9 } }];
       if (w > 26) {
         kids2.push({ type: 'text', style: { text: d.no, x: s[0] + w / 2, y: s[1], textAlign: 'center', textVerticalAlign: 'middle', fill: '#06101d', font: '700 9.5px "SF Mono",Menlo,monospace' } });
+      } else {
+        kids2.push({ type: 'text', style: { text: d.no, x: s[0] + w / 2, y: s[1] - 13, textAlign: 'center', textVerticalAlign: 'middle', fill: '#b9cbdb', font: '600 9px "SF Mono",Menlo,monospace' } });
       }
       return { type: 'group', children: kids2 };
     };
@@ -3580,10 +3583,8 @@ window.__ENRICH_MAS_P4 = function () {
     },
     xAxis: {
       type: 'value', min: 0, max: 1260,
-      name: '编排时间轴（ms）', nameLocation: 'end', nameGap: 8,
-      nameTextStyle: { color: MUTED, fontSize: 9.5, padding: [0, 0, 0, 60] },
       axisLine: { lineStyle: { color: AXIS } }, axisTick: { show: false },
-      axisLabel: { color: MUTED, fontSize: 9.5, formatter: function (v) { return v === 0 ? '0' : String(v); } },
+      axisLabel: { color: MUTED, fontSize: 9.5, formatter: function (v) { return fmt(v); } },
       splitLine: { lineStyle: { color: SPLIT } }
     },
     yAxis: {
@@ -3714,8 +3715,8 @@ window.__ENRICH_MAS_P4 = function () {
         splitLine: { lineStyle: { color: SPLIT } }
       },
       {
-        type: 'value', name: '¥ / 轮', nameTextStyle: { color: MUTED, fontSize: 9.5 },
-        min: 0, max: 0.08, axisLine: { show: false }, axisTick: { show: false },
+        type: 'value', min: 0, max: 0.08,
+        axisLine: { show: false }, axisTick: { show: false },
         axisLabel: { color: MUTED, fontSize: 9.5, formatter: function (v) { return v.toFixed(2); } },
         splitLine: { show: false }
       }
@@ -3764,8 +3765,7 @@ window.__ENRICH_MAS_P4 = function () {
   ];
 
   var PHASE = 3560, STEPT = 40;
-  var occX = [], occY = [], queY = [], occPeak = 0, curPeak = 0;
-  var busySum = 0, dualSum = 0;
+  var OCC_DATA = [], QUE_DATA = [], occPeak = 0, queuePeak = 0;
   for (var t = 0; t <= PHASE; t += STEPT) {
     var n = 0;
     for (var k = 0; k < INF.length; k++) {
@@ -3776,48 +3776,41 @@ window.__ENRICH_MAS_P4 = function () {
     for (var j = 0; j < WAITS.length; j++) {
       if (t >= WAITS[j].ready && t < WAITS[j].start) q++;
     }
-    if (q > curPeak) curPeak = q;
-    occX.push(t);
-    occY.push(n);
-    queY.push(q);
-    busySum += n * STEPT / 1000;
-    if (n === 2) dualSum += STEPT;
+    if (q > queuePeak) queuePeak = q;
+    OCC_DATA.push([t, n]);
+    QUE_DATA.push([t, q]);
   }
 
   mk('mp4-conc', {
     backgroundColor: 'transparent',
     animation: false,
-    grid: { left: 42, right: 44, top: 32, bottom: 26 },
+    grid: { left: 34, right: 36, top: 34, bottom: 26 },
     tooltip: {
       trigger: 'axis', backgroundColor: '#0d1c2e', borderColor: AXIS,
       textStyle: { color: TEXT, fontSize: 11 },
       formatter: function (ps) {
-        var i = ps[0].dataIndex;
-        var rel = occX[i];
-        var abs = rel + 1260;
-        return '<b>' + rel + ' ms</b>（单轮 ' + abs + ' ms）<br/>'
-          + '占用通道 ' + occY[i] + ' / 2<br/>'
-          + '队列长度 ' + queY[i];
+        var rel = ps[0].data[0];
+        return '<b>' + fmt(rel) + ' ms</b>（单轮 ' + fmt(rel + 1260) + ' ms）<br/>'
+          + '占用通道 ' + ps[0].data[1] + ' / 2<br/>'
+          + '队列长度 ' + (ps[1] ? ps[1].data[1] : 0);
       }
     },
     legend: { top: 0, right: 0, itemWidth: 8, itemHeight: 8, textStyle: { color: MUTED, fontSize: 10 }, data: ['占用通道', '队列长度'] },
     xAxis: {
-      type: 'category', boundaryGap: false, data: occX,
+      type: 'value', min: 0, max: PHASE,
       axisLine: { lineStyle: { color: AXIS } }, axisTick: { show: false },
-      axisLabel: { color: MUTED, fontSize: 9.5, interval: function (i) { return i % 10 === 0; }, formatter: function (v) { return v; } },
+      axisLabel: { color: MUTED, fontSize: 9.5, formatter: function (v) { return fmt(v); } },
       splitLine: { show: false }
     },
     yAxis: [
       {
-        type: 'value', name: '通道', min: 0, max: 2, interval: 1,
-        nameTextStyle: { color: MUTED, fontSize: 9.5 },
+        type: 'value', min: 0, max: 2, interval: 1,
         axisLine: { show: false }, axisTick: { show: false },
         axisLabel: { color: MUTED, fontSize: 9.5 },
         splitLine: { lineStyle: { color: SPLIT } }
       },
       {
-        type: 'value', name: '队列', min: 0, max: 3, interval: 1,
-        nameTextStyle: { color: MUTED, fontSize: 9.5 },
+        type: 'value', min: 0, max: 3, interval: 1,
         axisLine: { show: false }, axisTick: { show: false },
         axisLabel: { color: MUTED, fontSize: 9.5 },
         splitLine: { show: false }
@@ -3829,23 +3822,27 @@ window.__ENRICH_MAS_P4 = function () {
         lineStyle: { color: CYAN, width: 1.8 },
         areaStyle: {
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            { offset: 0, color: 'rgba(98,230,210,.34)' },
-            { offset: 1, color: 'rgba(98,230,210,.04)' }
+            { offset: 0, color: 'rgba(98,230,210,.30)' },
+            { offset: 1, color: 'rgba(98,230,210,.03)' }
           ])
         },
-        data: occY,
+        data: OCC_DATA,
         markArea: {
-          silent: true, itemStyle: { color: 'rgba(246,198,107,.07)' },
-          data: [[
-            { xAxis: 0, label: { show: true, position: 'insideTop', color: '#f6c66b', fontSize: 9, formatter: '双路并行 410 ms' } },
-            { xAxis: 400 }
-          ]]
+          silent: true, itemStyle: { color: 'rgba(246,198,107,.10)' },
+          label: { show: true, position: 'insideTop', color: '#f6c66b', fontSize: 9, formatter: '双路并行 410 ms' },
+          data: [[{ xAxis: 0 }, { xAxis: 410 }]]
+        },
+        markLine: {
+          silent: true, symbol: 'none',
+          lineStyle: { color: 'rgba(143,167,186,.5)', type: 'dashed', width: 1 },
+          label: { show: false },
+          data: [{ yAxis: 1 }]
         }
       },
       {
         name: '队列长度', type: 'line', yAxisIndex: 1, step: 'end', symbol: 'none',
         lineStyle: { color: AMBER, width: 1.3, type: 'dashed' },
-        data: queY
+        data: QUE_DATA
       }
     ]
   });
@@ -3954,12 +3951,16 @@ window.__ENRICH_MAS_P4 = function () {
      ================================================================ */
   var BINS = ['0–400', '400–800', '800–1,200', '1,200–1,600', '1,600–2,000', '≥2,000'];
   var BCNT = [214, 498, 342, 168, 52, 10];
-  var BCOL = ['#4d7fc4', CYAN, CYAN, AMBER, AMBER, RED];
+  var BCOL = ['#4d7fc4', '#57b9dd', CYAN, AMBER, '#f2a95e', RED];
 
   mk('mp4-ctx', {
     backgroundColor: 'transparent',
     animation: false,
-    grid: { left: 52, right: 20, top: 22, bottom: 26 },
+    grid: { left: 52, right: 20, top: 34, bottom: 26 },
+    graphic: [
+      { type: 'text', right: 18, top: 6, silent: true, style: { text: '超过 2,048：10 次 · 拆 2 段', fill: '#f6c66b', fontSize: 9.5, font: '400 9.5px Inter, "PingFang SC", sans-serif' } },
+      { type: 'line', right: 118, top: 21, silent: true, shape: { x1: 0, y1: 0, x2: 108, y2: 0 }, style: { stroke: 'rgba(246,198,107,.45)', lineWidth: 1, lineDash: [3, 3] } }
+    ],
     tooltip: {
       trigger: 'axis', axisPointer: { type: 'shadow' }, backgroundColor: '#0d1c2e', borderColor: AXIS,
       textStyle: { color: TEXT, fontSize: 11 },
@@ -3984,13 +3985,7 @@ window.__ENRICH_MAS_P4 = function () {
       {
         type: 'bar', barWidth: '54%',
         data: BCNT.map(function (v, i) { return { value: v, itemStyle: { color: BCOL[i], borderRadius: [3, 3, 0, 0] } }; }),
-        label: { show: true, position: 'top', color: '#b9cbdb', fontSize: 9.5 },
-        markLine: {
-          silent: true, symbol: 'none',
-          lineStyle: { color: AMBER, type: 'dashed', width: 1 },
-          label: { formatter: '分片阈值 2,048', color: AMBER, fontSize: 9, position: 'insideStartTop' },
-          data: [{ xAxis: 4.6 }]
-        }
+        label: { show: true, position: 'top', color: '#b9cbdb', fontSize: 9.5 }
       }
     ]
   });
@@ -3999,13 +3994,13 @@ window.__ENRICH_MAS_P4 = function () {
      ⑦ 调用链拓扑（节点 = 角色，边 = 近 7 日调用次数）
      ================================================================ */
   var NODES = [
-    { name: '编排器', x: 70, y: 210, size: 58, color: '#f6c66b', cnt: 710, note: '710 次发起' },
-    { name: '态势感知', x: 320, y: 74, size: 44, color: BLUE, cnt: 132 },
-    { name: '事件理解', x: 320, y: 210, size: 52, color: BLUE, cnt: 246 },
-    { name: '情感与立场', x: 560, y: 122, size: 53, color: CYAN, cnt: 258 },
-    { name: '传播推演', x: 320, y: 348, size: 49, color: CYAN, cnt: 204 },
-    { name: '风险研判', x: 560, y: 348, size: 50, color: AMBER, cnt: 216 },
-    { name: '策略评估', x: 818, y: 348, size: 51, color: AMBER, cnt: 228 }
+    { name: '编排器', x: 70, y: 200, size: 54, color: AMBER, cnt: 710, lp: 'right' },
+    { name: '态势感知', x: 320, y: 74, size: 42, color: BLUE, cnt: 132, lp: 'top' },
+    { name: '事件理解', x: 320, y: 206, size: 48, color: BLUE, cnt: 246, lp: 'bottom' },
+    { name: '情感与立场', x: 600, y: 96, size: 49, color: CYAN, cnt: 258, lp: 'bottom' },
+    { name: '传播推演', x: 320, y: 344, size: 45, color: CYAN, cnt: 204, lp: 'bottom' },
+    { name: '风险研判', x: 600, y: 344, size: 46, color: CYAN, cnt: 216, lp: 'bottom' },
+    { name: '策略评估', x: 848, y: 344, size: 47, color: CYAN, cnt: 228, lp: 'bottom' }
   ];
   var LINKS = [
     { s: '编排器', t: '传播推演', v: 204, lat: '138.9 ms', retry: 5 },
@@ -4035,24 +4030,23 @@ window.__ENRICH_MAS_P4 = function () {
             + (L.v / 1284 * 100).toFixed(1) + '%<br/>平均时延 ' + L.lat + ' · 重试 ' + L.retry + ' 次';
         }
         var d = p.data;
-        return '<b>' + d.name + '</b><br/>被调 ' + fmt(d.cnt) + ' 次';
+        return '<b>' + d.name + '</b><br/>近 7 日被调 ' + fmt(d.cnt) + ' 次';
       }
     },
     series: [
       {
         type: 'graph', layout: 'none', roam: false, animation: false,
-        left: 18, right: 18, top: 16, bottom: 46,
+        left: 34, right: 22, top: 56, bottom: 74,
         symbolSize: function (v, p) { return p && p.data ? p.data.size : 44; },
         data: NODES.map(function (n) {
           return {
             name: n.name, x: n.x, y: n.y, size: n.size, cnt: n.cnt,
-            itemStyle: { color: n.color, borderColor: '#07111f', borderWidth: 2, opacity: 0.92 },
+            itemStyle: { color: n.color, borderColor: '#07111f', borderWidth: 2, opacity: 0.94 },
             label: {
-              show: true, position: n.name === '编排器' ? 'right' : 'bottom', distance: n.name === '编排器' ? 10 : 7,
-              color: '#cfe3ef', fontSize: 10.5, lineHeight: 14,
+              show: true, position: n.lp, distance: n.lp === 'right' ? 9 : 6,
+              color: '#cfe3ef', fontSize: 10, lineHeight: 13,
               formatter: function (p2) {
-                var d2 = p2.data;
-                return d2.name + '\n' + fmt(d2.cnt) + ' 次';
+                return p2.data.name + '\n' + fmt(p2.data.cnt) + ' 次';
               }
             }
           };
@@ -4061,18 +4055,18 @@ window.__ENRICH_MAS_P4 = function () {
           return {
             source: l.s, target: l.t, value: l.v,
             lineStyle: {
-              color: l.s === '编排器' ? 'rgba(246,198,107,.42)' : 'rgba(98,230,210,.42)',
-              width: 1.2 + l.v / 46, curveness: 0.06
-            },
-            label: {
-              show: true, color: '#8fa7ba', fontSize: 9.5,
-              formatter: String(l.v)
+              color: l.s === '编排器' ? 'rgba(246,198,107,.40)' : 'rgba(98,230,210,.40)',
+              width: 1.2 + l.v / 46, curveness: 0.07
             }
           };
         }),
-        edgeLabel: { show: false },
+        edgeLabel: {
+          show: true, color: '#9db4c8', fontSize: 9,
+          backgroundColor: 'rgba(7,17,31,.78)', padding: [1, 4], borderRadius: 3,
+          formatter: function (p) { return p.value; }
+        },
         edgeSymbol: ['none', 'arrow'], edgeSymbolSize: 6,
-        emphasis: { focus: 'adjacency', lineStyle: { color: '#62e6d2', width: 2.6, opacity: 0.95 } }
+        emphasis: { focus: 'adjacency', lineStyle: { color: '#62e6d2', width: 2.8, opacity: 0.95 } }
       }
     ]
   });
