@@ -115,7 +115,10 @@ button:disabled{cursor:default;opacity:.5}
 }
 .nav a svg{width:17px;height:17px;flex:none;opacity:.85}
 .nav a:hover{background:rgba(76,214,255,.045);color:var(--ink)}
-.nav a.active{background:linear-gradient(90deg,rgba(76,214,255,.13),rgba(76,214,255,.035));color:#b5f0ff;box-shadow:inset 2px 0 0 var(--accent),inset 0 0 0 1px rgba(76,214,255,.17)}
+.nav a.active{position:relative;background:linear-gradient(90deg,rgba(76,214,255,.24),rgba(76,214,255,.05));color:#e8fcff;font-weight:700;box-shadow:inset 4px 0 0 var(--accent),inset 0 0 0 1px rgba(76,214,255,.45),0 4px 14px rgba(76,214,255,.14)}
+.nav a.active svg{opacity:1;color:var(--accent)}
+.nav a.active::after{content:"当前";margin-left:auto;flex:none;font-size:9px;line-height:1;letter-spacing:.08em;padding:3px 6px;border-radius:99px;background:var(--accent);color:#03121c;font-weight:800}
+.topbar-entry.active{background:#62e6d233;border-color:#62e6d2;color:#e8fcff;font-weight:700;box-shadow:0 0 0 1px #62e6d266}
 .sidebar-foot{margin-top:auto;padding:12px;border-radius:10px;background:rgba(76,214,255,.025);border:1px solid var(--line-soft);font-size:11.5px;color:var(--muted);line-height:1.8}
 .sidebar-foot b{color:var(--secondary);font-weight:600;display:block;margin-bottom:2px}
 .sidebar-foot b:before{content:"";display:inline-block;width:5px;height:5px;margin-right:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px rgba(84,221,169,.5);vertical-align:middle}
@@ -607,10 +610,9 @@ body:is([data-route=assistant],[data-route=projects],[data-route=evidence],[data
   border:1px solid #62e6d255;background:#62e6d212;color:#62e6d2;font-size:12px;font-weight:600;text-decoration:none}
 .topbar-entry:hover{background:#62e6d222;border-color:#62e6d288}
 .topbar-entry span{opacity:.8}
-:root{--bg:#07111f;--panel:#0d1c2e;--panel2:#10243a;--line:#1d3853;--text:#e9f2fa;--muted:#8fa7ba;--cyan:#62e6d2;--blue:#73a7ff;--amber:#f6c66b;--red:#ff7f86;--radius:18px}
 *{box-sizing:border-box}
-body{margin:0;background:radial-gradient(900px 500px at 85% -5%,#153b57 0%,transparent 65%),var(--bg);color:var(--text);font-family:Inter,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;line-height:1.5}
 .shell{max-width:1440px;margin:auto;padding:22px 26px 30px}
+#view .shell{--panel:#0d1c2e;--panel2:#10243a;--line:#1d3853;--text:#e9f2fa;--muted:#8fa7ba;--cyan:#62e6d2;--blue:#73a7ff;--amber:#f6c66b;--red:#ff7f86;--radius:18px}
 a{color:inherit;text-decoration:none}
 
 .sysbar{display:flex;align-items:center;gap:16px;padding:6px 2px 18px;border-bottom:1px solid var(--line);margin-bottom:18px}
@@ -689,3 +691,49 @@ table.tb tr:last-child td{border-bottom:none}
 .b-amber{background:#f6c66b14;color:var(--amber);border:1px solid #f6c66b33}
 .b-red{background:#ff7f8614;color:var(--red);border:1px solid #ff7f8633}
 .b-blue{background:#73a7ff14;color:var(--blue);border:1px solid #73a7ff33}
+
+#weightTable th{text-align:center}
+#weightTable th:first-child{text-align:left}
+#weightTable td:first-child{text-align:left}
+
+/* 侧栏：折叠按钮、分组、系统子标签 */
+.nav-collapse{margin-left:auto;width:26px;height:26px;flex:none;display:grid;place-items:center;border-radius:7px;border:1px solid var(--line);background:rgba(255,255,255,.02);color:var(--muted);cursor:pointer}
+.nav-collapse:hover{color:var(--ink);border-color:var(--accent-border);background:rgba(76,214,255,.08)}
+.nav-collapse svg{width:14px;height:14px;transition:transform .18s}
+.nav-group-label{display:flex;align-items:center;gap:6px;width:100%;margin:0;background:none;border:0;cursor:pointer;font-family:inherit;text-align:left;font-size:10px;letter-spacing:.12em;color:var(--faint);padding:14px 12px 5px}
+.nav-group-label:hover{color:var(--secondary)}
+.nav-group-label .chev{width:12px;height:12px;margin-left:auto;transition:transform .18s;opacity:.7}
+.nav-group-label[aria-expanded="false"] .chev{transform:rotate(-90deg)}
+.nav-group{display:flex;flex-direction:column;gap:2px}
+.nav-group[hidden]{display:none}
+.subnav{display:none;flex-direction:column;gap:1px;margin:2px 0 4px 22px;padding-left:8px;border-left:1px solid rgba(76,214,255,.18)}
+.subnav.open{display:flex}
+.subnav a{font-size:11.5px;padding:5px 8px;border-radius:7px;color:var(--muted);box-shadow:none;font-weight:500}
+.subnav a:hover{background:rgba(76,214,255,.06);color:var(--ink)}
+.subnav a.active{color:#e8fcff;font-weight:700;background:rgba(76,214,255,.16);box-shadow:inset 2px 0 0 var(--accent)}
+.subnav a.active::after{display:none;content:none}
+html.nav-collapsed .app{grid-template-columns:64px 1fr}
+html.nav-collapsed .brand{justify-content:center;flex-wrap:wrap;gap:6px;padding:4px 0 12px}
+html.nav-collapsed .brand-text{display:none}
+html.nav-collapsed .nav-collapse{margin-left:0}
+html.nav-collapsed .nav-collapse svg{transform:rotate(180deg)}
+html.nav-collapsed .nav-group-label{display:none}
+html.nav-collapsed .nav-group[hidden]{display:flex}
+html.nav-collapsed .nav a{justify-content:center;gap:0;padding:11px 0;font-size:0}
+html.nav-collapsed .nav a svg{width:19px;height:19px}
+html.nav-collapsed .nav a.active::after{display:none}
+html.nav-collapsed .subnav{display:none!important}
+html.nav-collapsed .sidebar-foot{display:none}
+
+/* 推演与干预系统：页内标签、面板互斥、权重表 */
+#masTabs .tab.on,#riskTabs .tab.on{color:#e8fcff;border-bottom-color:#62e6d2;background:linear-gradient(180deg,rgba(98,230,210,.16),rgba(98,230,210,.02));border-radius:8px 8px 0 0}
+#masTabs .tab.on::before,#riskTabs .tab.on::before{content:"";width:6px;height:6px;border-radius:50%;background:#62e6d2;box-shadow:0 0 8px #62e6d2;flex:none}
+.pane{display:none}
+.pane.on{display:block}
+#weightTable th{text-align:center}
+#weightTable th:first-child{text-align:left}
+#weightTable td:first-child{text-align:left}
+
+.databar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12px;color:#8fa7ba;border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-bottom:14px;background:#0a1727}
+.databar span{color:var(--cyan);font-weight:700;letter-spacing:.08em;font-size:11px}
+.databar b{color:#e9f2fa}

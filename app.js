@@ -448,6 +448,14 @@
       a.classList.toggle("active", a.dataset.route === route);
       if (a.dataset.route === route) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
     });
+    document.querySelectorAll(".topbar-entry").forEach((a) => a.classList.toggle("active", route === "systems"));
+    const on = document.querySelector(".nav a.active");
+    if (on && on.closest(".nav-group") && on.closest(".nav-group").hidden) {
+      const g = on.closest(".nav-group");
+      g.hidden = false;
+      const b = document.querySelector('.nav-group-label[data-group="' + g.dataset.group + '"]');
+      if (b) b.setAttribute("aria-expanded", "true");
+    }
   }
   function setCrumb(text) {
     crumb.innerHTML = text;
@@ -1295,9 +1303,66 @@
     if (r.name === "institutions") return viewInstitutions();
     if (r.name === "explore") return viewExplore(r.params);
     if (r.name === "about") return viewAbout();
-    if (r.name === "systems") return window.ZGCLAB_SYSTEMS(r.id || "mas");
+    if (r.name === "systems") {
+      const sid = r.id || "mas";
+      document.body.dataset.route = "systems";
+      document.querySelectorAll('[data-route="systems"]').forEach((a) => {
+        const on = (a.dataset.sys || "mas") === sid;
+        a.classList.toggle("active", on);
+        if (on) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+      });
+      document.querySelectorAll(".topbar-entry").forEach((a) => a.classList.add("active"));
+      return window.ZGCLAB_SYSTEMS(sid, r.params.get("tab") || null);
+    }
     return viewOverview();
   }
+
+
+  /* ---------- 侧栏：折叠、分组与系统子标签 ---------- */
+  const navRoot = document.documentElement;
+  function setNavCollapsed(v) {
+    navRoot.classList.toggle("nav-collapsed", v);
+    const b = document.getElementById("navCollapse");
+    if (b) { b.setAttribute("aria-label", v ? "展开侧栏" : "收起侧栏"); b.title = v ? "展开侧栏" : "收起侧栏"; }
+    try { localStorage.setItem("zgclab.nav.collapsed", v ? "1" : "0"); } catch (_) {}
+  }
+  const navCollapse = document.getElementById("navCollapse");
+  if (navCollapse) navCollapse.addEventListener("click", () => setNavCollapsed(!navRoot.classList.contains("nav-collapsed")));
+
+  function setGroupOpen(gid, open) {
+    const g = document.querySelector('.nav-group[data-group="' + gid + '"]');
+    const b = document.querySelector('.nav-group-label[data-group="' + gid + '"]');
+    if (g) g.hidden = !open;
+    if (b) b.setAttribute("aria-expanded", open ? "true" : "false");
+    try {
+      const s = JSON.parse(localStorage.getItem("zgclab.nav.groups") || "{}");
+      s[gid] = open ? 1 : 0;
+      localStorage.setItem("zgclab.nav.groups", JSON.stringify(s));
+    } catch (_) {}
+  }
+  document.querySelectorAll(".nav-group-label").forEach((b) => {
+    b.addEventListener("click", () => {
+      const g = document.querySelector('.nav-group[data-group="' + b.dataset.group + '"]');
+      setGroupOpen(b.dataset.group, !!(g && g.hidden));
+    });
+  });
+  try {
+    const saved = JSON.parse(localStorage.getItem("zgclab.nav.groups") || "null");
+    if (saved) Object.keys(saved).forEach((k) => setGroupOpen(k, !!saved[k]));
+  } catch (_) {}
+
+  document.querySelectorAll(".nav a").forEach((a) => {
+    if (!a.title) a.title = (a.textContent || "").trim().replace(/\s+/g, " ");
+  });
+
+  window.ZGCLAB_SYNC_SYS = function (name, tab) {
+    document.querySelectorAll(".subnav").forEach((s) => s.classList.toggle("open", s.dataset.sys === name));
+    document.querySelectorAll(".subnav a").forEach((a) => {
+      const on = a.closest(".subnav").dataset.sys === name && a.dataset.tab === tab;
+      a.classList.toggle("active", on);
+      if (on) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+    });
+  };
 
   $("#snapAt").textContent = META.generated_at.slice(0, 10);
   $("#includeSimulation").onchange=(event)=>setSimulation(event.target.checked);

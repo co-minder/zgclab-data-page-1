@@ -92,3 +92,13 @@ table.tb tr:last-child td{border-bottom:none}
 .tab.on{color:#06101d;background:linear-gradient(90deg,#62e6d2,#73a7ff);font-weight:700}
 .pane{display:none}
 .pane.on{display:block}
+
+#weightTable th{text-align:center}
+#weightTable th:first-child{text-align:left}
+#weightTable td:first-child{text-align:left}
+
+#weightTable th{text-align:center}
+#weightTable th:first-child{text-align:left}
+#weightTable td:first-child{text-align:left}
+.tab.on{box-shadow:0 6px 16px rgba(98,230,210,.28),0 0 0 1px rgba(98,230,210,.7)}
+.tpl.on{box-shadow:inset 3px 0 0 #62e6d2,0 0 0 1px rgba(98,230,210,.55)}

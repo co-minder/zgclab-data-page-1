@@ -47,6 +47,10 @@ const MAS_HTML = `
   </div>
 
   <div class="pane" id="p2">
+    <div class="panel" style="margin-bottom:14px">
+      <div class="ph"><div class="t">关键节点与极化指数</div><div class="s">R1–R12 · 标注为人工核对节点</div></div>
+      <div id="nodeChart" style="height:220px"></div>
+    </div>
     <div class="panel">
       <div class="ph"><div class="t">推演关键节点</div><div class="s">E-2f7c9a · 与人工标注对照</div></div>
       <table class="tb" style="table-layout:fixed;width:100%">
@@ -71,6 +75,12 @@ const MAS_HTML = `
   </div>
 
   <div class="pane" id="p4">
+    <div class="ks" style="margin-bottom:14px">
+      <div class="k"><div class="l">本轮调用次数</div><div class="v">12</div><div class="d">6 类角色</div></div>
+      <div class="k"><div class="l">累计耗时</div><div class="v">1.26<small style="font-size:12px;color:#8fa7ba"> s</small></div><div class="d">含编排开销</div></div>
+      <div class="k"><div class="l">成功率</div><div class="v">98.2%</div><div class="d">失败重试 1.8%</div></div>
+      <div class="k"><div class="l">降级次数</div><div class="v">0</div><div class="d">本轮未触发</div></div>
+    </div>
     <div class="panel">
       <div class="ph"><div class="t">智能体调用链</div><div class="s">最近一轮 · 12 次调用</div></div>
       <table class="tb" style="table-layout:fixed;width:100%">
@@ -162,6 +172,20 @@ const RISK_HTML = `
           <tr><td>四级（一般）</td><td class="mono">&lt;0.52</td><td>24 小时</td><td>周报</td></tr>
         </tbody>
       </table>
+      <div class="ph" style="margin-top:20px;margin-bottom:8px"><div class="t">七维权重</div><div class="s">合计 1.00</div></div>
+      <table class="tb" id="weightTable" style="table-layout:fixed;width:100%">
+        <colgroup><col style="width:40%"><col style="width:20%"><col style="width:20%"><col style="width:20%"></colgroup>
+        <thead><tr><th>指标</th><th style="width:80px">权重</th><th style="width:80px">得分</th><th style="width:80px">贡献</th></tr></thead>
+        <tbody>
+          <tr><td>事件热度</td><td class="mono" style="text-align:center">0.18</td><td class="mono" style="text-align:center">0.78</td><td class="mono" style="text-align:center">0.140</td></tr>
+          <tr><td>传播速度</td><td class="mono" style="text-align:center">0.16</td><td class="mono" style="text-align:center">0.66</td><td class="mono" style="text-align:center">0.106</td></tr>
+          <tr><td>情感极性</td><td class="mono" style="text-align:center">0.15</td><td class="mono" style="text-align:center">0.71</td><td class="mono" style="text-align:center">0.107</td></tr>
+          <tr><td>群体对立</td><td class="mono" style="text-align:center">0.17</td><td class="mono" style="text-align:center">0.74</td><td class="mono" style="text-align:center">0.126</td></tr>
+          <tr><td>关键节点活跃度</td><td class="mono" style="text-align:center">0.12</td><td class="mono" style="text-align:center">0.62</td><td class="mono" style="text-align:center">0.074</td></tr>
+          <tr><td>议题敏感度</td><td class="mono" style="text-align:center">0.11</td><td class="mono" style="text-align:center">0.80</td><td class="mono" style="text-align:center">0.088</td></tr>
+          <tr><td>跨平台扩散</td><td class="mono" style="text-align:center">0.11</td><td class="mono" style="text-align:center">0.58</td><td class="mono" style="text-align:center">0.064</td></tr>
+        </tbody>
+      </table>
       <div style="margin-top:12px;font-size:11.5px;color:#8fa7ba">当前事件综合分值 0.74，落在二级区间；七项权重合计 1.00，阈值按事件类型分档。</div>
     </div>
   </div>
@@ -213,6 +237,10 @@ const RISK_HTML = `
         <div>三、趋势判断：未来 6 小时极化指数预计升至 0.61–0.64，若不加干预，24 小时内可能进入一级区间。</div>
         <div>四、处置建议：2 小时内发布权威信息；对 5 个高传播节点定向核查；准备正面引导口径，视情由意见领袖转发。</div>
         <div style="margin-top:10px;color:#8fa7ba;font-size:11px">本报告为原型系统自动生成，数据来自推演环境，未经真实业务校验。</div>
+        <div style="margin-top:14px;display:flex;gap:8px;align-items:center">
+          <button class="btn">下载报告</button><button class="btn" style="background:#1d3853;color:#cfe3ef">复制要点</button>
+          <span class="badge b-blue">报送：中心业务部门</span>
+        </div>
       </div>
     </div>
   </div>
@@ -226,6 +254,7 @@ document.querySelectorAll('#masTabs .tab').forEach(function(tab){
     tab.classList.add('on');
     document.querySelectorAll('.pane').forEach(function(p){p.classList.remove('on')});
     var el=document.getElementById(tab.dataset.p); if(el) el.classList.add('on');
+    if(window.ZGCLAB_SYNC_SYS) window.ZGCLAB_SYNC_SYS('mas', tab.dataset.p);
     setTimeout(function(){ window.dispatchEvent(new Event('resize')); },30);
   };
 });
@@ -303,6 +332,19 @@ document.querySelectorAll('#mode span').forEach(s=>s.onclick=()=>{
   document.querySelectorAll('#mode span').forEach(x=>x.classList.remove('on')); s.classList.add('on');
 });
 
+const nc=echarts.init(document.getElementById('nodeChart'));
+nc.setOption({
+  backgroundColor:'transparent',
+  grid:{left:34,right:16,top:24,bottom:24},
+  tooltip:{trigger:'axis',backgroundColor:'#0d1c2e',borderColor:'#1d3853',textStyle:{color:'#e9f2fa',fontSize:11}},
+  xAxis:{type:'category',data:rounds,axisLine:{lineStyle:{color:'#1d3853'}},axisLabel:{color:'#8fa7ba',fontSize:10},axisTick:{show:false}},
+  yAxis:{type:'value',min:0,max:1,splitLine:{lineStyle:{color:'#14283d'}},axisLabel:{color:'#8fa7ba',fontSize:10}},
+  series:[{type:'line',smooth:true,symbolSize:6,data:pi,lineStyle:{color:'#62e6d2',width:2.5},itemStyle:{color:'#62e6d2'},
+    markPoint:{symbolSize:38,label:{fontSize:9,color:'#06101d'},data:[
+      {name:'R02',coord:['R2',pi[1]],value:'R02'},{name:'R04',coord:['R4',pi[3]],value:'R04'},
+      {name:'R07',coord:['R7',pi[6]],value:'R07'},{name:'R10',coord:['R10',pi[9]],value:'R10'}]}}]
+});
+
 const s2=echarts.init(document.getElementById('scn'));
 s2.setOption({
   backgroundColor:'transparent',
@@ -315,7 +357,7 @@ s2.setOption({
       {value:0.55,itemStyle:{color:'#62e6d2'}}],
     label:{show:true,position:'top',color:'#cfe3ef',fontSize:11}}]
 });
-window.addEventListener('resize',function(){c.resize();s2.resize();});
+window.addEventListener('resize',function(){c.resize();s2.resize();nc.resize();});
 
 (function(){
   const q=new URLSearchParams(location.search);
@@ -334,6 +376,7 @@ document.querySelectorAll('#riskTabs .tab').forEach(function(tab){
     tab.classList.add('on');
     document.querySelectorAll('.pane').forEach(function(p){p.classList.remove('on')});
     var el=document.getElementById(tab.dataset.p); if(el) el.classList.add('on');
+    if(window.ZGCLAB_SYNC_SYS) window.ZGCLAB_SYNC_SYS('risk', tab.dataset.p);
     setTimeout(function(){ window.dispatchEvent(new Event('resize')); },30);
   };
 });
@@ -412,7 +455,7 @@ window.addEventListener('resize',function(){r.resize();cmp.resize();});
 
 }
 
-window.ZGCLAB_SYSTEMS = function (name) {
+window.ZGCLAB_SYSTEMS = function (name, tab) {
   const view = document.getElementById('view');
   const crumb = document.getElementById('crumb');
   if (name === 'risk') {
@@ -426,4 +469,11 @@ window.ZGCLAB_SYSTEMS = function (name) {
     document.title = '多智能体推演 · ZGCLab 数据平台';
     try { initMas(); } catch (e) { console.error(e); }
   }
+  const dft = name === 'risk' ? 'r1' : 'p1';
+  const cur = tab || dft;
+  if (tab) {
+    const el = view.querySelector('.tab[data-p="' + tab + '"]');
+    if (el) { el.click(); return; }
+  }
+  if (window.ZGCLAB_SYNC_SYS) window.ZGCLAB_SYNC_SYS(name, cur);
 };
