@@ -1,0 +1,10 @@
+{
+  "task_id": "socialmcp-chat-analysis-comparison-20261108T185134-43df0b6d",
+  "session": "socialmcp-chat-analysis-comparison-20261108T185134-43df0b6d",
+  "host": "VM-0-11-ubuntu",
+  "cwd": "/home/ubuntu/zgclab-1-web",
+  "created": "2026-11-08T18:51:34.937438+00:00",
+  "runtime_dir": "/home/ubuntu/.local/state/social-mcp/tasks/socialmcp-chat-analysis-comparison-20261108T185134-43df0b6d",
+  "log_path": "/home/ubuntu/.local/state/social-mcp/tasks/socialmcp-chat-analysis-comparison-20261108T185134-43df0b6d/output.log",
+  "result_dir": "/home/ubuntu/zgclab-1-web/.social-mcp/tasks/socialmcp-chat-analysis-comparison-20261108T185134-43df0b6d"
+}

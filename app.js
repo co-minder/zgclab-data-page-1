@@ -1312,9 +1312,38 @@
         if (on) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
       });
       document.querySelectorAll(".topbar-entry").forEach((a) => a.classList.add("active"));
-      return window.ZGCLAB_SYSTEMS(sid, r.params.get("tab") || null);
+      return ensureSystemsLoaded().then(function () {
+        return window.ZGCLAB_SYSTEMS(sid, r.params.get("tab") || null);
+      });
     }
     return viewOverview();
+  }
+
+  /* ---------- 系统页依赖：按需加载 echarts 与 systems.js ---------- */
+  let systemsLoading = null;
+  function ensureSystemsLoaded() {
+    if (window.ZGCLAB_SYSTEMS) return Promise.resolve();
+    if (systemsLoading) return systemsLoading;
+    const chain = [
+      { src: "systems/echarts.min.js", ready: () => !!window.echarts },
+      { src: "systems/systems.js", ready: () => !!window.ZGCLAB_SYSTEMS },
+    ];
+    systemsLoading = chain.reduce(function (p, item) {
+      return p.then(function () {
+        if (item.ready()) return null;
+        return new Promise(function (resolve, reject) {
+          const s = document.createElement("script");
+          s.src = item.src;
+          s.onload = resolve;
+          s.onerror = function () { reject(new Error("加载失败：" + item.src)); };
+          document.head.appendChild(s);
+        });
+      });
+    }, Promise.resolve()).catch(function (err) {
+      systemsLoading = null;
+      throw err;
+    });
+    return systemsLoading;
   }
 
 

@@ -1,0 +1,10 @@
+{
+  "task_id": "socialmcp-chat-final-public-20261108T193817-1f2d14db",
+  "session": "socialmcp-chat-final-public-20261108T193817-1f2d14db",
+  "host": "VM-0-11-ubuntu",
+  "cwd": "/home/ubuntu/zgclab-1-web",
+  "created": "2026-11-08T19:38:17.824664+00:00",
+  "runtime_dir": "/home/ubuntu/.local/state/social-mcp/tasks/socialmcp-chat-final-public-20261108T193817-1f2d14db",
+  "log_path": "/home/ubuntu/.local/state/social-mcp/tasks/socialmcp-chat-final-public-20261108T193817-1f2d14db/output.log",
+  "result_dir": "/home/ubuntu/zgclab-1-web/.social-mcp/tasks/socialmcp-chat-final-public-20261108T193817-1f2d14db"
+}

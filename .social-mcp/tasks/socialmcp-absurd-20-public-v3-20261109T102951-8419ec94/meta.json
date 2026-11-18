@@ -1,0 +1,10 @@
+{
+  "task_id": "socialmcp-absurd-20-public-v3-20261109T102951-8419ec94",
+  "session": "socialmcp-absurd-20-public-v3-20261109T102951-8419ec94",
+  "host": "VM-0-11-ubuntu",
+  "cwd": "/home/ubuntu/zgclab-1-web",
+  "created": "2026-11-09T10:29:51.397359+00:00",
+  "runtime_dir": "/home/ubuntu/.local/state/social-mcp/tasks/socialmcp-absurd-20-public-v3-20261109T102951-8419ec94",
+  "log_path": "/home/ubuntu/.local/state/social-mcp/tasks/socialmcp-absurd-20-public-v3-20261109T102951-8419ec94/output.log",
+  "result_dir": "/home/ubuntu/zgclab-1-web/.social-mcp/tasks/socialmcp-absurd-20-public-v3-20261109T102951-8419ec94"
+}

@@ -737,3 +737,641 @@ html.nav-collapsed .sidebar-foot{display:none}
 .databar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12px;color:#8fa7ba;border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-bottom:14px;background:#0a1727}
 .databar span{color:var(--cyan);font-weight:700;letter-spacing:.08em;font-size:11px}
 .databar b{color:#e9f2fa}
+
+/* 推演系统扩充组件 */
+.kv{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.kv>div{background:#0a1727;border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.kv span{display:block;font-size:10.5px;color:var(--muted);letter-spacing:.06em}
+.kv b{display:block;margin-top:4px;font-size:13px;color:var(--text);font-weight:700}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.chip{font-size:11px;padding:4px 10px;border-radius:99px;border:1px solid var(--line);color:var(--muted);background:#0a1727}
+.chip.on{color:#06101d;background:linear-gradient(90deg,#62e6d2,#73a7ff);border-color:transparent;font-weight:700}
+.flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.flow .node{background:#0a1727;border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:11.5px;color:var(--text)}
+.flow .node b{display:block;font-size:10px;color:var(--cyan);font-weight:600;letter-spacing:.08em;margin-bottom:2px}
+.flow .arw{color:#62e6d2;font-size:12px}
+.mini{font-size:11.5px;color:var(--muted);line-height:1.9}
+.note{font-size:11px;color:#8fa7ba;margin-top:8px;line-height:1.8}
+.tl2{display:flex;gap:0;margin-top:6px}
+.tl2>div{flex:1;position:relative;padding:0 8px;border-left:1px solid var(--line)}
+.tl2>div:first-child{border-left:0}
+.tl2 b{display:block;font-size:11px;color:var(--cyan)}
+.tl2 span{font-size:11px;color:var(--text)}
+.tl2 small{display:block;font-size:10px;color:var(--muted);margin-top:2px}
+.tabs{position:sticky;top:0;z-index:6;background:linear-gradient(180deg,#07111f 70%,rgba(7,17,31,.86));padding-top:6px;backdrop-filter:blur(6px)}
+
+/* ---------- 推演 / 干预页：滚动、表格与容器细化（与另一份样式表保持同一组规则） ---------- */
+/* 1. 页面容器不固定高度：子标签内容变长时由整页滚动，不做内部截断 */
+.view,.shell{height:auto;max-height:none}
+
+/* 2. 子标签吸顶条：底色与页面一致，带下边框和轻阴影，滚动内容不从底部透出 */
+#masTabs,#riskTabs{position:sticky;top:0;z-index:7;display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px;padding:8px 0 10px;background:var(--bg);border-bottom:1px solid var(--line);box-shadow:0 10px 20px -16px rgba(0,0,0,.9)}
+#masTabs .tab:focus-visible,#riskTabs .tab:focus-visible{outline:2px solid #62e6d2;outline-offset:2px}
+
+/* 3. 表格：窄屏在容器内横向滚动，表头不换行，数字列等宽对齐 */
+.tablewrap{overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;margin:10px 0;padding:2px 6px;border:1px solid var(--line);border-radius:12px;background:#0a1727}
+.tablewrap>table.tb{min-width:100%}
+table.tb th{white-space:nowrap}
+table.tb td.mono,table.tb td.num,table.tb .num{font-variant-numeric:tabular-nums}
+@media(max-width:900px){.panel:has(>table.tb),.panel:has(>.tablewrap){overflow-x:auto}}
+
+/* 4. 面板间距与两列布局 */
+.pane>.panel+.panel{margin-top:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid2>*{min-width:0}
+@media(max-width:900px){.grid2{grid-template-columns:1fr}}
+
+/* 5. 二级小标题与说明小字 */
+.subhead{display:flex;align-items:center;gap:8px;margin:16px 0 8px;font-size:12px;font-weight:700;letter-spacing:.04em;color:#cfe3ef}
+.subhead::before{content:"";flex:none;width:3px;height:12px;border-radius:2px;background:#62e6d2}
+.subhead:first-child{margin-top:0}
+.tagline{margin:4px 0 10px;font-size:11.5px;line-height:1.75;color:var(--muted)}
+
+/* 6. 徽标配色：不依赖容器内临时定义的 --cyan/--blue/--amber/--red */
+.b-cyan{color:#62e6d2}
+.b-blue{color:#73a7ff}
+.b-amber{color:#f6c66b}
+.b-red{color:#ff7f86}
+
+/* 7. 图表容器：占满宽度并有最小高度，避免加载前塌陷 */
+.chart,.chartbox,#pline,#nodeChart,#scn,#scnRisk,#latChart,#radar,#dimBar,#dimRadar,#cmp,#ciChart{width:100%;min-height:180px}
+
+/* 8. 可滚动小块 */
+.scrollbox{max-height:320px;overflow:auto;overscroll-behavior:contain;padding-right:4px}
+
+/* 9. 细滚动条：深色轨道，thumb 低对比不刺眼 */
+.pane,.shell{scrollbar-width:thin;scrollbar-color:#35475c #0a121c}
+.pane::-webkit-scrollbar,.pane ::-webkit-scrollbar,.shell::-webkit-scrollbar,.shell ::-webkit-scrollbar{width:8px;height:8px}
+.pane::-webkit-scrollbar-track,.pane ::-webkit-scrollbar-track,.shell::-webkit-scrollbar-track,.shell ::-webkit-scrollbar-track{background:#0a121c;border-radius:8px}
+.pane::-webkit-scrollbar-thumb,.pane ::-webkit-scrollbar-thumb,.shell::-webkit-scrollbar-thumb,.shell ::-webkit-scrollbar-thumb{background:#2b3d52;border:2px solid #0a121c;border-radius:8px}
+.pane::-webkit-scrollbar-thumb:hover,.pane ::-webkit-scrollbar-thumb:hover,.shell::-webkit-scrollbar-thumb:hover,.shell ::-webkit-scrollbar-thumb:hover{background:#3a5069}
+
+/* SPA：顶栏 sticky 实测高 60px，吸顶条贴在其下方；窄屏顶栏会换行，改为随页面滚动 */
+body[data-route="systems"] #masTabs,body[data-route="systems"] #riskTabs{top:60px}
+@media(max-width:1279px){body[data-route="systems"] #masTabs,body[data-route="systems"] #riskTabs{position:static}}
+
+/* ==== enrich: 系统页扩充样式 ==== */
+/* =====================================================================
+   MAS · 推演总览（p1）内容扩充样式
+   全部类名以 mp1- 前缀，不覆盖 system.css / styles.css 既有规则
+   ===================================================================== */
+
+/* ---------- 1. 行布局 ---------- */
+.mp1-row{display:grid;grid-template-columns:1.32fr 1fr;gap:14px;margin-top:14px}
+.mp1-row>.panel{min-width:0;margin:0}
+.mp1-row-full{margin-top:14px}
+.mp1-row-q{grid-template-columns:1.1fr 1fr}
+@media(max-width:1180px){
+  .mp1-row,.mp1-row-q{grid-template-columns:1fr}
+}
+
+/* ---------- 2. 单位小字（KPI 卡内） ---------- */
+.mp1-u{font-size:12px;color:#8fa7ba;font-weight:500;letter-spacing:0}
+
+/* ---------- 3. 表格 ---------- */
+.mp1-tw{margin:12px 0 0}
+.mp1-tb{font-variant-numeric:tabular-nums}
+.mp1-tb th{font-size:11px;padding:7px 9px;white-space:nowrap}
+.mp1-tb td{font-size:11.5px;padding:7px 9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mp1-tb tbody tr:hover td{background:#12283f66}
+.mp1-tb .mp1-b{color:#62e6d2;font-size:10.5px;letter-spacing:-.01em}
+.mp1-tb tr.mp1-sum td{background:#0a1727;color:#d7e5ed;font-weight:700;border-top:1px solid #1d3853}
+.mp1-tb tr.mp1-sum td.mono{color:#d7e5ed}
+.mp1-tb tr.mp1-sum:hover td{background:#0a1727}
+.mp1-tb .badge{font-size:10px;padding:2px 7px;white-space:nowrap}
+
+/* ---------- 4. 队列底部图例 ---------- */
+.mp1-foot{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:10px}
+.mp1-foot-t{margin-left:auto;font-size:10.5px;color:#6f8aa1}
+
+/* ---------- 5. 多指标条：分段 chips ---------- */
+.mp1-bar{display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap}
+.mp1-chips{display:flex;gap:0;border:1px solid #1d3853;border-radius:8px;overflow:hidden}
+.mp1-chip{padding:4px 10px;font-size:10.5px;color:#8fa7ba;cursor:pointer;background:#0a1727;border-right:1px solid #1d3853;user-select:none}
+.mp1-chip:last-child{border-right:0}
+.mp1-chip:hover{color:#cfe3ef}
+.mp1-chip.on{background:#62e6d218;color:#62e6d2;font-weight:600}
+.mp1-bartip{margin-left:auto;font-size:10px;color:#6f8aa1}
+
+/* ---------- 6. 图表容器 ---------- */
+.mp1-chart{width:100%;min-height:120px}
+
+/* ---------- 7. 统计小块 ---------- */
+.mp1-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.mp1-stats-2{grid-template-columns:repeat(2,1fr)}
+.mp1-st{background:#0a1727;border:1px solid #1d3853;border-radius:10px;padding:9px 11px;min-width:0}
+.mp1-st .l{font-size:10.5px;color:#8fa7ba;letter-spacing:.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mp1-st .v{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:15px;font-weight:700;color:#d7e5ed;margin-top:2px;letter-spacing:-.02em}
+.mp1-st .v small{font-size:10px;color:#8fa7ba;font-weight:500;margin-left:2px;letter-spacing:0}
+.mp1-st .d{font-size:10px;color:#6f8aa1;margin-top:2px;line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:700px){
+  .mp1-stats{grid-template-columns:repeat(2,1fr)}
+}
+
+/* ---------- 8. 资源占用仪表条 ---------- */
+.mp1-meters{display:grid;gap:8px;margin-top:12px}
+.mp1-meter{display:grid;grid-template-columns:76px 1fr 58px;align-items:center;gap:9px;font-size:10.5px;color:#8fa7ba}
+.mp1-meter .track{height:6px;border-radius:6px;background:#132b42;overflow:hidden}
+.mp1-meter .track i{display:block;height:100%;border-radius:6px;background:#62e6d2}
+.mp1-meter .track i.mp1-warn{background:linear-gradient(90deg,#f6c66b,#ff7f86)}
+.mp1-meter .track i.mp1-blue{background:#73a7ff}
+.mp1-meter b{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:10.5px;font-weight:600;color:#cfe3ef;text-align:right}
+
+/* ---------- 9. 甘特（角色 × 轮次） ---------- */
+.mp1-gwrap{display:grid;grid-template-columns:1.5fr 1fr;gap:20px}
+@media(max-width:1180px){.mp1-gwrap{grid-template-columns:1fr}}
+.mp1-gantt{display:grid;gap:6px}
+.mp1-gticks{display:grid;grid-template-columns:92px 1fr 48px;align-items:center}
+.mp1-gticks>div{display:grid;grid-template-columns:repeat(12,1fr);gap:4px}
+.mp1-gtick{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:9px;color:#6f8aa1;text-align:center}
+.mp1-gtick-h{font-size:9px;color:#6f8aa1;text-align:right;white-space:nowrap;padding-left:6px}
+.mp1-grow{display:grid;grid-template-columns:92px 1fr 48px;align-items:center}
+.mp1-rl{font-size:11px;font-weight:600;color:#cfe3ef;padding-right:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.25}
+.mp1-rl em{display:block;font-style:normal;font-size:9px;font-weight:400;color:#6f8aa1;font-family:"SF Mono",Menlo,Consolas,monospace}
+.mp1-cells{display:grid;grid-template-columns:repeat(12,1fr);gap:4px}
+.mp1-c{height:21px;border-radius:5px;background:#0b1a2a;border:1px solid #14283d;display:flex;align-items:center;justify-content:center;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:9px;font-style:normal;color:#8fa7ba}
+.mp1-c.off{background:#0b1a29;border-color:#0f2032;color:transparent}
+.mp1-c.mp1-lv1{background:#62e6d22b;border-color:#62e6d24d;color:#a9e7dd}
+.mp1-c.mp1-lv2{background:#62e6d255;border-color:#62e6d288;color:#04191d;font-weight:600}
+.mp1-c.mp1-lv3{background:#73a7ff6b;border-color:#73a7ffb3;color:#04121f;font-weight:600}
+.mp1-c.mp1-lv4{background:linear-gradient(90deg,#f6c66b,#ffab7d);border-color:#f6c66b;color:#2a1a06;font-weight:700}
+.mp1-rs{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:9.5px;color:#6f8aa1;text-align:right;padding-left:6px}
+.mp1-glane{display:grid;gap:5px;margin-top:3px}
+.mp1-laneh{display:flex;align-items:center;gap:7px;font-size:9.5px;letter-spacing:.1em;color:#62e6d2;margin:2px 0 1px}
+.mp1-laneh::before{content:"";width:11px;height:1px;background:#62e6d2;flex:none}
+.mp1-laneh b{font-weight:600;letter-spacing:.06em}
+.mp1-laneh span{color:#6f8aa1;letter-spacing:0}
+
+/* ---------- 10. 甘特图例 ---------- */
+.mp1-glegend{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px;font-size:10px;color:#8fa7ba}
+.mp1-lgt{display:inline-flex;align-items:center;gap:5px}
+.mp1-lgt i{width:15px;height:10px;border-radius:3px;display:inline-block}
+.mp1-glegend-t{margin-left:auto;color:#6f8aa1}
+
+/* ---------- 11. 单轮耗时构成 ---------- */
+.mp1-gside{display:grid;gap:14px;align-content:start}
+.mp1-split{background:#0a1727;border:1px solid #1d3853;border-radius:11px;padding:11px 13px}
+.mp1-split-h{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px}
+.mp1-split-h span{font-size:11px;color:#8fa7ba}
+.mp1-split-h b{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:13px;color:#e9f2fa}
+.mp1-splitbar{display:flex;height:14px;border-radius:6px;overflow:hidden;background:#132b42}
+.mp1-splitbar i{display:block;height:100%}
+.mp1-splitbar i.mp1-s-role{background:#62e6d2}
+.mp1-splitbar i.mp1-s-infer{background:#73a7ff}
+.mp1-splitbar i.mp1-s-bus{background:#f6c66b}
+.mp1-splitl{display:grid;gap:4px;margin-top:9px}
+.mp1-splitl>div{display:grid;grid-template-columns:10px 1fr auto 42px;align-items:center;gap:6px;font-size:10px;color:#8fa7ba}
+.mp1-splitl i{width:8px;height:8px;border-radius:2px;display:inline-block}
+.mp1-splitl i.mp1-s-role{background:#62e6d2}
+.mp1-splitl i.mp1-s-infer{background:#73a7ff}
+.mp1-splitl i.mp1-s-bus{background:#f6c66b}
+.mp1-splitl b{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:10.5px;font-weight:600;color:#cfe3ef}
+.mp1-splitl small{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:9.5px;color:#6f8aa1;text-align:right}
+
+/* ---------- 12. 2×2 小卡 ---------- */
+.mp1-k2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mp1-k2>div{background:#0a1727;border:1px solid #1d3853;border-radius:10px;padding:9px 11px;min-width:0}
+.mp1-k2 span{display:block;font-size:10px;color:#8fa7ba;letter-spacing:.05em}
+.mp1-k2 b{display:block;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:14px;font-weight:700;color:#d7e5ed;margin-top:2px;letter-spacing:-.02em}
+.mp1-k2 small{display:block;font-size:9.5px;color:#6f8aa1;margin-top:1px}
+
+/* ---------- 13. 迷你趋势卡 / sparkline ---------- */
+.mp1-sparks{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.mp1-sp{background:#0a1727;border:1px solid #1d3853;border-radius:11px;padding:9px 11px;min-width:0}
+.mp1-sp-h{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.mp1-sp-h span{font-size:10.5px;color:#8fa7ba;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mp1-sp-h b{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:14px;font-weight:700;color:#e9f2fa;letter-spacing:-.02em;flex:none}
+.mp1-sp-h b small{font-size:9.5px;color:#8fa7ba;font-weight:500;margin-left:1px;letter-spacing:0}
+.mp1-sp svg{display:block;width:100%;height:32px;margin-top:4px}
+.mp1-sp-f{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:3px;font-size:9.5px;color:#6f8aa1}
+.mp1-sp-f i{font-style:normal;font-family:"SF Mono",Menlo,Consolas,monospace;color:#62e6d2;font-weight:600}
+.mp1-sp-f i.mp1-dn{color:#73a7ff}
+@media(max-width:700px){.mp1-sparks{grid-template-columns:1fr}}
+
+/* ---------- 14. 要求值对照条 ---------- */
+.mp1-goals{display:grid;gap:9px;margin-top:12px;padding:10px 12px;background:#0a1727;border:1px solid #1d3853;border-radius:11px}
+.mp1-goals-h{display:flex;align-items:center;justify-content:space-between;font-size:10.5px;color:#8fa7ba;letter-spacing:.04em}
+.mp1-goals-h .badge{font-size:9.5px;padding:1px 7px}
+.mp1-goal{display:grid;grid-template-columns:122px 1fr auto;align-items:center;gap:10px;font-size:10.5px;color:#8fa7ba}
+.mp1-goal>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mp1-goal .track{position:relative;height:7px;border-radius:6px;background:#132b42}
+.mp1-goal .track i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#62e6d2,#73a7ff)}
+.mp1-goal .track b{position:absolute;top:-3px;bottom:-3px;width:2px;background:#f6c66b;border-radius:2px;box-shadow:0 0 5px rgba(246,198,107,.6)}
+.mp1-goal em{font-style:normal;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:10.5px;font-weight:600;color:#d7e5ed;white-space:nowrap}
+.mp1-goal em small{font-size:9.5px;color:#8fa7ba;font-weight:500}
+.mp1-goal em i{font-style:normal;font-family:inherit;font-size:9.5px;color:#6f8aa1;font-weight:400}
+
+/* ============================================================================
+   多智能体推演系统 · p2 关键节点 / p3 情景对比 —— 扩充模块样式
+   命名前缀：mp23-（不覆盖 system.css 任何既有规则）
+   依赖：system.css 的 :root 变量（--line / --cyan / --blue / --amber / --red /
+        --muted / --text / --panel / --radius）与既有类（panel / ph / tb / ks /
+        kv / badge / note / flow / subhead / mono）
+   ========================================================================== */
+
+/* 图表容器：占满宽度，高度由 HTML 内联 style 显式给定（避免隐藏标签页时塌陷） */
+#mp23-type,
+#mp23-lead,
+#mp23-thr,
+#mp23-ci,
+#mp23-tornado,
+#mp23-replay{width:100%;min-width:0}
+
+/* 面板内两栏：默认左图右表，窄屏降为单列 */
+.mp23-split{display:grid;grid-template-columns:1fr 1.06fr;gap:16px;align-items:start}
+.mp23-split>*{min-width:0}
+@media(max-width:1080px){.mp23-split{grid-template-columns:1fr}}
+
+/* ---------- 关键节点时间轴（12 轮轨道 + 4 个节点卡） ---------- */
+.mp23-tl{position:relative;display:grid;grid-template-columns:repeat(12,1fr);margin:16px 0 6px;padding-top:4px}
+.mp23-tl::before{content:"";position:absolute;left:4.17%;right:4.17%;top:22px;height:2px;border-radius:2px;
+  background:linear-gradient(90deg,#1d3853,#62e6d255 30%,#62e6d255 70%,#1d3853)}
+.mp23-tlc{position:relative;min-height:30px;padding-top:26px;text-align:center}
+.mp23-tlc i{position:absolute;left:50%;top:18px;width:8px;height:8px;margin-left:-4px;border-radius:50%;
+  background:#22394f;box-shadow:0 0 0 3px #0b192a;z-index:2;display:block}
+.mp23-tlc b{display:block;font-size:10px;font-weight:600;color:#6f8aa1;letter-spacing:.02em}
+.mp23-tlc.mp23-tlc-on i{background:var(--cyan);box-shadow:0 0 0 3px #62e6d226,0 0 12px #62e6d266}
+.mp23-tlc.mp23-tlc-on b{color:var(--cyan);font-size:11px;margin-bottom:1px}
+.mp23-tlc.mp23-tlc-on span{display:block;font-size:11.5px;font-weight:700;color:var(--text);letter-spacing:.01em}
+.mp23-tlc.mp23-tlc-on small{display:block;margin-top:2px;font-size:9.5px;color:var(--muted);
+  font-family:"SF Mono",Menlo,monospace;letter-spacing:.01em}
+
+.mp23-tlcap{display:flex;align-items:center;gap:4px 18px;flex-wrap:wrap;font-size:10.5px;color:var(--muted);margin-top:2px}
+.mp23-tlcap span{display:inline-flex;align-items:center;gap:6px}
+.mp23-tlcap i{width:7px;height:7px;border-radius:50%;background:#22394f;display:inline-block}
+.mp23-tlcap i.mp23-on{background:var(--cyan);box-shadow:0 0 0 2px #62e6d222}
+
+/* ---------- 强度条（表格内嵌，宽度即取值） ---------- */
+.mp23-barcell{display:flex;align-items:center;gap:8px}
+.mp23-barcell b{flex:none;min-width:31px;font-family:"SF Mono",Menlo,monospace;font-size:10.5px;font-weight:500;color:#b9cbdb}
+.mp23-bar{position:relative;flex:1 1 auto;min-width:38px;height:5px;border-radius:3px;background:#14283d;overflow:hidden}
+.mp23-bar i{position:absolute;left:0;top:0;bottom:0;border-radius:3px;background:linear-gradient(90deg,#62e6d2,#73a7ff)}
+.mp23-bar.mp23-amber i{background:linear-gradient(90deg,#f6c66b,#ff7f86)}
+
+/* ---------- 数值语义色（覆盖 .mono 的默认灰色） ---------- */
+table.tb td.mp23-good{color:var(--cyan)}
+table.tb td.mp23-warn{color:var(--amber)}
+table.tb td.mp23-up{color:var(--red)}
+table.tb td.mp23-mut{color:var(--muted)}
+.mp23-good{color:var(--cyan)}
+.mp23-warn{color:var(--amber)}
+.mp23-up{color:var(--red)}
+.mp23-mut{color:var(--muted)}
+
+/* ---------- 情景矩阵 ---------- */
+.mp23-matrix td:first-child{color:#cfe3ef;font-weight:600}
+.mp23-matrix tbody tr:nth-child(odd) td{background:rgba(10,23,39,.55)}
+.mp23-matrix th{vertical-align:middle}
+
+/* ---------- 采用阈值行高亮 ---------- */
+table.tb tr.mp23-hit td{background:#62e6d20d}
+table.tb tr.mp23-hit td:first-child{color:var(--cyan);font-weight:700}
+table.tb tr.mp23-hit td:first-child::after{content:"采用";margin-left:6px;font-size:9.5px;font-weight:600;
+  color:#06101d;background:var(--cyan);border-radius:4px;padding:1px 5px;vertical-align:1px}
+
+/* =====================================================================
+   MAS · p4 智能体调用链（mp4- 前缀）内容扩充样式
+   仅新增类，不覆盖 system.css / styles.css 既有规则
+   ===================================================================== */
+
+/* ---------- 0. 面板与图表容器 ---------- */
+.mp4-panel .ph{margin-bottom:10px}
+.mp4-panel [id^="mp4-"]{display:block}
+
+/* ---------- 1. 两段式阶段条：编排 1.26 s + 推理 3.56 s ---------- */
+.mp4-phase{display:flex;height:30px;border:1px solid #1d3853;border-radius:10px;overflow:hidden;background:#0a1727;margin-bottom:10px}
+.mp4-phase>div{display:flex;align-items:center;gap:8px;padding:0 12px;min-width:0;white-space:nowrap;overflow:hidden}
+.mp4-phase b{font-size:11px;font-weight:700;letter-spacing:.02em}
+.mp4-phase span{font-size:10.5px;color:#8fa7ba;font-variant-numeric:tabular-nums}
+.mp4-ph-a{background:linear-gradient(90deg,rgba(98,230,210,.22),rgba(98,230,210,.08));color:#9ff0e4;border-right:1px solid #1d3853}
+.mp4-ph-b{background:linear-gradient(90deg,rgba(115,167,255,.14),rgba(115,167,255,.04));color:#a9c7ff}
+
+/* ---------- 2. 图例与说明 ---------- */
+.mp4-legend{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:8px 0 4px;font-size:10.5px;color:#8fa7ba}
+.mp4-legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;vertical-align:middle}
+.mp4-legend-n{margin-left:auto;color:#6f8aa1;font-size:10px;letter-spacing:.01em}
+
+/* ---------- 3. 紧凑表格 ---------- */
+.mp4-tw{margin:10px 0 0;padding:0 4px;border-radius:10px}
+table.mp4-tb{table-layout:fixed;width:100%;font-variant-numeric:tabular-nums}
+table.mp4-tb th{font-size:10.5px;font-weight:500;padding:7px 8px;white-space:nowrap;letter-spacing:.02em}
+table.mp4-tb td{font-size:11.5px;padding:6px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+table.mp4-tb td.mono{font-size:11px}
+table.mp4-tb tbody tr:hover td{background:#12283f5c}
+table.mp4-tb tr.mp4-sum td{background:#0a1727;font-weight:700;color:#d7e5ed;border-top:1px solid #1d3853;border-bottom:none}
+table.mp4-tb tr.mp4-sum td.mono{color:#d7e5ed}
+table.mp4-tb tr.mp4-sum:hover td{background:#0a1727}
+table.mp4-tb .badge{font-size:10px;padding:2px 7px}
+
+/* 类型小标签：编排 / 角色 / 复核 / 分支 */
+.mp4-tp{display:inline-block;font-size:10px;line-height:16px;padding:0 7px;border-radius:5px;letter-spacing:.04em;font-weight:600}
+.mp4-tp-a{background:rgba(115,167,255,.13);color:#9dc4ff}
+.mp4-tp-b{background:rgba(98,230,210,.13);color:#7fe9d8}
+.mp4-tp-c{background:rgba(246,198,107,.14);color:#f8d089}
+.mp4-tp-d{background:rgba(157,180,200,.14);color:#b7c8d8}
+
+.mp4-warn{color:#f6c66b}
+
+/* ---------- 4. 核对式（等式行） ---------- */
+.mp4-eq{margin-top:10px;padding:7px 10px;border:1px solid #1d3853;border-left:2px solid #62e6d280;border-radius:8px;
+  background:#0a1727;font-family:"SF Mono",Menlo,monospace;font-size:10.5px;line-height:1.7;color:#b9cbdb;
+  font-variant-numeric:tabular-nums;letter-spacing:.005em}
+
+/* ---------- 5. 两列布局 ---------- */
+.mp4-split{display:grid;gap:16px;align-items:start}
+.mp4-split-2{grid-template-columns:1.05fr 1fr}
+.mp4-split-3{grid-template-columns:1.3fr 1fr}
+.mp4-split>div{min-width:0}
+.mp4-row2{align-items:stretch}
+.mp4-row2>.panel{margin:0}
+@media(max-width:1180px){
+  .mp4-split-2,.mp4-split-3{grid-template-columns:1fr}
+}
+
+/* ---------- 6. KPI 条 ---------- */
+.mp4-ks{margin-bottom:14px}
+.mp4-ks .k{padding:10px 12px}
+.mp4-ks .k .v{font-size:19px}
+.mp4-ks .k .d{font-size:10px;color:#8fa7ba}
+
+/* ---------- 7. 分位小块 ---------- */
+.mp4-q{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:8px}
+.mp4-q>div{background:#0a1727;border:1px solid #1d3853;border-radius:9px;padding:8px 10px;min-width:0}
+.mp4-q .l{font-size:10px;color:#8fa7ba;letter-spacing:.04em}
+.mp4-q .v{margin-top:2px;font-size:15px;font-weight:750;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.mp4-q .v small{font-size:10px;color:#8fa7ba;font-weight:500;margin-left:2px;letter-spacing:0}
+.mp4-q .d{margin-top:2px;font-size:9.5px;color:#6f8aa1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ---------- 8. chips（分角色中位长度） ---------- */
+.mp4-chips{margin:10px 0 0}
+.mp4-chips .chip{font-size:10.5px;padding:3px 9px;color:#b9cbdb}
+
+/* ---------- 9. 错误分布条 ---------- */
+.mp4-err{display:flex;align-items:center;gap:13px;flex-wrap:wrap;margin-top:10px;padding:8px 11px;
+  border:1px solid #1d3853;border-radius:10px;background:#0a1727;font-size:11px;color:#b9cbdb}
+.mp4-err .mp4-err-t{font-size:10px;color:#8fa7ba;letter-spacing:.08em}
+.mp4-err b{color:#8fa7ba;font-weight:500;margin-right:4px}
+.mp4-err>span{font-variant-numeric:tabular-nums}
+.mp4-err .mp4-err-n{margin-left:auto;font-size:10px;color:#6f8aa1}
+@media(max-width:1180px){.mp4-err .mp4-err-n{margin-left:0}}
+
+/* ---------- 10. 窄屏微调 ---------- */
+@media(max-width:900px){
+  .mp4-legend-n{display:none}
+  table.mp4-tb th,table.mp4-tb td{padding:6px}
+  .mp4-eq{font-size:10px}
+}
+
+/* ============================================================================
+   风险预警与干预 · r1 态势总览 / r2 分级依据 扩充样式
+   全部类名以 rr12- 前缀，不覆盖 system.css 既有类；颜色沿用深色主题变量：
+   --line #1d3853 · --cyan #62e6d2 · --blue #73a7ff · --amber #f6c66b
+   --red #ff7f86 · --muted #8fa7ba
+   ============================================================================ */
+
+/* ---------- 区块与行布局 ---------- */
+.rr12-block{margin-top:14px}
+.rr12-row{display:grid;gap:14px;margin-top:12px}
+.rr12-row>*{min-width:0}
+.rr12-row.rr12-c31{grid-template-columns:1.9fr 1fr}
+.rr12-row.rr12-c21{grid-template-columns:2.05fr 1fr}
+.rr12-row.rr12-c12{grid-template-columns:1.2fr 1fr}
+.rr12-row.rr12-c11{grid-template-columns:1fr 1fr}
+@media(max-width:1180px){
+  .rr12-row.rr12-c31,.rr12-row.rr12-c21,.rr12-row.rr12-c12,.rr12-row.rr12-c11{grid-template-columns:1fr}
+}
+
+/* ---------- 图表容器：显式高度由行内 style 给出，这里只兜底 ---------- */
+.rr12-chartbox{min-width:0}
+.rr12-chartbox>div{width:100%}
+
+/* ---------- 表格通用 ---------- */
+.rr12-tbwrap{min-width:0;overflow-x:auto;overscroll-behavior-x:contain}
+.rr12-tb td,.rr12-tb th{padding:7px 8px}
+.rr12-tb td.c,.rr12-tb th.c{text-align:center}
+.rr12-tb td.mono{font-variant-numeric:tabular-nums}
+.rr12-tb td.now{color:var(--amber);font-weight:700}
+.rr12-tb td.up{color:var(--amber)}
+.rr12-tb td.down{color:var(--cyan)}
+.rr12-tb tr.rr12-sum td{border-top:1px solid var(--line);border-bottom:none;padding-top:9px;font-weight:700;color:#e9f2fa}
+.rr12-tb tr.rr12-sum td.mono{color:#e9f2fa}
+
+/* ---------- 表14 等级小标签（低/中/高/极高） ---------- */
+.rr12-lv{display:inline-block;font-size:10px;line-height:1.5;padding:1px 6px;border-radius:5px;
+  border:1px solid transparent;color:#8fa7ba;background:#0a1727;white-space:nowrap}
+.rr12-lv.l-low{color:#62e6d2;background:#62e6d212;border-color:#62e6d233}
+.rr12-lv.l-mid{color:#73a7ff;background:#73a7ff12;border-color:#73a7ff33}
+.rr12-lv.l-high{color:#f6c66b;background:#f6c66b12;border-color:#f6c66b33}
+.rr12-lv.l-max{color:#ff7f86;background:#ff7f8612;border-color:#ff7f8633}
+.rr12-lv.on{font-weight:700;box-shadow:0 0 0 1px currentColor inset}
+.rr12-arw{color:#33506d;font-size:10px;margin:0 3px}
+
+/* ---------- KPI 卡 ---------- */
+.rr12-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:1180px){.rr12-kpis{grid-template-columns:repeat(2,1fr)}}
+.rr12-kpi{position:relative;background:#0a1727;border:1px solid var(--line);border-radius:12px;
+  padding:11px 13px 12px;overflow:hidden}
+.rr12-kpi::after{content:"";position:absolute;left:0;top:0;right:0;height:2px;
+  background:linear-gradient(90deg,#62e6d2,rgba(115,167,255,0))}
+.rr12-kpi-l{font-size:11px;color:var(--muted);letter-spacing:.02em}
+.rr12-kpi-v{font-size:24px;font-weight:750;letter-spacing:-.02em;margin-top:1px;color:#e9f2fa;
+  font-variant-numeric:tabular-nums;line-height:1.25}
+.rr12-kpi-v small{font-size:11px;font-weight:500;color:var(--muted);margin-left:4px;letter-spacing:0}
+.rr12-kpi-d{font-size:10.5px;color:var(--muted);margin-top:3px;line-height:1.5}
+.rr12-kpi-d.up{color:var(--amber)}
+.rr12-kpi-d.ok{color:var(--cyan)}
+
+/* ---------- 细进度条 ---------- */
+.rr12-meter{flex:1;min-width:0;height:6px;border-radius:99px;background:#0f2233;overflow:hidden}
+.rr12-meter>i{display:block;height:100%;border-radius:99px;
+  background:linear-gradient(90deg,#62e6d2,#73a7ff)}
+.rr12-meter>i.m-blue{background:linear-gradient(90deg,#73a7ff,#4d7fd0)}
+.rr12-meter>i.m-amber{background:linear-gradient(90deg,#f6c66b,#d9a244)}
+
+/* ---------- 信号来源拆解 ---------- */
+.rr12-src{display:flex;flex-direction:column;justify-content:center;gap:9px;
+  background:#0a1727;border:1px solid var(--line);border-radius:12px;padding:11px 13px}
+.rr12-src-h{display:flex;align-items:baseline;justify-content:space-between;
+  font-size:11px;color:var(--muted);letter-spacing:.04em}
+.rr12-src-h span{font-size:12px;color:#e9f2fa;font-weight:700;font-variant-numeric:tabular-nums}
+.rr12-src-row{display:flex;align-items:center;gap:9px}
+.rr12-src-n{width:52px;flex:none;font-size:11.5px;color:#cfe3ef}
+.rr12-src-v{width:88px;flex:none;text-align:right;font-size:10.5px;color:#b9cbdb;
+  font-family:"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+.rr12-src-f{margin-top:2px;padding-top:8px;border-top:1px solid #14283d;
+  font-size:10px;color:var(--muted);line-height:1.6}
+
+/* ---------- 事件排行 ---------- */
+.rr12-ev{font-size:12.5px;font-weight:600;color:#e9f2fa}
+.rr12-ev-id{font-size:9.5px;color:var(--muted);margin-top:1px;letter-spacing:.02em}
+.rr12-rank{display:flex;align-items:center;gap:8px}
+.rr12-rank .mono{flex:none;color:#e9f2fa;font-weight:700}
+.rr12-rankbar{flex:1;min-width:24px;height:5px;border-radius:99px;background:#0f2233;overflow:hidden}
+.rr12-rankbar>i{display:block;height:100%;border-radius:99px}
+.rr12-b-off{background:#0a1727;color:#8fa7ba;border:1px solid var(--line)}
+
+/* ---------- 渠道触达 ---------- */
+.rr12-ch{display:grid;gap:11px}
+.rr12-ch-row{display:flex;align-items:center;gap:10px}
+.rr12-ch-n{width:74px;flex:none;font-size:11.5px;color:#cfe3ef}
+.rr12-ch-meter{flex:1;min-width:40px;height:7px;border-radius:99px;background:#0f2233;overflow:hidden}
+.rr12-ch-meter>i{display:block;height:100%;border-radius:99px}
+.rr12-ch-meter>i.hi{background:linear-gradient(90deg,#62e6d2,#3fb8a6)}
+.rr12-ch-meter>i.mid{background:linear-gradient(90deg,#73a7ff,#4d7fd0)}
+.rr12-ch-meter>i.low{background:linear-gradient(90deg,#f6c66b,#d9a244)}
+.rr12-ch-v{width:126px;flex:none;text-align:right;font-size:10.5px;color:#b9cbdb;
+  font-variant-numeric:tabular-nums}
+.rr12-ch-t{width:82px;flex:none;text-align:right;font-size:10px;color:var(--muted)}
+.rr12-kv2{grid-template-columns:1fr 1fr}
+.rr12-kv2 b{font-size:12px;line-height:1.5}
+.rr12-kv4{grid-template-columns:repeat(4,1fr)}
+.rr12-kv4 b{font-size:12px;line-height:1.5}
+@media(max-width:1180px){.rr12-kv2,.rr12-kv4{grid-template-columns:1fr 1fr}}
+
+/* ---------- 决策路径：流程节点 ---------- */
+.rr12-flow{display:flex;align-items:stretch;gap:6px}
+@media(max-width:1180px){.rr12-flow{flex-wrap:wrap}}
+.rr12-node{flex:1;min-width:0;background:#0a1727;border:1px solid var(--line);border-radius:12px;
+  padding:10px 12px;position:relative}
+.rr12-node.on{border-color:#62e6d266;background:#62e6d20a;box-shadow:0 0 0 2px #62e6d214}
+.rr12-node-h{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);letter-spacing:.04em}
+.rr12-node-h b{font-family:"SF Mono",Menlo,monospace;font-size:9.5px;color:var(--cyan);
+  background:#62e6d214;padding:1px 5px;border-radius:5px;letter-spacing:0}
+.rr12-node-v{margin-top:5px;font-size:19px;font-weight:750;letter-spacing:-.02em;color:#e9f2fa;
+  font-variant-numeric:tabular-nums;line-height:1.2}
+.rr12-node-v small{font-size:10.5px;font-weight:500;color:var(--muted);margin-left:3px;letter-spacing:0}
+.rr12-node-d{margin-top:4px;font-size:10px;color:var(--muted);line-height:1.55}
+.rr12-arw2{flex:none;align-self:center;color:#2f4d69;font-size:18px;line-height:1}
+
+/* ---------- 决策路径：阈值区间带 ---------- */
+.rr12-band{position:relative;margin:26px 0 30px}
+.rr12-band-track{display:flex;height:30px;border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+.rr12-band-seg{display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:600;
+  white-space:nowrap;overflow:hidden}
+.rr12-band-seg.s4{background:rgba(115,167,255,.10);color:#8fb4e6}
+.rr12-band-seg.s3{background:rgba(115,167,255,.20);color:#a9c6f5}
+.rr12-band-seg.s2{background:rgba(246,198,107,.22);color:#f6c66b;justify-content:flex-start;padding-left:9px}
+.rr12-band-seg.s1{background:rgba(255,127,134,.26);color:#ff9ba1}
+.rr12-band-mark{position:absolute;top:-4px;bottom:0;width:0;border-left:1px dashed #62e6d2;z-index:2}
+.rr12-band-mark::after{content:"";position:absolute;left:-4px;top:-5px;width:8px;height:8px;
+  border-radius:50%;background:#62e6d2;box-shadow:0 0 0 3px rgba(98,230,210,.18)}
+.rr12-band-mark b{position:absolute;left:0;top:-22px;transform:translateX(-50%);
+  font-size:10.5px;font-weight:700;color:#62e6d2;background:#07111f;padding:0 4px;
+  white-space:nowrap;letter-spacing:.02em;font-variant-numeric:tabular-nums}
+.rr12-band-axis{position:relative;height:14px;margin-top:7px;font-size:9.5px;color:var(--muted)}
+.rr12-band-axis span{position:absolute;top:0;transform:translateX(-50%);white-space:nowrap}
+.rr12-band-axis span:first-child{transform:translateX(0)}
+.rr12-band-axis span.end{transform:translateX(-100%)}
+
+/* ---------- 决策路径：定档结论 ---------- */
+.rr12-verdict{margin-top:2px;background:#0a1727;border:1px solid var(--line);border-radius:12px;
+  padding:12px 14px;border-left:2px solid #f6c66b}
+.rr12-verdict-main{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.rr12-verdict-score{font-size:26px;font-weight:800;letter-spacing:-.03em;color:var(--amber);
+  font-variant-numeric:tabular-nums;line-height:1.2}
+.rr12-verdict-lv{font-size:13px;font-weight:700;color:#e9f2fa}
+.rr12-verdict-d{margin-top:4px;font-size:10.5px;color:var(--muted);line-height:1.65}
+
+/* ---------- 决策路径：判定要点 ---------- */
+.rr12-points{margin-top:12px;background:#0a1727;border:1px solid var(--line);border-radius:12px;padding:11px 14px}
+.rr12-points-h{font-size:10.5px;color:var(--muted);letter-spacing:.08em;margin-bottom:7px}
+.rr12-points ul{margin:0;padding-left:15px;display:grid;gap:5px}
+.rr12-points li{font-size:11px;line-height:1.6;color:#b9cbdb}
+.rr12-points li::marker{color:#3f6f8e}
+
+/* ---------- 混淆矩阵 ---------- */
+.rr12-mxwrap{display:flex;justify-content:center}
+.rr12-mx{display:grid;grid-template-columns:64px repeat(4,1fr) 50px;gap:3px;
+  width:100%;max-width:452px;font-size:11px}
+.rr12-mx-h{text-align:center;color:var(--muted);font-size:10px;letter-spacing:.06em;padding-bottom:3px}
+.rr12-mx-h.tot{color:#cfe3ef}
+.rr12-mx-corner{display:flex;align-items:flex-end;padding-bottom:3px;
+  font-size:8.5px;line-height:1.35;color:#5b7a94;letter-spacing:.02em}
+.rr12-mx-r{display:flex;align-items:center;font-size:11px;color:#cfe3ef;padding-left:2px;white-space:nowrap}
+.rr12-mx-r.tot{color:var(--muted)}
+.rr12-mx-cell{height:32px;display:flex;align-items:center;justify-content:center;border-radius:7px;
+  font-family:"SF Mono",Menlo,monospace;font-size:12px;font-variant-numeric:tabular-nums;
+  border:1px solid transparent}
+.rr12-mx-cell.diag{color:#e9f2fa;font-weight:700;border-color:rgba(98,230,210,.34)}
+.rr12-mx-cell.up{color:var(--amber);border-color:rgba(246,198,107,.28)}
+.rr12-mx-cell.zero{color:#33506d;background:#08131f;border:1px dashed #16293c;font-size:10px}
+.rr12-mx-cell.tot{color:#b9cbdb;background:#0a1727;border-color:var(--line)}
+.rr12-mx-cell.grand{color:#e9f2fa;font-weight:700;background:#10243a;border-color:#2a4b6a}
+
+/* ---------- 复核触发规则分布 ---------- */
+.rr12-trig{margin-top:10px;display:grid;gap:7px}
+.rr12-trig-h,.rr12-trig-row{display:grid;grid-template-columns:112px 56px 62px 1fr;
+  align-items:center;gap:8px}
+.rr12-trig-h{font-size:9.5px;color:#5b7a94;letter-spacing:.04em}
+.rr12-trig-h .c{text-align:right}
+.rr12-trig-n{font-size:11px;color:#cfe3ef}
+.rr12-trig-row .mono{text-align:right;font-size:10.5px;font-variant-numeric:tabular-nums}
+.rr12-trig-bar{height:6px;border-radius:99px;background:#0f2233;overflow:hidden}
+.rr12-trig-bar>i{display:block;height:100%;border-radius:99px;
+  background:linear-gradient(90deg,#f6c66b,#d9a244)}
+.rr12-trig-bar>i.hi{background:linear-gradient(90deg,#ff7f86,#d9595f)}
+
+/* ============================================================================
+   风险预警与干预 · r3 / r4 / r5 扩充样式
+   前缀约定：全部新增类以 rr345- 开头，不覆盖 system.css / styles.css 既有选择器。
+   颜色沿用页面变量：--line #1d3853、--cyan #62e6d2、--blue #73a7ff、
+   --amber #f6c66b、--red #ff7f86、--muted #8fa7ba、--panel / --panel2。
+   ============================================================================ */
+
+/* ---------- 小字与两列布局 ---------- */
+.rr345-sub{font-size:10.5px;line-height:1.7;color:#8fa7ba}
+.rr345-split{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+.rr345-chart{width:100%;min-height:180px}
+
+/* ---------- 当前事件匹配结果卡 ---------- */
+.rr345-rec{border:1px solid var(--line);border-radius:13px;background:#0a1727;padding:13px 15px}
+.rr345-rechead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+.rr345-recname{font-size:15px;font-weight:750;letter-spacing:-.01em;color:#e9f2fa;margin-top:2px}
+.rr345-score{font-size:32px;line-height:1.1;font-weight:800;letter-spacing:-.03em;color:var(--cyan)}
+.rr345-score small{font-size:11px;font-weight:600;letter-spacing:0;color:var(--muted);margin-left:5px}
+
+/* ---------- 明细行 / 排序条 ---------- */
+.rr345-kvline{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px dashed #14283d;font-size:11px;color:#8fa7ba}
+.rr345-kvline:last-child{border-bottom:0}
+.rr345-kvline b{font-size:11.5px;font-weight:700;color:#e9f2fa;text-align:right}
+.rr345-kvline .v{font-family:"SF Mono",Menlo,monospace;font-size:10.5px;color:#b9cbdb;text-align:right;white-space:nowrap}
+.rr345-ranks{display:grid;gap:7px;margin-top:11px}
+.rr345-ranks>div{display:flex;align-items:center;gap:9px;font-size:11px;color:#cfe3ef}
+.rr345-ranks .nm{flex:none;width:34px;font-family:"SF Mono",Menlo,monospace;font-size:10.5px;color:#b9cbdb}
+.rr345-bar{flex:1;height:5px;border-radius:99px;background:#132b42;overflow:hidden}
+.rr345-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#62e6d2,#73a7ff)}
+.rr345-ranks em{flex:none;width:30px;margin-left:2px;font-style:normal;text-align:right;font-family:"SF Mono",Menlo,monospace;font-size:10.5px;color:#8fa7ba}
+
+/* ---------- 可配置原型：控件 ---------- */
+.rr345-ctrlrow{display:grid;gap:11px}
+.rr345-field{display:grid;gap:6px}
+.rr345-field>span{font-size:10.5px;letter-spacing:.08em;color:#8fa7ba}
+.rr345-opts{display:flex;flex-wrap:wrap;gap:6px}
+.rr345-opt{font-size:11.5px;line-height:1.5;color:#8fa7ba;background:#0a1727;border:1px solid var(--line);border-radius:8px;padding:5px 11px;cursor:pointer;user-select:none;transition:color .12s,border-color .12s,background .12s}
+.rr345-opt:hover{color:#cfe3ef;border-color:#31506f}
+.rr345-opt.on{color:#06101d;font-weight:700;border-color:transparent;background:linear-gradient(90deg,#62e6d2,#73a7ff)}
+.rr345-outgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.rr345-out{min-width:0;background:#0a1727;border:1px solid var(--line);border-radius:11px;padding:9px 11px}
+.rr345-out .l{font-size:10.5px;color:#8fa7ba;white-space:nowrap}
+.rr345-out .v{margin-top:2px;font-size:18px;font-weight:750;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.rr345-out .d{margin-top:2px;font-size:9.5px;color:#8fa7ba;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rr345-formula{margin-top:10px;padding:8px 11px;background:#0a1727;border:1px solid var(--line);border-radius:9px;font-family:"SF Mono",Menlo,monospace;font-size:10.5px;line-height:1.9;color:#8fa7ba}
+.rr345-formula b{color:var(--cyan);font-weight:600}
+
+/* ---------- 免责标注 ---------- */
+.rr345-disclaim{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:99px;border:1px solid #f6c66b33;background:#f6c66b0f;font-size:10.5px;line-height:1.6;color:var(--amber)}
+
+/* ---------- 状态点 / 流程时效 ---------- */
+.rr345-dot{display:inline-block;width:6px;height:6px;border-radius:50%;vertical-align:middle}
+.rr345-dot.c{background:#62e6d2;box-shadow:0 0 0 3px #62e6d222}
+.rr345-dot.a{background:#f6c66b;box-shadow:0 0 0 3px #f6c66b1f}
+.rr345-dot.m{background:#5c7489}
+.rr345-flowstat{display:flex;gap:16px;flex-wrap:wrap;margin:9px 0 2px;font-size:10.5px;color:#8fa7ba}
+.rr345-flowstat>span{display:inline-flex;align-items:center;gap:6px}
+
+/* ---------- 窄屏降级：两列改单列，四宫格改两列 ---------- */
+@media (max-width:900px){
+  .rr345-split{grid-template-columns:1fr}
+  .rr345-outgrid{grid-template-columns:repeat(2,1fr)}
+}
+

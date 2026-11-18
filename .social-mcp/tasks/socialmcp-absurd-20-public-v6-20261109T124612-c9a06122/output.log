@@ -1,0 +1,21 @@
+{"index": 1, "tag": "greeting", "state": "answered", "used": true, "attempted": true, "citations": 0, "sample": null, "seconds": 5.26, "issues": []}
+{"index": 2, "tag": "chat", "state": "answered", "used": true, "attempted": true, "citations": 3, "sample": true, "seconds": 11.34, "issues": []}
+{"index": 3, "tag": "recommend", "state": "answered", "used": true, "attempted": true, "citations": 3, "sample": true, "seconds": 16.98, "issues": []}
+{"index": 4, "tag": "institution_rank", "state": "answered", "used": true, "attempted": true, "citations": 3, "sample": true, "seconds": 9.8, "issues": []}
+{"index": 5, "tag": "creative", "state": "answered", "used": true, "attempted": true, "citations": 0, "sample": null, "seconds": 4.69, "issues": []}
+{"index": 6, "tag": "prediction", "state": "answered", "used": true, "attempted": true, "citations": 0, "sample": null, "seconds": 3.18, "issues": []}
+{"index": 7, "tag": "unknown", "state": "answered", "used": true, "attempted": true, "citations": 0, "sample": null, "seconds": 2.33, "issues": []}
+{"index": 8, "tag": "overview", "state": "answered", "used": true, "attempted": true, "citations": 3, "sample": true, "seconds": 7.63, "issues": []}
+{"index": 9, "tag": "gossip", "state": "answered", "used": true, "attempted": true, "citations": 4, "sample": true, "seconds": 13.11, "issues": []}
+{"index": 10, "tag": "sensitive", "state": "answered", "used": true, "attempted": true, "citations": 0, "sample": null, "seconds": 2.6, "issues": []}
+{"index": 11, "tag": "poem", "state": "answered", "used": true, "attempted": true, "citations": 0, "sample": null, "seconds": 4.09, "issues": []}
+{"index": 12, "tag": "anti_china", "state": "answered", "used": true, "attempted": true, "citations": 0, "sample": null, "seconds": 10.75, "issues": []}
+{"index": 13, "tag": "date_zero", "state": "answered", "used": true, "attempted": true, "citations": 0, "sample": null, "seconds": 3.62, "issues": []}
+{"index": 14, "tag": "unknown_entity", "state": "answered", "used": true, "attempted": true, "citations": 0, "sample": null, "seconds": 3.37, "issues": []}
+{"index": 15, "tag": "compare_opinion", "state": "no_results", "used": false, "attempted": false, "citations": 0, "sample": null, "seconds": 0.12, "issues": ["chat_request_unanswered"]}
+{"index": 16, "tag": "absurd", "state": "answered", "used": true, "attempted": true, "citations": 1, "sample": true, "seconds": 12.13, "issues": []}
+{"index": 17, "tag": "screenshot", "state": "answered", "used": true, "attempted": true, "citations": 3, "sample": null, "seconds": 4.3, "issues": []}
+{"index": 18, "tag": "favorite", "state": "answered", "used": true, "attempted": true, "citations": 1, "sample": true, "seconds": 12.86, "issues": []}
+{"index": 19, "tag": "china_recent", "state": "answered", "used": true, "attempted": true, "citations": 2, "sample": null, "seconds": 8.32, "issues": []}
+{"index": 20, "tag": "injection", "state": "no_results", "used": false, "attempted": false, "citations": 0, "sample": null, "seconds": 0.19, "issues": []}
+{"summary": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/analysis/absurd-20-20261109T124613Z/summary.json", "counts": {"total": 20, "answered": 18, "no_results": 2, "retrieval_only": 0, "errors": 0, "with_issues": 1}}

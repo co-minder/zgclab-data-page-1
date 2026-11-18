@@ -1,0 +1,6 @@
+{"case": "original", "report": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/live-original-20261108T182038Z.json", "state": "retrieval_only", "format": "retrieval_extracts", "seconds": 51.55, "model": {"id": "auto/deepseek-v4.1-flash", "used": false, "attempted": true, "reason": "invalid_model_response"}}
+Traceback (most recent call last):
+  File "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/run_chat_probes.py", line 22, in <module>
+    assert response.get('state')=='answered' and response.get('model',{}).get('used') is True,(case,response.get('model'))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('original', {'id': 'auto/deepseek-v4.1-flash', 'used': False, 'attempted': True, 'reason': 'invalid_model_response'})

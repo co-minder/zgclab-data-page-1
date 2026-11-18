@@ -1,0 +1,1 @@
+python3 -u /home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/finish_public_release.py

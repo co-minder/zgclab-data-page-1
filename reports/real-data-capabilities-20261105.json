@@ -1,0 +1,502 @@
+{
+  "as_of_beijing": "2026-11-05",
+  "real_version": "f2a2c811aeb2ea21",
+  "source_package": "20261011-current-reviewed",
+  "generated_at": "2026-11-01T18:22:26+00:00",
+  "simulation_included": false,
+  "total": 6989,
+  "institution_types": {
+    "政府部门": 3,
+    "NGO": 7,
+    "企业": 9,
+    "科研院所": 1
+  },
+  "countries": {
+    "美国": 20
+  },
+  "angles": {
+    "news": {
+      "count": 3675,
+      "publication_provided": 3664,
+      "publication_missing": 11,
+      "publication_min_beijing": "2012-02-10",
+      "publication_max_beijing": "2026-09-26",
+      "publication_last7": 0,
+      "publication_last30": 0,
+      "translation_field_nonempty": 3675,
+      "translation_placeholder": 29,
+      "field_nonempty": {
+        "id": 0,
+        "kt_id": 3675,
+        "source": 3675,
+        "create_time": 0,
+        "update_time": 0,
+        "title_cn": 3675,
+        "title_en": 3675,
+        "summary_cn": 3675,
+        "summary_en": 3675,
+        "tag": 3675,
+        "founddate": 3675,
+        "url": 3675,
+        "content": 3675,
+        "content_cn": 3675,
+        "publish_source": 3675,
+        "publish_time": 3664
+      },
+      "raw_dates": {
+        "founddate": {
+          "provided": 3675,
+          "min_beijing": "2026-09-18",
+          "max_beijing": "2026-09-26"
+        }
+      },
+      "tags": {
+        "policy": 1409,
+        "risk": 226,
+        "technology": 393,
+        "security": 1128,
+        "other": 300,
+        "geopolitics": 219
+      }
+    },
+    "clue": {
+      "count": 1468,
+      "publication_provided": 1118,
+      "publication_missing": 350,
+      "publication_min_beijing": "1984-12-21",
+      "publication_max_beijing": "2026-11-13",
+      "publication_last7": 0,
+      "publication_last30": 1,
+      "translation_field_nonempty": 1468,
+      "translation_placeholder": 288,
+      "field_nonempty": {
+        "id": 0,
+        "clue_id": 0,
+        "task_id": 0,
+        "clue_title": 1468,
+        "clue_summary": 1468,
+        "risk_level": 1468,
+        "risk_desc": 1468,
+        "publish_channel": 1468,
+        "publish_subject": 1468,
+        "industry": 1468,
+        "discovery_time": 1468,
+        "publish_time": 1118,
+        "language": 1468,
+        "key_words": 1468,
+        "related_subject": 1468,
+        "original_url": 1468,
+        "publisher_website": 1468,
+        "publisher_type": 1468,
+        "publisher_business": 1468,
+        "publisher_domain": 1468,
+        "publisher_cn_attitude": 1468,
+        "original_content": 1468,
+        "chinese_trans": 1468,
+        "source": 1468,
+        "report_path": 1468,
+        "create_time": 0,
+        "update_time": 0,
+        "audit_status": 0,
+        "audit_opinion": 0,
+        "audit_tags": 0,
+        "audit_risk_level": 0,
+        "audit_time": 0,
+        "audit_user": 0,
+        "kt_id": 1468,
+        "is_pinned": 0
+      },
+      "raw_dates": {
+        "discovery_time": {
+          "provided": 1468,
+          "min_beijing": "2026-09-16",
+          "max_beijing": "2026-09-27"
+        }
+      },
+      "risks": {
+        "低": 348,
+        "高": 200,
+        "无法判断": 540,
+        "中": 380
+      },
+      "stance": {
+        "无法判断": 1278,
+        "中性": 55,
+        "复杂": 65,
+        "消极": 68,
+        "积极": 2
+      }
+    },
+    "social": {
+      "count": 1846,
+      "publication_provided": 1189,
+      "publication_missing": 657,
+      "publication_min_beijing": "2020-11-09",
+      "publication_max_beijing": "2026-10-09",
+      "publication_last7": 0,
+      "publication_last30": 6,
+      "translation_field_nonempty": 1846,
+      "translation_placeholder": 8,
+      "field_nonempty": {
+        "id": 0,
+        "record_id": 1846,
+        "batch_no": 1846,
+        "kt_id": 1846,
+        "platform": 1846,
+        "account_id": 1693,
+        "account_handle": 1846,
+        "account_name": 1846,
+        "account_url": 1846,
+        "content_id": 1846,
+        "content_type": 1846,
+        "content_url": 1846,
+        "title": 209,
+        "original_content": 1846,
+        "chinese_translation": 1846,
+        "language": 1846,
+        "publish_time": 1189,
+        "collected_time": 1846,
+        "keywords": 1535,
+        "mentions": 912,
+        "hashtags": 180,
+        "media_urls": 1555,
+        "attachment_urls": 10,
+        "repost_count": 1721,
+        "comment_count": 1679,
+        "like_count": 1762,
+        "view_count": 1105,
+        "source_url": 1846,
+        "content_hash": 1846,
+        "raw_json": 1815,
+        "data_status": 1846,
+        "create_time": 0,
+        "update_time": 0,
+        "del_flag": 0
+      },
+      "raw_dates": {
+        "collected_time": {
+          "provided": 1846,
+          "min_beijing": "2026-09-17",
+          "max_beijing": "2026-10-09"
+        }
+      },
+      "platforms": {
+        "X": {
+          "count": 1189,
+          "publication_provided": 1189,
+          "like_count": 1106,
+          "comment_count": 1106,
+          "repost_count": 1106,
+          "view_count": 1105
+        },
+        "Facebook": {
+          "count": 615,
+          "publication_provided": 0,
+          "like_count": 615,
+          "comment_count": 532,
+          "repost_count": 615,
+          "view_count": 0
+        },
+        "LinkedIn": {
+          "count": 42,
+          "publication_provided": 0,
+          "like_count": 41,
+          "comment_count": 41,
+          "repost_count": 0,
+          "view_count": 0
+        }
+      },
+      "accounts": 41,
+      "complete_engagement": 1638,
+      "post_types": {
+        "post": 1575,
+        "repost": 271
+      },
+      "hashtags_provided": 180,
+      "direct_attachments_provided": 10
+    }
+  },
+  "query_examples": [
+    {
+      "id": "C01",
+      "task": "全量记录",
+      "conditions": {},
+      "count": 6989,
+      "independent_match": true
+    },
+    {
+      "id": "C02",
+      "task": "CSIS 全部记录",
+      "conditions": {
+        "ids": "1000490"
+      },
+      "count": 1317,
+      "independent_match": true
+    },
+    {
+      "id": "C03",
+      "task": "企业类记录",
+      "conditions": {
+        "type": "企业"
+      },
+      "count": 826,
+      "independent_match": true
+    },
+    {
+      "id": "C04",
+      "task": "NGO 类记录",
+      "conditions": {
+        "type": "NGO"
+      },
+      "count": 2564,
+      "independent_match": true
+    },
+    {
+      "id": "C05",
+      "task": "FBI 与国土安全部",
+      "conditions": {
+        "ids": "1000110,1001140"
+      },
+      "count": 3360,
+      "independent_match": true
+    },
+    {
+      "id": "C06",
+      "task": "政府部门类记录",
+      "conditions": {
+        "type": "政府部门"
+      },
+      "count": 3378,
+      "independent_match": true
+    },
+    {
+      "id": "C07",
+      "task": "CSIS 官网线索",
+      "conditions": {
+        "angle": "clue",
+        "ids": "1000490"
+      },
+      "count": 727,
+      "independent_match": true
+    },
+    {
+      "id": "C08",
+      "task": "OpenAI 相关新闻",
+      "conditions": {
+        "angle": "news",
+        "ids": "5775050"
+      },
+      "count": 33,
+      "independent_match": true
+    },
+    {
+      "id": "C09",
+      "task": "国土安全部 X",
+      "conditions": {
+        "angle": "social",
+        "ids": "1001140",
+        "platforms": "X"
+      },
+      "count": 347,
+      "independent_match": true
+    },
+    {
+      "id": "C10",
+      "task": "企业 Facebook 或 LinkedIn",
+      "conditions": {
+        "angle": "social",
+        "type": "企业",
+        "platforms": "Facebook,LinkedIn"
+      },
+      "count": 64,
+      "independent_match": true
+    },
+    {
+      "id": "C11",
+      "task": "2026年9月社媒发布",
+      "conditions": {
+        "angle": "social",
+        "from": "2026-09-01",
+        "to": "2026-09-30"
+      },
+      "count": 699,
+      "independent_match": true
+    },
+    {
+      "id": "C12",
+      "task": "全部近7天",
+      "conditions": {
+        "period": "7"
+      },
+      "count": 0,
+      "independent_match": true
+    },
+    {
+      "id": "C13",
+      "task": "全部近30天",
+      "conditions": {
+        "period": "30"
+      },
+      "count": 7,
+      "independent_match": true
+    },
+    {
+      "id": "C14",
+      "task": "全部高风险线索",
+      "conditions": {
+        "angle": "clue",
+        "risks": "高"
+      },
+      "count": 200,
+      "independent_match": true
+    },
+    {
+      "id": "C15",
+      "task": "CSIS 高风险",
+      "conditions": {
+        "angle": "clue",
+        "ids": "1000490",
+        "risks": "高"
+      },
+      "count": 115,
+      "independent_match": true
+    },
+    {
+      "id": "C16",
+      "task": "高或中风险",
+      "conditions": {
+        "angle": "clue",
+        "risks": "高,中"
+      },
+      "count": 580,
+      "independent_match": true
+    },
+    {
+      "id": "C17",
+      "task": "OpenAI technology 新闻",
+      "conditions": {
+        "angle": "news",
+        "ids": "5775050",
+        "tags": "technology"
+      },
+      "count": 23,
+      "independent_match": true
+    },
+    {
+      "id": "C18",
+      "task": "FBI security 或 policy 新闻",
+      "conditions": {
+        "angle": "news",
+        "ids": "1000110",
+        "tags": "security,policy"
+      },
+      "count": 1144,
+      "independent_match": true
+    },
+    {
+      "id": "C19",
+      "task": "国土安全部 X 精确账号 dhsgov",
+      "conditions": {
+        "angle": "social",
+        "ids": "1001140",
+        "platforms": "X",
+        "account": "X:dhsgov"
+      },
+      "count": 332,
+      "independent_match": true
+    },
+    {
+      "id": "C20",
+      "task": "国土安全部 X 点赞至少100",
+      "conditions": {
+        "angle": "social",
+        "ids": "1001140",
+        "platforms": "X",
+        "like_countMin": "100"
+      },
+      "count": 191,
+      "independent_match": true
+    },
+    {
+      "id": "C21",
+      "task": "X 浏览至少10000",
+      "conditions": {
+        "angle": "social",
+        "platforms": "X",
+        "view_countMin": "10000"
+      },
+      "count": 237,
+      "independent_match": true
+    },
+    {
+      "id": "C22",
+      "task": "点赞100至1000",
+      "conditions": {
+        "angle": "social",
+        "like_countMin": "100",
+        "like_countMax": "1000"
+      },
+      "count": 259,
+      "independent_match": true
+    },
+    {
+      "id": "C23",
+      "task": "点赞至少100且转发至少20",
+      "conditions": {
+        "angle": "social",
+        "like_countMin": "100",
+        "repost_countMin": "20"
+      },
+      "count": 567,
+      "independent_match": true
+    },
+    {
+      "id": "C24",
+      "task": "完整互动合计至少500",
+      "conditions": {
+        "angle": "social",
+        "engagementMin": "500"
+      },
+      "count": 541,
+      "independent_match": true
+    },
+    {
+      "id": "C25",
+      "task": "缺少发布时间",
+      "conditions": {
+        "missing": "publish_time"
+      },
+      "count": 1018,
+      "independent_match": true
+    },
+    {
+      "id": "C26",
+      "task": "翻译字段为空",
+      "conditions": {
+        "translation": "missing"
+      },
+      "count": 0,
+      "independent_match": true
+    },
+    {
+      "id": "C27",
+      "task": "Facebook 全部记录",
+      "conditions": {
+        "angle": "social",
+        "platforms": "Facebook"
+      },
+      "count": 615,
+      "independent_match": true
+    },
+    {
+      "id": "C28",
+      "task": "LinkedIn 全部记录",
+      "conditions": {
+        "angle": "social",
+        "platforms": "LinkedIn"
+      },
+      "count": 42,
+      "independent_match": true
+    }
+  ]
+}

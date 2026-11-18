@@ -1,0 +1,10 @@
+{
+  "task_id": "socialmcp-chat-ui-public-refine-retry-20261109T082500-cce8cbe2",
+  "session": "socialmcp-chat-ui-public-refine-retry-20261109T082500-cce8cbe2",
+  "host": "VM-0-11-ubuntu",
+  "cwd": "/home/ubuntu/zgclab-1-web",
+  "created": "2026-11-09T08:25:00.306088+00:00",
+  "runtime_dir": "/home/ubuntu/.local/state/social-mcp/tasks/socialmcp-chat-ui-public-refine-retry-20261109T082500-cce8cbe2",
+  "log_path": "/home/ubuntu/.local/state/social-mcp/tasks/socialmcp-chat-ui-public-refine-retry-20261109T082500-cce8cbe2/output.log",
+  "result_dir": "/home/ubuntu/zgclab-1-web/.social-mcp/tasks/socialmcp-chat-ui-public-refine-retry-20261109T082500-cce8cbe2"
+}

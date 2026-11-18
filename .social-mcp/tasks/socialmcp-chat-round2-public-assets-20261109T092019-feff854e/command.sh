@@ -1,0 +1,1 @@
+python3 -u tests/chat_public_assets.py --manifest manifest-2da307047bf9dca5b95e.json --commit ef88fd7939c0333b3ba8248b8c25cadb7f9b6f71 --output reports/research-chat-public-assets-citation-20261109.json

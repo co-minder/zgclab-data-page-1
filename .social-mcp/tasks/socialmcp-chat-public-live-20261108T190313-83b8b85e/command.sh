@@ -1,0 +1,1 @@
+python3 -u tests/chat_public_release.py --manifest manifest-365700f88d660ec861e2.json --commit dbc0720224a91cd63e2f10cbb2006de821441dbb

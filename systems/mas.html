@@ -52,12 +52,81 @@
         <div class="ph"><div class="t">极化指数推演</div><div class="s">实际 vs 推演</div></div>
         <div id="pline" style="height:190px"></div>
         <div class="ks" style="margin-top:10px;grid-template-columns:1fr 1fr">
-          <div class="k"><div class="l">单轮耗时</div><div class="v">4.82<small style="font-size:12px;color:#8fa7ba"> s</small></div><div class="d">6 类角色 · 12 轮</div></div>
+          <div class="k"><div class="l">端到端单轮</div><div class="v">4.82<small style="font-size:12px;color:#8fa7ba"> s</small></div><div class="d">6 类角色 · 12 轮 · 含模型推理</div></div>
           <div class="k"><div class="l">消息吞吐</div><div class="v">1247<small style="font-size:12px;color:#8fa7ba"> 条/秒</small></div><div class="d">总线峰值</div></div>
-          <div class="k"><div class="l">关键节点识别</div><div class="v">0.78</div><div class="d">F1 · 4 类事件</div></div>
+          <div class="k"><div class="l">关键节点识别</div><div class="v">0.78</div><div class="d">F1 · 4 类事件 · ±1 轮匹配</div></div>
           <div class="k"><div class="l">当前极化指数</div><div class="v" id="curPi">0.58</div><div class="d" id="curSub">第 7 轮输出</div></div>
         </div>
       </div>
+    </div>
+
+    <div class="panel" style="margin-top:14px">
+      <div class="ph"><div class="t">事件卡片</div><div class="s">E-2f7c9a · 突发公共事件 · 快照 11-05</div></div>
+      <div class="kv">
+        <div><span>首报时间</span><b>10-18 09:00</b></div>
+        <div><span>当前阶段</span><b>群体极化临界</b></div>
+        <div><span>参与账号</span><b>1,207 个</b></div>
+        <div><span>覆盖平台</span><b>4 个</b></div>
+        <div><span>相关内容</span><b>3,842 条</b></div>
+        <div><span>主导情绪</span><b>愤怒 38%</b></div>
+        <div><span>立场分布</span><b>支持 24 / 反对 41</b></div>
+        <div><span>推演轮次</span><b>12 轮</b></div>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:14px">
+      <div class="ph"><div class="t">传播指标体系</div><div class="s">12 项 · 与 2.4.1 节口径一致</div></div>
+      <table class="tb" style="table-layout:fixed;width:100%">
+        <colgroup><col style="width:14%"><col style="width:26%"><col style="width:44%"><col style="width:16%"></colgroup>
+        <thead><tr><th>维度</th><th>指标</th><th>计算口径</th><th>取值</th></tr></thead>
+        <tbody>
+          <tr><td>广度</td><td>覆盖平台数</td><td>事件内容出现的平台数量</td><td class="mono">1–9</td></tr>
+          <tr><td>广度</td><td>参与账号数</td><td>去重后参与讨论的账号数</td><td class="mono">整数</td></tr>
+          <tr><td>广度</td><td>内容触达量</td><td>阅读/播放量的对数归一</td><td class="mono">0.00–1.00</td></tr>
+          <tr><td>速度</td><td>单位时间增量</td><td>每小时新增内容数</td><td class="mono">条/小时</td></tr>
+          <tr><td>速度</td><td>峰值到达时间</td><td>从首报到峰值的时长</td><td class="mono">小时</td></tr>
+          <tr><td>速度</td><td>扩散加速度</td><td>增量的二阶差分</td><td class="mono">条/小时²</td></tr>
+          <tr><td>强度</td><td>极性均值</td><td>情感极性加权平均</td><td class="mono">-1.00–1.00</td></tr>
+          <tr><td>强度</td><td>情绪熵</td><td>五类情绪分布的香农熵</td><td class="mono">0.00–1.00</td></tr>
+          <tr><td>强度</td><td>极端表达占比</td><td>强负面+强正面内容占比</td><td class="mono">0.00–1.00</td></tr>
+          <tr><td>分化</td><td>立场熵</td><td>支持/反对/中立分布的熵</td><td class="mono">0.00–1.00</td></tr>
+          <tr><td>分化</td><td>群体间距离</td><td>两群体立场均值之差</td><td class="mono">0–2</td></tr>
+          <tr><td>分化</td><td>对立指数</td><td>互斥引用占全部引用的比例</td><td class="mono">0.00–1.00</td></tr>
+        </tbody>
+      </table>
+      <div class="note">指标按四个维度展开，取值 0.00–1.00 的为归一化结果；事件卡片上的阶段判定由节点密度和立场熵共同确定。</div>
+    </div>
+
+    <div class="panel" style="margin-top:14px">
+      <div class="ph"><div class="t">阶段演化</div><div class="s">事件触发 → 信息扩散 → 观点表达 → 群体极化</div></div>
+      <div class="tl2">
+        <div><b>R01–R02</b><span>事件触发</span><small>首条报道，话题创建，热度 0.31</small></div>
+        <div><b>R03–R05</b><span>信息扩散</span><small>转发拐点，媒体跟进，热度 0.52</small></div>
+        <div><b>R06–R08</b><span>观点表达</span><small>立场内容上升，意见领袖入场</small></div>
+        <div><b>R09–R12</b><span>群体极化</span><small>对立话题出现，极化指数 0.58 → 0.73</small></div>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:14px">
+      <div class="ph"><div class="t">推演精度抽检</div><div class="s">近 30 日回测 · 4 类事件 · 2.4.1 / 2.4.2 口径</div></div>
+      <div class="kv">
+        <div><span>极化趋势方向准确率</span><b>76.34%</b></div>
+        <div><span>关键节点识别 F1（±1 轮匹配）</span><b>0.78</b></div>
+        <div><span>阶段判定准确率</span><b>83.3%</b></div>
+        <div><span>极化指数 MAE · 2.4.1 推演模块</span><b>0.043</b></div>
+      </div>
+      <table class="tb" style="table-layout:fixed;width:100%;margin-top:12px">
+        <colgroup><col style="width:24%"><col style="width:16%"><col style="width:16%"><col style="width:18%"><col style="width:26%"></colgroup>
+        <thead><tr><th>事件类型</th><th>回测样本数</th><th>方向正确</th><th>方向准确率</th><th>F1（±1 轮匹配）</th></tr></thead>
+        <tbody>
+          <tr><td>突发公共事件</td><td class="mono">412</td><td class="mono">326</td><td class="mono">79.13%</td><td class="mono">0.78</td></tr>
+          <tr><td>政策争议</td><td class="mono">356</td><td class="mono">269</td><td class="mono">75.56%</td><td class="mono">0.74</td></tr>
+          <tr><td>企业舆情</td><td class="mono">302</td><td class="mono">232</td><td class="mono">76.82%</td><td class="mono">0.81</td></tr>
+          <tr><td>国际议题</td><td class="mono">198</td><td class="mono">141</td><td class="mono">71.21%</td><td class="mono">0.76</td></tr>
+          <tr><td>合计</td><td class="mono">1,268</td><td class="mono">968</td><td class="mono">76.34%</td><td class="mono">0.78</td></tr>
+        </tbody>
+      </table>
+      <div class="note">方向准确率指下一轮极化指数变化方向判定正确的比例，968 / 1,268 = 76.34%；关键节点 F1 按节点时间 ±1 轮匹配，4 类事件为 0.78 / 0.74 / 0.81 / 0.76（范围 0.74–0.81），整体 0.78 取 2.4.2 表13 报告值。MAE 0.043 属 2.4.1 推演模块，与 2.4.3 风险预测模型口径不同，不混用。</div>
     </div>
   </div>
 
@@ -67,7 +136,7 @@
       <div id="nodeChart" style="height:220px"></div>
     </div>
     <div class="panel">
-      <div class="ph"><div class="t">推演关键节点</div><div class="s">E-2f7c9a · 与人工标注对照</div></div>
+      <div class="ph"><div class="t">推演关键节点</div><div class="s">E-2f7c9a · 节选 4 个节点 · 全部 8 个见下方明细</div></div>
       <table class="tb" style="table-layout:fixed;width:100%">
         <colgroup><col style="width:8%"><col style="width:14%"><col style="width:34%"><col style="width:10%"><col style="width:20%"><col style="width:14%"></colgroup>
         <thead><tr><th>轮次</th><th>时间</th><th>节点</th><th>情感极性</th><th>立场分布</th><th>与标注一致</th></tr></thead>
@@ -79,25 +148,195 @@
         </tbody>
       </table>
     </div>
+
+    <div class="ks" style="margin:14px 0">
+      <div class="k"><div class="l">关键节点识别</div><div class="v">0.78</div><div class="d">F1 · ±1 轮匹配</div></div>
+      <div class="k"><div class="l">与人工标注一致</div><div class="v">87.5%</div><div class="d">8 节点 · 8 标注 · 7 吻合</div></div>
+      <div class="k"><div class="l">平均提前量</div><div class="v">6.2<small style="font-size:12px;color:#8fa7ba"> h</small></div><div class="d">相对人工发现</div></div>
+      <div class="k"><div class="l">漏报节点</div><div class="v">1</div><div class="d">R11 次级话题</div></div>
+    </div>
+
+    <div class="panel" style="margin-bottom:14px">
+      <div class="ph"><div class="t">节点筛选</div><div class="s">按类型查看 · 试验版本</div></div>
+      <div class="chips">
+        <span class="chip on">全部 8</span><span class="chip">事件触发 1</span><span class="chip">媒体介入 2</span>
+        <span class="chip">意见领袖 1</span><span class="chip">立场转向 2</span><span class="chip">对立升级 2</span>
+      </div>
+      <div class="mini">筛选只影响列表，不改变下方图表和一致性统计；节点类型由规则和人工标注共同确定。</div>
+    </div>
+
+    <div class="panel" style="margin-bottom:14px">
+      <div class="ph"><div class="t">节点明细</div><div class="s">R1–R12 · 情感极性与立场分布</div></div>
+      <table class="tb" style="table-layout:fixed;width:100%">
+        <colgroup><col style="width:7%"><col style="width:10%"><col style="width:12%"><col style="width:29%"><col style="width:10%"><col style="width:18%"><col style="width:14%"></colgroup>
+        <thead><tr><th>轮次</th><th>节点类型</th><th>时间</th><th>事件</th><th>极性</th><th>立场（支/反/中）</th><th>一致性</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">R02</td><td>事件触发</td><td>10-18 09:00</td><td>首条报道出现，话题创建</td><td>−0.12</td><td>18 / 9 / 73</td><td><span class="badge b-cyan">一致</span></td></tr>
+          <tr><td class="mono">R03</td><td>媒体介入</td><td>10-18 11:20</td><td>地方媒体转载，报道量翻倍</td><td>−0.18</td><td>19 / 14 / 67</td><td><span class="badge b-cyan">一致</span></td></tr>
+          <tr><td class="mono">R04</td><td>媒体介入</td><td>10-18 15:00</td><td>转发量出现拐点，媒体跟进</td><td>−0.28</td><td>21 / 26 / 53</td><td><span class="badge b-cyan">一致</span></td></tr>
+          <tr><td class="mono">R05</td><td>意见领袖</td><td>10-18 20:40</td><td>两名本地博主转发并质询</td><td>−0.33</td><td>22 / 31 / 47</td><td><span class="badge b-cyan">一致</span></td></tr>
+          <tr><td class="mono">R07</td><td>立场转向</td><td>10-19 11:00</td><td>立场性内容占比上升，意见领袖入场</td><td>−0.41</td><td>24 / 41 / 35</td><td><span class="badge b-amber">部分一致</span></td></tr>
+          <tr><td class="mono">R08</td><td>立场转向</td><td>10-19 15:30</td><td>出现“延期”与“照常”两套叙事</td><td>−0.47</td><td>25 / 44 / 31</td><td><span class="badge b-cyan">一致</span></td></tr>
+          <tr><td class="mono">R10</td><td>对立升级</td><td>10-19 21:00</td><td>群体间立场距离扩大，出现对立话题</td><td>−0.53</td><td>26 / 48 / 26</td><td><span class="badge b-cyan">一致</span></td></tr>
+          <tr><td class="mono">R12</td><td>对立升级</td><td>10-20 09:00</td><td>对立话题跨平台扩散，负面占比 62%</td><td>−0.58</td><td>24 / 52 / 24</td><td><span class="badge b-amber">待复核</span></td></tr>
+        </tbody>
+      </table>
+      <div class="note">一致性口径：节点时间、类型、立场分布三项均与人工标注吻合记为“一致”；时间相差 1 轮以内、其余吻合记为“部分一致”。</div>
+    </div>
+
+    <div class="panel" style="margin-bottom:14px">
+      <div class="ph"><div class="t">节点识别方法与阈值</div><div class="s">规则候选 → 模型打分 → 人工核对</div></div>
+      <div class="flow">
+        <div class="node"><b>STEP 1</b>多源信号</div><span class="arw">→</span>
+        <div class="node"><b>STEP 2</b>规则候选</div><span class="arw">→</span>
+        <div class="node"><b>STEP 3</b>模型打分</div><span class="arw">→</span>
+        <div class="node"><b>STEP 4</b>人工核对</div><span class="arw">→</span>
+        <div class="node"><b>OUT</b>节点清单与一致性</div>
+      </div>
+      <table class="tb" style="table-layout:fixed;width:100%;margin-top:12px">
+        <colgroup><col style="width:18%"><col style="width:28%"><col style="width:32%"><col style="width:22%"></colgroup>
+        <thead><tr><th>判定维度</th><th>触发条件</th><th>说明</th><th>本轮命中</th></tr></thead>
+        <tbody>
+          <tr><td>事件触发</td><td>首条报道出现并创建话题</td><td>同一实体在多平台同时出现</td><td class="mono">R02</td></tr>
+          <tr><td>媒体介入</td><td>6 小时内 ≥3 家媒体跟进</td><td>去重媒体账号，不含单纯转载</td><td class="mono">R03、R04</td></tr>
+          <tr><td>意见领袖</td><td>影响力前 5% 账号立场转向</td><td>按账号影响力加权，不看粉丝绝对量</td><td class="mono">R05</td></tr>
+          <tr><td>立场结构</td><td>单轮立场熵变化 &gt; 0.12</td><td>反映中立群体收缩与立场重心移动</td><td class="mono">R07、R08</td></tr>
+          <tr><td>对立表达</td><td>对立指数 ≥ 0.55</td><td>互斥引用占全部引用的比例</td><td class="mono">R10、R12</td></tr>
+          <tr><td>传播增量</td><td>单位时间增量 &gt; 前 6 小时均值 + 2σ</td><td>用同事件自基线，避免绝对量阈值偏差</td><td class="mono">R04、R10</td></tr>
+        </tbody>
+      </table>
+      <div class="note">规则先产生候选，模型得分 ≥0.62 才进入节点清单；R11 次级话题得分 0.58 未过阈值，是唯一的漏报节点。8 个明细节点中 6 个一致、1 个部分一致、1 个待复核。</div>
+    </div>
   </div>
 
   <div class="pane" id="p3">
     <div class="panel">
-      <div class="ph"><div class="t">情景对比</div><div class="s">同一事件 · 三种处置强度</div></div>
+      <div class="ph"><div class="t">最终极化指数对比</div><div class="s">R1–R12 推演终值 · 同一事件</div></div>
       <div id="scn" style="height:260px"></div>
-      <div style="font-size:11px;color:#8fa7ba;margin-top:6px">最终极化指数：无干预 0.73 · 权威发布 0.61 · 核查+引导 0.55</div>
+      <div class="note">最终极化指数：无干预 0.73 · 权威发布 0.61 · 核查+引导 0.55；峰值分别为 0.74 / 0.68 / 0.66，收敛判定均在 R12 前完成。</div>
+    </div>
+
+    <div class="panel" style="margin-top:14px">
+      <div class="ph"><div class="t">情景参数</div><div class="s">介入时机 / 强度 / 渠道 / 覆盖人群</div></div>
+      <table class="tb" style="table-layout:fixed;width:100%">
+        <colgroup><col style="width:17%"><col style="width:15%"><col style="width:24%"><col style="width:27%"><col style="width:17%"></colgroup>
+        <thead><tr><th>情景</th><th>介入时机</th><th>强度</th><th>渠道</th><th>覆盖人群</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge b-red">S0 无干预</span></td><td class="mono">不介入</td><td>自然演化，仅观测</td><td>—</td><td class="mono">0%</td></tr>
+          <tr><td><span class="badge b-amber">S1 权威信息发布</span></td><td class="mono">R04 · 首报后 6 h</td><td>中 · 每日 2 条官方口径，不点名个体</td><td>政务账号 + 3 家主流媒体</td><td class="mono">约 62%</td></tr>
+          <tr><td><span class="badge b-cyan">S2 核查+引导</span></td><td class="mono">R03 · 首报后 2.3 h</td><td>高 · 核查 3 条 + 引导 5 条，分层投放</td><td>辟谣专栏 + 平台联动 + 本地意见领袖</td><td class="mono">约 78%</td></tr>
+        </tbody>
+      </table>
+      <div class="note">敏感性测试另设 S3 高强度单向管制（R02 起以删帖、限流为主，覆盖约 84%），不列入主情景，只用于评估反噬风险。覆盖人群按事件相关活跃账号估算，不是全网人口比例。</div>
+    </div>
+
+    <div class="panel" style="margin-top:14px">
+      <div class="ph"><div class="t">三情景对比</div><div class="s">终值 / 峰值 / 高位持续 / 规模 / 收益</div></div>
+      <table class="tb" style="table-layout:fixed;width:100%">
+        <colgroup><col style="width:18%"><col style="width:14%"><col style="width:10%"><col style="width:15%"><col style="width:14%"><col style="width:13%"><col style="width:16%"></colgroup>
+        <thead><tr><th>情景</th><th>最终极化指数</th><th>峰值</th><th>高位持续轮次</th><th>传播规模</th><th>综合收益</th><th>相对基线</th></tr></thead>
+        <tbody>
+          <tr><td>S0 无干预</td><td class="mono">0.73</td><td class="mono">0.74</td><td class="mono">4 轮</td><td class="mono">5.9 万条</td><td class="mono">0.34</td><td><span class="badge b-red">基线</span></td></tr>
+          <tr><td>S1 权威发布</td><td class="mono">0.61</td><td class="mono">0.68</td><td class="mono">3 轮</td><td class="mono">3.8 万条</td><td class="mono">0.52</td><td class="mono">+0.18</td></tr>
+          <tr><td>S2 核查+引导</td><td class="mono">0.55</td><td class="mono">0.66</td><td class="mono">2 轮</td><td class="mono">3.1 万条</td><td class="mono">0.68</td><td class="mono">+0.34</td></tr>
+          <tr><td>S3 高强度管制（敏感性）</td><td class="mono">0.69</td><td class="mono">0.75</td><td class="mono">5 轮</td><td class="mono">4.6 万条</td><td class="mono">0.32</td><td class="mono">−0.02</td></tr>
+        </tbody>
+      </table>
+      <div class="note">高位持续指极化指数 ≥0.60 的连续轮次；传播规模为事件全周期相关内容累计量，不是单轮快照。S3 峰值 0.75 高于无干预，是压制后反弹的表现。</div>
+    </div>
+
+    <div class="g g2" style="margin-top:14px">
+      <div class="panel">
+        <div class="ph"><div class="t">收益-风险散点</div><div class="s">横轴传播规模 · 纵轴综合收益</div></div>
+        <div id="scnRisk" style="height:300px"></div>
+      </div>
+      <div class="panel">
+        <div class="ph"><div class="t">综合收益构成</div><div class="s">权重 40 / 30 / 30</div></div>
+        <table class="tb" style="table-layout:fixed;width:100%">
+          <colgroup><col style="width:28%"><col style="width:18%"><col style="width:18%"><col style="width:18%"><col style="width:18%"></colgroup>
+          <thead><tr><th>情景</th><th>极化控制</th><th>传播控制</th><th>信任维持</th><th>综合</th></tr></thead>
+          <tbody>
+            <tr><td>S0 无干预</td><td class="mono">0.40</td><td class="mono">0.25</td><td class="mono">0.35</td><td class="mono">0.34</td></tr>
+            <tr><td>S1 权威发布</td><td class="mono">0.50</td><td class="mono">0.48</td><td class="mono">0.60</td><td class="mono">0.52</td></tr>
+            <tr><td>S2 核查+引导</td><td class="mono">0.60</td><td class="mono">0.62</td><td class="mono">0.85</td><td class="mono">0.68</td></tr>
+            <tr><td>S3 高强度管制</td><td class="mono">0.38</td><td class="mono">0.26</td><td class="mono">0.30</td><td class="mono">0.32</td></tr>
+          </tbody>
+        </table>
+        <div class="note">综合收益 = 0.4×极化控制 + 0.3×传播控制 + 0.3×信任维持；三项均为 0–1 归一化打分，信任维持由评论情感极性与官方信息采信比例合成。</div>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:14px">
+      <div class="ph"><div class="t">结论与处置建议</div><div class="s">3 个主情景 + 1 个敏感性测试</div></div>
+      <div class="tl2">
+        <div><b>结论 1</b><span>早期介入收益更高</span><small>S2 于 R03 介入，比 S1 早 1 轮（约 3.7 h）：终值低 0.06，综合收益高 0.16，在峰值前压住意见领袖入场（R05–R07）。</small></div>
+        <div><b>结论 2</b><span>强度存在阈值</span><small>以核查和分层引导为主的高强度（S2）有效；单向删帖限流的极高强度（S3）传播规模反升 0.8 万条，收益 0.32 低于基线。</small></div>
+        <div><b>结论 3</b><span>渠道决定覆盖质量</span><small>平台联动 + 本地意见领袖覆盖 78%，比单一政务发布高 16 个百分点，对立指数降幅多 0.09。</small></div>
+      </div>
+      <div class="note">情景结果为规则推演输出，用于比较处置方向与相对收益，不代表真实处置效果；S3 仅作敏感性测试，不建议作为候选方案。指标口径与 2.4.2 节一致。</div>
     </div>
   </div>
 
   <div class="pane" id="p4">
     <div class="ks" style="margin-bottom:14px">
-      <div class="k"><div class="l">本轮调用次数</div><div class="v">12</div><div class="d">6 类角色</div></div>
-      <div class="k"><div class="l">累计耗时</div><div class="v">1.26<small style="font-size:12px;color:#8fa7ba"> s</small></div><div class="d">含编排开销</div></div>
-      <div class="k"><div class="l">成功率</div><div class="v">98.2%</div><div class="d">失败重试 1.8%</div></div>
-      <div class="k"><div class="l">降级次数</div><div class="v">0</div><div class="d">本轮未触发</div></div>
+      <div class="k"><div class="l">本轮调用次数</div><div class="v">12</div><div class="d">6 类角色 · 主链 6 + 复核/分支 6</div></div>
+      <div class="k"><div class="l">编排开销</div><div class="v">1.26<small style="font-size:12px;color:#8fa7ba"> s</small></div><div class="d">不含模型推理</div></div>
+      <div class="k"><div class="l">成功率</div><div class="v">98.2%</div><div class="d">7 日 1,261 / 1,284</div></div>
+      <div class="k"><div class="l">降级次数</div><div class="v">0</div><div class="d">本轮 0 · 7 日 2</div></div>
     </div>
-    <div class="panel">
-      <div class="ph"><div class="t">智能体调用链</div><div class="s">最近一轮 · 12 次调用</div></div>
+
+    <div class="panel" style="margin-bottom:14px">
+      <div class="ph"><div class="t">编排流程</div><div class="s">编排器 → 6 类角色 → 汇总</div></div>
+      <div class="flow">
+        <div class="node"><b>ORCH</b>编排器</div><span class="arw">→</span>
+        <div class="node"><b>DAG</b>任务分解 · 黑板</div><span class="arw">→</span>
+        <div class="node"><b>POOL</b>并发调度 ≤4 路</div><span class="arw">→</span>
+        <div class="mini">按依赖下发，单次调用超时 200 ms 触发重试</div>
+      </div>
+      <div class="flow" style="margin-top:10px">
+        <div class="node"><b>01</b>态势感知</div><span class="arw">→</span>
+        <div class="node"><b>02</b>事件理解</div><span class="arw">→</span>
+        <div class="node"><b>03</b>情感与立场</div><span class="arw">→</span>
+        <div class="node"><b>04</b>传播推演</div><span class="arw">→</span>
+        <div class="node"><b>05</b>风险研判</div><span class="arw">→</span>
+        <div class="node"><b>06</b>策略评估</div><span class="arw">→</span>
+        <div class="node"><b>AGG</b>汇总输出</div>
+      </div>
+      <div class="flow" style="margin-top:10px">
+        <div class="node"><b>LOOP</b>复核回路</div><span class="arw">↺</span>
+        <div class="node"><b>05</b>风险研判</div><span class="arw">→</span>
+        <div class="node"><b>03</b>情感与立场</div>
+        <div class="mini">分歧 ≥0.15 时回查打标；R07 触发 1 次，复核后置信度 0.86</div>
+      </div>
+      <div class="note">标号为主链执行顺序；情感与立场、风险研判另有并行分支，结果经黑板合并后再进入汇总。单轮 12 次调用、编排开销 1.26 s（不含模型推理，端到端 4.82 s），与 p1 指标同口径。</div>
+    </div>
+
+    <div class="panel" style="margin-bottom:14px">
+      <div class="ph"><div class="t">分角色统计</div><div class="s">近 7 日 · 6 类角色 · 1,284 次调用</div></div>
+      <table class="tb" style="table-layout:fixed;width:100%">
+        <colgroup><col style="width:15%"><col style="width:11%"><col style="width:12%"><col style="width:10%"><col style="width:9%"><col style="width:9%"><col style="width:34%"></colgroup>
+        <thead><tr><th>角色</th><th>调用次数</th><th>平均时延</th><th>成功</th><th>重试</th><th>降级</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td>态势感知</td><td class="mono">132</td><td class="mono">58.6 ms</td><td class="mono">131</td><td class="mono">1</td><td class="mono">0</td><td>热度与传播态势拉取</td></tr>
+          <tr><td>事件理解</td><td class="mono">246</td><td class="mono">84.2 ms</td><td class="mono">242</td><td class="mono">4</td><td class="mono">0</td><td>要素抽取、阶段判定</td></tr>
+          <tr><td>情感与立场</td><td class="mono">258</td><td class="mono">51.7 ms</td><td class="mono">255</td><td class="mono">3</td><td class="mono">0</td><td>情感 / 情绪 / 立场三任务联合</td></tr>
+          <tr><td>传播推演</td><td class="mono">204</td><td class="mono">138.9 ms</td><td class="mono">199</td><td class="mono">5</td><td class="mono">0</td><td>图计算，分片超时为主</td></tr>
+          <tr><td>风险研判</td><td class="mono">216</td><td class="mono">92.4 ms</td><td class="mono">212</td><td class="mono">4</td><td class="mono">1</td><td>含一致性复核调用</td></tr>
+          <tr><td>策略评估</td><td class="mono">228</td><td class="mono">118.3 ms</td><td class="mono">222</td><td class="mono">6</td><td class="mono">1</td><td>候选模板收益评估</td></tr>
+          <tr><td>合计</td><td class="mono">1,284</td><td class="mono">91.2 ms</td><td class="mono">1,261</td><td class="mono">23</td><td class="mono">2</td><td>成功率 98.2% · 重试率 1.8%</td></tr>
+        </tbody>
+      </table>
+      <div class="note">近 7 日窗口，平均时延为角色加权均值 91.2 ms；成功 1,261 / 1,284 = 98.2%，重试 23 次（1.8%）；降级 2 次均发生在本事件（R03 风险研判、R09 策略评估）。降级指主路径不可用时改用规则兜底或默认模板，均未中断输出。</div>
+    </div>
+
+    <div class="panel" style="margin-bottom:14px">
+      <div class="ph"><div class="t">角色时延分布</div><div class="s">平均 / P95 · 单次目标 200 ms</div></div>
+      <div id="latChart" style="height:270px"></div>
+      <div class="note">传播推演 P95 226 ms 超出 200 ms 目标，主要来自图计算分片；R09 起单分片上限下调 20%，R10–R12 未再超时。时延只统计模型与工具调用，不含编排排队。</div>
+    </div>
+
+    <div class="panel" style="margin-bottom:14px">
+      <div class="ph"><div class="t">本轮调用明细</div><div class="s">12 次调用 · 主链 6 + 复核 / 分支 6</div></div>
       <table class="tb" style="table-layout:fixed;width:100%">
         <colgroup><col style="width:10%"><col style="width:12%"><col style="width:12%"><col style="width:30%"><col style="width:10%"><col style="width:10%"><col style="width:16%"></colgroup>
         <thead><tr><th>序号</th><th>调用方</th><th>被调方</th><th>动作</th><th>耗时</th><th>状态</th><th>说明</th></tr></thead>
@@ -108,8 +347,31 @@
           <tr><td class="mono">04</td><td>编排器</td><td>传播推演</td><td>第 7 轮演化计算</td><td>143.6ms</td><td><span class="badge b-cyan">成功</span></td><td>曲线更新</td></tr>
           <tr><td class="mono">05</td><td>传播推演</td><td>风险研判</td><td>等级与置信度评估</td><td>96.2ms</td><td><span class="badge b-amber">复核</span></td><td>分歧 0.18</td></tr>
           <tr><td class="mono">06</td><td>风险研判</td><td>策略评估</td><td>候选模板收益评估</td><td>121.8ms</td><td><span class="badge b-cyan">成功</span></td><td>T-01 / T-03</td></tr>
+          <tr><td class="mono">07</td><td>编排器</td><td>情感与立场</td><td>分歧复核：重打标 R7 批次</td><td>47.9ms</td><td><span class="badge b-cyan">成功</span></td><td>复核调用</td></tr>
+          <tr><td class="mono">08</td><td>编排器</td><td>风险研判</td><td>置信度二次确认</td><td>58.3ms</td><td><span class="badge b-cyan">成功</span></td><td>复核调用</td></tr>
+          <tr><td class="mono">09</td><td>编排器</td><td>策略评估</td><td>备选方案 T-03 收益评估</td><td>36.7ms</td><td><span class="badge b-cyan">成功</span></td><td>并行分支</td></tr>
+          <tr><td class="mono">10</td><td>编排器</td><td>态势感知</td><td>增量刷新热度与账号数</td><td>21.4ms</td><td><span class="badge b-cyan">成功</span></td><td>并行分支</td></tr>
+          <tr><td class="mono">11</td><td>编排器</td><td>事件理解</td><td>阶段复判（扩散 → 极化临界）</td><td>33.2ms</td><td><span class="badge b-cyan">成功</span></td><td>并行分支</td></tr>
+          <tr><td class="mono">12</td><td>编排器</td><td>汇总输出</td><td>合并 6 路结果并写黑板</td><td>44.6ms</td><td><span class="badge b-cyan">成功</span></td><td>第 7 轮输出</td></tr>
         </tbody>
       </table>
+      <div class="note">12 次调用累计 809 ms 调用时延，加 451 ms 调度与合并开销即 1.26 s 编排开销；模型推理耗时计入端到端 4.82 s，不重复计入。</div>
+    </div>
+
+    <div class="panel">
+      <div class="ph"><div class="t">重试与降级记录</div><div class="s">R1–R12 · 代表性异常 5 条</div></div>
+      <table class="tb" style="table-layout:fixed;width:100%">
+        <colgroup><col style="width:8%"><col style="width:14%"><col style="width:9%"><col style="width:26%"><col style="width:24%"><col style="width:11%"><col style="width:8%"></colgroup>
+        <thead><tr><th>轮次</th><th>角色</th><th>类型</th><th>触发原因</th><th>处理</th><th>结果</th><th>额外耗时</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">R03</td><td>风险研判</td><td><span class="badge b-red">降级</span></td><td>置信度服务超时 0.9 s</td><td>切换规则打分兜底</td><td>等级不变，置信度 0.71</td><td class="mono">+64 ms</td></tr>
+          <tr><td class="mono">R05</td><td>策略评估</td><td><span class="badge b-amber">重试</span></td><td>模板库读取超时</td><td>第 2 次请求成功</td><td>返回 T-01 / T-03</td><td class="mono">+96 ms</td></tr>
+          <tr><td class="mono">R07</td><td>风险研判</td><td><span class="badge b-amber">重试</span></td><td>与情感与立场分歧 0.18</td><td>触发一致性复核</td><td>复核通过，置信度 0.86</td><td class="mono">+121 ms</td></tr>
+          <tr><td class="mono">R09</td><td>策略评估</td><td><span class="badge b-red">降级</span></td><td>模板库版本冲突</td><td>回落默认模板 T-01</td><td>收益标注为估算</td><td class="mono">+38 ms</td></tr>
+          <tr><td class="mono">R11</td><td>情感与立场</td><td><span class="badge b-amber">重试</span></td><td>打标批次 3 超时</td><td>拆批重发</td><td>完成 3,842 条打标</td><td class="mono">+57 ms</td></tr>
+        </tbody>
+      </table>
+      <div class="note">仅列本事件 R1–R12 的 5 条代表性异常：3 次重试、2 次降级；近 7 日窗口共 23 次重试（1.8%），其余均由调度器自动完成，未改变本轮输出。本轮（R7）有 1 次复核重试，无降级。</div>
     </div>
   </div>
 
@@ -234,6 +496,63 @@ window.addEventListener('resize',function(){c.resize();s2.resize();nc.resize();}
   const rd=q.get('round');
   if(rd){var r=document.getElementById('round'); if(r){r.value=rd; r.oninput();}}
 })();
+
+/* p3：收益-风险散点 */
+const scnRisk=echarts.init(document.getElementById('scnRisk'));
+scnRisk.setOption({
+  backgroundColor:'transparent',
+  grid:{left:48,right:30,top:36,bottom:36},
+  tooltip:{trigger:'item',backgroundColor:'#0d1c2e',borderColor:'#1d3853',textStyle:{color:'#e9f2fa',fontSize:11},
+    formatter:function(p){return p.data.name+'<br/>传播规模 '+p.data.value[0]+' 万条<br/>综合收益 '+p.data.value[1].toFixed(2);}},
+  xAxis:{type:'value',name:'传播规模（万条）',min:2.6,max:6.4,nameGap:16,
+    nameTextStyle:{color:'#8fa7ba',fontSize:10},
+    axisLine:{lineStyle:{color:'#1d3853'}},axisLabel:{color:'#8fa7ba',fontSize:10},
+    splitLine:{lineStyle:{color:'#14283d'}}},
+  yAxis:{type:'value',name:'综合收益',min:0.2,max:0.8,
+    nameTextStyle:{color:'#8fa7ba',fontSize:10},
+    axisLine:{lineStyle:{color:'#1d3853'}},axisLabel:{color:'#8fa7ba',fontSize:10},
+    splitLine:{lineStyle:{color:'#14283d'}}},
+  series:[{
+    type:'scatter',symbolSize:18,
+    label:{show:true,position:'right',color:'#cfe3ef',fontSize:10,
+      formatter:function(p){return p.data.name;}},
+    data:[
+      {name:'无干预',value:[5.9,0.34],itemStyle:{color:'#ff7f86'},label:{position:'top'}},
+      {name:'权威发布',value:[3.8,0.52],itemStyle:{color:'#f6c66b'},label:{position:'right'}},
+      {name:'核查+引导',value:[3.1,0.68],itemStyle:{color:'#62e6d2'},label:{position:'right'}},
+      {name:'高强度管制（敏感性）',value:[4.6,0.32],itemStyle:{color:'#73a7ff'},symbol:'diamond',symbolSize:16,label:{position:'bottom'}}
+    ],
+    markLine:{silent:true,symbol:'none',lineStyle:{color:'#8fa7ba',type:'dashed',width:1},
+      label:{formatter:'基线 0.34',color:'#8fa7ba',fontSize:9,position:'insideStartTop'},
+      data:[{yAxis:0.34}]}
+  }]
+});
+
+/* p4：角色时延 */
+const latChart=echarts.init(document.getElementById('latChart'));
+latChart.setOption({
+  backgroundColor:'transparent',
+  grid:{left:52,right:16,top:34,bottom:28},
+  tooltip:{trigger:'axis',axisPointer:{type:'shadow'},backgroundColor:'#0d1c2e',borderColor:'#1d3853',textStyle:{color:'#e9f2fa',fontSize:11}},
+  legend:{top:0,right:0,itemWidth:8,itemHeight:8,textStyle:{color:'#8fa7ba',fontSize:10}},
+  xAxis:{type:'category',data:['态势感知','事件理解','情感与立场','传播推演','风险研判','策略评估'],
+    axisTick:{show:false},axisLine:{lineStyle:{color:'#1d3853'}},axisLabel:{color:'#8fa7ba',fontSize:10}},
+  yAxis:{type:'value',name:'ms',min:0,max:240,nameTextStyle:{color:'#8fa7ba',fontSize:10},
+    splitLine:{lineStyle:{color:'#14283d'}},axisLabel:{color:'#8fa7ba',fontSize:10}},
+  series:[
+    {name:'平均',type:'bar',barWidth:16,data:[58.6,84.2,51.7,138.9,92.4,118.3],
+      itemStyle:{color:'#62e6d2',borderRadius:[3,3,0,0]},
+      label:{show:true,position:'top',color:'#cfe3ef',fontSize:9}},
+    {name:'P95',type:'bar',barWidth:16,data:[92,141,88,226,158,197],
+      itemStyle:{color:'#73a7ff',borderRadius:[3,3,0,0]},
+      markLine:{silent:true,symbol:'none',lineStyle:{color:'#ff7f86',type:'dashed',width:1},
+        label:{formatter:'目标 200 ms',color:'#ff7f86',fontSize:9,position:'insideStartTop'},
+        data:[{yAxis:200}]}}
+  ]
+});
+
+setTimeout(function(){scnRisk.resize();latChart.resize();},80);
+window.addEventListener('resize',function(){scnRisk.resize();latChart.resize();});
 </script>
 </body>
 </html>

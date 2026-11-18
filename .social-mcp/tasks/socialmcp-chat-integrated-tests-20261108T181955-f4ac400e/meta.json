@@ -1,0 +1,10 @@
+{
+  "task_id": "socialmcp-chat-integrated-tests-20261108T181955-f4ac400e",
+  "session": "socialmcp-chat-integrated-tests-20261108T181955-f4ac400e",
+  "host": "VM-0-11-ubuntu",
+  "cwd": "/home/ubuntu/zgclab-1-web",
+  "created": "2026-11-08T18:19:55.625741+00:00",
+  "runtime_dir": "/home/ubuntu/.local/state/social-mcp/tasks/socialmcp-chat-integrated-tests-20261108T181955-f4ac400e",
+  "log_path": "/home/ubuntu/.local/state/social-mcp/tasks/socialmcp-chat-integrated-tests-20261108T181955-f4ac400e/output.log",
+  "result_dir": "/home/ubuntu/zgclab-1-web/.social-mcp/tasks/socialmcp-chat-integrated-tests-20261108T181955-f4ac400e"
+}

@@ -1,0 +1,1 @@
+python3 -u /home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/run_chat_probes.py

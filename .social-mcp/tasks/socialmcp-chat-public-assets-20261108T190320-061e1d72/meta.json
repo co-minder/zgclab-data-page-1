@@ -1,0 +1,10 @@
+{
+  "task_id": "socialmcp-chat-public-assets-20261108T190320-061e1d72",
+  "session": "socialmcp-chat-public-assets-20261108T190320-061e1d72",
+  "host": "VM-0-11-ubuntu",
+  "cwd": "/home/ubuntu/zgclab-1-web",
+  "created": "2026-11-08T19:03:20.023697+00:00",
+  "runtime_dir": "/home/ubuntu/.local/state/social-mcp/tasks/socialmcp-chat-public-assets-20261108T190320-061e1d72",
+  "log_path": "/home/ubuntu/.local/state/social-mcp/tasks/socialmcp-chat-public-assets-20261108T190320-061e1d72/output.log",
+  "result_dir": "/home/ubuntu/zgclab-1-web/.social-mcp/tasks/socialmcp-chat-public-assets-20261108T190320-061e1d72"
+}

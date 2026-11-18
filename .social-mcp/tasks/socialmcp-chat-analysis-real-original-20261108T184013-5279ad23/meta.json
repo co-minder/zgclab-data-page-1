@@ -1,0 +1,10 @@
+{
+  "task_id": "socialmcp-chat-analysis-real-original-20261108T184013-5279ad23",
+  "session": "socialmcp-chat-analysis-real-original-20261108T184013-5279ad23",
+  "host": "VM-0-11-ubuntu",
+  "cwd": "/home/ubuntu/zgclab-1-web",
+  "created": "2026-11-08T18:40:13.674356+00:00",
+  "runtime_dir": "/home/ubuntu/.local/state/social-mcp/tasks/socialmcp-chat-analysis-real-original-20261108T184013-5279ad23",
+  "log_path": "/home/ubuntu/.local/state/social-mcp/tasks/socialmcp-chat-analysis-real-original-20261108T184013-5279ad23/output.log",
+  "result_dir": "/home/ubuntu/zgclab-1-web/.social-mcp/tasks/socialmcp-chat-analysis-real-original-20261108T184013-5279ad23"
+}

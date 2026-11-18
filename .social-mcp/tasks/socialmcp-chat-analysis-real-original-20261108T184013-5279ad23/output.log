@@ -1,0 +1,140 @@
+{
+  "capture": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/analysis/live-original-diagnostic-20261108T184013Z.json",
+  "capture_sha256": "eece222e6659f2464e921348dbae57f3642ec6c2b9d5efb3e4dd9403a1744a43",
+  "transport": "authenticated_ephemeral_http",
+  "http_status": 200,
+  "seconds": 16.677,
+  "useful_validated_answer": false,
+  "state": "retrieval_only",
+  "model": {
+    "id": "auto/deepseek-v4.1-flash",
+    "used": false,
+    "attempted": true,
+    "reason": "ungrounded_model_answer"
+  },
+  "usage": {
+    "prompt_tokens": 2867,
+    "completion_tokens": 936,
+    "total_tokens": 3803
+  },
+  "validation": {
+    "level": "rejected",
+    "semantic_entailment": "not_established",
+    "accepted_claims": 0,
+    "rejected_claims": [
+      {
+        "claim_id": "K1",
+        "reason": "incomplete_or_invalid_exact_quote"
+      },
+      {
+        "claim_id": "K3",
+        "reason": "incomplete_or_invalid_exact_quote"
+      },
+      {
+        "claim_id": "K5",
+        "reason": "incomplete_or_invalid_exact_quote"
+      },
+      {
+        "claim_id": "K2",
+        "reason": "invalid_semantic_review"
+      },
+      {
+        "claim_id": "K4",
+        "reason": "invalid_semantic_review"
+      }
+    ],
+    "source_truth_verified": false
+  },
+  "calls": [
+    {
+      "phase": "generation",
+      "seconds": 5.651,
+      "usage": {
+        "prompt_tokens": 2008,
+        "completion_tokens": 580,
+        "total_tokens": 2588
+      },
+      "error_reason": null
+    },
+    {
+      "phase": "review",
+      "seconds": 10.175,
+      "usage": {
+        "prompt_tokens": 859,
+        "completion_tokens": 356,
+        "total_tokens": 1215
+      },
+      "error_reason": null
+    }
+  ],
+  "citation_audit": {
+    "allowed_ids": [
+      "C1",
+      "C4",
+      "C5",
+      "C6",
+      "C7",
+      "C10",
+      "C11",
+      "C12"
+    ],
+    "candidate_claims": [
+      {
+        "claim_id": "K1",
+        "citations": [
+          "C1"
+        ],
+        "unknown_ids": [],
+        "quote_ids": [
+          "C1"
+        ]
+      },
+      {
+        "claim_id": "K2",
+        "citations": [
+          "C5"
+        ],
+        "unknown_ids": [],
+        "quote_ids": [
+          "C5"
+        ]
+      },
+      {
+        "claim_id": "K3",
+        "citations": [
+          "C6"
+        ],
+        "unknown_ids": [],
+        "quote_ids": [
+          "C6"
+        ]
+      },
+      {
+        "claim_id": "K4",
+        "citations": [
+          "C7"
+        ],
+        "unknown_ids": [],
+        "quote_ids": [
+          "C7"
+        ]
+      },
+      {
+        "claim_id": "K5",
+        "citations": [
+          "C1",
+          "C6",
+          "C10",
+          "C11"
+        ],
+        "unknown_ids": [],
+        "quote_ids": [
+          "C1",
+          "C6",
+          "C10",
+          "C11"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "capture": "/home/ubuntu/log/zgclab-chat-upgrade-20261109/integration/live-comparison-20261108T185135Z.json",
+  "capture_sha256": "ba09a1b985e40a77062d11b27fb40360281b8c6de2c9bfbd6df6ac63c28c51ac",
+  "transport": "authenticated_ephemeral_http",
+  "http_status": 200,
+  "seconds": 9.374,
+  "useful_validated_answer": false,
+  "state": "answered",
+  "model": {
+    "id": "auto/deepseek-v4.1-flash",
+    "used": true,
+    "attempted": true,
+    "reason": null
+  },
+  "usage": {
+    "prompt_tokens": 4739,
+    "completion_tokens": 1042,
+    "total_tokens": 5781
+  },
+  "validation": {
+    "level": "exact_quotes_and_model_review",
+    "semantic_entailment": "model_reviewed_not_proven",
+    "accepted_claims": 1,
+    "rejected_claims": [
+      {
+        "claim_id": "K1",
+        "reason": "unquoted_citation"
+      },
+      {
+        "claim_id": "K2",
+        "reason": "unquoted_citation"
+      },
+      {
+        "claim_id": "K4",
+        "reason": "insufficient"
+      }
+    ],
+    "source_truth_verified": false,
+    "review_status": "completed"
+  },
+  "comparison_complete": false,
+  "answer": "分析：共同点：所引双方样本都涉及美中战略互动与军事安全，关注中国力量变化背景下的双边紧张、危机或冲突风险，并讨论美国对华战略与两军关系。 [C1][C4]\n\n数据库范围：机构=战略与国际研究中心、兰德公司；结构化筛选共 1,607 条，按实际关键词规则命中 377 条（记录去重）。[A1]\n同一关键词与日期口径下，战略与国际研究中心 321 条；兰德公司 56 条。[A1]\n时间口径：published_at，Asia/Shanghai；依据已加载真实快照，非实时报道。本次返回的非未来日期资料中，最新记录日期为 2026-09-03T16:00:31+00:00。[A2]该统计范围的资料记录日期最大值为 2026-09-24T14:00:25+00:00。[A2]当前日期基准为 2026-11-09。分析仅涉及所引证据样本，不能据此估计全库议题占比或机构全部立场。\n当前通过校验的资料未形成涵盖所选机构的完整共同点与差异分析；以上为可核验的部分内容。\n部分候选结论缺少充分证据，已省略。",
+  "calls": [
+    {
+      "phase": "generation",
+      "seconds": 6.418,
+      "usage": {
+        "prompt_tokens": 3061,
+        "completion_tokens": 913,
+        "total_tokens": 3974
+      },
+      "error_reason": null
+    },
+    {
+      "phase": "review",
+      "seconds": 2.233,
+      "usage": {
+        "prompt_tokens": 1678,
+        "completion_tokens": 129,
+        "total_tokens": 1807
+      },
+      "error_reason": null
+    }
+  ],
+  "citation_audit": {
+    "allowed_ids": [
+      "C1",
+      "C2",
+      "C3",
+      "C4",
+      "C7",
+      "C5",
+      "C12",
+      "C6"
+    ],
+    "candidate_claims": [
+      {
+        "claim_id": "K1",
+        "citations": [
+          "C1",
+          "C12",
+          "C7"
+        ],
+        "unknown_ids": [],
+        "quote_ids": [
+          "C1",
+          "C12"
+        ]
+      },
+      {
+        "claim_id": "K2",
+        "citations": [
+          "C2",
+          "C4",
+          "C5",
+          "C6"
+        ],
+        "unknown_ids": [],
+        "quote_ids": [
+          "C2",
+          "C4"
+        ]
+      },
+      {
+        "claim_id": "K3",
+        "citations": [
+          "C1",
+          "C4"
+        ],
+        "unknown_ids": [],
+        "quote_ids": [
+          "C1",
+          "C4"
+        ]
+      },
+      {
+        "claim_id": "K4",
+        "citations": [
+          "C12",
+          "C6"
+        ],
+        "unknown_ids": [],
+        "quote_ids": [
+          "C12",
+          "C6"
+        ]
+      }
+    ]
+  }
+}

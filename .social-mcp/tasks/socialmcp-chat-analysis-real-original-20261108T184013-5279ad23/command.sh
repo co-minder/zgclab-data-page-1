@@ -1,0 +1,1 @@
+PYTHONDONTWRITEBYTECODE=1 python3 -B /home/ubuntu/log/zgclab-chat-upgrade-20261109/analysis/diagnostic-original-once.py

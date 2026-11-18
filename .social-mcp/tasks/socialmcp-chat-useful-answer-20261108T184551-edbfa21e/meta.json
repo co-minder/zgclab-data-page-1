@@ -1,0 +1,10 @@
+{
+  "task_id": "socialmcp-chat-useful-answer-20261108T184551-edbfa21e",
+  "session": "socialmcp-chat-useful-answer-20261108T184551-edbfa21e",
+  "host": "VM-0-11-ubuntu",
+  "cwd": "/home/ubuntu/zgclab-1-web",
+  "created": "2026-11-08T18:45:51.193468+00:00",
+  "runtime_dir": "/home/ubuntu/.local/state/social-mcp/tasks/socialmcp-chat-useful-answer-20261108T184551-edbfa21e",
+  "log_path": "/home/ubuntu/.local/state/social-mcp/tasks/socialmcp-chat-useful-answer-20261108T184551-edbfa21e/output.log",
+  "result_dir": "/home/ubuntu/zgclab-1-web/.social-mcp/tasks/socialmcp-chat-useful-answer-20261108T184551-edbfa21e"
+}
