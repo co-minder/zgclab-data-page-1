@@ -3,18 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>多智能体推演工作台 · CEM</title>
-
+<title>多智能体推演工作台</title>
 <link rel="stylesheet" href="system.css">
 <script src="echarts.min.js"></script>
-<style>
-.tabs{display:flex;gap:6px;margin:0 0 14px;border-bottom:1px solid var(--line);padding-bottom:10px}
-.tab{padding:8px 16px;border-radius:10px;font-size:13px;color:#8fa7ba;cursor:pointer;border:1px solid transparent}
-.tab:hover{color:#cfe3ef;background:#0d1c2e}
-.tab.on{color:#06101d;background:linear-gradient(90deg,#62e6d2,#73a7ff);font-weight:700}
-.pane{display:none}
-.pane.on{display:block}
-</style>
 </head>
 <body>
 <div class="shell">
@@ -24,102 +15,106 @@
     <h1>多智能体推演工作台</h1>
     <span class="tag">试验版本 v0.9.3</span>
     <div class="sp"></div>
-    <div class="meta">事件 E-2f7c9a · 突发公共事件 · 第 7 轮 / 共 12 轮</div>
+    <div class="meta">事件 E-2f7c9a · 突发公共事件 · <span id="roundMeta">第 7 轮 / 共 12 轮</span></div>
   </div>
 
-  <div class="databar" id="databar"></div>
+  <div class="databar" id="databar"><span>数据底座</span>20 个验证机构 · 6,989 条已审核记录 · 新闻 3,675 / 官网线索 1,468 / 社媒 1,846</div>
 
-  <div class="tabs" id="masTabs"><div class="tab on" data-p="p1">推演总览</div><div class="tab" data-p="p2">关键节点</div><div class="tab" data-p="p3">情景对比</div></div>
+  <div class="tabs" id="masTabs">
+    <div class="tab on" data-p="p1">推演总览</div>
+    <div class="tab" data-p="p2">关键节点</div>
+    <div class="tab" data-p="p3">情景对比</div>
+    <div class="tab" data-p="p4">智能体调用链</div>
+  </div>
 
   <div class="pane on" id="p1">
-  <div class="g g3" style="margin-bottom:14px">
-    <!-- 左：智能体 -->
-    <div class="panel">
-      <div class="ph"><div class="t">智能体集群</div><div class="s">6 类角色 · 2 路并行</div></div>
-      <div class="agents" id="agents"></div>
-      <div class="ctrl" style="margin-top:12px">
-        <span class="badge b-cyan">协同框架正常</span>
-        <span class="badge b-blue">黑板 · 消息总线</span>
-      </div>
-    </div>
-
-    <!-- 中：日志与控制 -->
-    <div class="panel">
-      <div class="ph"><div class="t">推演日志</div><div class="s">事件注入 → 态势 → 交互 → 演化 → 风险输出</div></div>
-      <div class="log" id="log"></div>
-      <div class="ctrl">
-        <span class="lb">轮次</span>
-        <input class="range" type="range" min="1" max="12" value="7" id="round">
-        <span class="lb" id="roundTxt">7 / 12</span>
-        <div class="seg" id="mode">
-          <span class="on">单情景</span><span>多情景对比</span>
+    <div class="g g3">
+      <div class="panel">
+        <div class="ph"><div class="t">智能体集群</div><div class="s">6 类角色 · 2 路并行</div></div>
+        <div class="agents" id="agents"></div>
+        <div class="ctrl" style="margin-top:12px">
+          <span class="badge b-cyan">协同框架正常</span>
+          <span class="badge b-blue">黑板 · 消息总线</span>
         </div>
-        <button class="btn">继续推演</button>
+      </div>
+      <div class="panel">
+        <div class="ph"><div class="t">推演日志</div><div class="s">事件注入 → 态势 → 交互 → 演化 → 风险输出</div></div>
+        <div class="log" id="log"></div>
+        <div class="ctrl">
+          <span class="lb">轮次</span>
+          <input class="range" type="range" min="1" max="12" value="7" id="round">
+          <span class="lb" id="roundTxt">7 / 12</span>
+          <div class="seg" id="mode"><span class="on">单情景</span><span>多情景对比</span></div>
+          <button class="btn" id="runBtn">继续推演</button>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="ph"><div class="t">极化指数推演</div><div class="s">实际 vs 推演</div></div>
+        <div id="pline" style="height:190px"></div>
+        <div class="ks" style="margin-top:10px;grid-template-columns:1fr 1fr">
+          <div class="k"><div class="l">单轮耗时</div><div class="v">4.82<small style="font-size:12px;color:#8fa7ba"> s</small></div><div class="d">6 类角色 · 12 轮</div></div>
+          <div class="k"><div class="l">消息吞吐</div><div class="v">1247<small style="font-size:12px;color:#8fa7ba"> 条/秒</small></div><div class="d">总线峰值</div></div>
+          <div class="k"><div class="l">关键节点识别</div><div class="v">0.78</div><div class="d">F1 · 4 类事件</div></div>
+          <div class="k"><div class="l">当前极化指数</div><div class="v" id="curPi">0.58</div><div class="d">第 7 轮输出</div></div>
+        </div>
       </div>
     </div>
-
-    <!-- 右：曲线与指标 -->
-    <div class="panel">
-      <div class="ph"><div class="t">极化指数推演</div><div class="s">实际 vs 推演</div></div>
-      <div id="pline" style="height:190px"></div>
-      <div class="ks" style="margin-top:10px;grid-template-columns:1fr 1fr">
-        <div class="k"><div class="l">单轮耗时</div><div class="v">4.82<small style="font-size:12px;color:#8fa7ba"> s</small></div><div class="d">6 类角色 · 12 轮</div></div>
-        <div class="k"><div class="l">消息吞吐</div><div class="v">1247<small style="font-size:12px;color:#8fa7ba"> 条/秒</small></div><div class="d">总线峰值</div></div>
-        <div class="k"><div class="l">关键节点识别</div><div class="v">0.78</div><div class="d">F1 · 4 类事件</div></div>
-        <div class="k"><div class="l">置信度</div><div class="v">0.86</div><div class="d">一致性校验通过</div></div>
-      </div>
-    </div>
-  </div>
-
   </div>
 
   <div class="pane" id="p2">
-  <div class="g g2" style="grid-template-columns:1.55fr 1fr">
-  <div class="panel">
-    <div class="ph"><div class="t">推演关键节点</div><div class="s">E-2f7c9a · 与人工标注对照</div></div>
-    <table class="tb" style="table-layout:fixed;width:100%">
-      <thead><tr><th style="width:8%">轮次</th><th style="width:14%">时间</th><th style="width:36%">节点</th><th style="width:10%">情感极性</th><th style="width:18%">立场分布</th><th style="width:14%">与标注一致</th></tr></thead>
-      <tbody>
-        <tr><td class="mono">R02</td><td>10-18 09:00</td><td>首条报道出现，话题创建</td><td>−0.12</td><td>支 18 / 反 9 / 中 73</td><td><span class="badge b-cyan">一致</span></td></tr>
-        <tr><td class="mono">R04</td><td>10-18 15:00</td><td>转发量出现拐点，媒体跟进</td><td>−0.28</td><td>支 21 / 反 26 / 中 53</td><td><span class="badge b-cyan">一致</span></td></tr>
-        <tr><td class="mono">R07</td><td>10-19 11:00</td><td>立场性内容占比上升，意见领袖入场</td><td>−0.41</td><td>支 24 / 反 41 / 中 35</td><td><span class="badge b-amber">部分一致</span></td></tr>
-        <tr><td class="mono">R10</td><td>10-19 21:00</td><td>群体间立场距离扩大，出现对立话题</td><td>−0.53</td><td>支 26 / 反 48 / 中 26</td><td><span class="badge b-cyan">一致</span></td></tr>
-      </tbody>
-    </table>
-  </div>
-  </div>
-  <div class="pane" id="p3">
-  <div class="panel">
-    <div class="ph"><div class="t">情景对比</div><div class="s">同一事件 · 三种处置强度</div></div>
-    <div id="scn" style="height:210px"></div>
-    <div style="font-size:11px;color:#8fa7ba;margin-top:6px">最终极化指数：无干预 0.73 · 权威发布 0.61 · 核查+引导 0.55</div>
-  </div>
+    <div class="panel">
+      <div class="ph"><div class="t">推演关键节点</div><div class="s">E-2f7c9a · 与人工标注对照</div></div>
+      <table class="tb" style="table-layout:fixed;width:100%">
+        <colgroup><col style="width:8%"><col style="width:14%"><col style="width:34%"><col style="width:10%"><col style="width:20%"><col style="width:14%"></colgroup>
+        <thead><tr><th>轮次</th><th>时间</th><th>节点</th><th>情感极性</th><th>立场分布</th><th>与标注一致</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">R02</td><td>10-18 09:00</td><td>首条报道出现，话题创建</td><td>−0.12</td><td>支 18 / 反 9 / 中 73</td><td><span class="badge b-cyan">一致</span></td></tr>
+          <tr><td class="mono">R04</td><td>10-18 15:00</td><td>转发量出现拐点，媒体跟进</td><td>−0.28</td><td>支 21 / 反 26 / 中 53</td><td><span class="badge b-cyan">一致</span></td></tr>
+          <tr><td class="mono">R07</td><td>10-19 11:00</td><td>立场性内容占比上升，意见领袖入场</td><td>−0.41</td><td>支 24 / 反 41 / 中 35</td><td><span class="badge b-amber">部分一致</span></td></tr>
+          <tr><td class="mono">R10</td><td>10-19 21:00</td><td>群体间立场距离扩大，出现对立话题</td><td>−0.53</td><td>支 26 / 反 48 / 中 26</td><td><span class="badge b-cyan">一致</span></td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
-  <div class="panel" style="margin-top:14px">
-    <div class="ph"><div class="t">数据底座</div><div class="s">来自 ZGCLab 数据平台已审核快照</div></div>
-    <table class="tb" id="instTable">
-      <thead><tr><th style="width:120px">机构编号</th><th>机构名称</th><th style="width:90px">类型</th><th style="width:80px">舆情</th><th style="width:80px">线索</th><th style="width:80px">社媒</th><th style="width:80px">合计</th></tr></thead>
-      <tbody></tbody>
-    </table>
+  <div class="pane" id="p3">
+    <div class="panel">
+      <div class="ph"><div class="t">情景对比</div><div class="s">同一事件 · 三种处置强度</div></div>
+      <div id="scn" style="height:260px"></div>
+      <div style="font-size:11px;color:#8fa7ba;margin-top:6px">最终极化指数：无干预 0.73 · 权威发布 0.61 · 核查+引导 0.55</div>
+    </div>
+  </div>
+
+  <div class="pane" id="p4">
+    <div class="panel">
+      <div class="ph"><div class="t">智能体调用链</div><div class="s">最近一轮 · 12 次调用</div></div>
+      <table class="tb" style="table-layout:fixed;width:100%">
+        <colgroup><col style="width:10%"><col style="width:12%"><col style="width:12%"><col style="width:30%"><col style="width:10%"><col style="width:10%"><col style="width:16%"></colgroup>
+        <thead><tr><th>序号</th><th>调用方</th><th>被调方</th><th>动作</th><th>耗时</th><th>状态</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">01</td><td>编排器</td><td>态势感知</td><td>拉取事件热度与传播态势</td><td>62.4ms</td><td><span class="badge b-cyan">成功</span></td><td>返回态势卡片</td></tr>
+          <tr><td class="mono">02</td><td>编排器</td><td>事件理解</td><td>抽取要素并判定阶段</td><td>88.7ms</td><td><span class="badge b-cyan">成功</span></td><td>阶段=扩散</td></tr>
+          <tr><td class="mono">03</td><td>事件理解</td><td>情感与立场</td><td>对 3,842 条评论打标</td><td>54.3ms</td><td><span class="badge b-cyan">成功</span></td><td>三任务联合</td></tr>
+          <tr><td class="mono">04</td><td>编排器</td><td>传播推演</td><td>第 7 轮演化计算</td><td>143.6ms</td><td><span class="badge b-cyan">成功</span></td><td>曲线更新</td></tr>
+          <tr><td class="mono">05</td><td>传播推演</td><td>风险研判</td><td>等级与置信度评估</td><td>96.2ms</td><td><span class="badge b-amber">复核</span></td><td>分歧 0.18</td></tr>
+          <tr><td class="mono">06</td><td>风险研判</td><td>策略评估</td><td>候选模板收益评估</td><td>121.8ms</td><td><span class="badge b-cyan">成功</span></td><td>T-01 / T-03</td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
 </div>
 
-<script src="../data/meta.js"></script>
 <script>
-(function(){
-  const M = window.ZGCLAB_META || {};
-  const tot = M.totals || {};
-  const sum = (tot.news||0)+(tot.clue||0)+(tot.social||0);
-  const el = document.getElementById('databar');
-  if (el) el.innerHTML = `<span>数据底座</span><b>${(M.scope&&M.scope.units)||20}</b> 个验证机构 · <b>${sum.toLocaleString()}</b> 条已审核记录 · 新闻 ${(tot.news||0).toLocaleString()} / 官网线索 ${(tot.clue||0).toLocaleString()} / 社媒 ${(tot.social||0).toLocaleString()}`;
-  const tb = document.querySelector('#instTable tbody');
-  if (tb && M.institutions) {
-    const rows = M.institutions.slice().sort((a,b)=>((b.counts.news+b.counts.clue+b.counts.social)-(a.counts.news+a.counts.clue+a.counts.social))).slice(0,5);
-    tb.innerHTML = rows.map(r=>`<tr><td class="mono">${r.ktid}</td><td>${r.cn}</td><td>${r.type}</td><td class="mono">${r.counts.news}</td><td class="mono">${r.counts.clue}</td><td class="mono">${r.counts.social}</td><td class="mono">${r.counts.news+r.counts.clue+r.counts.social}</td></tr>`).join('');
-  }
-})();
+document.querySelectorAll('#masTabs .tab').forEach(function(tab){
+  tab.onclick=function(){
+    document.querySelectorAll('#masTabs .tab').forEach(function(x){x.classList.remove('on')});
+    tab.classList.add('on');
+    document.querySelectorAll('.pane').forEach(function(p){p.classList.remove('on')});
+    var el=document.getElementById(tab.dataset.p); if(el) el.classList.add('on');
+    setTimeout(function(){ window.dispatchEvent(new Event('resize')); },30);
+  };
+});
 
 const agents=[
   ["态势感知","事件发现与热度跟踪","#62e6d2","62.4 ms","运行"],
@@ -148,30 +143,51 @@ const logs=[
  ["09:12:19","info","策略评估：候选模板 T-01 / T-03"],
  ["09:12:21","ok","第 7 轮输出：极化指数 0.58，等级「二级」"]
 ];
-document.getElementById('log').innerHTML=logs.map(l=>`<div><span class="ts">${l[0]}</span><span class="${l[1]}">${l[2]}</span></div>`).join('');
-document.getElementById('log').scrollTop=9999;
+const logEl=document.getElementById('log');
+function renderLog(){ logEl.innerHTML=logs.map(l=>`<div><span class="ts">${l[0]}</span><span class="${l[1]}">${l[2]}</span></div>`).join(''); logEl.scrollTop=9999; }
+renderLog();
 
-const round=document.getElementById('round'), rt=document.getElementById('roundTxt');
-round.oninput=()=>{rt.textContent=round.value+' / 12';};
+const rounds=['R1','R2','R3','R4','R5','R6','R7','R8','R9','R10','R11','R12'];
+const actual=[.12,.21,.27,.33,.39,.44,.50,.55,.61,.66,.70,.73];
+const pred=[.11,.20,.28,.32,.40,.45,.49,.56,.60,.67,.69,.74];
+const pi=[.12,.21,.28,.33,.40,.45,.49,.56,.61,.67,.70,.74];
 
+const c=echarts.init(document.getElementById('pline'));
+function drawLine(n){
+  c.setOption({
+    backgroundColor:'transparent',
+    grid:{left:34,right:12,top:26,bottom:22},
+    tooltip:{trigger:'axis',backgroundColor:'#0d1c2e',borderColor:'#1d3853',textStyle:{color:'#e9f2fa',fontSize:11}},
+    legend:{show:true,top:0,right:0,itemWidth:8,itemHeight:8,textStyle:{color:'#8fa7ba',fontSize:10}},
+    xAxis:{type:'category',data:rounds,axisLine:{lineStyle:{color:'#1d3853'}},axisLabel:{color:'#8fa7ba',fontSize:10},axisTick:{show:false}},
+    yAxis:{type:'value',min:0,max:1,splitLine:{lineStyle:{color:'#14283d'}},axisLabel:{color:'#8fa7ba',fontSize:10}},
+    series:[
+      {name:'实际',type:'line',smooth:true,symbolSize:4,data:actual.map((v,i)=>i<n?v:null),lineStyle:{color:'#62e6d2',width:2.5},itemStyle:{color:'#62e6d2'},areaStyle:{color:'#62e6d21a'}},
+      {name:'推演',type:'line',smooth:true,symbolSize:4,data:pred.map((v,i)=>i<n?v:null),lineStyle:{color:'#73a7ff',width:2,type:'dashed'},itemStyle:{color:'#73a7ff'}}
+    ]
+  }, true);
+}
+drawLine(7);
+
+const round=document.getElementById('round'), rt=document.getElementById('roundTxt'), rm=document.getElementById('roundMeta'), cur=document.getElementById('curPi');
+round.oninput=function(){
+  const n=+round.value;
+  rt.textContent=n+' / 12';
+  rm.textContent='第 '+n+' 轮 / 共 12 轮';
+  drawLine(n);
+  cur.textContent=pi[n-1].toFixed(2);
+};
+document.getElementById('runBtn').onclick=function(){
+  let n=+round.value; n=n>=12?1:n+1; round.value=n; round.oninput();
+  const t=new Date(); const ts=[t.getHours(),t.getMinutes(),t.getSeconds()].map(x=>String(x).padStart(2,'0')).join(':');
+  logs.push([ts,'ok','第 '+n+' 轮推演完成：极化指数 '+pi[n-1].toFixed(2)]);
+  if(logs.length>14) logs.shift();
+  renderLog();
+};
 document.querySelectorAll('#mode span').forEach(s=>s.onclick=()=>{
   document.querySelectorAll('#mode span').forEach(x=>x.classList.remove('on')); s.classList.add('on');
 });
 
-const c=echarts.init(document.getElementById('pline'));
-const rounds=['R1','R2','R3','R4','R5','R6','R7','R8','R9','R10','R11','R12'];
-c.setOption({
-  backgroundColor:'transparent',
-  grid:{left:34,right:12,top:26,bottom:22},
-  tooltip:{trigger:'axis',backgroundColor:'#0d1c2e',borderColor:'#1d3853',textStyle:{color:'#e9f2fa',fontSize:11}},
-  legend:{show:true,top:0,right:0,itemWidth:8,itemHeight:8,textStyle:{color:'#8fa7ba',fontSize:10}},
-  xAxis:{type:'category',data:rounds,axisLine:{lineStyle:{color:'#1d3853'}},axisLabel:{color:'#8fa7ba',fontSize:10},axisTick:{show:false}},
-  yAxis:{type:'value',min:0,max:1,splitLine:{lineStyle:{color:'#14283d'}},axisLabel:{color:'#8fa7ba',fontSize:10}},
-  series:[
-    {name:'实际',type:'line',smooth:true,symbolSize:4,data:[.12,.21,.27,.33,.39,.44,.50,.55,.61,.66,.70,.73],lineStyle:{color:'#62e6d2',width:2.5},itemStyle:{color:'#62e6d2'},areaStyle:{color:'#62e6d21a'}},
-    {name:'推演',type:'line',smooth:true,symbolSize:4,data:[.11,.20,.28,.32,.40,.45,.49,.56,.60,.67,.69,.74],lineStyle:{color:'#73a7ff',width:2,type:'dashed'},itemStyle:{color:'#73a7ff'}}
-  ]
-});
 const s2=echarts.init(document.getElementById('scn'));
 s2.setOption({
   backgroundColor:'transparent',
@@ -184,17 +200,7 @@ s2.setOption({
       {value:0.55,itemStyle:{color:'#62e6d2'}}],
     label:{show:true,position:'top',color:'#cfe3ef',fontSize:11}}]
 });
-window.addEventListener('resize',()=>{c.resize();s2.resize();});
-
-document.querySelectorAll('#masTabs .tab').forEach(function(tab){
-  tab.onclick=function(){
-    document.querySelectorAll('#masTabs .tab').forEach(function(x){x.classList.remove('on')});
-    tab.classList.add('on');
-    document.querySelectorAll('.pane').forEach(function(p){p.classList.remove('on')});
-    var el=document.getElementById(tab.dataset.p); if(el) el.classList.add('on');
-    setTimeout(function(){ window.dispatchEvent(new Event('resize')); },30);
-  };
-});
+window.addEventListener('resize',function(){c.resize();s2.resize();});
 </script>
 </body>
 </html>

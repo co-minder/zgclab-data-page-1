@@ -85,3 +85,10 @@ table.tb tr:last-child td{border-bottom:none}
   border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-bottom:14px;background:#0a1727}
 .databar span{color:var(--cyan);font-weight:700;letter-spacing:.08em;font-size:11px}
 .databar b{color:#e9f2fa}
+
+.tabs{display:flex;gap:6px;margin:0 0 14px;border-bottom:1px solid var(--line);padding-bottom:10px}
+.tab{padding:8px 16px;border-radius:10px;font-size:13px;color:#8fa7ba;cursor:pointer;border:1px solid transparent}
+.tab:hover{color:#cfe3ef;background:#0d1c2e}
+.tab.on{color:#06101d;background:linear-gradient(90deg,#62e6d2,#73a7ff);font-weight:700}
+.pane{display:none}
+.pane.on{display:block}
