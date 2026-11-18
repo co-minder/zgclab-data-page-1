@@ -789,8 +789,6 @@ const MAS_HTML = `
       </table>
       <div class="note">仅列本事件 R1–R12 的 5 条代表性异常：3 次重试、2 次降级；近 7 日窗口共 23 次重试（1.8%），其余均由调度器自动完成，未改变本轮输出。本轮（R7）有 1 次复核重试，无降级。</div>
     </div>
-  </div>
-
 
     <!-- ==== MAS p4 扩充开始（由 enrich/merge.py 注入）==== -->
 
@@ -807,7 +805,7 @@ const MAS_HTML = `
         <div class="mp4-ph-b" style="width:73.9%"><b>模型推理</b><span>3.56 s · 73.9%</span></div>
       </div>
 
-      <div id="mp4-gantt" style="height:238px;width:100%"></div>
+      <div id="mp4-gantt" style="height:212px;width:100%"></div>
 
       <div class="mp4-legend">
         <span><i style="background:#73a7ff"></i>编排调用 4 段</span>
@@ -925,7 +923,7 @@ const MAS_HTML = `
           <div class="s">三层缓存 · 命中 5,785 / 9,540 tokens · 60.6%</div>
         </div>
         <div class="mp4-mini">三层缓存命中构成（token）</div>
-        <div id="mp4-cache" style="height:170px;width:100%"></div>
+        <div id="mp4-cache" style="height:178px;width:100%"></div>
         <div class="mp4-mini" style="margin-top:10px">分轮缓存命中率（R1–R12）</div>
         <div id="mp4-cacheRound" style="height:142px;width:100%"></div>
         <div class="mp4-legend">
@@ -999,6 +997,8 @@ const MAS_HTML = `
       </div>
     </div>
     <!-- ==== MAS p4 扩充结束 ==== -->
+  </div>
+
 `;
 const RISK_HTML = `
 
@@ -1909,9 +1909,12 @@ const RISK_HTML = `
           <div class="rr345-kvline"><span>匹配方式</span><span class="v">1:1 PSM · 卡钳 0.05</span></div>
           <div class="rr345-kvline"><span>协变量</span><span class="v">极化 / 对立 / 平台 / 活跃度</span></div>
           <div class="rr345-kvline"><span>共同支撑域</span><span class="v">0.18–0.92 · 覆盖 96.2%</span></div>
-          <div class="rr345-kvline"><span>观测窗口</span><span class="v">10-18 09:00 → 10-21 09:00</span></div>
+          <div class="rr345-kvline"><span>推演时窗</span><span class="v">0–72h · 主终点 24h</span></div>
+          <div class="rr345-kvline"><span>基线时点</span><span class="v">10-19 21:00 快照</span></div>
           <div class="rr345-kvline"><span>样本量依据</span><span class="v">d=0.12 · α=0.05 · power=0.80</span></div>
           <div class="rr345-kvline"><span>实际效应量</span><b>d=0.46 &gt; MDE 0.12</b></div>
+          <div class="rr345-kvline"><span>对照组 24h 变化</span><span class="v">−0.002（0.731 → 0.729）</span></div>
+          <div class="rr345-kvline"><span>DID 净效应（主终点）</span><b>−0.082</b></div>
           <div class="note">对照组来自同一推演环境的未干预分支，不是真实世界对照组；DID 估计量 =（处理后 − 处理前）−（对照后 − 对照前），仅用于推演环境内部比较。推演环境仿真，未经真实业务检验。</div>
         </div>
       </div>
@@ -1932,6 +1935,8 @@ const RISK_HTML = `
         </table>
         <div class="note">检验方法：配对 t 检验 + Bootstrap 10,000 次重抽样（百分位法），双侧；多重比较按 Bonferroni 校正，4 项指标校正后 α′=0.0125，均通过。效应量按 Cohen 标准（0.2 小 / 0.5 中 / 0.8 大），4 项为小到中等效应但显著高于最小可检测效应 0.12。</div>
         <div class="note" style="margin-top:2px">尺度说明：综合分值 0.74（七维加权，越大越危险）与极化指数 0.734（0–1，越大越极化）是两套尺度；综合收益 0–1 越大越好，不与风险阈值 0.82 比较。</div>
+        <div class="note" style="margin-top:2px">表中变化为处理组前后差（原始变化）；对照组同期仅 −0.002，扣除后 DID 净效应 −0.082（主终点）。效应量按配对样本计算，不随对照组变化而重估。</div>
+        <div class="rr345-formula" style="margin-top:8px">DID（极化指数 · 主终点）= (0.650 − 0.734) − (0.729 − 0.731) = −0.084 − (−0.002) = <b>−0.082</b><br>ATT（平均处理效应）取主终点 24h，次要终点 72h 仅用于衰减曲线。</div>
       </div>
       <div class="panel">
         <div class="ph"><div class="t">效应量与 95% CI</div><div class="s">Cohen's d · 随机效应合并</div></div>
@@ -1940,7 +1945,7 @@ const RISK_HTML = `
         <div class="rr345-kvline"><span>校正后显著性水平</span><span class="v">α′ = 0.0125</span></div>
         <div class="rr345-kvline"><span>最小可检测效应</span><span class="v">d = 0.12</span></div>
         <div class="rr345-kvline"><span>功效</span><span class="v">&gt;0.99（d=0.46）</span></div>
-        <div class="note">所有 p 值与效应量均来自推演环境仿真（处理 / 对照各 10,000 次），未经真实业务检验，仅用于方案比较，不代表真实世界因果效应。</div>
+        <div class="note">虚线为 0.2 / 0.5 效应量参考线（小 / 中效应），合并效应 0.40 位于两者之间。所有 p 值与效应量均来自推演环境仿真（处理 / 对照各 10,000 次），未经真实业务检验，仅用于方案比较，不代表真实世界因果效应。</div>
       </div>
     </div>
 
@@ -2032,8 +2037,6 @@ const RISK_HTML = `
       </div>
       <div class="note">报告数值由推演环境生成，未经真实业务校验；引用时以本页版本号与快照时间为准。</div>
     </div>
-  </div>
-
 
     <!-- ==== RISK r5 扩充开始（由 enrich/merge.py 注入）==== -->
     <!-- ============================================================================
@@ -2062,7 +2065,7 @@ const RISK_HTML = `
         <div><span>图表</span><b>6 图 · 2 表</b></div>
         <div><span>引用标注</span><b>24 处 · 附件 3 个</b></div>
       </div>
-      <div class="note">章节顺序对应专报模板 v1.2 的固定结构；字数不含附件；生成时按模板自动分章，人工修订只允许在「处置建议」章增补。章节与附件版本号保持同版（详见下方附件绑定）。</div>
+      <div class="note">上方正文预览为 v1.0 摘要（4 章，生成于 10-19 21:00）；本表按 v1.2 结构统计——v1.1 补入复核结论与置信度，v1.2 于 10-20 09:15 追加「效果与复盘」章并回写 24h 推演效果。章节顺序对应专报模板 v1.2 的固定结构，字数不含附件；生成时按模板自动分章，人工修订只允许在「处置建议」章增补。章节与附件版本号保持同版（详见下方附件绑定）。</div>
     </div>
 
     <div class="panel" style="margin-top:14px">
@@ -2145,9 +2148,9 @@ const RISK_HTML = `
         <colgroup><col style="width:24%"><col style="width:17%"><col style="width:20%"><col style="width:14%"><col style="width:14%"><col style="width:11%"></colgroup>
         <thead><tr><th>附件</th><th>源数据集</th><th>记录 / 条目</th><th style="text-align:center">首次生成</th><th style="text-align:center">最近重生成</th><th style="text-align:center">绑定版本</th></tr></thead>
         <tbody>
-          <tr><td>附件 1 传播时间线</td><td class="rr345-sub">新闻 3,675 + 社媒 1,846</td><td class="mono">5,521 条</td><td class="mono" style="text-align:center">21:00</td><td class="mono" style="text-align:center">21:40</td><td style="text-align:center"><span class="badge b-blue">v1.1</span></td></tr>
-          <tr><td>附件 2 七维评分明细</td><td class="rr345-sub">20 机构 · 6,989 条</td><td class="mono">6,989 条</td><td class="mono" style="text-align:center">21:00</td><td class="mono" style="text-align:center">21:40</td><td style="text-align:center"><span class="badge b-blue">v1.1</span></td></tr>
-          <tr><td>附件 3 干预话术与口径</td><td class="rr345-sub">T-01~T-04 · 口径 v3</td><td class="mono">4 套 / 19 条</td><td class="mono" style="text-align:center">21:02</td><td class="mono" style="text-align:center">21:42</td><td style="text-align:center"><span class="badge b-blue">v1.1</span></td></tr>
+          <tr><td>附件 1 传播时间线</td><td class="rr345-sub">新闻 3,675 + 社媒 1,846</td><td class="mono">5,521 条</td><td class="mono" style="text-align:center">10-19 21:00</td><td class="mono" style="text-align:center">10-19 21:40</td><td style="text-align:center"><span class="badge b-blue">v1.1</span></td></tr>
+          <tr><td>附件 2 七维评分明细</td><td class="rr345-sub">20 机构 · 6,989 条</td><td class="mono">6,989 条</td><td class="mono" style="text-align:center">10-19 21:00</td><td class="mono" style="text-align:center">10-19 21:40</td><td style="text-align:center"><span class="badge b-blue">v1.1</span></td></tr>
+          <tr><td>附件 3 干预话术与口径</td><td class="rr345-sub">T-01~T-04 · 口径 v3</td><td class="mono">4 套 / 19 条</td><td class="mono" style="text-align:center">10-19 21:02</td><td class="mono" style="text-align:center">10-19 21:42</td><td style="text-align:center"><span class="badge b-blue">v1.1</span></td></tr>
         </tbody>
       </table>
       <div class="kv" style="grid-template-columns:repeat(4,1fr);margin-top:12px">
@@ -2156,9 +2159,11 @@ const RISK_HTML = `
         <div><span>附件校验</span><b>3 / 3 通过</b></div>
         <div><span>撤回附件</span><b>0 个</b></div>
       </div>
-      <div class="note">标注规则：每个关键数值绑定源数据集、时点与校验值；标注缺失的数值在自动校验中判为不通过（本期 12 项规则全过）。快照更新后报告须重新生成并递增版本号，附件与正文同版；版本历史中的 v1.2 已在 10-20 09:15 完成效果回写。效果类数值为推演环境仿真，未经真实业务检验。</div>
+      <div class="note">标注规则：每个关键数值绑定源数据集、时点与校验值；24 处引用由附件 1 / 2 / 3 分别承载 8 / 6 / 10 处。标注缺失的数值在自动校验中判为不通过（本期 12 项规则全过）。快照更新后报告须重新生成并递增版本号，附件与正文同版；版本历史中的 v1.2 已在 10-20 09:15 完成效果回写。效果类数值为推演环境仿真，未经真实业务检验。</div>
     </div>
     <!-- ==== RISK r5 扩充结束 ==== -->
+  </div>
+
 `;
 function initMas(){
 
@@ -2824,14 +2829,7 @@ window.ZGCLAB_SYSTEMS = function (name, tab) {
           data: HEAT.slice(from, to),
           itemStyle: { color: AMBER },
           lineStyle: { color: AMBER, width: 2 },
-          areaStyle: { color: 'rgba(246,198,107,.09)' },
-          markArea: {
-            silent: true,
-            itemStyle: { color: 'rgba(115,167,255,.055)' },
-            label: { show: true, position: 'insideTop', distance: 6, color: '#6f8aa1', fontSize: 9 },
-            data: areas
-          },
-          markLine: line
+          areaStyle: { color: 'rgba(246,198,107,.09)' }
         },
         {
           name: '立场熵',
@@ -2851,7 +2849,18 @@ window.ZGCLAB_SYSTEMS = function (name, tab) {
           symbolSize: 3.5,
           data: OPPOSE.slice(from, to),
           itemStyle: { color: RED },
-          lineStyle: { color: RED, width: 1.8 }
+          lineStyle: { color: RED, width: 1.8 },
+          // 阶段底色与临界线挂在最后一个 series 上，保证标签绘制在三条曲线之上
+          markArea: {
+            silent: true,
+            itemStyle: { color: 'rgba(115,167,255,.055)' },
+            label: {
+              show: true, position: 'insideTop', distance: 13, color: '#8aa4b9', fontSize: 9,
+              backgroundColor: 'rgba(9,22,37,.78)', padding: [2, 5], borderRadius: 3
+            },
+            data: areas
+          },
+          markLine: line
         }
       ]
     };
@@ -2956,6 +2965,9 @@ window.ZGCLAB_SYSTEMS = function (name, tab) {
     charts = charts.filter(function (c) {
       try { return c && !c.isDisposed() && document.body.contains(c.getDom()); } catch (e) { return false; }
     });
+    var hasTrend = !!el('mp1-trend');
+    var hasStab = !!el('mp1-stab');
+    if (!hasTrend && !hasStab) return; // 图表容器未就位，等下次再建
     if (p1.getAttribute('data-mp1-charts') === '1') { resizeAll(); return; }
 
     var trendEl = el('mp1-trend');
@@ -3544,7 +3556,7 @@ window.__ENRICH_MAS_P4 = function () {
       if (type === 'gap') {
         var g = GAPS[params.dataIndex];
         var w0 = Math.max(e[0] - s[0], 1);
-        var kids = [{ type: 'rect', shape: { x: s[0], y: s[1] - 2.5, width: w0, height: 5, r: 2.5 }, style: { fill: 'rgba(143,167,186,.20)' } }];
+        var kids = [{ type: 'rect', shape: { x: s[0], y: s[1] - 2.5, width: w0, height: 5, r: 2.5 }, style: { fill: 'rgba(143,167,186,.16)' } }];
         if (g[3] && w0 > 96) {
           kids.push({ type: 'text', style: { text: '等待黑板合并 347.3 ms', x: s[0] + w0 / 2, y: s[1] - 11, textAlign: 'center', textVerticalAlign: 'middle', fill: '#6f8aa1', font: '400 9px Inter, "PingFang SC", sans-serif' } });
         }
@@ -3591,7 +3603,7 @@ window.__ENRICH_MAS_P4 = function () {
       type: 'category', data: ['通道 A · 主链', '通道 B · 复核 / 分支'], inverse: true,
       axisLine: { lineStyle: { color: AXIS } }, axisTick: { show: false },
       axisLabel: { color: '#b9cbdb', fontSize: 10.5 },
-      splitLine: { show: true, lineStyle: { color: 'rgba(29,56,83,.55)' } }
+      splitLine: { show: false }
     },
     series: [
       {
@@ -3860,7 +3872,7 @@ window.__ENRICH_MAS_P4 = function () {
   mk('mp4-cache', {
     backgroundColor: 'transparent',
     animation: false,
-    grid: { left: 72, right: 62, top: 8, bottom: 8 },
+    grid: { left: 72, right: 58, top: 8, bottom: 20 },
     tooltip: {
       trigger: 'axis', axisPointer: { type: 'shadow' }, backgroundColor: '#0d1c2e', borderColor: AXIS,
       textStyle: { color: TEXT, fontSize: 11 },
@@ -3958,8 +3970,7 @@ window.__ENRICH_MAS_P4 = function () {
     animation: false,
     grid: { left: 52, right: 20, top: 34, bottom: 26 },
     graphic: [
-      { type: 'text', right: 18, top: 6, silent: true, style: { text: '超过 2,048：10 次 · 拆 2 段', fill: '#f6c66b', fontSize: 9.5, font: '400 9.5px Inter, "PingFang SC", sans-serif' } },
-      { type: 'line', right: 118, top: 21, silent: true, shape: { x1: 0, y1: 0, x2: 108, y2: 0 }, style: { stroke: 'rgba(246,198,107,.45)', lineWidth: 1, lineDash: [3, 3] } }
+      { type: 'text', right: 16, top: 6, silent: true, style: { text: '超过 2,048：10 次 · 拆 2 段', fill: '#f6c66b', fontSize: 9.5, font: '400 9.5px Inter, "PingFang SC", sans-serif' } }
     ],
     tooltip: {
       trigger: 'axis', axisPointer: { type: 'shadow' }, backgroundColor: '#0d1c2e', borderColor: AXIS,
@@ -3994,13 +4005,13 @@ window.__ENRICH_MAS_P4 = function () {
      ⑦ 调用链拓扑（节点 = 角色，边 = 近 7 日调用次数）
      ================================================================ */
   var NODES = [
-    { name: '编排器', x: 70, y: 200, size: 54, color: AMBER, cnt: 710, lp: 'right' },
-    { name: '态势感知', x: 320, y: 74, size: 42, color: BLUE, cnt: 132, lp: 'top' },
-    { name: '事件理解', x: 320, y: 206, size: 48, color: BLUE, cnt: 246, lp: 'bottom' },
-    { name: '情感与立场', x: 600, y: 96, size: 49, color: CYAN, cnt: 258, lp: 'bottom' },
-    { name: '传播推演', x: 320, y: 344, size: 45, color: CYAN, cnt: 204, lp: 'bottom' },
-    { name: '风险研判', x: 600, y: 344, size: 46, color: CYAN, cnt: 216, lp: 'bottom' },
-    { name: '策略评估', x: 848, y: 344, size: 47, color: CYAN, cnt: 228, lp: 'bottom' }
+    { name: '编排器', x: 60, y: 205, size: 54, color: AMBER, cnt: 710, lp: 'top' },
+    { name: '态势感知', x: 250, y: 68, size: 42, color: BLUE, cnt: 132, lp: 'top' },
+    { name: '事件理解', x: 360, y: 205, size: 48, color: BLUE, cnt: 246, lp: 'bottom' },
+    { name: '情感与立场', x: 610, y: 112, size: 49, color: CYAN, cnt: 258, lp: 'bottom' },
+    { name: '传播推演', x: 300, y: 348, size: 45, color: CYAN, cnt: 204, lp: 'bottom' },
+    { name: '风险研判', x: 590, y: 348, size: 46, color: CYAN, cnt: 216, lp: 'bottom' },
+    { name: '策略评估', x: 850, y: 348, size: 47, color: CYAN, cnt: 228, lp: 'bottom' }
   ];
   var LINKS = [
     { s: '编排器', t: '传播推演', v: 204, lat: '138.9 ms', retry: 5 },
@@ -4036,7 +4047,7 @@ window.__ENRICH_MAS_P4 = function () {
     series: [
       {
         type: 'graph', layout: 'none', roam: false, animation: false,
-        left: 34, right: 22, top: 56, bottom: 74,
+        left: 44, right: 46, top: 58, bottom: 76,
         symbolSize: function (v, p) { return p && p.data ? p.data.size : 44; },
         data: NODES.map(function (n) {
           return {
@@ -4051,12 +4062,17 @@ window.__ENRICH_MAS_P4 = function () {
             }
           };
         }),
-        links: LINKS.map(function (l) {
+        links: LINKS.map(function (l, li) {
+          var cv = 0.06;
+          if (l.s === '编排器' && l.t === '情感与立场') cv = 0.26;
+          if (l.s === '态势感知' && l.t === '事件理解') cv = -0.18;
+          if (l.s === '事件理解' && l.t === '情感与立场') cv = -0.12;
+          if (l.s === '编排器' && l.t === '态势感知') cv = -0.14;
           return {
             source: l.s, target: l.t, value: l.v,
             lineStyle: {
               color: l.s === '编排器' ? 'rgba(246,198,107,.40)' : 'rgba(98,230,210,.40)',
-              width: 1.2 + l.v / 46, curveness: 0.07
+              width: 1.2 + l.v / 46, curveness: cv
             }
           };
         }),
@@ -4684,7 +4700,7 @@ window.__ENRICH_RISK_R345 = function () {
           axisLabel: { color: COLORS.muted, fontSize: 10 }
         },
         yAxis: {
-          type: 'value', min: 0.56, max: 0.76, splitNumber: 4,
+          type: 'value', min: 0.55, max: 0.75, interval: 0.05,
           splitLine: { lineStyle: { color: COLORS.grid } },
           axisLabel: {
             color: COLORS.muted, fontSize: 9.5,
@@ -4777,6 +4793,7 @@ window.__ENRICH_RISK_R345 = function () {
           data: FOREST.map(function (r) { return Number((r.hi - r.lo).toFixed(2)); }),
           label: {
             show: true, position: 'right', color: COLORS.muted, fontSize: 9.5,
+            backgroundColor: '#0b192a', padding: [2, 4], borderRadius: 3,
             formatter: function (p) {
               var r = FOREST[p.dataIndex];
               return r.lo.toFixed(2) + '–' + r.hi.toFixed(2);
@@ -4789,7 +4806,7 @@ window.__ENRICH_RISK_R345 = function () {
           markLine: {
             silent: true, symbol: 'none',
             lineStyle: { color: '#f6c66b44', type: 'dashed' },
-            label: { color: COLORS.muted, fontSize: 9, position: 'insideEndTop' },
+            label: { show: false },
             data: [{ xAxis: 0.2 }, { xAxis: 0.5 }]
           }
         }
@@ -4832,12 +4849,11 @@ window.__ENRICH_RISK_R345 = function () {
       },
       xAxis: {
         type: 'category', data: ['0', '6', '12', '24', '36', '48', '60', '72'],
-        name: 'h', nameTextStyle: { color: COLORS.muted, fontSize: 9.5, padding: [0, 0, 0, -18] },
         axisTick: { show: false }, axisLine: { lineStyle: { color: COLORS.line } },
         axisLabel: { color: COLORS.muted, fontSize: 10 }
       },
       yAxis: {
-        type: 'value', min: -0.11, max: 0, splitNumber: 4,
+        type: 'value', min: -0.12, max: 0, interval: 0.03,
         splitLine: { lineStyle: { color: COLORS.grid } },
         axisLabel: {
           color: COLORS.muted, fontSize: 9.5,
@@ -4877,7 +4893,7 @@ window.__ENRICH_RISK_R345 = function () {
         formatter: function (p) { return p.name + '：' + p.value + ' s'; }
       },
       xAxis: {
-        type: 'value', max: 430, splitNumber: 2,
+        type: 'value', max: 400, splitNumber: 2,
         axisLine: { show: false }, axisTick: { show: false },
         splitLine: { lineStyle: { color: COLORS.grid } },
         axisLabel: { color: COLORS.muted, fontSize: 9, formatter: function (v) { return v + 's'; } }

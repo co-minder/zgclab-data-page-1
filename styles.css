@@ -1102,9 +1102,11 @@ table.mp4-tb .badge{font-size:10px;padding:2px 7px}
 .mp4-q .v small{font-size:10px;color:#8fa7ba;font-weight:500;margin-left:2px;letter-spacing:0}
 .mp4-q .d{margin-top:2px;font-size:9.5px;color:#6f8aa1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-/* ---------- 8. chips（分角色中位长度） ---------- */
-.mp4-chips{margin:10px 0 0}
-.mp4-chips .chip{font-size:10.5px;padding:3px 9px;color:#b9cbdb}
+/* ---------- 8. 图表小标题 / chips（分角色中位长度） ---------- */
+.mp4-mini{margin:2px 0 4px;font-size:10.5px;color:#8fa7ba;letter-spacing:.04em}
+.mp4-mini::before{content:"";display:inline-block;width:3px;height:10px;border-radius:2px;background:#62e6d280;margin-right:6px;vertical-align:-1px}
+.mp4-chips{margin:10px 0 0;gap:7px}
+.mp4-chips .chip{font-size:10px;padding:3px 8px;color:#b9cbdb;white-space:nowrap}
 
 /* ---------- 9. 错误分布条 ---------- */
 .mp4-err{display:flex;align-items:center;gap:13px;flex-wrap:wrap;margin-top:10px;padding:8px 11px;
