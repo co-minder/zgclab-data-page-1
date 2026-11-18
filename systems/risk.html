@@ -67,12 +67,11 @@
         </table>
       </div>
     </div>
-  </div>
 
-  <div class="panel" style="margin-top:14px">
-    <div class="ph"><div class="t">处置时间线</div><div class="s">从告警到复盘</div></div>
-    <div style="display:flex;gap:0" id="tl"></div>
-  </div>
+    <div class="panel" style="margin-top:14px">
+      <div class="ph"><div class="t">处置时间线</div><div class="s">从告警到复盘</div></div>
+      <div style="display:flex;gap:0" id="tl"></div>
+    </div>
   </div>
 
   <div class="pane" id="r2">
@@ -219,6 +218,14 @@ cmp.setOption({
   ]
 });
 window.addEventListener('resize',function(){r.resize();cmp.resize();});
+
+(function(){
+  const q=new URLSearchParams(location.search);
+  const tab=q.get('tab');
+  if(tab){var el=document.querySelector('#riskTabs .tab[data-p="'+tab+'"]'); if(el) el.click();}
+  const tp=q.get('tpl');
+  if(tp){var el2=document.querySelector('#tpls .tpl[data-i="'+tp+'"]'); if(el2) el2.click();}
+})();
 </script>
 </body>
 </html>

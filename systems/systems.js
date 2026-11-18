@@ -40,7 +40,7 @@ const MAS_HTML = `
           <div class="k"><div class="l">单轮耗时</div><div class="v">4.82<small style="font-size:12px;color:#8fa7ba"> s</small></div><div class="d">6 类角色 · 12 轮</div></div>
           <div class="k"><div class="l">消息吞吐</div><div class="v">1247<small style="font-size:12px;color:#8fa7ba"> 条/秒</small></div><div class="d">总线峰值</div></div>
           <div class="k"><div class="l">关键节点识别</div><div class="v">0.78</div><div class="d">F1 · 4 类事件</div></div>
-          <div class="k"><div class="l">当前极化指数</div><div class="v" id="curPi">0.58</div><div class="d">第 7 轮输出</div></div>
+          <div class="k"><div class="l">当前极化指数</div><div class="v" id="curPi">0.58</div><div class="d" id="curSub">第 7 轮输出</div></div>
         </div>
       </div>
     </div>
@@ -142,12 +142,11 @@ const RISK_HTML = `
         </table>
       </div>
     </div>
-  </div>
 
-  <div class="panel" style="margin-top:14px">
-    <div class="ph"><div class="t">处置时间线</div><div class="s">从告警到复盘</div></div>
-    <div style="display:flex;gap:0" id="tl"></div>
-  </div>
+    <div class="panel" style="margin-top:14px">
+      <div class="ph"><div class="t">处置时间线</div><div class="s">从告警到复盘</div></div>
+      <div style="display:flex;gap:0" id="tl"></div>
+    </div>
   </div>
 
   <div class="pane" id="r2">
@@ -291,6 +290,7 @@ round.oninput=function(){
   rm.textContent='第 '+n+' 轮 / 共 12 轮';
   drawLine(n);
   cur.textContent=pi[n-1].toFixed(2);
+  var cs=document.getElementById('curSub'); if(cs) cs.textContent='第 '+n+' 轮输出';
 };
 document.getElementById('runBtn').onclick=function(){
   let n=+round.value; n=n>=12?1:n+1; round.value=n; round.oninput();
@@ -316,6 +316,14 @@ s2.setOption({
     label:{show:true,position:'top',color:'#cfe3ef',fontSize:11}}]
 });
 window.addEventListener('resize',function(){c.resize();s2.resize();});
+
+(function(){
+  const q=new URLSearchParams(location.search);
+  const tab=q.get('tab');
+  if(tab){var el=document.querySelector('#masTabs .tab[data-p="'+tab+'"]'); if(el) el.click();}
+  const rd=q.get('round');
+  if(rd){var r=document.getElementById('round'); if(r){r.value=rd; r.oninput();}}
+})();
 
 }
 function initRisk(){
@@ -393,6 +401,14 @@ cmp.setOption({
   ]
 });
 window.addEventListener('resize',function(){r.resize();cmp.resize();});
+
+(function(){
+  const q=new URLSearchParams(location.search);
+  const tab=q.get('tab');
+  if(tab){var el=document.querySelector('#riskTabs .tab[data-p="'+tab+'"]'); if(el) el.click();}
+  const tp=q.get('tpl');
+  if(tp){var el2=document.querySelector('#tpls .tpl[data-i="'+tp+'"]'); if(el2) el2.click();}
+})();
 
 }
 
